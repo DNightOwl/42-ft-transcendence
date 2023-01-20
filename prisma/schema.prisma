@@ -18,5 +18,8 @@ model user {
     createdAt DateTime @default(now())
     updateAt DateTime @updatedAt()
     rToken  String?
+    two_fa_secret String?
+    two_fa_enabled Boolean @default(false)
+
     @@map("users")
 }
