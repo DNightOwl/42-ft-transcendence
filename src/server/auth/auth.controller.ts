@@ -1,5 +1,6 @@
 import { Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
+import { TFAService } from './2FA/2FA.service';
 import { AuthService } from './auth.service';
 import { RequestWithUser } from './dto/types';
 import { IntraAuthGuard } from './intra/auth.guard';
@@ -9,7 +10,7 @@ import { RefreshGuard } from './jwt/refresh.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService, private readonly tfa : TFAService) {}
 
   @UseGuards(IntraAuthGuard)
   @Get('42intra/login')
@@ -39,4 +40,12 @@ export class AuthController {
     return this.authService.logout(res,user.login);
   }
 
+  //////
+
+  @UseGuards(JwtAuthGuard)
+  @Post('generateqr')
+  async generateQR(@Req() req : RequestWithUser ,@Res({ passthrough: true }) res : Response) {
+    const user = req.user;
+    return this.tfa.generateQR(user,res);
+  }
 }
