@@ -1,37 +1,33 @@
-import React from 'react'
-import HomeIcon from '../icons/Home';
-import MessagesIcon from '../icons/Messages';
-import UserIcon from '../icons/User';
-import SearchIcon from '../icons/Search';
+import { HomeIcon,MessagesIcon,UserIcon,SearchIcon } from '../Icons';
 import userPicture from '../../assets/user.jpg';
 
 export default function NavigationPhone() {
   return (
-    <div className='fixed bottom-0 w-full p-3'>
+    <section className='fixed bottom-0 w-full p-3 lg:hidden'>
         <nav className='bg-shape p-2 rounded-lg'>
             <ul className='flex justify-between items-center'>
                 <li>
-                    <a href="/" className='flex flex-col justify-center items-center gap-1.5 active'>
+                    <a href="/" className='phone-nav-item active'>
                         <HomeIcon/>
-                        <span className='text-secondaryText text-xs'>Home</span>
+                        <span>Home</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/" className='flex flex-col justify-center items-center gap-1.5'>
+                    <a href="/" className='phone-nav-item'>
                         <MessagesIcon/>
-                        <span className='text-secondaryText text-xs'>Messages</span>
+                        <span>Messages</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/" className='flex flex-col justify-center items-center gap-1.5'>
+                    <a href="/" className='phone-nav-item'>
                         <UserIcon/>
-                        <span className='text-secondaryText text-xs'>Profile</span>
+                        <span>Profile</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/" className='flex flex-col justify-center items-center gap-1.5'>
+                    <a href="/" className='phone-nav-item'>
                         <SearchIcon/>
-                        <span className='text-secondaryText text-xs'>Search</span>
+                        <span>Search</span>
                     </a>
                 </li>
                 <li>
@@ -41,6 +37,6 @@ export default function NavigationPhone() {
                 </li>
             </ul>
         </nav>
-    </div>
+    </section>
   )
 }

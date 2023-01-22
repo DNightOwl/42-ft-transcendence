@@ -12,6 +12,14 @@ body{
     background-color: #20222B;
 }
 
+.phone-nav-item{
+    @apply flex flex-col justify-center items-center gap-1.5;
+}
+
+.phone-nav-item span{
+    @apply text-secondaryText text-xs;
+}
+
 .active svg{
     fill:#7970B3;
 }
