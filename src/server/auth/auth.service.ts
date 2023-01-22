@@ -64,20 +64,19 @@ export class AuthService {
 	}
 
 	//check if user exist if not create it
-	async createUserIfNotExist(user : AuthDto) : Promise<user> {
-		// check if user exist
-		const login = user.login;
-		const foundUser = await this.prisma.user.findUnique({where: { login}})
-		if( !foundUser ) {
-			//create the user
-			return await this.prisma.user.create({
-				data : {
-					email : user.email,
-					login : user.login
-				}
-			})	
-		}
-		return foundUser;
+	async createUserIfNotExist(intraUser : AuthDto) : Promise<user> {
+		const login = intraUser.login;
+		const user = await this.prisma.user.upsert({
+			where: {
+			  login : intraUser.login,
+			},
+			update: {},
+			create: {
+			  email: intraUser.email,
+			  login : intraUser.login,
+			},
+		  });
+		return user;
 	}
 
 	//helper to sign the jwt token
