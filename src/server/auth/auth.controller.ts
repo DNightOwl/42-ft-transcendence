@@ -61,7 +61,7 @@ export class AuthController {
 	
   @UseGuards(JwtAuthGuard)
   @Post('disabletfa')
-	async disableTFA(@Body('code') code: string, @Req() req : RequestWithUser) {
+	disableTFA(@Body('code') code: string, @Req() req : RequestWithUser) {
     const isValid =   this.tfa.verifyTfaCode(code, req.user) ;
     if(isValid)
       this.tfa.tfaActivation(false,req.user);
