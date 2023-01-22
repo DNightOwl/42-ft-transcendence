@@ -11,3 +11,11 @@ body,html{
 body{
     background-color: #20222B;
 }
+
+.active svg{
+    fill:#7970B3;
+}
+
+.active span{
+    color:#7970B3;
+}
