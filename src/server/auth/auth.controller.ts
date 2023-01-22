@@ -1,5 +1,6 @@
-import { Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
+import { TFAService } from './2FA/2FA.service';
 import { AuthService } from './auth.service';
 import { RequestWithUser } from './dto/types';
 import { IntraAuthGuard } from './intra/auth.guard';
@@ -9,7 +10,7 @@ import { RefreshGuard } from './jwt/refresh.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService, private readonly tfa : TFAService) {}
 
   @UseGuards(IntraAuthGuard)
   @Get('42intra/login')
@@ -20,7 +21,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   handleRedirect(@Req() req : RequestWithUser, @Res() res : Response) {
     const user = req.user;
-    return this.authService.handleUser(user,res);
+    return this.authService.handleUser(user,res); //TODO :  response format and data
   }
 
   @UseGuards(RefreshGuard)
@@ -28,7 +29,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   refreshToken(@Req() req : RequestWithUser ,@Res({ passthrough: true }) res : Response) {
     const user = req.user;
-    return this.authService.refreshtoken(user,res);
+    return this.authService.refreshtoken(user,res); //TODO :  response format and data
   }
 
   @UseGuards(JwtAuthGuard)
@@ -36,7 +37,35 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   logout( @Res() res : Response, @Req() req : RequestWithUser ) {
     const user = req.user;
-    return this.authService.logout(res,user.login);
+    return this.authService.logout(res,user.login); //TODO :  response format and data
+  }
+
+  ////// @2FA // TODO
+
+  @UseGuards(JwtAuthGuard)
+  @Post('generateqr')
+  generateQR(@Req() req : RequestWithUser) {
+    const user = req.user;
+    return this.tfa.generateQR(user);//TODO :  response format and data
+  }
+
+
+  @UseGuards(JwtAuthGuard)
+  @Post('enabletfa')
+  enableTFA(@Body('code') code: string, @Req() req : RequestWithUser) { //example {"code": "345678"}
+		const isValid =   this.tfa.verifyTfaCode(code, req.user) ;
+    if(isValid)
+      this.tfa.tfaActivation(true,req.user);
+    return isValid; //TODO :  response format and data
+	}
+	
+  @UseGuards(JwtAuthGuard)
+  @Post('disabletfa')
+	disableTFA(@Body('code') code: string, @Req() req : RequestWithUser) {
+    const isValid =   this.tfa.verifyTfaCode(code, req.user) ;
+    if(isValid)
+      this.tfa.tfaActivation(false,req.user);
+    return isValid; //TODO :  response format and data
   }
 
 }
