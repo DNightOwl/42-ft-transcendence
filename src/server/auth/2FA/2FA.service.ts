@@ -2,13 +2,13 @@ import * as qrcode from 'qrcode'
 import { Injectable } from '@nestjs/common';
 import { authenticator } from 'otplib';
 import { PrismaService } from 'src/server/prisma/prisma.service';
-import { AuthDto } from '../dto/auth.dto';
+import { user } from '@prisma/client';
 
 @Injectable()
 export class TFAService {
 	constructor(private readonly prisma : PrismaService){}
 
-	async generateQR(user : AuthDto) {
+	async generateQR(user : user) {
 		const secret = authenticator.generateSecret();
 		const otpauth = authenticator.keyuri(user.login, 'ft_transcendence', secret);		
 		const qrpath = await qrcode.toDataURL(otpauth);//TODO : try catch
@@ -20,7 +20,6 @@ export class TFAService {
 			},
 			data: {
 				two_fa_secret : secret,
-				// two_fa_enabled : fa,
 			}
 		});
 
@@ -28,7 +27,7 @@ export class TFAService {
 		return qrpath;
 	}
 	
-	async verifyTfaCode(code : string, user : AuthDto) : Promise<Boolean>{
+	async verifyTfaCode(code : string, user : user) : Promise<Boolean>{
 		
 		///TODO: place holder will be get from user in jwt
 		const secret  = await  this.prisma.user.findFirst({
@@ -48,7 +47,7 @@ export class TFAService {
 	//this functio will activate or deactivate the 2FA based on the 'enabled' arg status
 	// if enabled true ==> the 2FA will be activated in the DB by setting 'two_fa_enabled' to true
 	// if enabled false ==> the 2FA will be deactivated in the DB by setton 'two_fa_enabled' to false and 'two_fa_secret' to null
-	async tfaActivation(enabled : Boolean,  user : AuthDto) {
+	async tfaActivation(enabled : Boolean,  user : user) {
 		if(enabled){
 			await  this.prisma.user.update({
 				where : { 

@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards 
 import { Response } from 'express';
 import { TFAService } from './2FA/2FA.service';
 import { AuthService } from './auth.service';
-import { RequestWithUser } from './dto/types';
+import { dbUser, RequestWithAuthDto } from './dto/types';
 import { IntraAuthGuard } from './intra/auth.guard';
 import { JwtAuthGuard } from './jwt/jwt.guard';
 import { RefreshGuard } from './jwt/refresh.guard';
@@ -19,7 +19,7 @@ export class AuthController {
   @UseGuards(IntraAuthGuard)
   @Get('42intra/redirect')
   @HttpCode(HttpStatus.OK)
-  handleRedirect(@Req() req : RequestWithUser, @Res() res : Response) {
+  handleRedirect(@Req() req : RequestWithAuthDto, @Res() res : Response) {
     const user = req.user;
     return this.authService.handleUser(user,res); //TODO :  response format and data
   }
@@ -27,7 +27,7 @@ export class AuthController {
   @UseGuards(RefreshGuard)
   @Get('refresh')
   @HttpCode(HttpStatus.OK)
-  refreshToken(@Req() req : RequestWithUser ,@Res({ passthrough: true }) res : Response) {
+  refreshToken(@Req() req : dbUser ,@Res({ passthrough: true }) res : Response) {
     const user = req.user;
     return this.authService.refreshtoken(user,res); //TODO :  response format and data
   }
@@ -35,7 +35,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('logout')
   @HttpCode(HttpStatus.OK)
-  logout( @Res() res : Response, @Req() req : RequestWithUser ) {
+  logout( @Res() res : Response, @Req() req : dbUser ) {
     const user = req.user;
     return this.authService.logout(res,user.login); //TODO :  response format and data
   }
@@ -44,7 +44,7 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Post('generateqr')
-  generateQR(@Req() req : RequestWithUser) {
+  generateQR(@Req() req : dbUser) {
     const user = req.user;
     return this.tfa.generateQR(user);//TODO :  response format and data
   }
@@ -52,7 +52,7 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Post('enabletfa')
-  enableTFA(@Body('code') code: string, @Req() req : RequestWithUser) { //example {"code": "345678"}
+  enableTFA(@Body('code') code: string, @Req() req : dbUser) { //example {"code": "345678"}
 		const isValid =   this.tfa.verifyTfaCode(code, req.user) ;
     if(isValid)
       this.tfa.tfaActivation(true,req.user);
@@ -61,7 +61,7 @@ export class AuthController {
 	
   @UseGuards(JwtAuthGuard)
   @Post('disabletfa')
-	disableTFA(@Body('code') code: string, @Req() req : RequestWithUser) {
+	disableTFA(@Body('code') code: string, @Req() req : dbUser) {
     const isValid =   this.tfa.verifyTfaCode(code, req.user) ;
     if(isValid)
       this.tfa.tfaActivation(false,req.user);
