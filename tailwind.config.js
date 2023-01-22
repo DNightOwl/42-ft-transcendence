@@ -14,6 +14,7 @@ module.exports = {
         secondaryText: "#81879C",
         online: "#43FF83",
         offline:"#EC6565",
+        sideBackground: "#242630",
         
       },
       fontFamily: {

@@ -9,11 +9,34 @@ body,html{
 }
 
 body{
-    background-color: #20222B;
+    @apply bg-body;
+}
+#root{
+    @apply h-full
+}
+
+.desktop-nav-item{
+    @apply flex items-center gap-4 p-3 pl-8 hover:bg-shape
+}
+
+.desktop-nav-item svg{
+    @apply fill-primary w-7
+}
+
+.desktop-nav-item span{
+    @apply text-primaryText text-sm;
 }
 
 .phone-nav-item{
     @apply flex flex-col justify-center items-center gap-1.5;
+}
+
+.phone-nav-item svg{
+    @apply w-6 h-6 fill-secondaryText
+}
+
+.phone-nav-item .icon{
+    @apply w-5;
 }
 
 .phone-nav-item span{
@@ -27,3 +50,13 @@ body{
 .active span{
     color:#7970B3;
 }
+
+@media screen and (min-width: 1024px) {
+    .active {
+        background-color: #414554;
+        border-left: 6px solid #7970B3;
+    }
+    .active span{
+        color: #fff ;
+    }
+  }
