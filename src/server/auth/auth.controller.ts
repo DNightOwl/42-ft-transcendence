@@ -52,18 +52,18 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Post('enabletfa')
-  enableTFA(@Body('code') code: string, @Req() req : dbUser) { //example {"code": "345678"}
-		const isValid =   this.tfa.verifyTfaCode(code, req.user) ;
-    if(isValid)
+  async enableTFA(@Body('code') code: string, @Req() req : dbUser) { //example {"code": "345678"}
+		const isValid = await this.tfa.verifyTfaCode(code, req.user) ;
+    if(isValid === true)
       this.tfa.tfaActivation(true,req.user);
     return isValid; //TODO :  response format and data
 	}
 	
   @UseGuards(JwtAuthGuard)
   @Post('disabletfa')
-	disableTFA(@Body('code') code: string, @Req() req : dbUser) {
-    const isValid =   this.tfa.verifyTfaCode(code, req.user) ;
-    if(isValid)
+	async disableTFA(@Body('code') code: string, @Req() req : dbUser) {
+    const isValid =  await this.tfa.verifyTfaCode(code, req.user) ;
+    if(isValid === true)
       this.tfa.tfaActivation(false,req.user);
     return isValid; //TODO :  response format and data
   }

@@ -29,26 +29,20 @@ export class TFAService {
 	
 	async verifyTfaCode(code : string, user : user) : Promise<Boolean>{
 		
-		///TODO: place holder will be get from user in jwt
-		const secret  = await  this.prisma.user.findFirst({
-			where : { 
-				login : user.login ,
-			},
-			select: {
-				two_fa_secret : true,
-			}
-		});
-		//////
-		if(secret.two_fa_secret && code)
-			return authenticator.check(code, secret.two_fa_secret);
+		const secret = user.two_fa_secret;
+		if(secret && code)
+			return authenticator.check(code, secret);
 		return false
 	}
 	
-	//this functio will activate or deactivate the 2FA based on the 'enabled' arg status
-	// if enabled true ==> the 2FA will be activated in the DB by setting 'two_fa_enabled' to true
-	// if enabled false ==> the 2FA will be deactivated in the DB by setton 'two_fa_enabled' to false and 'two_fa_secret' to null
+	////////////////////////////////////////////////////////////////////////////////////////////
+	//	this functio will activate or deactivate the 2FA based on the 'enabled' arg status
+	//	if enabled true ==> the 2FA will be activated in the DB by setting 'two_fa_enabled' to true
+	//	if enabled false ==> the 2FA will be deactivated in the DB by setton 'two_fa_enabled' to false and 'two_fa_secret' to null
+	////////////////////////////////////////////////////////////////////////////////////////////
+
 	async tfaActivation(enabled : Boolean,  user : user) {
-		if(enabled){
+		if(enabled === true){
 			await  this.prisma.user.update({
 				where : { 
 					login : user.login ,
