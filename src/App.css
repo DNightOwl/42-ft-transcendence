@@ -5,7 +5,7 @@
 
 body,html{
     height: 100vh;
-    width: 100vw;
+    width: 100%;
 }
 
 body{
@@ -58,7 +58,7 @@ body{
 }
 
 main{
-    @apply mx-3 bg-blue-100 lg:ml-64 lg:mr-4 lg:pb-0;
+    @apply mx-3 pb-28 pt-10 lg:ml-64 lg:mr-4 lg:pb-7;
 }
 
 @media screen and (min-width: 1024px) {
