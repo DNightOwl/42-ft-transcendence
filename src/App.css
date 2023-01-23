@@ -51,6 +51,12 @@ body{
     color:#7970B3;
 }
 
+.username{
+    max-width: 9rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 @media screen and (min-width: 1024px) {
     .active {
         background-color: #414554;

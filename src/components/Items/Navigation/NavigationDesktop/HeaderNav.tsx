@@ -16,7 +16,7 @@ export default function HeaderNav() {
             <button className='flex items-center gap-2 text-primaryText text-sm'>
                 <div className='flex items-center gap-2'>
                 <img src={UserPicture} alt="User" className='w-10 h-10 rounded-full' />
-                <span>Username</span>
+                <span className='username'>Username</span>
                 </div>
             <span className='bg-shape w-4 h-4 rounded-full flex justify-center items-center'>
                 <ArrowDownIcon edit="w-1.5"/>

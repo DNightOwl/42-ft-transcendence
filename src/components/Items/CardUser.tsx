@@ -7,7 +7,7 @@ export default function CardUser() {
     <div className='flex items-center gap-2'>
       <img src={friendPicture} alt="Friend" className='w-10 h-10 rounded-full' />
       <div className='flex flex-col gap-1'>
-        <span className='text-primaryText text-sm'>Username</span>
+        <span className='text-primaryText text-sm w-36 overflow-hidden text-ellipsis'>Username</span>
         <span className='text-secondaryText font-light text-xs'>Online</span>
       </div>
     </div>
