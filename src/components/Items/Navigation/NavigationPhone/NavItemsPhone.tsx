@@ -3,7 +3,7 @@ import userPicture from '../../../../assets/user.jpg';
 
 export default function NavigationPhone() {
   return (
-    <section className='fixed bottom-0 w-full p-3 lg:hidden'>
+    <section className='fixed bottom-0 w-full px-3 pb-3 lg:hidden bg-body'>
         <nav className='bg-shape p-2 rounded-lg'>
             <ul className='flex justify-between items-center'>
                 <li>
