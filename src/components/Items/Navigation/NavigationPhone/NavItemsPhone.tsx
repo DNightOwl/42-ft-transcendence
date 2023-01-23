@@ -1,5 +1,5 @@
-import { HomeIcon,MessagesIcon,UserIcon,SearchIcon } from '../Icons';
-import userPicture from '../../assets/user.jpg';
+import { HomeIcon,MessagesIcon,UserIcon,SearchIcon } from '../../Icons';
+import userPicture from '../../../../assets/user.jpg';
 
 export default function NavigationPhone() {
   return (

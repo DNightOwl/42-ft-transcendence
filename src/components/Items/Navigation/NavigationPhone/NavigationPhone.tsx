@@ -1,11 +1,11 @@
 import React from 'react';
 import HeaderPhone from './HeaderPhone';
-import NavigationPhone from './NavigationPhone';
+import NavItemsPhone from './NavItemsPhone';
 export default function ViewPhone() {
   return (
     <React.Fragment>
       <HeaderPhone />
-      <NavigationPhone />
+      <NavItemsPhone />
     </React.Fragment>
   )
 }

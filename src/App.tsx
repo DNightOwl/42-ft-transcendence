@@ -1,6 +1,6 @@
 
 import React from "react";
-import Navigation from "./components/Navigation/Navigation";
+import Navigation from "./components/Items/Navigation/Navigation";
 function App() {
   return (
     <React.Fragment>
