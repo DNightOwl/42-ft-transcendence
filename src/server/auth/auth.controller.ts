@@ -13,7 +13,8 @@ export class AuthController {
 
   @UseGuards(IntraAuthGuard)
   @Get('42intra/login')
-  handleLogin() {}
+  handleLogin() {
+  }
 
   @UseGuards(IntraAuthGuard)
   @Get('42intra/redirect')

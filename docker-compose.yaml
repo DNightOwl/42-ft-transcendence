@@ -8,20 +8,19 @@ services:
       dockerfile: ./Dockerfile
     ports:
       - 3000:3000
-      - 5555:5555
     networks:
       - nestjs-network
     depends_on:
-      - postgres
+      - db
     working_dir: /app/backend
     volumes:
       - ./:/app/backend
       - /app/backend/node_modules
     restart: unless-stopped
 
-  postgres:
+  db:
     container_name: postgres
-    image: postgres
+    image: postgres:latest
     env_file:
       - .env
     environment:
@@ -31,11 +30,11 @@ services:
       PGDATA: /data/postgres
     volumes:
        - postgres:/data/postgres
-    # ports:
-    #   - 5432:5432
     networks:
       - nestjs-network
     restart: unless-stopped
+    ports:
+      - 5432:5432
 
 networks:
   nestjs-network:

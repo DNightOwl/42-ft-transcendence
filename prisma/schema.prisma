@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model user {
+model User {
     
     id String @unique @default(uuid())
     login String @unique
@@ -18,5 +18,19 @@ model user {
     createdAt DateTime @default(now())
     updateAt DateTime @updatedAt()
     rToken  String?
+    pictureLink String?
+    nickname     String?  @unique @default("")
+    firstName    String?
+    lastName     String?
+    blocked String[]
+    freinds Freinds[]
     @@map("users")
+}
+
+model Freinds {
+  id String @id @default(uuid())
+  user User @relation(fields: [userLogin], references: [login])
+  userLogin String
+  friendLogin String
+  @@map("friends")
 }

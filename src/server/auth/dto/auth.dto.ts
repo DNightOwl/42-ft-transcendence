@@ -6,6 +6,6 @@ export class AuthDto {
 	public email : string;
 	
 	@IsString()
-	public login : string;
-	
+	public login : string;	
+
 }

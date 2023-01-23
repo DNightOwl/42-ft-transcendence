@@ -10,10 +10,9 @@ export class RefreshGuard implements CanActivate {
   async canActivate(context: ExecutionContext): Promise<boolean>  {
     const request = context.switchToHttp().getRequest();
     const refreshToken = request.cookies?.token;
-
+    console.log(request.cookies)
     if (!refreshToken)
       return false;
-
     //in case the jwt was hashed
     // decode jwt
     // get login from decoded jwt
