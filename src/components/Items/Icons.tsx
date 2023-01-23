@@ -1,8 +1,12 @@
 import React from 'react'
 
-export function ArrowDownIcon() {
+interface  typeProps{
+  edit?:string;
+}
+
+export function ArrowDownIcon(props:typeProps) {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 9.703 5.531">
+      <svg xmlns="http://www.w3.org/2000/svg" className={props.edit} viewBox="0 0 9.703 5.531">
     <g id="Group_20" data-name="Group 20" transform="translate(0 0)">
       <path id="Path_28" data-name="Path 28" d="M4.852,102.671a.677.677,0,0,1-.48-.2L.2,98.3a.679.679,0,0,1,.961-.961l3.691,3.692L8.543,97.34A.679.679,0,0,1,9.5,98.3l-4.172,4.172A.677.677,0,0,1,4.852,102.671Z" transform="translate(-0.001 -97.141)" fill="#81879c"/>
     </g>
@@ -11,9 +15,9 @@ export function ArrowDownIcon() {
     )
   }
 
-  export function ControllerIcon() {
+  export function ControllerIcon(props:typeProps) {
     return (
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.861 21.3" fill='#fff'>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.861 21.3" className={props.edit} fill='#fff'>
     <g id="Group_39" data-name="Group 39" transform="translate(0 0)">
       <path id="XMLID_948_" d="M30.794,14.212A9.714,9.714,0,0,0,21.3,6H12.664a9.741,9.741,0,0,0-9.6,8.212C2.32,19.224,2,21.464,2,22.317a5.021,5.021,0,0,0,9.491,2.24L13.3,20.93h7.252l1.813,3.626a5.021,5.021,0,0,0,9.491-2.24C31.861,21.57,31.861,22.53,30.794,14.212Zm-1.066,8.105c0,2.986-4.159,4.053-5.439,1.28l-2.133-4.266a1.12,1.12,0,0,0-.96-.533H12.664a1.025,1.025,0,0,0-.96.64L9.572,23.7c-1.28,2.666-5.439,1.6-5.439-1.386L5.2,14.532a7.545,7.545,0,0,1,7.358-6.4H21.2a7.462,7.462,0,0,1,7.358,6.4C28.661,14.638,29.834,22.85,29.728,22.317Z" transform="translate(-2 -6)"/>
       <path id="XMLID_82_" d="M14.4,13.2a1.008,1.008,0,0,1-1.066,1.066H12.266v1.066A1.008,1.008,0,0,1,11.2,16.4a1.008,1.008,0,0,1-1.066-1.066V14.266H9.066a1.066,1.066,0,1,1,0-2.133h1.066V11.066A1.008,1.008,0,0,1,11.2,10a1.008,1.008,0,0,1,1.066,1.066v1.066h1.066A1.008,1.008,0,0,1,14.4,13.2Z" transform="translate(-1.601 -5.734)"/>
@@ -81,10 +85,6 @@ export function ArrowDownIcon() {
   
   
     )
-  }
-
-  interface  typeProps{
-    edit?:string;
   }
 
   export function SearchIcon(props:typeProps) {
