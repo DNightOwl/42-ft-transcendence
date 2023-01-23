@@ -1,13 +1,20 @@
 
 import React from "react";
-import Home from "./components/Home";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Items/Navigation/Navigation";
+import Home from "./components/Home";
+import Messages from "./components/Messages";
+import Profile from "./components/Profile";
 function App() {
   return (
-    <React.Fragment>
+    <HashRouter>
       <Navigation />
-      <Home/>
-    </React.Fragment>
+      <Routes>
+        <Route path='/' element={<Home/>} />
+        <Route path='/Messages' element={<Messages/>} />
+        <Route path='/Profile' element={<Profile/>} />
+      </Routes>
+    </HashRouter>
   );
 }
 

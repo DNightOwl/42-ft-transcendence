@@ -1,5 +1,6 @@
 import { HomeIcon,MessagesIcon,UserIcon,SearchIcon } from '../../Icons';
 import userPicture from '../../../../assets/user.jpg';
+import { NavLink} from "react-router-dom";
 
 export default function NavigationPhone() {
   return (
@@ -7,22 +8,22 @@ export default function NavigationPhone() {
         <nav className='bg-shape p-2 rounded-lg'>
             <ul className='flex justify-between items-center'>
                 <li>
-                    <a href="/" className='phone-nav-item active'>
+                    <NavLink to="/" className='phone-nav-item'>
                         <HomeIcon/>
                         <span>Home</span>
-                    </a>
+                    </NavLink>
                 </li>
                 <li>
-                    <a href="/" className='phone-nav-item'>
+                    <NavLink to="/Messages" className='phone-nav-item'>
                         <MessagesIcon/>
                         <span>Messages</span>
-                    </a>
+                    </NavLink>
                 </li>
                 <li>
-                    <a href="/" className='phone-nav-item'>
+                    <NavLink to="/Profile" className='phone-nav-item'>
                         <UserIcon/>
                         <span>Profile</span>
-                    </a>
+                    </NavLink>
                 </li>
                 <li>
                     <a href="/" className='phone-nav-item'>

@@ -1,6 +1,7 @@
-import React from 'react'
+import React from 'react';
 import {SearchIcon, ControllerIcon, ArrowDownIcon} from '../../Icons';
-import UserPicture from '../../../../assets/user.jpg'
+import UserPicture from '../../../../assets/user.jpg';
+
 export default function HeaderNav() {
   return (
     <section className='hidden lg:flex justify-between items-center mr-4 ml-64 pt-7 gap-5'>
