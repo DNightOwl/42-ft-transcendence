@@ -10,7 +10,7 @@ import { user } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
-	constructor(private prisma: PrismaService,private jwt: JwtService, private configService: ConfigService ) {}
+	constructor(private readonly prisma: PrismaService,private readonly jwt: JwtService, private readonly configService: ConfigService ) {}
 
 	async handleUser(user : AuthDto,res: Response){
 
@@ -29,15 +29,15 @@ export class AuthService {
 		);
 
 		if(!refreshToken) {
-			throw new ForbiddenException('');
+			throw new ForbiddenException('');//TODO : is it the right status ?
 		}
 		//update refresh token to user db
 		const userAfterUpdate = await this.updateRefreshToken(userData.login,refreshToken);
 
 	
-		await this.refreshTokenCookie(refreshToken, 'token', res);
+		await this.refreshCookie(refreshToken, 'token', res);
 
-		return res.send({message : 'Logged in succefully', user: userAfterUpdate}) ;//TODO : think of right payload to send
+		return res.send({message : 'Logged in succefully', user: userAfterUpdate}) ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
 	}
 
 	async logout(res: Response, login : string) {
@@ -60,7 +60,7 @@ export class AuthService {
 	
 	async refreshtoken(user:user,res: Response) {
 	
-	const accessToken =  await this.jwt.signAsync(
+		const accessToken =  await this.jwt.signAsync(
 		{
 			email : user.email,
 			login: user.login
@@ -75,13 +75,13 @@ export class AuthService {
 			throw new ForbiddenException('');
 		}
 		
-		await this.refreshTokenCookie(accessToken, 'accessToken', res);
-		return 'new_access_token';
+		await this.refreshCookie(accessToken, 'accessToken', res);
+		return 'new_access_token';//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
 	}
 		
 	////////////////helper functions 
 
-	async refreshTokenCookie(token : string, tokenName : string, res: Response) {
+	async refreshCookie(token : string, tokenName : string, res: Response) {
 		//extract expireIn from jwt token
 		const decoded_token = this.jwt.decode(token) as { [key : string]: any };
 		const expr_duration = (decoded_token.exp - decoded_token.iat) * 1000;
