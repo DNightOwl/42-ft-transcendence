@@ -13,37 +13,31 @@ export class AuthService {
 	constructor(private prisma: PrismaService,private jwt: JwtService, private configService: ConfigService ) {}
 
 	async handleUser(user : AuthDto,res: Response){
-		const userData  = await this.createUserIfNotExist(user);
-		
 
-		//sign jwt and return to user
-		const refreshToken =  await this.signRefreshToken({
-			email : userData.email,
-			login: userData.login
-		});
-		const accessToken =  await this.signAccessToken({
-			email : userData.email,
-			login: userData.login
-		});
-		//
-		if(!refreshToken || !accessToken) {
+		const userData  = await this.createUserIfNotExist(user);
+
+		//sign jwt 
+		const refreshToken =  await this.jwt.signAsync(
+			{
+				email : userData.email,
+				login: userData.login
+			},
+			{
+				secret: this.configService.get('REFRESH_TOKEN_SECRET'),
+				expiresIn: this.configService.get('REFRESH_TOKEN_EXPIRATION') 
+			}
+		);
+
+		if(!refreshToken) {
 			throw new ForbiddenException('');
 		}
 		//update refresh token to user db
 		const userAfterUpdate = await this.updateRefreshToken(userData.login,refreshToken);
-		// this.refreshToken(refreshToken);
 
-		const decoded_aToken = this.jwt.decode(accessToken) as { [key : string]: any };
-		const decoded_rToken = this.jwt.decode(refreshToken) as { [key : string]: any };
-		const at_expr_duration = (decoded_aToken.exp - decoded_aToken.iat) * 1000;
-		const rt_expr_duration = (decoded_rToken.exp - decoded_rToken.iat) * 1000;
-		//cookie setting tokens
-		res.cookie('token', refreshToken, { maxAge: rt_expr_duration, httpOnly: true });
-		res.cookie('accessToken', accessToken, { maxAge: at_expr_duration, httpOnly: true });
-		///
+	
+		await this.refreshTokenCookie(refreshToken, 'token', res);
 
-		///
-		return res.send({message : 'Logged in succefully', user: userAfterUpdate}) ;//
+		return res.send({message : 'Logged in succefully', user: userAfterUpdate}) ;//TODO : think of right payload to send
 	}
 
 	async logout(res: Response, login : string) {
@@ -60,7 +54,40 @@ export class AuthService {
 		})
 		res.clearCookie('token');
 		res.clearCookie('accessToken');
-		return res.send({msg : "done"}) // TODO : should redirect me to the signin page
+		return res.send({msg : "done"}) // TODO :  think of right payload to send
+	}
+
+	
+	async refreshtoken(user:user,res: Response) {
+	
+	const accessToken =  await this.jwt.signAsync(
+		{
+			email : user.email,
+			login: user.login
+		},
+		{
+			secret: this.configService.get('ACCESS_TOKEN_SECRET'),
+			expiresIn: this.configService.get('ACCESS_TOKEN_EXPIRATION') 
+		}
+		);
+		
+		if(!accessToken) {
+			throw new ForbiddenException('');
+		}
+		
+		await this.refreshTokenCookie(accessToken, 'accessToken', res);
+		return 'new_access_token';
+	}
+		
+	////////////////helper functions 
+
+	async refreshTokenCookie(token : string, tokenName : string, res: Response) {
+		//extract expireIn from jwt token
+		const decoded_token = this.jwt.decode(token) as { [key : string]: any };
+		const expr_duration = (decoded_token.exp - decoded_token.iat) * 1000;
+		
+		//cookie setting tokens
+		res.cookie(tokenName, token, { maxAge: expr_duration, httpOnly: true });
 	}
 
 	//check if user exist if not create it
@@ -68,29 +95,16 @@ export class AuthService {
 		const login = intraUser.login;
 		const user = await this.prisma.user.upsert({
 			where: {
-			  login : intraUser.login,
+				login : intraUser.login,
 			},
 			update: {},
 			create: {
-			  email: intraUser.email,
-			  login : intraUser.login,
+				email: intraUser.email,
+				login : intraUser.login,
 			},
-		  });
+			});
 		return user;
 	}
-
-	//helper to sign the jwt token
-	async signRefreshToken(args: {email:string,login:string}) {
-		const payload = args
-		return this.jwt.signAsync(payload, {secret: this.configService.get('REFRESH_TOKEN_SECRET'),expiresIn: this.configService.get('REFRESH_TOKEN_EXPIRATION') })
-	}
-
-	async signAccessToken(args: {email:string,login:string}) {
-		/////
-		const payload = args
-		return this.jwt.signAsync(payload, {secret: this.configService.get('ACCESS_TOKEN_SECRET'), expiresIn: this.configService.get('ACCESS_TOKEN_EXPIRATION') })
-	}
-
 
 	async updateRefreshToken(login : string, refreshToken : string) {
 		
@@ -103,23 +117,5 @@ export class AuthService {
 			}
 		})
 	}
-
- 	async refreshtoken(user:user,res: Response) {
-	
-		const accessToken =  await this.signAccessToken({
-			email : user.email,
-			login: user.login
-		});
-		
-		//
-		if(!accessToken) {
-			throw new ForbiddenException('');
-		}
-		const decoded_token = this.jwt.decode(accessToken) as { [key : string]: any };
-		const expr_duration = (decoded_token.exp - decoded_token.iat) * 1000;
-		
-		//cookie setting tokens
-		res.cookie('accessToken', accessToken, { maxAge: expr_duration, httpOnly: true });
-		return 'new_access_token';
-	}
 }
+	
