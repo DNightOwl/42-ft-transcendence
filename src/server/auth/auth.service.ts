@@ -101,6 +101,7 @@ export class AuthService {
 			create: {
 				email: intraUser.email,
 				login : intraUser.login,
+				nickname : intraUser.login,
 			},
 			});
 		return user;

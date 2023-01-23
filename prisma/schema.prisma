@@ -20,6 +20,7 @@ model user {
     rToken  String?
     two_fa_secret String?
     two_fa_enabled Boolean @default(false)
+    nickname  String  @unique
 
     @@map("users")
 }
