@@ -3,12 +3,11 @@ import { Controller, Get, Req, Post, UseGuards, Delete, ForbiddenException, Para
 import { types } from 'joi';
 import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 import { UsersService } from './users.service';
-import { RequestWithUser } from './dto/types';
+import { RequestWithUser, dbUser } from './dto/types';
 import { PrismaService } from "src/server/prisma/prisma.service";
 import { FileInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
 import { diskStorage } from 'multer';
-import { GetUserReq } from 'src/server/decorator';
 
 
 
@@ -23,10 +22,12 @@ export class UsersController {
     // }
   @UseGuards(JwtAuthGuard)
   @Get()
-  async GetProfile(@Req() req: RequestWithUser){
-    // console.log(req);
-     const user = req.user;
-      return await this.usersService.findProfile(user.login);
+  async GetProfile(@Req() req: RequestWithUser, @Req() requ : dbUser){
+    //  const user = req.user;
+    const user = requ.user;
+     console.log(requ);
+
+    //   return await this.usersService.findProfile(user.login);
   }
 
   @UseGuards(JwtAuthGuard)

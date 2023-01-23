@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model User {
+model user {
     
     id String @unique @default(uuid())
     login String @unique
@@ -24,12 +24,14 @@ model User {
     lastName     String?
     blocked String[]
     freinds Freinds[]
+    two_fa_secret String?
+    two_fa_enabled Boolean @default(false)
     @@map("users")
 }
 
 model Freinds {
   id String @id @default(uuid())
-  user User @relation(fields: [userLogin], references: [login])
+  user user @relation(fields: [userLogin], references: [login])
   userLogin String
   friendLogin String
   @@map("friends")

@@ -4,6 +4,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { AuthDto } from './dto/auth.dto';
 import  { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { user } from '@prisma/client';
 
 //TODO : check if the functions needs try catch or protection
 
@@ -63,18 +64,19 @@ export class AuthService {
 	}
 
 	//check if user exist if not create it
-	async createUserIfNotExist(user : AuthDto) {
+	async createUserIfNotExist(user : AuthDto) : Promise<user> {
 		// check if user exist
 		const login = user.login;
+		console.log("login: ", login);
 		const foundUser = await this.prisma.user.findUnique({where: { login}})
 		if( !foundUser ) {
 			//create the user
 			return await this.prisma.user.create({
 				data : {
 					email : user.email,
-					login : user.login
+					login : user.login,
 				}
-			})	
+			})	 
 		}
 		return foundUser;
 	}
@@ -104,7 +106,7 @@ export class AuthService {
 		})
 	}
 
- 	async refreshtoken(user:AuthDto,res: Response) {
+ 	async refreshtoken(user:user,res: Response) {
 	
 		const accessToken =  await this.signAccessToken({
 			email : user.email,
