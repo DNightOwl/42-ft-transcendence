@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 
 export default function Messages() {
   useEffect(()=>{
-    document.title = "Pong - Message";
+    document.title = "Pong - Messages";
   });
 
   return (
