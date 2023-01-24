@@ -19,15 +19,14 @@ model user {
     updateAt DateTime @updatedAt()
     rToken  String?
     pictureLink String?
-    nickname     String?  @unique
+    nickname     String  @unique
     firstName    String?
     lastName     String?
     blocked String[]
     freinds Freinds[]
     two_fa_secret String?
     two_fa_enabled Boolean @default(false)
-    nickname  String  @unique
-
+    
     @@map("users")
 }
 
