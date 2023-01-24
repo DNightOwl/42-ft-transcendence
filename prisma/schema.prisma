@@ -18,9 +18,37 @@ model user {
     createdAt DateTime @default(now())
     updateAt DateTime @updatedAt()
     rToken  String?
+    pictureLink String?
+    nickname     String?  @unique
+    firstName    String?
+    lastName     String?
+    blocked String[]
+    freinds Freinds[]
     two_fa_secret String?
     two_fa_enabled Boolean @default(false)
     nickname  String  @unique
 
     @@map("users")
+}
+
+model Freinds {
+  id String @id @default(uuid())
+  user user @relation(fields: [userLogin], references: [login])
+  userLogin String
+  friendLogin String
+  @@map("friends")
+}
+
+model room {
+  id String @id @default(uuid())
+  name String @unique
+  owner String
+  members String[]
+  blocked String[]
+  type String @default("private")
+  admins String[]
+
+  hash String?
+  
+  @@map("rooms")
 }
