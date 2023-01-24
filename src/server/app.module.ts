@@ -4,6 +4,7 @@ import { AuthModule } from './auth/auth.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import * as Joi from 'joi'
+import { RoomModule } from './chat/rooms/room.modules';
 
 
 @Module({
@@ -11,6 +12,7 @@ import * as Joi from 'joi'
     AuthModule,
     PrismaModule,
     UsersModule,
+    RoomModule,
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({

@@ -19,7 +19,7 @@ model user {
     updateAt DateTime @updatedAt()
     rToken  String?
     pictureLink String?
-    nickname     String?  @unique @default("")
+    nickname     String?  @unique
     firstName    String?
     lastName     String?
     blocked String[]
@@ -35,4 +35,18 @@ model Freinds {
   userLogin String
   friendLogin String
   @@map("friends")
+}
+
+model room {
+  id String @id @default(uuid())
+  name String @unique
+  owner String
+  members String[]
+  blocked String[]
+  type String @default("private")
+  admins String[]
+
+  hash String?
+  
+  @@map("rooms")
 }

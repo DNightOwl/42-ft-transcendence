@@ -22,17 +22,14 @@ export class UsersController {
     // }
   @UseGuards(JwtAuthGuard)
   @Get()
-  async GetProfile(@Req() req: RequestWithUser, @Req() requ : dbUser){
-    //  const user = req.user;
-    const user = requ.user;
-     console.log(requ);
-
-    //   return await this.usersService.findProfile(user.login);
+  async GetProfile(@Req() req : dbUser){
+    const user = req.user;
+    return await this.usersService.findProfile(user.login);
   }
 
   @UseGuards(JwtAuthGuard)
   @Patch()
-  async UpdateProfile(@Req() req: RequestWithUser, @Body() modify) {
+  async UpdateProfile(@Req() req : dbUser, @Body() modify) {
       const user = req.user;
       console.log(modify.nickname);
       return await this.usersService.updateuserinfo(user.login, modify.nickname);
@@ -67,7 +64,7 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Post('addfreind')
-  async addfriend(@Req() req: RequestWithUser, @Body() freind)
+  async addfriend(@Req() req : dbUser, @Body() freind)
   {
       const user = req.user
       const blockedUser = await this.prisma.user.findUnique({
@@ -91,7 +88,7 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Delete('unfreind')
-  async   unfriend (@Req() req: RequestWithUser, @Body() freind)
+  async   unfriend (@Req() req : dbUser, @Body() freind)
   {
     const user = req.user;
       this.usersService.unfreind(user.login, freind);
@@ -99,7 +96,7 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Patch('/blocked')
-  async blockedUser(@Req() req: RequestWithUser, @Body() freind)
+  async blockedUser(@Req() req : dbUser, @Body() freind)
   {
       const user = req.user;
       await this.usersService.unfreind(user.login, freind);
@@ -107,7 +104,7 @@ export class UsersController {
   }
   @UseGuards(JwtAuthGuard)
   @Patch('/unblocked')
-  async unblockedUser(@Req() req: RequestWithUser, @Body() freind)
+  async unblockedUser(@Req() req : dbUser, @Body() freind)
   {
     const user = req.user;
     return await this.usersService.unblocked(user.login, freind.login);
