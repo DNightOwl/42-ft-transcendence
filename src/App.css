@@ -70,7 +70,14 @@ main{
         color: #fff ;
     }
 
+    .primary-live{
+        height: 30rem;
+    }
+
     .live{
         max-width: 1090px;
+    }
+    .live-list{
+        height: 30rem;
     }
   }
