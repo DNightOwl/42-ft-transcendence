@@ -19,7 +19,7 @@ module.exports = {
       },
       fontFamily: {
         sans: ['Poppins'],
-      }
+      },
     },
   },
   plugins: [],
