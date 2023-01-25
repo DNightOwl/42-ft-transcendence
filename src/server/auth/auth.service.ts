@@ -17,16 +17,7 @@ export class AuthService {
 		let userData  = await this.createUserIfNotExist(user);
 
 		//sign jwt 
-		const refreshToken =  await this.jwt.signAsync(
-			{
-				email : userData.email,
-				login: userData.login
-			},
-			{
-				secret: this.configService.get('REFRESH_TOKEN_SECRET'),
-				expiresIn: this.configService.get('REFRESH_TOKEN_EXPIRATION') 
-			}
-		);
+		const refreshToken = await this.generateTokens(userData , "refresh");
 
 		if(!refreshToken) {
 			throw new ForbiddenException('');//TODO : is it the right status ?
@@ -71,16 +62,17 @@ export class AuthService {
 	
 	async refreshtoken(user:user,res: Response) {
 	
-		const accessToken =  await this.jwt.signAsync(
-		{
-			email : user.email,
-			login: user.login
-		},
-		{
-			secret: this.configService.get('ACCESS_TOKEN_SECRET'),
-			expiresIn: this.configService.get('ACCESS_TOKEN_EXPIRATION') 
-		}
-		);
+		const accessToken =  await this.generateTokens(user , "access")
+		// const accessToken =  await this.jwt.signAsync(
+		// {
+		// 	email : user.email,
+		// 	login: user.login
+		// },
+		// {
+		// 	secret: this.configService.get('ACCESS_TOKEN_SECRET'),
+		// 	expiresIn: this.configService.get('ACCESS_TOKEN_EXPIRATION') 
+		// }
+		// );
 		
 		if(!accessToken) {
 			throw new ForbiddenException('');
@@ -129,5 +121,33 @@ export class AuthService {
 			}
 		})
 	}
+
+	async generateTokens(user : user, type : string ) {
+		let secret = "";
+		let expiresIn = "";
+		if(type === "refresh")
+		{
+			secret = this.configService.get('REFRESH_TOKEN_SECRET');
+			expiresIn = this.configService.get('REFRESH_TOKEN_EXPIRATION');
+		}
+		else if (type === "access")
+		{
+			secret = this.configService.get('ACCESS_TOKEN_SECRET'),
+			expiresIn = this.configService.get('ACCESS_TOKEN_EXPIRATION')
+		}
+
+		const refreshToken =  await this.jwt.signAsync(
+			{
+				email : user.email,
+				login: user.login
+			},
+			{
+				secret: secret,
+				expiresIn: expiresIn 
+			}
+		);
+		return refreshToken;
+	}
+
 }
 	
