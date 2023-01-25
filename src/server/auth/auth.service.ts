@@ -12,9 +12,9 @@ import { user } from '@prisma/client';
 export class AuthService {
 	constructor(private readonly prisma: PrismaService,private readonly jwt: JwtService, private readonly configService: ConfigService ) {}
 
-	async handleUser(user : AuthDto,res: Response){
+	async handleUser(user : AuthDto,res: Response){// TODO : name to be changed to signin
 
-		const userData  = await this.createUserIfNotExist(user);
+		let userData  = await this.createUserIfNotExist(user);
 
 		//sign jwt 
 		const refreshToken =  await this.jwt.signAsync(
@@ -31,13 +31,24 @@ export class AuthService {
 		if(!refreshToken) {
 			throw new ForbiddenException('');//TODO : is it the right status ?
 		}
-		//update refresh token to user db
-		const userAfterUpdate = await this.updateRefreshToken(userData.login,refreshToken);
 
-	
+		//check if 2fa is  enable === false
+		if (userData.two_fa_enabled === false )
+		{
+			//update refresh token to user db
+			userData = await this.updateRefreshToken(userData.login,refreshToken);
+		}
+
 		await this.refreshCookie(refreshToken, 'token', res);
 
-		return res.send({message : 'Logged in succefully', user: userAfterUpdate}) ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
+		//check if 2fa is  enable === true
+		if (userData.two_fa_enabled === true)
+		{
+			//return for the user to verify the code 2fa
+			return res.send({message : '2FA is activated verify code'}) ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
+		}
+
+		return res.send({message : 'Logged in succefully', user: userData}) ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
 	}
 
 	async logout(res: Response, login : string) {
