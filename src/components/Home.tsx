@@ -12,7 +12,7 @@ export default function Home() {
         <h1 className='text-primaryText text-2xl flex items-center gap-1.5'><span>Live Games</span><img src={fire} alt="fire"  className='w-4'/></h1>
         <section className='flex flex-col gap-6 lg:flex-row lg:items-start'>
           <button className='w-full h-96 bg-shape rounded-xl lg:flex-1 primary-live'></button>
-          <div className='flex gap-4 lg:flex-col live-list bg-green-200 overflow-auto'>
+          <div className='flex gap-4 lg:flex-col live-list overflow-auto'>
             <button className='w-72 h-48 bg-shape rounded-xl border-4 border-primary flex-shrink-0'></button>
             <button className='w-72 h-48 bg-shape rounded-xl flex-shrink-0'></button>
             <button className='w-72 h-48 bg-shape rounded-xl flex-shrink-0'></button>
