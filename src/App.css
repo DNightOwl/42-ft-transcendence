@@ -69,4 +69,8 @@ main{
     .active span{
         color: #fff ;
     }
+
+    .live{
+        max-width: 1090px;
+    }
   }
