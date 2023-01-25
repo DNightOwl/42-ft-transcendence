@@ -67,5 +67,20 @@ export class AuthController {
       this.tfa.tfaActivation(false,req.user);
     return isValid; //TODO :  response format and data
   }
+  
+  @UseGuards(JwtAuthGuard)
+  @Post('tfaverification')
+	async signinTfaVerification(@Body('code') code: string, @Req() req : dbUser, @Res({ passthrough: true }) res : Response) {
+    const isValid =  await this.tfa.verifyTfaCode(code, req.user) ;
+    if(isValid === true)
+    {
+      const refreshToken = await this.authService.generateTokens(req.user, "refresh");
+      await this.authService.updateRefreshToken( req.user.login,refreshToken);
+      await this.authService.refreshCookie(refreshToken, 'token', res);
+      return {msg : "tfa is valid"};//TODO :  response format and data
+    }
+    return {msg : "tfa not valid"}; //TODO :  response format and data
+  }
+
 
 }
