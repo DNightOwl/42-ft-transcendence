@@ -1,11 +1,11 @@
 import React from 'react'
-import ViewDesktop from './NavigationDesktop/NavigationDesktop';
-import ViewPhone from './NavigationPhone/NavigationPhone';
+import NavigationDesktop from './NavigationDesktop/NavigationDesktop';
+import NavigationPhone from './NavigationPhone/NavigationPhone';
 export default function Navigation() {
   return (
     <React.Fragment>
-      <ViewDesktop />
-      <ViewPhone />
+      <NavigationDesktop />
+      <NavigationPhone />
     </React.Fragment>
   )
 }
