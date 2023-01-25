@@ -5,9 +5,11 @@ import UserPicture from '../../../../assets/user.jpg';
 export default function HeaderNav() {
   return (
     <section className='hidden lg:flex justify-between items-center mr-4 ml-64 pt-7 gap-5'>
-        <div className='flex items-center flex-1 bg-shape pr-4 rounded-md'>
-            <input type="text" placeholder='Search for user' className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-3 pl-4 pr-1.5 focus:outline-none text-primaryText'/>
-            <SearchIcon edit="w-4"/>
+        <div className='flex-1 2xl:flex 2xl:justify-center'>
+            <div className='flex items-center bg-shape pr-4 rounded-md search'>
+                <input type="text" placeholder='Search for user' className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-3 pl-4 pr-1.5 focus:outline-none text-primaryText'/>
+                <SearchIcon edit="w-4"/>
+            </div>
         </div>
         <div className='flex items-center gap-5'>
             <button className='bg-primary text-primaryText text-sm flex items-center justify-center gap-2.5 w-36 rounded-md p-3'>

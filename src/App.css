@@ -76,3 +76,11 @@ main{
         height: 30rem;
     }
   }
+
+  @media screen and (min-width: 1536px) {
+
+    .search{
+        width: 57.4rem;
+    }
+
+  }
