@@ -3,7 +3,7 @@ import friendPicture from '../../assets/friend.jpg'
 
 export default function CardUser() {
   return (
-    <a href="#" className='flex items-center justify-between hover:bg-shape p-2'>
+    <a href="/" className='flex items-center justify-between hover:bg-shape p-2'>
     <div className='flex items-center gap-2'>
       <img src={friendPicture} alt="Friend" className='w-10 h-10 rounded-full' />
       <div className='flex flex-col gap-1'>
