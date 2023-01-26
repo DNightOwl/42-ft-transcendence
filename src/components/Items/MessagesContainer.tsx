@@ -1,13 +1,12 @@
 import React from 'react'
 import {Tabs,TabsList,Tab, TabsPanels, TabContent} from "./Tabs"
 
-export default function MessagesList() {
+export default function MessagesContainer() {
   return (
     <Tabs>
         <TabsList>
             <Tab>Chats</Tab>
             <Tab>Channels</Tab>
-            <Tab>test</Tab>
         </TabsList>
         <TabsPanels>
             <TabContent>

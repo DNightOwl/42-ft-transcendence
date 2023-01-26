@@ -1,12 +1,12 @@
 import React from 'react'
-import { useState,Children } from 'react';
+import { useState,useEffect,Children } from 'react';
 
 interface Props {
   children: JSX.Element | JSX.Element[] | string,
 
 };
 
-let activeTab:any;
+let activeTab:React.Dispatch<React.SetStateAction<number>>;
 let result:any;
 
 export function Tabs({children}:Props) {
@@ -20,23 +20,33 @@ export function Tabs({children}:Props) {
 export function TabsList({children}:Props) {
   result = Children.toArray(children);
     return (
-      <div>
+      <div className='text-sm flex items-center'>
           {children}
       </div>
     )
   }
 
   export function Tab({children}:Props) {
+    useEffect(()=>{
+      let btnSwitcher = document.querySelectorAll(".btn-switcher");
+      btnSwitcher[0].classList.add("tab-active");
+    },[])
+    
     return (
-      <button onClick={()=>{
+      <button className="btn-switcher"
+      onClick={(e)=>{
         const arrayChilds:any = Children.toArray(children);
-
+        let btnSwitcher = document.querySelectorAll(".btn-switcher");
+        btnSwitcher.forEach(e=>{
+          e.classList.remove("tab-active");
+        })
+        e.currentTarget.classList.add("tab-active");
         result.forEach((element:any,index:number) => {
           if(element.props.children + index === arrayChilds[0] + index)
-            {
+          {
               activeTab(index);
               return;
-            }
+          }
         });
       }}>
           {children}

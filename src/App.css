@@ -60,6 +60,15 @@ body{
 main{
     @apply mx-3 pb-28 pt-10 lg:ml-64 lg:mr-4 lg:pb-7;
 }
+.btn-switcher{
+    @apply flex-1 flex justify-center items-center pb-2 text-secondaryText;
+    border-bottom: 1px solid #414554;
+}
+
+.tab-active{
+    @apply text-primaryText;
+    border-bottom: 1px solid #7970B3 ;
+}
 
 @media screen and (min-width: 1024px) {
     .active {

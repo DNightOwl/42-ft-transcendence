@@ -5,7 +5,7 @@ import CardUser from '../../CardUser';
 import { NavLink,Link,useLocation } from "react-router-dom";
 import { HomeIcon,MessagesIcon,UserIcon} from '../../Icons';
 import { useState,useEffect } from 'react';
-import MessagesList from '../../MessagesList';
+import MessagesContainer from '../../MessagesContainer';
 
 export default function SideNav() {
   const [messages,setMessages] = useState<boolean>(false);
@@ -59,7 +59,7 @@ export default function SideNav() {
         </div>
       </React.Fragment>
       ):(
-        <MessagesList/>
+        <MessagesContainer/>
       )
     }
 </section>
