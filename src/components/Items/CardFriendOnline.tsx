@@ -1,5 +1,5 @@
 import React from 'react'
-import friendPicture from '../../assets/friend.jpg'
+import friendPicture from '../../assets/friend.jpg';
 
 export default function CardUser() {
   return (

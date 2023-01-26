@@ -11,7 +11,7 @@ let result:any;
 
 export function Tabs({children}:Props) {
   return (
-    <div className='flex flex-col gap-6'>
+    <div className='flex flex-col gap-6 h-full bg-slate-400'>
         {children}
     </div>
   )
@@ -58,12 +58,12 @@ export function TabsList({children}:Props) {
     const [state,setState] = useState<number>(0);
     activeTab = setState;
     const arrayChilds = Children.toArray(children);
-    return <div>{arrayChilds[state]}</div>
+    return <div className='bg-pink-200 h-full'>{arrayChilds[state]}</div>
   }
 
   export function TabContent({children}:Props) {
     return (
-      <div>
+      <div className='bg-red-600 h-full'>
           {children}
       </div>
     )
