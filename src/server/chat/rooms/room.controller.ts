@@ -15,6 +15,7 @@ import { JwtAuthGuard } from '../../auth/jwt/jwt.guard';
 import { RoomService } from './room.service';
 import { prisma } from '@prisma/client';
 import { dbUser } from '../../users/dto/types';
+import moment from "moment";
 
 
 @Controller('rooms')
@@ -80,6 +81,16 @@ export class RoomController
         const user = req.user
         await this.roomservice.banmember(user, room);
     }
+
+    async muteduser(user) {
+        await this.prisma.muted.create({
+          data: {
+            roomId: user.roomId,
+            userId: user.id,
+            time: moment().add(user.value).toString()
+          }
+        })
+      }
 
 }
 
