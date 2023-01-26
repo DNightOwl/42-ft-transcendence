@@ -46,8 +46,18 @@ model room {
   blocked String[]
   type String @default("private")
   admins String[]
-
+  muted Muted[]
   hash String?
   
   @@map("rooms")
+}
+
+model Muted {
+  id String @id @default(uuid())
+  roomName  String
+  userLogin  String
+  room room @relation(fields: [roomName], references: [id])
+  time String
+
+  @@map("muted")
 }
