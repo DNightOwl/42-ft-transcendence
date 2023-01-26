@@ -52,7 +52,7 @@ export function ArrowDownIcon(props:typeProps) {
         <g id="g885">
           <g id="g887">
             <g id="Group_13" data-name="Group 13">
-              <g id="Group_12" data-name="Group 12" clip-path="url(#clip-path)">
+              <g id="Group_12" data-name="Group 12" clipPath="url(#clip-path)">
                 <g id="g889" transform="translate(0 0)">
                   <g id="g895">
                     <g id="path897">
