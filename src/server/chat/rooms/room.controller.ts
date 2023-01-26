@@ -42,11 +42,27 @@ export class RoomController
             await this.roomservice.addtoroomprotected(user, room);
      }
 
+     @UseGuards(JwtAuthGuard)
+     @Post('quiteRoom')
+     async  quite_room(@Req() req: dbUser, @Body() rom)
+     {
+        const user = req.user;
+       return await this.roomservice.quite_room(user, rom);
+        
+     }
     
-    @Get()
-    async getRoomsForUser()
+    @Get('allrooms')
+    async getallRooms()
     {
-        return await this.roomservice.getRoomsForUser();
+        return await this.roomservice.getallRooms();
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get()
+    async   getRoomsForUser(@Req() req: dbUser)
+    {
+        const user = req.user;
+        return await this.roomservice.getRoomsForUser(user);
     }
 
     @UseGuards(JwtAuthGuard)

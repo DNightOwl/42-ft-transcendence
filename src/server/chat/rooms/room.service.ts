@@ -98,7 +98,7 @@ export class RoomService
       })
   }
 
-  async getRoomsForUser(){
+  async getallRooms(){
     let allRooms = [];
 
     const rooms = await this.prisma.room.findMany();
@@ -117,6 +117,27 @@ export class RoomService
         });
         return allRooms;
     }
+
+    async getRoomsForUser(user: any){
+      let allRooms = [];
+  
+      const rooms = await this.prisma.room.findMany();
+      rooms.forEach( element => {
+          let obj = {
+              id: element.id,
+              admins: element.admins,
+              members: element.members,
+              name: element.name,
+              type: element.type,
+              owner: element.owner
+              
+          }
+          const id = obj.members.find((login) => login==user.login)
+          if (id)
+              allRooms.push(obj);
+          });
+          return allRooms;
+      }
 
     async   adduseradmins(user: any, room: any)
     {
@@ -196,5 +217,38 @@ export class RoomService
               },
             },
           })
+        }
+
+        async quite_room(user: any, rom: any)
+        {
+          const rooms = await this.prisma.room.findUnique({
+            where: {
+              name: rom.name
+            }
+          })
+        const id1 =  rooms.admins.find((login) =>login==user.login)
+        if (id1)
+        {
+            await this.prisma.room.update({
+                where: {
+                    name: rom.name
+                },
+                data: {
+                    admins: {
+                        set: rooms.admins.filter((log) => log != user.login)
+                    }
+                }
+            });
+        }
+        await this.prisma.room.update({
+            where: {
+                name: rom.name
+            },
+            data: {
+                members: {
+                    set: rooms.members.filter((name) => name != user.login)
+                }
+            }
+        });
         }
 }
