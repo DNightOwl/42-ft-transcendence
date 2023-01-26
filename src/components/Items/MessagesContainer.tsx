@@ -1,5 +1,6 @@
 import React from 'react'
-import {Tabs,TabsList,Tab, TabsPanels, TabContent} from "./Tabs"
+import {Tabs,TabsList,Tab, TabsPanels, TabContent} from "./Tabs";
+import MessagesList from './MessagesList';
 
 export default function MessagesContainer() {
   return (
@@ -10,7 +11,7 @@ export default function MessagesContainer() {
         </TabsList>
         <TabsPanels>
             <TabContent>
-                <div>one</div>
+                <MessagesList />
             </TabContent>
             <TabContent>
                 <div>two</div>

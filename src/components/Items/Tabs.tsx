@@ -11,7 +11,7 @@ let result:any;
 
 export function Tabs({children}:Props) {
   return (
-    <div>
+    <div className='flex flex-col gap-6'>
         {children}
     </div>
   )
@@ -20,7 +20,7 @@ export function Tabs({children}:Props) {
 export function TabsList({children}:Props) {
   result = Children.toArray(children);
     return (
-      <div className='text-sm flex items-center'>
+      <div className='text-sm flex items-center px-2'>
           {children}
       </div>
     )

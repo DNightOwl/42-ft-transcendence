@@ -1,7 +1,7 @@
 
 import React from 'react';
 import logo from '../../../../assets/logo.svg';
-import CardUser from '../../CardUser';
+import CardFriendOnline from '../../CardFriendOnline';
 import { NavLink,Link,useLocation } from "react-router-dom";
 import { HomeIcon,MessagesIcon,UserIcon} from '../../Icons';
 import { useState,useEffect } from 'react';
@@ -52,9 +52,9 @@ export default function SideNav() {
             <span className='bg-shape text-secondaryText text-xs p-2 rounded-full h-5 w-5 flex justify-center items-center font-bold'>3</span>
           </div>
           <div className='flex flex-col gap-7 overflow-auto max-h-56'>
-            <CardUser/>
-            <CardUser/>
-            <CardUser/>
+            <CardFriendOnline/>
+            <CardFriendOnline/>
+            <CardFriendOnline/>
           </div>
         </div>
       </React.Fragment>
