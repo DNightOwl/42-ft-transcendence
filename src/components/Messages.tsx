@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react'
+import BoxMessagesFriend from './Items/BoxMessagesFriend';
+import BoxMessagesUser from './Items/BoxMessagesUser';
 
 export default function Messages() {
   useEffect(()=>{
@@ -6,8 +8,9 @@ export default function Messages() {
   });
 
   return (
-    <main>
-        <h1 className='text-primaryText text-2xl'>Messages</h1>
+    <main className='flex flex-col gap-20'>
+      <BoxMessagesFriend />
+      <BoxMessagesUser />
     </main>
   )
 }
