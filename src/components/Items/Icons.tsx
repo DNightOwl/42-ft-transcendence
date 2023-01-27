@@ -133,4 +133,17 @@ export function ArrowDownIcon(props:typeProps) {
     )
   }
 
+
+  export function SendIcon(props:typeProps){
+    return(
+      <svg id="Group_112" data-name="Group 112" className={props.edit} xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25.575 23.746">
+  <g id="Group_111" data-name="Group 111" transform="translate(0 0)">
+    <g id="Group_110" data-name="Group 110">
+      <path id="Path_44" data-name="Path 44" d="M25.046,27.063,1.3,16.1a.918.918,0,0,0-1.092.256A.908.908,0,0,0,.184,17.48L7.993,27.893.184,38.305A.913.913,0,0,0,1.3,39.682L25.044,28.722a.913.913,0,0,0,0-1.659Z" transform="translate(0 -16.02)"/>
+    </g>
+  </g>
+</svg>
+
+    )
+  }
   

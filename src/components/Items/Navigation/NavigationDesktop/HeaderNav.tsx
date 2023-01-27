@@ -10,7 +10,7 @@ interface typeProps{
 
 export default function HeaderNav({messages}:typeProps) {
   return (
-    <section className='hidden lg:flex justify-between items-center mr-4 ml-64 pt-7 gap-5'>
+    <section className={`hidden lg:flex justify-between items-center mr-4 ml-64 pt-7 gap-5 ${(messages)?'pb-7':''}`}>
         {
             (!messages)?(
             <div className='flex-1 2xl:flex 2xl:justify-center'>

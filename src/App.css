@@ -91,7 +91,7 @@ main{
     .active span{
         color: #fff ;
     }
-    .live{
+    .content{
         max-width: 1090px;
     }
     .primary-live, .live-list{
@@ -105,4 +105,7 @@ main{
         width: 57.4rem;
     }
 
+    .content{
+        max-width: 1500px;
+    }
   }
