@@ -109,6 +109,28 @@ export function ArrowDownIcon(props:typeProps) {
   
     )
   }
+
+  export function PointsIcon(props:typeProps) {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12.616 2.804" className={props.edit}>
+      <g id="Group_97" data-name="Group 97" transform="translate(0 2.804) rotate(-90)">
+        <g id="Filled">
+          <g id="Group_89" data-name="Group 89" transform="translate(0)">
+            <g id="Group_86" data-name="Group 86" transform="translate(0 4.906)">
+              <path id="Path_38" data-name="Path 38" d="M0,1.4A1.4,1.4,0,1,1,1.4,2.8,1.4,1.4,0,0,1,0,1.4Z"/>
+            </g>
+            <g id="Group_87" data-name="Group 87" transform="translate(0 9.813)">
+              <path id="Path_39" data-name="Path 39" d="M0,1.4A1.4,1.4,0,1,1,1.4,2.8,1.4,1.4,0,0,1,0,1.4Z"/>
+            </g>
+            <g id="Group_88" data-name="Group 88">
+              <path id="Path_40" data-name="Path 40" d="M0,1.4A1.4,1.4,0,1,1,1.4,2.8,1.4,1.4,0,0,1,0,1.4Z"/>
+            </g>
+          </g>
+        </g>
+      </g>
+    </svg>
   
-  
+    )
+  }
+
   

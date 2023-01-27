@@ -9,7 +9,7 @@ export default function MessagesList() {
             <SearchIcon edit="w-3 relative"/>
             <input type="text" placeholder='Search for user' className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-xs font-light text-xs py-2.5 px-2 focus:outline-none text-primaryText'/>
         </div>
-        <div className='flex flex-col gap-6 h-full overflow-auto'>
+        <div className='flex flex-col h-full overflow-auto'>
             <CardFriendMessage newMessage={true}/>
             <CardFriendMessage />
             <CardFriendMessage />

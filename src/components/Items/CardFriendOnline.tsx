@@ -1,9 +1,10 @@
 import React from 'react'
 import friendPicture from '../../assets/friend.jpg';
+import { Link } from 'react-router-dom';
 
-export default function CardUser() {
+export default function CardFreindOnline() {
   return (
-    <a href="/" className='flex items-center justify-between hover:bg-shape p-2'>
+    <Link to="/Messages" className='flex items-center justify-between hover:bg-shape p-2'>
     <div className='flex items-center gap-2'>
       <img src={friendPicture} alt="Friend" className='w-10 h-10 rounded-full' />
       <div className='flex flex-col gap-1'>
@@ -12,6 +13,6 @@ export default function CardUser() {
       </div>
     </div>
     <span className='w-1.5 h-1.5 bg-online rounded-full'></span>
-  </a>
+  </Link>
   )
 }
