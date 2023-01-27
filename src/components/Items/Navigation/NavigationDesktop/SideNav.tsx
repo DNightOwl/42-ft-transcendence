@@ -46,12 +46,12 @@ export default function SideNav() {
             </li>
           </ul>
         </nav>
-        <div className='flex flex-col gap-6'>
+        <div className='flex flex-col gap-6 h-full overflow-hidden'>
           <div className=' px-2 flex items-center justify-between'>
             <span className='text-primaryText text-sm'>Friends</span>
             <span className='bg-shape text-secondaryText text-xs p-2 rounded-full h-5 w-5 flex justify-center items-center font-bold'>3</span>
           </div>
-          <div className='flex flex-col gap-7 overflow-auto max-h-56'>
+          <div className='flex flex-col gap-7 h-full overflow-auto overflow-x-hidden'>
             <CardFriendOnline/>
             <CardFriendOnline/>
             <CardFriendOnline/>
