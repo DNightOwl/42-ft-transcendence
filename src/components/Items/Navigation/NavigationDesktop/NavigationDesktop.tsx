@@ -1,12 +1,21 @@
-import React from 'react';
+import React, { useState,useEffect } from 'react';
 import SideNav from './SideNav';
 import HeaderNav from './HeaderNav';
+import { useLocation } from 'react-router-dom';
 
 export default function NavigationDesktop() {
+  const [messages,setMessages] = useState(false);
+  const location = useLocation();
+  useEffect(()=>{
+    if(location.pathname === "/Messages")
+      setMessages(true);
+    else
+      setMessages(false)
+  },[location.pathname]);
   return (
     <React.Fragment>
-      <SideNav />
-      <HeaderNav />
+      <SideNav messages={messages} setMessages={setMessages}/>
+      <HeaderNav messages={messages}/>
     </React.Fragment>
   )
 }
