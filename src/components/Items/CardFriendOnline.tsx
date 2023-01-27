@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 export default function CardFreindOnline() {
   return (
-    <Link to="/Messages" className='flex items-center justify-between hover:bg-shape p-2'>
+    <Link to="/Messages" className='flex items-center justify-between hover:bg-backgroundHover p-2'>
     <div className='flex items-center gap-2'>
       <img src={friendPicture} alt="Friend" className='w-10 h-10 rounded-full' />
       <div className='flex flex-col gap-1'>

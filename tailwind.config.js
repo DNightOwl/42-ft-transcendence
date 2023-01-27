@@ -15,6 +15,7 @@ module.exports = {
         online: "#43FF83",
         offline:"#EC6565",
         sideBackground: "#242630",
+        backgroundHover:"#41455473"
         
       },
       fontFamily: {
