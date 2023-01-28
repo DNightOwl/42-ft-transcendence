@@ -76,7 +76,7 @@ export class RoomController
         await this.roomservice.adduseradmins(user, room);
      }
 
-     @UseGuards(JwtAuthGuard)
+    @UseGuards(JwtAuthGuard)
     @Patch('/ban')
      async  banmember(@Req() req: dbUser, @Body() room)
     {
@@ -84,6 +84,11 @@ export class RoomController
         await this.roomservice.banmember(user, room);
     }
 
+    @Get('allmessages')
+    async   getMessage(@Body() room)
+    {
+        return await this.roomservice.getMessage(room.name);
+    }
     
     // @UseGuards(JwtAuthGuard)
     // @Patch('muted')

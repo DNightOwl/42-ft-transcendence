@@ -250,5 +250,19 @@ export class RoomService
                 }
             }
         });
-        }
+      }
+
+      async   getMessage(name: string)
+    {
+        const allmessage = await this.prisma.room.findUnique({
+            where: {
+                name: name
+            },
+                select: {
+                    message: true
+                }
+        })
+        return allmessage;
+    }
+
 }

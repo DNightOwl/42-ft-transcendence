@@ -65,8 +65,9 @@ model Muted {
 
 model Messages {
   id String @id @default(uuid())
-  roomId String
-  room room @relation(fields: [roomId], references: [id])
+  roomName String
+  userLogin  String
+  room room @relation(fields: [roomName], references: [name])
   data String
   
   @@map("messages")

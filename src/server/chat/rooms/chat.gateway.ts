@@ -1,43 +1,55 @@
-import { MessageBody, OnGatewayConnection, OnGatewayDisconnect, SubscribeMessage, WebSocketGateway , WebSocketServer} from "@nestjs/websockets";
-import { AuthService } from "src/server/auth/auth.service";
-import { Socket } from 'socket.io'
-import { Server } from "http";
-import { PrismaService } from "src/server/prisma/prisma.service";
-import { RoomService } from "./room.service";
-import { Body } from "@nestjs/common";
+import {
+    SubscribeMessage,
+    WebSocketGateway,
+    OnGatewayInit,
+    WebSocketServer,
+    OnGatewayConnection,
+    OnGatewayDisconnect,
+    MessageBody,
+   } from '@nestjs/websockets';
+   import { Logger,  UseGuards, Req } from '@nestjs/common';
+   import { Socket, Server } from 'socket.io';
+   import { PrismaService } from "src/server/prisma/prisma.service";
+   import { RoomService } from "./room.service";
+   import { JwtAuthGuard } from '../../auth/jwt/jwt.guard';
+   import { dbUser } from '../../users/dto/types';
+   
+   @WebSocketGateway({
+     cors: {
+       origin: '*',
+     },
+   })
+   export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+   constructor(private prisma: PrismaService, private roomservice: RoomService) {}
+    @WebSocketServer() server: Server;
 
-@WebSocketGateway({
-    cors: {
-        origin: '*',
-    },
-})
-export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
-    @WebSocketServer()
-    server: Server;
-
-    constructor(private prisma: PrismaService, private roomservice: RoomService) {}
-
-    handleConnection() {
-        
-        console.log('on connect');
+   
+    @UseGuards(JwtAuthGuard)
+    @SubscribeMessage('msgToServer')
+   async  handleMessage(client: Socket, @MessageBody() Body, @Req() req: dbUser) {
+    const user = req.user
+    //   console.log(payload)
+    //  this.server.emit('msgToClient', payload);
+      const msg = await this.prisma.messages.create({
+        data: {
+            roomName: Body.name,
+            data: Body.data,
+            userLogin: user.login
+      }
+  })
+  console.log(msg.roomName);
     }
+   
+    afterInit(server: Server) {
+     console.log('Init');
+    } 
 
-    handleDisconnect() {
-        console.log('disconnect');
+   
+    handleDisconnect(client: Socket) {
+     console.log(`Client disconnected: ${client.id}`);
     }
-    @SubscribeMessage('message')
-    async handlemessage(@MessageBody() Body, socket: Socket)
-    {
-        console.log(Body.roomId);
-        //await socket.to(Body.roomId).emit('message', Body.message);
-        await this.prisma.messages.create({
-            data: {
-                roomId: +Body.roomId,
-                data: Body.data
-            }
-        })
+   
+    handleConnection(client: Socket) {
+     console.log(`Client connected: ${client.id}`); 
     }
-    // private disconnect (client: Socket)
-    // {
-    //     client.disconnect();
-    // }
+   }
