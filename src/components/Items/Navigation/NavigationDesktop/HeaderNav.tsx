@@ -13,8 +13,8 @@ export default function HeaderNav({messages}:typeProps) {
     <section className={`hidden lg:flex justify-between items-center mr-4 ml-64 pt-7 gap-5 ${(messages)?'pb-7':''}`}>
         {
             (!messages)?(
-            <div className='flex-1 2xl:flex 2xl:justify-center'>
-                <div className='flex items-center bg-shape pr-4 rounded-md search'>
+            <div className='flex-1'>
+                <div className='flex items-center bg-shape pr-4 rounded-md'>
                     <input type="text" placeholder='Search for user' className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-3 pl-4 pr-1.5 focus:outline-none text-primaryText'/>
                     <SearchIcon edit="w-4"/>
                 </div>

@@ -9,11 +9,11 @@ function App() {
   return (
     <HashRouter>
       <Navigation />
-      <Routes>
-        <Route path='/' element={<Home/>} />
-        <Route path='/Messages' element={<Messages/>} />
-        <Route path='/Profile' element={<Profile/>} />
-      </Routes>
+        <Routes>
+          <Route path='/' element={<Home/>} />
+          <Route path='/Messages' element={<Messages/>} />
+          <Route path='/Profile' element={<Profile/>} />
+        </Routes>
     </HashRouter>
   );
 }

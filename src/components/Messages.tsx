@@ -10,8 +10,8 @@ export default function Messages() {
 
   return (
     <main className='flex flex-col h-full relative overflow-hidden pt-0'>
-      <div className='h-full overflow-auto 2xl:flex 2xl:justify-center mb-7 pb-7 2xl:mb-10'>
-        <div className='flex flex-col content 2xl:w-full gap-20'>
+      <div className='h-full overflow-auto mb-7 pb-7'>
+        <div className='flex flex-col gap-20'>
           <BoxMessagesFriend />
           <BoxMessagesUser />
           <BoxMessagesFriend />

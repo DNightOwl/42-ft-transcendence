@@ -14,7 +14,7 @@ interface typeprops{
 export default function SideNav({messages,setMessages}:typeprops) {
 
   return (
-    <section className=' hidden lg:flex flex-col py-7 left-0 fixed gap-12  bg-sideBackground w-60 h-full'>
+    <section className=' hidden lg:flex flex-col py-7 left-0 2xl:left-auto fixed gap-12  bg-sideBackground w-60 h-full'>
     <Link to="/" className='flex items-center justify-center'>
         <img src={logo} alt="Pong logo" className='w-44' />
     </Link>

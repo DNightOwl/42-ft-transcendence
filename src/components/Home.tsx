@@ -8,7 +8,7 @@ export default function Home() {
   
   return (
     <main>
-      <div className='flex flex-col gap-5 w-full h-full content lg:mx-auto'>
+      <div className='flex flex-col gap-5 w-full h-full'>
         <h1 className='text-primaryText text-2xl flex items-center gap-1.5'><span>Live Games</span><img src={fire} alt="fire"  className='w-4'/></h1>
         <section className='flex flex-col gap-6 lg:flex-row lg:items-start'>
           <button className='w-full h-96 bg-shape rounded-xl lg:flex-1 primary-live'></button>
