@@ -43,6 +43,8 @@ export class RoomController
             await this.roomservice.addtoroomprotected(user, room);
      }
 
+     
+
      @UseGuards(JwtAuthGuard)
      @Post('quiteRoom')
      async  quite_room(@Req() req: dbUser, @Body() rom)
@@ -83,19 +85,19 @@ export class RoomController
     }
 
     
-    @UseGuards(JwtAuthGuard)
-    @Patch('muted')
-    async muteduser(@Req() req: dbUser, @Body() room) {
-        const user = req.user;
-         await moment().add(1, 'days').calendar()
-        // await this.prisma.muted.create({
-        //   data: {
-        //     roomName: room.name,
-        //     userLogin: room.userLogin,
-        //     time: time
-        //   }
-        // }) 
-      }
+    // @UseGuards(JwtAuthGuard)
+    // @Patch('muted')
+    // async muteduser(@Req() req: dbUser, @Body() room) {
+    //     const user = req.user;
+    //      await moment().add(1, 'days').calendar()
+    //     // await this.prisma.muted.create({
+    //     //   data: {
+    //     //     roomName: room.name,
+    //     //     userLogin: room.userLogin,
+    //     //     time: time
+    //     //   }
+    //     // }) 
+    //   }
 
 }
 
