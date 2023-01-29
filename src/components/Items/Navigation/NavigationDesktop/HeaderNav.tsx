@@ -5,10 +5,11 @@ import CardState from '../../CardState'
 
 
 interface typeProps{
-    messages:boolean;
+    messages:boolean,
+    chatState:any
 }
 
-export default function HeaderNav({messages}:typeProps) {
+export default function HeaderNav({messages,chatState}:typeProps) {
   return (
     <section className={`hidden lg:flex justify-between items-center mr-4 ml-64 pt-7 gap-5 ${(messages)?'pb-7':''}`}>
         {
@@ -20,7 +21,7 @@ export default function HeaderNav({messages}:typeProps) {
                 </div>
             </div>
             ):(
-                <CardState/>
+                <CardState chatState={chatState}/>
             )
         }
         <div className='flex items-center gap-5'>

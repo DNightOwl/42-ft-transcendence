@@ -19,7 +19,7 @@ export default function MessagesList({chatState,setChatState}:typeprops) {
           {
             (dataChat)?(
               dataChat.map((e,index)=>{
-                return <CardFriendMessage data={dataChat[index]} key={index}/>
+                return <CardFriendMessage data={dataChat[index]} key={index} setChatState={setChatState}/>
               })
             ):null
           }

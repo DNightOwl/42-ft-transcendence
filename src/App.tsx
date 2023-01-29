@@ -8,7 +8,6 @@ import Profile from "./components/Profile";
 import {dataChat} from './Data'
 
 function App() {
-  console.log(dataChat);
   const [chatState,setChatState] = useState(dataChat[0]);
   
   return (

@@ -21,7 +21,7 @@ export default function NavigationDesktop({chatState ,setChatState}:typeprops) {
   return (
     <React.Fragment>
       <SideNav messages={messages} setMessages={setMessages} chatState={chatState} setChatState={setChatState}/>
-      <HeaderNav messages={messages}/>
+      <HeaderNav messages={messages} chatState={chatState}/>
     </React.Fragment>
   )
 }
