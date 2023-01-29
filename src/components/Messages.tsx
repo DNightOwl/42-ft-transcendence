@@ -29,7 +29,7 @@ export default function Messages({chatState}:typeProps) {
         </div>
       </div>
         <div className='flex items-center bg-shape pr-2 rounded-md absolute w-full bottom-3 send'>
-            <input type="text" placeholder='Type a message' className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-3 pl-3 pr-2 focus:outline-none text-primaryText'/>
+            <input type="text" placeholder='Type a message' className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-5 pl-3 pr-2 focus:outline-none text-primaryText'/>
             <button className='bg-primary w-8 h-8 flex justify-center items-center rounded-md'>
               <SendIcon edit="w-4 fill-white"/>
             </button>

@@ -9,15 +9,19 @@ interface Props{
 }
 
 export default function CardFriendMessage(props:Props) {
-  const [id,setId] = useState<number>(dataChat[0].id)
+  const [id,setId] = useState<number>(dataChat[0].id);
   return (
     <React.Fragment>
-    <Link to="/Messages" className='flex justify-between btn-message px-2 py-4 hover:bg-backgroundHover' onClick={()=>{
-      dataChat.map((e,index)=>{
-        if(e.id === id)
-          props.setChatState(dataChat[index]);
-        })
-        setId(props.data.id);
+    <Link to="/Messages" className={`flex justify-between btn-message px-2 py-4 hover:bg-backgroundHover btn-friend-message ${props.data.id === id ? 'bg-backgroundHover':null}`} onClick={(event)=>{
+
+        let btnMessage = document.querySelectorAll(".btn-friend-message");
+        btnMessage.forEach((e)=>{e.classList.remove("bg-backgroundHover")});
+
+        dataChat.forEach((e,index)=>{
+          if(e.id === props.data.id)
+            props.setChatState(dataChat[index]);
+          setId(props.data.id);
+          })
     }}>
       <div className='flex items-center gap-2'>
       <img src={props.data.picture} alt="Friend" className='w-10 h-10 rounded-full' />
