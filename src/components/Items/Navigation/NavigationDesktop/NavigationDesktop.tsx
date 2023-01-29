@@ -1,27 +1,20 @@
-import React, { useState,useEffect } from 'react';
+import React from 'react';
 import SideNav from './SideNav';
 import HeaderNav from './HeaderNav';
-import { useLocation } from 'react-router-dom';
 
 
 interface typeprops{
   chatState:any,
   setChatState:React.Dispatch<React.SetStateAction<any>>
+  message:boolean,
+  setMessages:React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function NavigationDesktop({chatState ,setChatState}:typeprops) {
-  const [messages,setMessages] = useState(false);
-  const location = useLocation();
-  useEffect(()=>{
-    if(location.pathname === "/Messages")
-      setMessages(true);
-    else
-      setMessages(false)
-  },[location.pathname]);
+export default function NavigationDesktop({chatState ,setChatState, message, setMessages}:typeprops) {
   return (
     <React.Fragment>
-      <SideNav messages={messages} setMessages={setMessages} chatState={chatState} setChatState={setChatState}/>
-      <HeaderNav messages={messages} chatState={chatState}/>
+      <SideNav messages={message} setMessages={setMessages} chatState={chatState} setChatState={setChatState}/>
+      <HeaderNav messages={message} chatState={chatState}/>
     </React.Fragment>
   )
 }

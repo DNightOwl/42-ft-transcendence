@@ -26,6 +26,47 @@ export const dataChat = [
                 "message": "welcome my friend",
                 "time": "10:45"
             },
+            {
+                "type": "friend",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "friend",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "friend",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "friend",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "friend",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "friend",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "friend",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "friend",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+
         ]
     },
     {
@@ -42,7 +83,7 @@ export const dataChat = [
             },
             {
                 "type": "user",
-                "message": "welcome my friend",
+                "message": "fen a hamada m3ach la3bin",
                 "time": "10:45"
             },
             {

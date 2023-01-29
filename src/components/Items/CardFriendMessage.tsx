@@ -12,7 +12,7 @@ export default function CardFriendMessage(props:Props) {
   const [id,setId] = useState<number>(dataChat[0].id);
   return (
     <React.Fragment>
-    <Link to="/Messages" className={`flex justify-between btn-message px-2 py-4 hover:bg-backgroundHover btn-friend-message ${props.data.id === id ? 'bg-backgroundHover':null}`} onClick={(event)=>{
+    <Link to="/Messages" className={`flex justify-between btn-message px-2 py-4 lg:hover:bg-backgroundHover btn-friend-message ${props.data.id === id ? 'bg-backgroundHover':null}`} onClick={(event)=>{
 
         let btnMessage = document.querySelectorAll(".btn-friend-message");
         btnMessage.forEach((e)=>{e.classList.remove("bg-backgroundHover")});

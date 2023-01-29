@@ -1,6 +1,7 @@
-import React from 'react'
+import React , {useState,useEffect} from 'react'
 import NavigationDesktop from './NavigationDesktop/NavigationDesktop';
 import NavigationPhone from './NavigationPhone/NavigationPhone';
+import { useLocation } from 'react-router-dom';
 
 interface typeprops{
   chatState: any,
@@ -8,9 +9,17 @@ interface typeprops{
 }
 
 export default function Navigation({chatState,setChatState}:typeprops) {
+  const [messages,setMessages] = useState(false);
+  const location = useLocation();
+  useEffect(()=>{
+    if(location.pathname === "/Messages")
+      setMessages(true);
+    else
+      setMessages(false)
+  },[location.pathname]);
   return (
     <React.Fragment>
-      <NavigationDesktop chatState={chatState} setChatState={setChatState} />
+      <NavigationDesktop chatState={chatState} setChatState={setChatState} message={messages} setMessages = {setMessages} />
       <NavigationPhone />
     </React.Fragment>
   )
