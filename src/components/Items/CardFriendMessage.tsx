@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {PointsIcon} from '../Items/Icons';
 import {Link} from 'react-router-dom';
 import { dataChat } from '../../Data';
@@ -9,10 +9,15 @@ interface Props{
 }
 
 export default function CardFriendMessage(props:Props) {
+  const [id,setId] = useState<number>(dataChat[0].id)
   return (
     <React.Fragment>
     <Link to="/Messages" className='flex justify-between btn-message px-2 py-4 hover:bg-backgroundHover' onClick={()=>{
-           props.setChatState(dataChat[1]);
+      dataChat.map((e,index)=>{
+        if(e.id === id)
+          props.setChatState(dataChat[index]);
+        })
+        setId(props.data.id);
     }}>
       <div className='flex items-center gap-2'>
       <img src={props.data.picture} alt="Friend" className='w-10 h-10 rounded-full' />

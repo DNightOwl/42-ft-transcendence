@@ -1,5 +1,6 @@
 export const dataChat = [
     {
+        "id":1,
         "username": "mustapha",
         "picture": "https://cdn.intra.42.fr/users/2cc53519ab737304bcdd74e4125c3e61/mouassit.jpg",
         "status" : "online",
@@ -28,6 +29,7 @@ export const dataChat = [
         ]
     },
     {
+        "id": 2,
         "username": "hamada",
         "picture": "https://cdn.intra.42.fr/users/ff6864ec8edf66b440972b6a3859f391/houbeid.jpg",
         "status" : "offline",
@@ -56,6 +58,7 @@ export const dataChat = [
         ]
     },
     {
+        "id": 3,
         "username": "Nassim",
         "picture": "https://cdn.intra.42.fr/users/6d3534637f3c4cad95472c7bffaaa421/nabboudi.jpg",
         "status" : "online",
@@ -85,6 +88,7 @@ export const dataChat = [
     },
 
     {
+        "id":4,
         "username": "Lamiaa",
         "picture": "https://cdn.intra.42.fr/users/52e4bf80ec0c61ea68ae59863d5b7fb5/laafilal.jpg",
         "status" : "offline",
