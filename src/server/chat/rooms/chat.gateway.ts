@@ -19,30 +19,25 @@ import {
        origin: '*',
      },
    })
-   export class ChatGateway implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect {
+   export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
    constructor(private prisma: PrismaService, private roomservice: RoomService) {}
     @WebSocketServer() server: Server;
 
    
-    @UseGuards(JwtAuthGuard)
-    @SubscribeMessage('msgToServer')
-   async  handleMessage(client: Socket, @MessageBody() Body, @Req() req: dbUser) {
-    const user = req.user
-    //   console.log(payload)
-    //  this.server.emit('msgToClient', payload);
+    @SubscribeMessage('msgServer')
+   async handleMessage(clien: Socket, @MessageBody() Body, @Req() req: dbUser) {
       const msg = await this.prisma.messages.create({
         data: {
             roomName: Body.name,
             data: Body.data,
-            userLogin: user.login
-      }
-  })
-  console.log(msg.roomName);
-    }
+            userLogin: Body.login
+        }
+    })
+  }
    
-    afterInit(server: Server) {
-     console.log('Init');
-    } 
+    // afterInit(server: Server) {
+    //  console.log('Init');
+    // } 
 
    
     handleDisconnect(client: Socket) {
