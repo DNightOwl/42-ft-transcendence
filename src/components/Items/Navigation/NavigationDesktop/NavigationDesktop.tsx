@@ -3,7 +3,13 @@ import SideNav from './SideNav';
 import HeaderNav from './HeaderNav';
 import { useLocation } from 'react-router-dom';
 
-export default function NavigationDesktop() {
+
+interface typeprops{
+  chatState:any,
+  setChatState:React.Dispatch<React.SetStateAction<any>>
+}
+
+export default function NavigationDesktop({chatState ,setChatState}:typeprops) {
   const [messages,setMessages] = useState(false);
   const location = useLocation();
   useEffect(()=>{
@@ -14,7 +20,7 @@ export default function NavigationDesktop() {
   },[location.pathname]);
   return (
     <React.Fragment>
-      <SideNav messages={messages} setMessages={setMessages}/>
+      <SideNav messages={messages} setMessages={setMessages} chatState={chatState} setChatState={setChatState}/>
       <HeaderNav messages={messages}/>
     </React.Fragment>
   )

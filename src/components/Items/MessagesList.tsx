@@ -2,7 +2,15 @@ import React from 'react';
 import {SearchIcon} from '../Items/Icons';
 import CardFriendMessage from './CardFriendMessage';
 
-export default function MessagesList() {
+interface typeprops{
+  chatState:any,
+  setChatState:React.Dispatch<React.SetStateAction<any>>
+}
+
+export default function MessagesList({chatState,setChatState}:typeprops) {
+  {
+    console.log(chatState)
+  }
   return (
     <div className='flex flex-col h-full  gap-6'>
         <div className='flex items-center bg-shape mx-2 pl-2 rounded-md'>

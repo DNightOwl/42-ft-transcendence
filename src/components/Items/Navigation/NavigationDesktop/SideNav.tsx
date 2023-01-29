@@ -7,11 +7,13 @@ import { HomeIcon,MessagesIcon,UserIcon} from '../../Icons';
 import MessagesContainer from '../../MessagesContainer';
 
 interface typeprops{
-  messages:boolean;
-  setMessages:React.Dispatch<React.SetStateAction<boolean>>
+  messages:boolean
+  setMessages:React.Dispatch<React.SetStateAction<boolean>>,
+  chatState:any,
+  setChatState:React.Dispatch<React.SetStateAction<any>>
 }
 
-export default function SideNav({messages,setMessages}:typeprops) {
+export default function SideNav({messages,setMessages,chatState,setChatState}:typeprops) {
 
   return (
     <section className=' hidden lg:flex flex-col py-7 left-0 2xl:left-auto fixed gap-12  bg-sideBackground w-60 h-full'>
@@ -56,7 +58,7 @@ export default function SideNav({messages,setMessages}:typeprops) {
         </div>
       </React.Fragment>
       ):(
-        <MessagesContainer/>
+        <MessagesContainer chatState={chatState} setChatState={setChatState}/>
       )
     }
 </section>

@@ -3,7 +3,11 @@ import BoxMessagesFriend from './Items/BoxMessagesFriend';
 import BoxMessagesUser from './Items/BoxMessagesUser';
 import { SendIcon } from './Items/Icons';
 
-export default function Messages() {
+interface typeProps{
+  chatState:any
+}
+
+export default function Messages({chatState}:typeProps) {
   useEffect(()=>{
     document.title = "Pong - Messages";
   });
