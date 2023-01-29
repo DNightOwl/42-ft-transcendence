@@ -59,8 +59,9 @@ export default function SideNav({messages,setMessages,chatState,setChatState}:ty
       </React.Fragment>
       ):(
         <MessagesContainer chatState={chatState} setChatState={setChatState}/>
-      )
+      ) 
     }
+
 </section>
   )
 }

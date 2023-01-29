@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {PointsIcon} from '../Items/Icons';
 import {Link} from 'react-router-dom';
 import { dataChat } from '../../Data';
@@ -9,18 +9,18 @@ interface Props{
 }
 
 export default function CardFriendMessage(props:Props) {
-  const [id,setId] = useState<number>(dataChat[0].id);
+  
   return (
     <React.Fragment>
-    <Link to="/Messages" className={`flex justify-between btn-message px-2 py-4 lg:hover:bg-backgroundHover btn-friend-message ${props.data.id === id ? 'bg-backgroundHover':null}`} onClick={(event)=>{
+    <Link to="/Messages" className={`flex justify-between btn-message px-2 py-4 lg:hover:bg-backgroundHover btn-friend-message ${props.data.id === dataChat[0].id ? 'bg-backgroundHover':null}`} onClick={(event)=>{
 
         let btnMessage = document.querySelectorAll(".btn-friend-message");
         btnMessage.forEach((e)=>{e.classList.remove("bg-backgroundHover")});
+        event.currentTarget.classList.add("bg-backgroundHover")
 
         dataChat.forEach((e,index)=>{
           if(e.id === props.data.id)
             props.setChatState(dataChat[index]);
-          setId(props.data.id);
           })
     }}>
       <div className='flex items-center gap-2'>

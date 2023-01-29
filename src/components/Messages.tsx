@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import BoxMessagesFriend from './Items/BoxMessagesFriend';
 import BoxMessagesUser from './Items/BoxMessagesUser';
 import { SendIcon } from './Items/Icons';
-import MessagesList from './Items/MessagesList';
+import MessagesContainer from './Items/MessagesContainer';
 
 interface typeProps{
   chatState:any,
@@ -16,7 +16,7 @@ export default function Messages({chatState,setChatState}:typeProps) {
 
   return (
     <React.Fragment>
-    <main className='lg:pt-0 overflow-hidden h-full'>
+    <main className='lg:pt-0 overflow-hidden h-full mx-0 lg:ml-64 lg:mr-4'>
       <div className='hidden lg:flex flex-col h-full relative overflow-hidden mb-8 pb-8'>
         <div className='h-full overflow-auto mb-8 pb-8'>
           <div className='flex flex-col gap-20'>
@@ -39,7 +39,7 @@ export default function Messages({chatState,setChatState}:typeProps) {
             </button>
         </div>
       </div>
-      <MessagesList chatState={chatState} setChatState={setChatState}/>
+      <MessagesContainer chatState={chatState} setChatState={setChatState}/>
     </main>
     </React.Fragment>
   )
