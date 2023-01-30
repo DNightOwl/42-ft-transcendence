@@ -17,6 +17,9 @@ import { prisma } from '@prisma/client';
 import { dbUser } from '../../users/dto/types';
 import moment, * as moments from 'moment';
 
+interface mytype{
+    name:string
+}
 
 @Controller('rooms')
 export class RoomController
@@ -27,21 +30,22 @@ export class RoomController
     async CreateRoom(@Req() req: dbUser, @Body() room) {
         const user = req.user
         if (room.type === "public" || room.type === "private")
-            await this.roomservice.CreateRoom(user.login, room.name, room.type);
+        await this.roomservice.CreateRoom(user.login, room.name, room.type);
         else
-            await this.roomservice.CreateRoomprotected(user.login, room.name, room.type, room.password);
-      }
+        await this.roomservice.CreateRoomprotected(user.login, room.name, room.type, room.password);
+    }
 
-      @UseGuards(JwtAuthGuard)
-      @Post('/addtoroom')
-     async  addtoroom(@Req() req: dbUser, @Body() room)
-     {
+    
+    @UseGuards(JwtAuthGuard)
+    @Post('/addtoroom')
+    async  addtoroom(@Req() req: dbUser, @Body() room)
+    {
         const user = req.user
         if (room.type === "public")
-            await this.roomservice.addtoroom(user, room.name);
+        await this.roomservice.addtoroom(user, room.name);
         else
-            await this.roomservice.addtoroomprotected(user, room);
-     }
+        await this.roomservice.addtoroomprotected(user, room);
+    }
 
      
 
@@ -88,6 +92,14 @@ export class RoomController
     async   getMessage(@Body() room)
     {
         return await this.roomservice.getMessage(room.name);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('allmessagePers')
+    async   getMessagepers(@Req() req: dbUser)
+    {
+        const user = req.user
+        return await this.roomservice.getMessagepers("personnel", user);
     }
     
     // @UseGuards(JwtAuthGuard)

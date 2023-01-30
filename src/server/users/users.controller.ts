@@ -8,12 +8,13 @@ import { PrismaService } from "src/server/prisma/prisma.service";
 import { FileInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
 import { diskStorage } from 'multer';
+import { RoomService } from '../chat/rooms/room.service';
 
 
 
 @Controller('profile')
 export class UsersController {
-  constructor(private readonly usersService: UsersService, private prisma: PrismaService) {}
+  constructor(private readonly usersService: UsersService, private prisma: PrismaService, private roomservice: RoomService) {}
 
   // @Get()
   // getAllUsers(req: RequestWithUser) {
@@ -84,6 +85,8 @@ export class UsersController {
       if (id1)
           throw new ForbiddenException('already freinds');
       this.usersService.addfreind(user.login, freind.login)
+      await this.roomservice.CreateRoom(user.login, freind.login, "personnel");
+      await this.roomservice.addtoroom(freind, freind.login);
   }
 
   @UseGuards(JwtAuthGuard)

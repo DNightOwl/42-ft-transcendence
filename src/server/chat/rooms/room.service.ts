@@ -1,10 +1,16 @@
 import { ForbiddenException, Injectable} from "@nestjs/common";
+import { use } from "passport";
 import { PrismaService } from "src/server/prisma/prisma.service";
 import { comparepassword, hashPassword} from "./utils/bcrypt";
+import { typeObject } from "./utils/typeObject";
+
+
+
 
 @Injectable()
-export class RoomService 
+export class RoomService
 {
+
     constructor(private prisma: PrismaService) {}
     async CreateRoom(userlogin: string, name: string, type: string) {
         const rooms = await this.prisma.room.findUnique({
@@ -254,6 +260,20 @@ export class RoomService
 
       async   getMessage(name: string)
     {
+      // interface typeobject{
+      //   type: string
+      //   message: string
+      // }
+      // interface typeObject{
+      //   id:string
+      //   username:string
+      //   latestMessage: string
+      //   conversation:typeObject[]
+      // }
+      // for (let index = 0; index < 8; index++) {
+      //   let person:typeObject;
+
+      // }
         const allmessage = await this.prisma.room.findUnique({
             where: {
                 name: name
@@ -262,7 +282,47 @@ export class RoomService
                     message: true
                 }
         })
-        return allmessage;
+        let v = allmessage.message.length;
+        return allmessage.message[v - 1];
     }
 
+    async   getMessagepers(type: string, user1: any):Promise<typeObject[]>
+    {
+        const rooms = await this.prisma.room.findMany({
+          where: {
+            type: type
+          }
+        })
+        let obj: typeObject[] = []; 
+        for (let index = 0; index < rooms.length; index++)
+        {
+          // let person : typeObject = {÷};
+            const user = await this.prisma.user.findUnique({
+              where: {
+                login: rooms[index].name
+              } 
+            });
+            const allmessage = await this.prisma.room.findUnique({
+              where: {
+                  name: rooms[index].name
+              },
+                  select: {
+                      message: true
+                  }
+          })
+            let person : typeObject = {id : user.id, username : user.login, latestMessage: allmessage.message[allmessage.message.length - 1].data   , conversation : []};
+          person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
+          for (let i = allmessage.message.length - 1; i >= 0 ;i--)
+          {
+            //person.conversation[i].message = allmessage.message[i].data;
+            if (user1.login == allmessage.message[i].userLogin)
+                person.conversation[i].type = "user";
+            else
+              person.conversation[i].type = "freind";  
+
+          }
+          obj.push(person);
+        }
+        return obj;
+    }
 }
