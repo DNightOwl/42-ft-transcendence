@@ -1,15 +1,20 @@
 import React from 'react'
-import { useState,useEffect,Children } from 'react';
+import { useEffect} from 'react';
 
 interface Props {
   children: JSX.Element | JSX.Element[] | string,
 
 };
 
-let activeTab:React.Dispatch<React.SetStateAction<number>>;
-let result:any;
-
 export function Tabs({children}:Props) {
+  useEffect(()=>{
+    let btnSwitcher = document.querySelectorAll(".btn-switcher");
+    let sideContent = document.querySelectorAll(".side-content")
+    
+    btnSwitcher[0].classList.add("tab-active");
+    if(sideContent[0])
+      sideContent[0].classList.remove("hidden");
+  },[])
   return (
     <div className='flex flex-col gap-6 h-full overflow-hidden'>
         {children}
@@ -18,7 +23,6 @@ export function Tabs({children}:Props) {
 }
 
 export function TabsList({children}:Props) {
-  result = Children.toArray(children);
     return (
       <div className='text-sm flex items-center px-2'>
           {children}
@@ -27,43 +31,68 @@ export function TabsList({children}:Props) {
   }
 
   export function Tab({children}:Props) {
-    useEffect(()=>{
-      let btnSwitcher = document.querySelectorAll(".btn-switcher");
-      btnSwitcher[0].classList.add("tab-active");
-    },[])
-    
     return (
       <button className="btn-switcher"
       onClick={(e)=>{
-        const arrayChilds:any = Children.toArray(children);
         let btnSwitcher = document.querySelectorAll(".btn-switcher");
-        btnSwitcher.forEach(e=>{
+        let sideContent = document.querySelectorAll(".side-content");
+
+        btnSwitcher.forEach((e,index)=>{
           e.classList.remove("tab-active");
+          if(sideContent[index])
+            sideContent[index].classList.add("hidden");
         })
         e.currentTarget.classList.add("tab-active");
-        result.forEach((element:any,index:number) => {
-          if(element.props.children + index === arrayChilds[0] + index)
+
+        btnSwitcher.forEach(elemet=>{
+          if(elemet.innerHTML === e.currentTarget.innerHTML)
           {
-              activeTab(index);
+            let find:boolean = false;
+            let temp:number = 0;
+            btnSwitcher.forEach((e,index)=>{
+            e.classList.forEach((element)=>{
+            if(element === "tab-active")
+            {
+              find = true;
+              temp = index;
+              if(sideContent[index])
+                sideContent[index].classList.remove("hidden");
               return;
+            }
+            })
+            if(find)
+              return;
+          })
+          if(temp >= btnSwitcher.length / 2)
+          {
+            if(btnSwitcher[temp - (btnSwitcher.length / 2)])
+              btnSwitcher[temp - (btnSwitcher.length / 2)].classList.add("tab-active");
+            if(sideContent[temp - (btnSwitcher.length / 2)])
+              sideContent[temp - (btnSwitcher.length / 2)].classList.remove("hidden");
           }
-        });
-      }}>
-          {children}
+          else
+          {
+            if(btnSwitcher[temp + (btnSwitcher.length / 2)])
+              btnSwitcher[temp + (btnSwitcher.length / 2)].classList.add("tab-active");
+            if(sideContent[temp + (btnSwitcher.length / 2)])
+            sideContent[temp + (btnSwitcher.length / 2)].classList.remove("hidden");
+          }
+          return ;
+        }
+      })
+    }}>
+      {children}
       </button>
     )
   }
 
   export function TabsPanels({children}:Props) {
-    const [state,setState] = useState<number>(0);
-    activeTab = setState;
-    const arrayChilds = Children.toArray(children);
-    return <div className='h-full overflow-hidden'>{arrayChilds[state]}</div>
+    return <div className='h-full overflow-hidden'>{children}</div>
   }
 
   export function TabContent({children}:Props) {
     return (
-      <div className='h-full overflow-hidden'>
+      <div className='hidden h-full overflow-hidden side-content'>
           {children}
       </div>
     )
