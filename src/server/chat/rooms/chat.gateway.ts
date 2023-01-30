@@ -46,8 +46,13 @@ import {
 
     }
    
-    handleConnection(client: Socket) {
+   async  handleConnection(client: Socket) {
      //console.log(`Client connected: ${client.id}`); 
+     const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
+     //const jwttoken = client.handshake.headers.cookie;
+    const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
+  
      console.log(client.id);
+     //console.log(user);
     }
    }

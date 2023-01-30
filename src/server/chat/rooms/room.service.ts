@@ -3,6 +3,9 @@ import { use } from "passport";
 import { PrismaService } from "src/server/prisma/prisma.service";
 import { comparepassword, hashPassword} from "./utils/bcrypt";
 import { typeObject } from "./utils/typeObject";
+import { JwtService } from "@nestjs/jwt";
+import { ConfigService } from '@nestjs/config';
+
 
 
 
@@ -11,7 +14,35 @@ import { typeObject } from "./utils/typeObject";
 export class RoomService
 {
 
-    constructor(private prisma: PrismaService) {}
+    constructor(
+      private prisma: PrismaService,
+      private jwt: JwtService,
+      private config: ConfigService
+      ) {}
+
+    public async getUserFromAuthenticationToken(token: string) {
+      if (token) {
+        const payload = await this.jwt.verify(token, {
+            secret: this.config.get("ACCESS_TOKEN_SECRET"),
+        })
+        if (payload.userId) {
+            const user =  await this. prisma.user.findUnique({
+                where: {
+                    id: payload.userId
+                },
+                select: {
+                    id: true,
+                    nickname: true,
+                    pictureLink: true,
+                    login: true,
+                    status: true
+                }
+            });
+            return user;
+        }
+
+      }
+  }
     async CreateRoom(userlogin: string, name: string, type: string) {
         const rooms = await this.prisma.room.findUnique({
           where: {
@@ -293,13 +324,14 @@ export class RoomService
             type: type
           }
         })
+        console.log(rooms[0].name);
         let obj: typeObject[] = []; 
         for (let index = 0; index < rooms.length; index++)
         {
           // let person : typeObject = {÷};
             const user = await this.prisma.user.findUnique({
               where: {
-                login: rooms[index].name
+                  login: rooms[index].name             
               } 
             });
             const allmessage = await this.prisma.room.findUnique({
@@ -324,5 +356,26 @@ export class RoomService
           obj.push(person);
         }
         return obj;
+    }
+
+    parseCookie(cookie: string) : string
+    {
+      let jwttoken: string ="";
+        for (let index = 0; index < cookie.length; index++)
+        {
+          if (cookie[index] == "=")
+          {
+            index++;
+            let i = 0;
+            while(index != cookie.length)
+            {
+              jwttoken += cookie[index];
+              i++;
+              index++;
+            }
+            break;
+          }
+        }
+        return jwttoken;
     }
 }
