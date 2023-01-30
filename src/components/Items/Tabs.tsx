@@ -44,42 +44,44 @@ export function TabsList({children}:Props) {
         })
         e.currentTarget.classList.add("tab-active");
 
+        let find:boolean = false;
+        let temp:number = 0;
+        btnSwitcher.forEach((e,index)=>{
+        e.classList.forEach((element)=>{
+        if(element === "tab-active")
+        {
+          find = true;
+          temp = index;
+          if(sideContent[index])
+            sideContent[index].classList.remove("hidden");
+          return;
+        }
+        })
+        if(find)
+          return;
+      })
+
+
         btnSwitcher.forEach(elemet=>{
           if(elemet.innerHTML === e.currentTarget.innerHTML)
           {
-            let find:boolean = false;
-            let temp:number = 0;
-            btnSwitcher.forEach((e,index)=>{
-            e.classList.forEach((element)=>{
-            if(element === "tab-active")
+            if(temp >= btnSwitcher.length / 2)
             {
-              find = true;
-              temp = index;
-              if(sideContent[index])
-                sideContent[index].classList.remove("hidden");
-              return;
+              if(btnSwitcher[temp - (btnSwitcher.length / 2)])
+                btnSwitcher[temp - (btnSwitcher.length / 2)].classList.add("tab-active");
+              if(sideContent[temp - (btnSwitcher.length / 2)])
+                sideContent[temp - (btnSwitcher.length / 2)].classList.remove("hidden");
             }
-            })
-            if(find)
-              return;
-          })
-          if(temp >= btnSwitcher.length / 2)
-          {
-            if(btnSwitcher[temp - (btnSwitcher.length / 2)])
-              btnSwitcher[temp - (btnSwitcher.length / 2)].classList.add("tab-active");
-            if(sideContent[temp - (btnSwitcher.length / 2)])
-              sideContent[temp - (btnSwitcher.length / 2)].classList.remove("hidden");
+            else
+            {
+              if(btnSwitcher[temp + (btnSwitcher.length / 2)])
+                btnSwitcher[temp + (btnSwitcher.length / 2)].classList.add("tab-active");
+              if(sideContent[temp + (btnSwitcher.length / 2)])
+              sideContent[temp + (btnSwitcher.length / 2)].classList.remove("hidden");
+            }
+            return ;
           }
-          else
-          {
-            if(btnSwitcher[temp + (btnSwitcher.length / 2)])
-              btnSwitcher[temp + (btnSwitcher.length / 2)].classList.add("tab-active");
-            if(sideContent[temp + (btnSwitcher.length / 2)])
-            sideContent[temp + (btnSwitcher.length / 2)].classList.remove("hidden");
-          }
-          return ;
-        }
-      })
+        })
     }}>
       {children}
       </button>
