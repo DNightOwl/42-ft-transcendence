@@ -15,12 +15,12 @@ export default function Messages({chatState,setChatState,conversation,setConvers
   useEffect(()=>{
     document.title = "Pong - Messages";
   });
-
+  
   return (
     <React.Fragment>
     <main className='lg:pt-0 overflow-hidden h-full lg:ml-64 lg:mr-4 pb-0'>
-      <div className={`${conversation?'':'hidden'} lg:flex flex-col h-full relative overflow-hidden mb-12 pb-12 lg:mb-8 lg:pb-8`}>
-        <div className='h-full overflow-auto mb-12 pb-12 lg:mb-8 lg:pb-8'>
+      <div className={`${conversation?'':'hidden'} lg:flex flex-col h-full relative overflow-hidden mb-16 pb-16 lg:mb-8 lg:pb-8`}>
+        <div className='h-full overflow-auto mb-16 pb-16 lg:mb-8 lg:pb-8'>
           <div className='flex flex-col gap-20'>
             {
               (chatState.conversation)?(
@@ -41,8 +41,8 @@ export default function Messages({chatState,setChatState,conversation,setConvers
             </button>
         </div>
       </div>
-      {
-        !conversation?<MessagesContainer chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation}/>:null
+      { 
+        (!conversation)?<MessagesContainer chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation}/>:null
       }
     </main>
     </React.Fragment>
