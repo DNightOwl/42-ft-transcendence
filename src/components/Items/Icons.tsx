@@ -146,4 +146,15 @@ export function ArrowDownIcon(props:typeProps) {
 
     )
   }
+
+  export function ArrowLeftIcon(props:typeProps){
+    return(
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 289.04 492" className={props.edit}>
+  <g id="Group_546" data-name="Group 546" transform="translate(-101.48)">
+    <path id="Path_112" data-name="Path 112" d="M198.608,246.1,382.664,62.04a26.972,26.972,0,0,0,0-38.056L366.536,7.864a26.957,26.957,0,0,0-38.06,0L109.328,227.008a27.161,27.161,0,0,0,0,38.2L328.272,484.136a26.962,26.962,0,0,0,38.064,0l16.124-16.12a26.945,26.945,0,0,0,0-38.06Z"/>
+  </g>
+</svg>
+
+    )
+  }
   

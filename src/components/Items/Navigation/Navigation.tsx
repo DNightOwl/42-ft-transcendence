@@ -27,7 +27,7 @@ export default function Navigation({chatState,setChatState,conversation,setConve
   return (
     <React.Fragment>
       <NavigationDesktop chatState={chatState} setChatState={setChatState} message={messages} setMessages = {setMessages} />
-      <NavigationPhone conversation={conversation} setConversation={setConversation}/>
+      <NavigationPhone conversation={conversation} setConversation={setConversation} chatState={chatState}/>
     </React.Fragment>
   )
 }

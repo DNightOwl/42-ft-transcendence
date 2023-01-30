@@ -22,7 +22,7 @@ export default function Messages({chatState,setChatState,conversation,setConvers
   
   return (
     <React.Fragment>
-    <main className='lg:pt-0 overflow-hidden h-full lg:ml-64 lg:mr-4 pb-0'>
+    <main className={`lg:pt-0 overflow-hidden h-full lg:ml-64 lg:mr-4 pb-0 ${conversation?'pt-0':''}`}>
       <div className={`${conversation?'':'hidden'} lg:flex flex-col h-full relative overflow-hidden mb-16 pb-16 lg:mb-8 lg:pb-8`}>
         <div className='h-full overflow-auto mb-16 pb-16 lg:mb-8 lg:pb-8 conversation'>
           <div className='flex flex-col gap-20'>
