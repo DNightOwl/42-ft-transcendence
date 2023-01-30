@@ -9,13 +9,14 @@ import {dataChat} from './Data'
 
 function App() {
   const [chatState,setChatState] = useState(dataChat[0]);
+  const [conversation,setConversation] = useState<boolean>(false);
   
   return (
     <HashRouter>
-      <Navigation chatState={chatState} setChatState={setChatState}/>
+      <Navigation chatState={chatState} setChatState={setChatState} conversation = {conversation} setConversation={setConversation}/>
         <Routes>
           <Route path='/' element={<Home/>} />
-          <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState}/>} />
+          <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation}/>} />
           <Route path='/Profile' element={<Profile/>} />
         </Routes>
     </HashRouter>

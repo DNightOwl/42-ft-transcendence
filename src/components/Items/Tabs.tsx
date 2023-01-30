@@ -16,7 +16,7 @@ export function Tabs({children}:Props) {
       sideContent[0].classList.remove("hidden");
   },[])
   return (
-    <div className='flex flex-col gap-6 h-full overflow-hidden'>
+    <div className='flex flex-col gap-6 h-full lg:overflow-hidden'>
         {children}
     </div>
   )

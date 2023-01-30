@@ -17,6 +17,61 @@ export const dataChat = [
                 "time": "10:45"
             },
             {
+                "type":"friend",
+                "message": "hey 😃",
+                "time":"10:00", 
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },            {
+                "type":"friend",
+                "message": "hey 😃",
+                "time":"10:00", 
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },            {
+                "type":"friend",
+                "message": "hey 😃",
+                "time":"10:00", 
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },            {
+                "type":"friend",
+                "message": "hey 😃",
+                "time":"10:00", 
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },            {
+                "type":"friend",
+                "message": "hey 😃",
+                "time":"10:00", 
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },            {
+                "type":"friend",
+                "message": "hey 😃",
+                "time":"10:00", 
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
                 "type": "user",
                 "message": "welcome my friend",
                 "time": "10:45"
@@ -128,6 +183,151 @@ export const dataChat = [
         ]
     },
 
+    {
+        "id":4,
+        "username": "Lamiaa",
+        "picture": "https://cdn.intra.42.fr/users/52e4bf80ec0c61ea68ae59863d5b7fb5/laafilal.jpg",
+        "status" : "offline",
+        "latestMessage": "I'm fine",
+        "conversation":[
+            {
+                "type":"friend",
+                "message": "hello from Lamiaa",
+                "time":"01:25", 
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "friend",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+        ]
+    },
+    {
+        "id":4,
+        "username": "Lamiaa",
+        "picture": "https://cdn.intra.42.fr/users/52e4bf80ec0c61ea68ae59863d5b7fb5/laafilal.jpg",
+        "status" : "offline",
+        "latestMessage": "I'm fine",
+        "conversation":[
+            {
+                "type":"friend",
+                "message": "hello from Lamiaa",
+                "time":"01:25", 
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "friend",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+        ]
+    },
+    {
+        "id":4,
+        "username": "Lamiaa",
+        "picture": "https://cdn.intra.42.fr/users/52e4bf80ec0c61ea68ae59863d5b7fb5/laafilal.jpg",
+        "status" : "offline",
+        "latestMessage": "I'm fine",
+        "conversation":[
+            {
+                "type":"friend",
+                "message": "hello from Lamiaa",
+                "time":"01:25", 
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "friend",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+        ]
+    },
+    {
+        "id":4,
+        "username": "Lamiaa",
+        "picture": "https://cdn.intra.42.fr/users/52e4bf80ec0c61ea68ae59863d5b7fb5/laafilal.jpg",
+        "status" : "offline",
+        "latestMessage": "I'm fine",
+        "conversation":[
+            {
+                "type":"friend",
+                "message": "hello from Lamiaa",
+                "time":"01:25", 
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "friend",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+        ]
+    },
+    {
+        "id":4,
+        "username": "Lamiaa",
+        "picture": "https://cdn.intra.42.fr/users/52e4bf80ec0c61ea68ae59863d5b7fb5/laafilal.jpg",
+        "status" : "offline",
+        "latestMessage": "I'm fine",
+        "conversation":[
+            {
+                "type":"friend",
+                "message": "hello from Lamiaa",
+                "time":"01:25", 
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "user",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+            {
+                "type": "friend",
+                "message": "welcome my friend",
+                "time": "10:45"
+            },
+        ]
+    },
     {
         "id":4,
         "username": "Lamiaa",

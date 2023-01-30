@@ -6,22 +6,26 @@ interface Props{
     newMessage?:boolean,
     data:any,
     setChatState:React.Dispatch<React.SetStateAction<any>>
+    conversation?:boolean
+    setConversation?:React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export default function CardFriendMessage(props:Props) {
   
   return (
     <React.Fragment>
-    <Link to="/Messages" className={`flex justify-between btn-message px-2 py-4 lg:hover:bg-backgroundHover btn-friend-message ${props.data.id === dataChat[0].id ? 'bg-backgroundHover':null}`} onClick={(event)=>{
+    <Link to="/Messages" className={`flex justify-between btn-message px-2 py-4 lg:hover:bg-backgroundHover btn-friend-message ${props.data.id === dataChat[0].id ? 'lg:bg-backgroundHover':null}`} onClick={(event)=>{
 
         let btnMessage = document.querySelectorAll(".btn-friend-message");
-        btnMessage.forEach((e)=>{e.classList.remove("bg-backgroundHover")});
-        event.currentTarget.classList.add("bg-backgroundHover")
+        btnMessage.forEach((e)=>{e.classList.remove("lg:bg-backgroundHover")});
+        event.currentTarget.classList.add("lg:bg-backgroundHover")
 
         dataChat.forEach((e,index)=>{
           if(e.id === props.data.id)
-            props.setChatState(dataChat[index]);
-          })
+          props.setChatState(dataChat[index]);
+        })
+        if(props.setConversation)
+          props.setConversation(true);
     }}>
       <div className='flex items-center gap-2'>
       <img src={props.data.picture} alt="Friend" className='w-10 h-10 rounded-full' />

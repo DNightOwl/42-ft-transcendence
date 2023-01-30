@@ -4,10 +4,12 @@ import MessagesList from './MessagesList';
 
 interface typeprops{
     chatState:any,
-    setChatState:React.Dispatch<React.SetStateAction<any>>
+    setChatState:React.Dispatch<React.SetStateAction<any>>,
+    conversation?:boolean,
+    setConversation?:React.Dispatch<React.SetStateAction<boolean>>
   }
 
-export default function MessagesContainer({chatState,setChatState}:typeprops) {
+export default function MessagesContainer({chatState,setChatState,conversation,setConversation}:typeprops) {
   return (
     <Tabs>
         <TabsList>
@@ -16,7 +18,7 @@ export default function MessagesContainer({chatState,setChatState}:typeprops) {
         </TabsList>
         <TabsPanels>
             <TabContent>
-                <MessagesList chatState={chatState} setChatState={setChatState}/>
+                <MessagesList chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation}/>
             </TabContent>
             <TabContent>
                 <div>two</div>
