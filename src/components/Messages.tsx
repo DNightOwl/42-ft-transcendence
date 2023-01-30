@@ -14,13 +14,17 @@ interface typeProps{
 export default function Messages({chatState,setChatState,conversation,setConversation}:typeProps) {
   useEffect(()=>{
     document.title = "Pong - Messages";
-  });
+    let objDiv = document.querySelectorAll(".conversation");
+    objDiv.forEach(e=>{
+      e.scrollTop = e.scrollHeight;
+    })
+  },[chatState]);
   
   return (
     <React.Fragment>
     <main className='lg:pt-0 overflow-hidden h-full lg:ml-64 lg:mr-4 pb-0'>
       <div className={`${conversation?'':'hidden'} lg:flex flex-col h-full relative overflow-hidden mb-16 pb-16 lg:mb-8 lg:pb-8`}>
-        <div className='h-full overflow-auto mb-16 pb-16 lg:mb-8 lg:pb-8'>
+        <div className='h-full overflow-auto mb-16 pb-16 lg:mb-8 lg:pb-8 conversation'>
           <div className='flex flex-col gap-20'>
             {
               (chatState.conversation)?(

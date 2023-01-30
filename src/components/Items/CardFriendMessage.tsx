@@ -27,7 +27,6 @@ export default function CardFriendMessage(props:Props) {
             if(element === "lg:bg-backgroundHover")
             {
               find = true;
-              console.log(btnMessage.length);
               
               if(index >= btnMessage.length / 2)
                 btnMessage[index - (btnMessage.length / 2)].classList.add("lg:bg-backgroundHover");
