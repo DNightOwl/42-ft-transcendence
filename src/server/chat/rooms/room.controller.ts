@@ -95,11 +95,11 @@ export class RoomController
     }
 
     @UseGuards(JwtAuthGuard)
-    @Get('allmessagePers')
-    async   getMessagepers(@Req() req: dbUser)
+    @Get('DM')
+    async   getDM(@Req() req: dbUser)
     {
         const user = req.user
-        return await this.roomservice.getMessagepers("personnel", user);
+        return await this.roomservice.getDM("personnel", user);
     }
     
     // @UseGuards(JwtAuthGuard)

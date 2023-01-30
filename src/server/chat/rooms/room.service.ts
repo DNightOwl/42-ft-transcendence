@@ -286,7 +286,7 @@ export class RoomService
         return allmessage.message[v - 1];
     }
 
-    async   getMessagepers(type: string, user1: any):Promise<typeObject[]>
+    async   getDM(type: string, user1: any):Promise<typeObject[]>
     {
         const rooms = await this.prisma.room.findMany({
           where: {
