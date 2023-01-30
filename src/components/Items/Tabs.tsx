@@ -14,6 +14,16 @@ export function Tabs({children}:Props) {
     btnSwitcher[0].classList.add("tab-active");
     if(sideContent[0])
       sideContent[0].classList.remove("hidden");
+    btnSwitcher.forEach((e,index)=>{
+      if(index > 0 && e.innerHTML === btnSwitcher[0].innerHTML)
+      {
+        if(btnSwitcher[btnSwitcher.length / 2])
+        btnSwitcher[btnSwitcher.length / 2].classList.add("tab-active");
+      if(sideContent[btnSwitcher.length / 2])
+        sideContent[btnSwitcher.length / 2].classList.remove("hidden");
+      }
+    })
+    
   },[])
   return (
     <div className='flex flex-col gap-6 h-full lg:overflow-hidden'>
