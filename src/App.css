@@ -8,6 +8,16 @@ body,html{
     width: 100%;
 }
 
+::-webkit-scrollbar{
+    width: .4rem;
+    height: .4rem;
+}
+
+
+::-webkit-scrollbar-thumb{
+    @apply bg-shape rounded-full
+}
+
 body{
     @apply bg-body;
 }
