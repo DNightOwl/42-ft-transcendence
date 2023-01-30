@@ -17,8 +17,26 @@ export default function CardFriendMessage(props:Props) {
     <Link to="/Messages" className={`flex justify-between btn-message px-2 py-4 lg:hover:bg-backgroundHover btn-friend-message ${props.data.id === dataChat[0].id ? 'lg:bg-backgroundHover':null}`} onClick={(event)=>{
 
         let btnMessage = document.querySelectorAll(".btn-friend-message");
+        let find:boolean = false;
+
         btnMessage.forEach((e)=>{e.classList.remove("lg:bg-backgroundHover")});
         event.currentTarget.classList.add("lg:bg-backgroundHover")
+
+        btnMessage.forEach((e,index)=>{
+          e.classList.forEach(element=>{
+            if(element === "lg:bg-backgroundHover")
+            {
+              find = true;
+              console.log(btnMessage.length);
+              
+              if(index >= btnMessage.length / 2)
+                btnMessage[index - (btnMessage.length / 2)].classList.add("lg:bg-backgroundHover");
+              return;
+            }
+          })
+          if(find)
+            return;
+        })
 
         dataChat.forEach((e,index)=>{
           if(e.id === props.data.id)
