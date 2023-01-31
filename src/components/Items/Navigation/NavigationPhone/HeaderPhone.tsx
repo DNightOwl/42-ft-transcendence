@@ -23,7 +23,7 @@ export default function HeaderPhone({conversation,setConversation,chatState}:typ
     )
   }
   return(
-    <section className='mx-3 flex items-center py-4 justify-center gap-4 lg:hidden'>
+    <section className='mx-3 flex items-center py-4 justify-center gap-4'>
       <button className='w-6 h-6 rounded-full flex justify-center items-center bg-shape' onClick={()=>{setConversation(false)}}>
         <ArrowLeftIcon edit='w-2.5 h-2.5 fill-secondaryText' />
       </button>
