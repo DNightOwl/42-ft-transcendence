@@ -99,6 +99,7 @@ export class RoomController
     async   getDM(@Req() req: dbUser)
     {
         const user = req.user
+        
         return await this.roomservice.getDM("personnel", user);
     }
     

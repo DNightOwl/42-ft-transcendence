@@ -324,36 +324,47 @@ export class RoomService
             type: type
           }
         })
-        console.log(rooms[0].name);
+        console.log(rooms[0]);
         let obj: typeObject[] = []; 
         for (let index = 0; index < rooms.length; index++)
         {
           // let person : typeObject = {÷};
-            const user = await this.prisma.user.findUnique({
-              where: {
-                  login: rooms[index].name             
-              } 
-            });
-            const allmessage = await this.prisma.room.findUnique({
-              where: {
-                  name: rooms[index].name
-              },
-                  select: {
-                      message: true
-                  }
-          })
-            let person : typeObject = {id : user.id, username : user.login, latestMessage: allmessage.message[allmessage.message.length - 1].data   , conversation : []};
-          person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
-          for (let i = allmessage.message.length - 1; i >= 0 ;i--)
+          const id1 =  rooms[index].members.find((login) =>login==user1.login)
+          if (id1)
           {
-            //person.conversation[i].message = allmessage.message[i].data;
-            if (user1.login == allmessage.message[i].userLogin)
-                person.conversation[i].type = "user";
+            let login;
+            if (user1.login == rooms[index].name)
+            {
+              login = rooms[index].members[0];
+            }
             else
-              person.conversation[i].type = "freind";  
+                login = rooms[index].name 
+              const user = await this.prisma.user.findUnique({
+                where: {
+                    login: login     
+                } 
+              });
+              const allmessage = await this.prisma.room.findUnique({
+                where: {
+                    name: rooms[index].name
+                },
+                    select: {
+                        message: true
+                    }
+            })
+              let person : typeObject = {id : user.id, username : user.login, latestMessage: allmessage.message[allmessage.message.length - 1].data   , conversation : []};
+            person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
+            for (let i = allmessage.message.length - 1; i >= 0 ;i--)
+            {
+              //person.conversation[i].message = allmessage.message[i].data;
+              if (user1.login == allmessage.message[i].userLogin)
+                  person.conversation[i].type = "user";
+              else
+                person.conversation[i].type = "freind";  
 
+            }
+            obj.push(person);
           }
-          obj.push(person);
         }
         return obj;
     }
