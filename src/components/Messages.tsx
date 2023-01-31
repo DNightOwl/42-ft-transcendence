@@ -1,4 +1,4 @@
-import React, { useEffect} from 'react'
+import React, { useEffect ,useRef} from 'react'
 import BoxMessagesFriend from './Items/BoxMessagesFriend';
 import BoxMessagesUser from './Items/BoxMessagesUser';
 import { SendIcon } from './Items/Icons';
@@ -13,7 +13,7 @@ interface typeProps{
 }
 
 export default function Messages({chatState,setChatState,conversation,setConversation}:typeProps) {
-
+const scroll = useRef<HTMLDivElement>(null)
   useEffect(()=>{
     document.title = "Pong - Messages";
     let objDiv = document.querySelectorAll(".conversation");
@@ -21,6 +21,15 @@ export default function Messages({chatState,setChatState,conversation,setConvers
     objDiv.forEach(e=>{
       e.scrollTop = e.scrollHeight;
     })
+
+
+    if(scroll.current)
+    {
+      let hasVerticalScrollbar = scroll.current.scrollHeight > scroll.current.clientHeight;
+      if(hasVerticalScrollbar)
+        scroll.current.classList.add("pr-4")
+    }
+
   },[conversation,chatState]);
 
   return (
@@ -28,7 +37,7 @@ export default function Messages({chatState,setChatState,conversation,setConvers
     <main className={`lg:pt-0 overflow-hidden h-full lg:ml-64 lg:mr-4 pb-0 ${conversation?'pt-0':''}`}>
       <div className={`${conversation?'':'hidden'} lg:flex flex-col h-full relative overflow-hidden mb-16 pb-16 lg:mb-8 lg:pb-8`}>
       <HeaderChat chatState={chatState}/>
-        <div className='h-full overflow-auto mb-16 pb-16 lg:mb-8 lg:pb-8 conversation'>
+        <div className='h-full overflow-auto mb-16 pb-16 lg:mb-8 lg:pb-8 conversation' ref={scroll}>
           <div className='flex flex-col gap-20'>
             {
               
