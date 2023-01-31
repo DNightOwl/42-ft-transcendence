@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect} from 'react'
 import BoxMessagesFriend from './Items/BoxMessagesFriend';
 import BoxMessagesUser from './Items/BoxMessagesUser';
 import { SendIcon } from './Items/Icons';
@@ -12,14 +12,16 @@ interface typeProps{
 }
 
 export default function Messages({chatState,setChatState,conversation,setConversation}:typeProps) {
+
   useEffect(()=>{
     document.title = "Pong - Messages";
     let objDiv = document.querySelectorAll(".conversation");
+    
     objDiv.forEach(e=>{
       e.scrollTop = e.scrollHeight;
     })
   },[chatState]);
-  
+
   return (
     <React.Fragment>
     <main className={`lg:pt-0 overflow-hidden h-full lg:ml-64 lg:mr-4 pb-0 ${conversation?'pt-0':''}`}>
@@ -30,9 +32,9 @@ export default function Messages({chatState,setChatState,conversation,setConvers
               (chatState.conversation)?(
                 chatState.conversation.map((e:any,index:number)=>{
                   if(e.type === "friend")
-                    return <BoxMessagesFriend message={e.message} time={e.time} key={index}/>
+                  return <BoxMessagesFriend message={e.message} time={e.time} key={index}/>
                   else
-                    return <BoxMessagesUser message={e.message} time={e.time} key={index}/>
+                  return <BoxMessagesUser message={e.message} time={e.time} key={index}/>
                 })
               ):null
             }

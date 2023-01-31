@@ -20,8 +20,8 @@ export default function Navigation({chatState,setChatState,conversation,setConve
     }
     else
     {
-      setMessages(false)
-      setConversation(false)
+      setMessages(false);
+      setConversation(true);
     }
   },[location.pathname]);
   return (

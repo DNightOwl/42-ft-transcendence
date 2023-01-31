@@ -15,8 +15,8 @@ function App() {
     <HashRouter>
       <Navigation chatState={chatState} setChatState={setChatState} conversation = {conversation} setConversation={setConversation}/>
         <Routes>
-          <Route path='/' element={<Home/>} />
           <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation}/>} />
+          <Route path='/' element={<Home/>} />
           <Route path='/Profile' element={<Profile/>} />
         </Routes>
     </HashRouter>
