@@ -6,24 +6,47 @@ interface Props {
 
 };
 
+let tabPosition = 0;
+
 export function Tabs({children}:Props) {
   useEffect(()=>{
     let btnSwitcher = document.querySelectorAll(".btn-switcher");
     let sideContent = document.querySelectorAll(".side-content")
-    
-    btnSwitcher[0].classList.add("tab-active");
-    if(sideContent[0])
-      sideContent[0].classList.remove("hidden");
-    btnSwitcher.forEach((e,index)=>{
-      if(index > 0 && e.innerHTML === btnSwitcher[0].innerHTML)
-      {
-        if(btnSwitcher[btnSwitcher.length / 2])
-        btnSwitcher[btnSwitcher.length / 2].classList.add("tab-active");
-      if(sideContent[btnSwitcher.length / 2])
-        sideContent[btnSwitcher.length / 2].classList.remove("hidden");
-      }
-    })
-    
+
+    btnSwitcher[tabPosition].classList.add("tab-active");
+    if(sideContent[tabPosition])
+      sideContent[tabPosition].classList.remove("hidden");
+
+      let find = false;
+      let count:number = 0;
+        btnSwitcher.forEach((element)=>{
+          if(element.innerHTML === btnSwitcher[tabPosition].innerHTML)
+          {
+            if(++count === 2)
+            {
+              find = true;
+              return;
+            }
+          }
+        })
+        if(find)
+        {
+          if(tabPosition >= btnSwitcher.length / 2)
+          {
+            if(btnSwitcher[tabPosition - (btnSwitcher.length / 2)])
+              btnSwitcher[tabPosition - (btnSwitcher.length / 2)].classList.add("tab-active");
+            if(sideContent[tabPosition - (btnSwitcher.length / 2)])
+              sideContent[tabPosition - (btnSwitcher.length / 2)].classList.remove("hidden");
+          }
+          else
+          {
+            if(btnSwitcher[tabPosition + (btnSwitcher.length / 2)])
+              btnSwitcher[tabPosition + (btnSwitcher.length / 2)].classList.add("tab-active");
+            if(sideContent[tabPosition + (btnSwitcher.length / 2)])
+            sideContent[tabPosition + (btnSwitcher.length / 2)].classList.remove("hidden");
+          }
+        }
+        
   },[])
   return (
     <div className='flex flex-col gap-6 h-full lg:overflow-hidden'>
@@ -63,6 +86,7 @@ export function TabsList({children}:Props) {
         {
           find = true;
           temp = index;
+          tabPosition = index;
           if(sideContent[index])
             sideContent[index].classList.remove("hidden");
           return;
