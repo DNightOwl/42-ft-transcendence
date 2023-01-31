@@ -51,8 +51,16 @@ import {
      const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
      //const jwttoken = client.handshake.headers.cookie;
     const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
-  
-     console.log(client.id);
-     //console.log(user);
+    if (user.status == "of")
+    {
+      const user1 = this.prisma.user.update({
+        where: {
+          login: user.login
+        },
+        data: {
+          status: "on"
+        }
+      })
     }
-   }
+  }
+}

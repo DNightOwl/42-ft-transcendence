@@ -25,10 +25,11 @@ export class RoomService
         const payload = await this.jwt.verify(token, {
             secret: this.config.get("ACCESS_TOKEN_SECRET"),
         })
-        if (payload.userId) {
-            const user =  await this. prisma.user.findUnique({
+
+        if (payload.login) {
+            const user =  await this.prisma.user.findUnique({
                 where: {
-                    id: payload.userId
+                    login: payload.login
                 },
                 select: {
                     id: true,
@@ -352,7 +353,7 @@ export class RoomService
                         message: true
                     }
             })
-              let person : typeObject = {id : user.id, username : user.login, latestMessage: allmessage.message[allmessage.message.length - 1].data   , conversation : []};
+              let person : typeObject = {id : user.id, username : user.login, status: user.status ,latestMessage: allmessage.message[allmessage.message.length - 1].data   , conversation : []};
             person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
             for (let i = allmessage.message.length - 1; i >= 0 ;i--)
             {

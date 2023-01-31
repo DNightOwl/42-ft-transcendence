@@ -5,6 +5,7 @@ export interface typeobject{
   export interface typeObject{
     id:string
     username:string
+    status: string
     latestMessage: string | undefined
     conversation:typeobject[] ;
   }
