@@ -1,22 +1,17 @@
 import React from 'react';
-import {SearchIcon, ControllerIcon, ArrowDownIcon} from '../../Icons';
+import {ControllerIcon, ArrowDownIcon} from '../../Icons';
 import UserPicture from '../../../../assets/user.jpg';
+import CardState from '../../CardState'
 
 
 interface typeProps{
-    messages:boolean,
     chatState:any
 }
-export default function HeaderNav({messages,chatState}:typeProps) {
-  return (
-    (!messages)?(
-        <section className='hidden lg:flex justify-between items-start mr-4 ml-64 pt-7 gap-5'>
-            <div className='flex-1'>
-                <div className='flex items-center bg-shape pr-4 rounded-md'>
-                    <input type="text" placeholder='Search for user' className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-3 pl-4 pr-1.5 focus:outline-none text-primaryText'/>
-                    <SearchIcon edit="w-4"/>
-                </div>
-            </div>
+
+export default function HeaderChat({chatState}:typeProps) {
+    return (
+    <section className='hidden lg:flex justify-between items-start pt-7 gap-5 pb-7'>
+        <CardState chatState={chatState}/>
             <div className='flex items-center gap-5'>
                 <button className='bg-primary text-primaryText text-sm flex items-center justify-center gap-2.5 w-36 rounded-md p-3'>
                     <ControllerIcon edit="w-7"/>
@@ -32,7 +27,6 @@ export default function HeaderNav({messages,chatState}:typeProps) {
                     </span>
                 </button>
             </div>
-        </section>
-    ):null
-  )
+    </section>
+      )
 }

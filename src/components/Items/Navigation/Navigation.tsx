@@ -21,7 +21,7 @@ export default function Navigation({chatState,setChatState,conversation,setConve
     else
     {
       setMessages(false);
-      setConversation(true);
+      //setConversation(true);
     }
   },[location.pathname]);
   return (
