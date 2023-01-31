@@ -63,7 +63,7 @@ body{
 
 
 main{
-    @apply mx-3 pb-24 lg:pb-1 pt-10 lg:ml-64 lg:mr-4;
+    @apply mx-3 pb-20 lg:pb-1 pt-10 lg:ml-64 lg:mr-4;
 }
 .btn-switcher-desktop{
     @apply flex-1 flex justify-center items-center pb-2 text-secondaryText;
