@@ -39,7 +39,10 @@ export default function CardFriendMessage(props:Props) {
 
         dataChat.forEach((e,index)=>{
           if(e.id === props.data.id)
-          props.setChatState(dataChat[index]);
+          {
+            props.setChatState(dataChat[index]);
+            return;
+          }
         })
         if(props.setConversation)
           props.setConversation(true);
