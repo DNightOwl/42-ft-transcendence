@@ -1,13 +1,14 @@
 import React from 'react';
 import {PointsIcon} from '../Items/Icons';
 import {Link} from 'react-router-dom';
-import { dataChat } from '../../Data';
+import { dataChat,dataChannel } from '../../Data';
 interface Props{
     newMessage?:boolean,
     data:any,
     setChatState:React.Dispatch<React.SetStateAction<any>>
     conversation?:boolean
     setConversation?:React.Dispatch<React.SetStateAction<boolean>>
+    channel?:boolean
 }
 
 export default function CardFriendMessage(props:Props) {
@@ -36,14 +37,27 @@ export default function CardFriendMessage(props:Props) {
           if(find)
             return;
         })
-
-        dataChat.forEach((e,index)=>{
-          if(e.id === props.data.id)
-          {
-            props.setChatState(dataChat[index]);
-            return;
-          }
-        })
+        
+        if(!props.channel)
+        {
+          dataChat.forEach((e,index)=>{
+            if(e.id === props.data.id)
+            {
+              props.setChatState(dataChat[index]);
+              return;
+            }
+          })
+        }
+        else{
+          dataChannel.forEach((e,index)=>{
+            
+            if(e.id === props.data.id)
+            {
+              props.setChatState(dataChannel[index]);
+              return;
+            }
+          })
+        }
         if(props.setConversation)
           props.setConversation(true);
     }}>
@@ -51,7 +65,7 @@ export default function CardFriendMessage(props:Props) {
       <img src={props.data.picture} alt="Friend" className='w-10 h-10 rounded-full' />
         <div className='flex flex-col gap-1'>
           <div className='flex items-center gap-1.5'>
-            <span className={`text-primaryText text-sm username ${props.newMessage?('new-message'):''}`}>{props.data.username.charAt(0).toUpperCase() + props.data.username.slice(1)}</span>
+            <span className={`text-primaryText text-sm username ${props.newMessage?('new-message'):''}`}>{(props.data.username || props.data.name).charAt(0).toUpperCase() + (props.data.username || props.data.name).slice(1)}</span>
               {
                 (props.newMessage)?(<span className='w-2 h-2 bg-primary rounded-full'></span>):null
               }

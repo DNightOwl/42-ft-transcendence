@@ -18,10 +18,10 @@ export default function MessagesContainer({chatState,setChatState,conversation,s
         </TabsList>
         <TabsPanels>
             <TabContent>
-                <MessagesList chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation}/>
+              <MessagesList setChatState={setChatState} conversation={conversation} setConversation={setConversation}/>
             </TabContent>
             <TabContent>
-                <div>two</div>
+              <MessagesList setChatState={setChatState} conversation={conversation} setConversation={setConversation} channel={true}/>
             </TabContent>
         </TabsPanels>
     </Tabs>

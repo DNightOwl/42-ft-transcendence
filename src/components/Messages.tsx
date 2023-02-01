@@ -1,6 +1,7 @@
 import React, { useEffect ,useRef} from 'react'
 import BoxMessagesFriend from './Items/BoxMessagesFriend';
 import BoxMessagesUser from './Items/BoxMessagesUser';
+import BoxMessagesMember from './Items/BoxMessagesMember';
 import { SendIcon } from './Items/Icons';
 import MessagesContainer from './Items/MessagesContainer';
 import HeaderChat from './Items/Navigation/NavigationDesktop/HeaderChat'
@@ -44,7 +45,9 @@ const scroll = useRef<HTMLDivElement>(null)
               (chatState.conversation)?(
                 chatState.conversation.map((e:any,index:number)=>{
                   if(e.type === "friend")
-                  return <BoxMessagesFriend message={e.message} time={e.time} key={index}/>
+                    return <BoxMessagesFriend message={e.message} time={e.time} key={index}/>
+                  else if(e.type === "member")
+                    return <BoxMessagesMember message={e.message} time={e.time} picture={e.picture} key={index}/>
                   else
                   return <BoxMessagesUser message={e.message} time={e.time} key={index}/>
                 })
