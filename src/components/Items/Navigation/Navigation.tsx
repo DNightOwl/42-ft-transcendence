@@ -2,6 +2,7 @@ import React , {useState,useEffect} from 'react'
 import NavigationDesktop from './NavigationDesktop/NavigationDesktop';
 import NavigationPhone from './NavigationPhone/NavigationPhone';
 import { useLocation } from 'react-router-dom';
+import {dataChat} from '../../../Data'
 
 interface typeprops{
   chatState: any,
@@ -21,9 +22,10 @@ export default function Navigation({chatState,setChatState,conversation,setConve
     else
     {
       setMessages(false);
-      setConversation(false)
+      setConversation(false);
+      setChatState(dataChat[0]);
     }
-  },[location.pathname,setConversation]);
+  },[location.pathname,setConversation,setChatState]);
   return (
     <React.Fragment>
       <NavigationDesktop chatState={chatState} setChatState={setChatState} message={messages} setMessages = {setMessages} />
