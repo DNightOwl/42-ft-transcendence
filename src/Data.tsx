@@ -415,6 +415,51 @@ export const dataChannel = [
         "picture": "https://static.vecteezy.com/system/resources/previews/006/988/723/original/boy-playing-game-gamer-logo-free-vector.jpg",
         "members" : "10",
         "latestMessage": "welcome to your channel",
+        "role":"owner",
+        "conversation":[
+            {
+                "type":"member",
+                "message": "hey 😃",
+                "time":"10:00",
+                "picture":"https://cdn.intra.42.fr/users/2cc53519ab737304bcdd74e4125c3e61/mouassit.jpg"
+            },
+            {
+                "type": "user",
+                "message": "welcome to your channel",
+                "time": "10:45"
+            },
+        ]
+    },
+
+    {
+        "id":2,
+        "name": "channel 02",
+        "picture": "https://static.vecteezy.com/system/resources/previews/006/988/723/original/boy-playing-game-gamer-logo-free-vector.jpg",
+        "members" : "10",
+        "latestMessage": "welcome to your channel",
+        "role":"admin",
+        "conversation":[
+            {
+                "type":"member",
+                "message": "hey 😃",
+                "time":"10:00",
+                "picture":"https://cdn.intra.42.fr/users/2cc53519ab737304bcdd74e4125c3e61/mouassit.jpg"
+            },
+            {
+                "type": "user",
+                "message": "welcome to your channel",
+                "time": "10:45"
+            },
+        ]
+    },
+
+    {
+        "id":3,
+        "name": "channel 03",
+        "picture": "https://static.vecteezy.com/system/resources/previews/006/988/723/original/boy-playing-game-gamer-logo-free-vector.jpg",
+        "members" : "1",
+        "latestMessage": "welcome to your channel",
+        "role":"member",
         "conversation":[
             {
                 "type":"member",
