@@ -433,7 +433,7 @@ export const dataChannel = [
 
     {
         "id":2,
-        "name": "channel 02",
+        "name": "channeldfasdfjk ;sdfkj sdfjaksjfjsdkjfakdjkfjsla;dfjlksdjlfk 02",
         "picture": "https://static.vecteezy.com/system/resources/previews/006/988/723/original/boy-playing-game-gamer-logo-free-vector.jpg",
         "members" : "10",
         "latestMessage": "welcome to your channel",

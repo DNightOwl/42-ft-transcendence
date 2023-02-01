@@ -85,6 +85,11 @@ main{
     max-width: 9.6rem;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.channel-name{
+    max-width: 15rem;
 }
 
 .new-message{

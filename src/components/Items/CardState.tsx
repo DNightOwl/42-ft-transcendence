@@ -12,7 +12,7 @@ export default function CardState(props:typeProps) {
         <img src={props.chatState.picture} alt="Friend" className='w-14 h-14 rounded-full' />
         <div className='flex flex-col gap-1'>
           <div className='flex items-center gap-1.5'>
-            <span className='text-primaryText text-md max-w-sm overflow-hidden text-ellipsis'>{(props.chatState.username || props.chatState.name).charAt(0).toUpperCase() + (props.chatState.username || props.chatState.name).slice(1)}</span>
+            <span className={`text-primaryText text-md ${props.chatState.members?'channel-name':'max-w-sm'} overflow-hidden text-ellipsis whitespace-nowrap`}>{(props.chatState.username || props.chatState.name).charAt(0).toUpperCase() + (props.chatState.username || props.chatState.name).slice(1)}</span>
           </div>
           <div className='flex items-center gap-1.5'>
             {
