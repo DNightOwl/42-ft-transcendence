@@ -104,6 +104,10 @@ main{
     border-bottom:  none;
 }
 
+.number-profile{
+    border-left: 1px solid #81879C;
+}
+
 @media screen and (min-width: 1024px) {
     .active {
         background-color: #414554;

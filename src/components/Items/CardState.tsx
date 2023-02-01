@@ -2,7 +2,7 @@ import React from 'react';
 import {PlusIcon,GroupIcon,EyeChannelIcon} from '../Items/Icons'
 
 interface typeProps{
-  chatState: any
+  chatState?: any
 }
 
 export default function CardState(props:typeProps) {
