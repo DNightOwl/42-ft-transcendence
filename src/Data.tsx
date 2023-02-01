@@ -433,8 +433,8 @@ export const dataChannel = [
 
     {
         "id":2,
-        "name": "channeldfasdfjk ;sdfkj sdfjaksjfjsdkjfakdjkfjsla;dfjlksdjlfk 02",
-        "picture": "https://static.vecteezy.com/system/resources/previews/006/988/723/original/boy-playing-game-gamer-logo-free-vector.jpg",
+        "name": "channel 02",
+        "picture": "https://cdna.artstation.com/p/assets/images/images/023/459/708/large/vaibhav-verma-game-logo.jpg?1579270067",
         "members" : "10",
         "latestMessage": "welcome to your channel",
         "role":"admin",
@@ -456,7 +456,7 @@ export const dataChannel = [
     {
         "id":3,
         "name": "channel 03",
-        "picture": "https://static.vecteezy.com/system/resources/previews/006/988/723/original/boy-playing-game-gamer-logo-free-vector.jpg",
+        "picture": "https://img.freepik.com/premium-vector/ghost-logo-design-vector-with-modern-illustration-concept-style-badge-emblem_722324-149.jpg?w=360",
         "members" : "1",
         "latestMessage": "welcome to your channel",
         "role":"member",
