@@ -28,7 +28,7 @@ export default function MessagesList({setChatState,conversation,setConversation,
             ):(
               (dataChannel)?(
                 dataChannel.map((e,index)=>{
-                  return <CardFriendMessage data={dataChannel[index]} key={index} setChatState={setChatState} conversation={conversation} channel={true}/>
+                  return <CardFriendMessage data={dataChannel[index]} key={index} setChatState={setChatState} conversation={conversation} setConversation={setConversation} channel={true}/>
                 })
               ):null
             )

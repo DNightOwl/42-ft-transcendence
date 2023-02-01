@@ -418,7 +418,7 @@ export const dataChannel = [
         "conversation":[
             {
                 "type":"member",
-                "message": "hey 😃 jjfkajsfjjsdkajsdfskdjkskfjskdfsdkfa;fkkkkkdka;sdfj;aklakjsdffffjasdfjkfsd;fjksjfkldfjskdfsjdkf",
+                "message": "hey 😃",
                 "time":"10:00",
                 "picture":"https://cdn.intra.42.fr/users/2cc53519ab737304bcdd74e4125c3e61/mouassit.jpg"
             },

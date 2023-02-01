@@ -15,7 +15,7 @@ export default function CardFriendMessage(props:Props) {
   
   return (
     <React.Fragment>
-    <Link to="/Messages" className={`flex justify-between btn-message px-2 py-4 lg:hover:bg-backgroundHover btn-friend-message ${props.data.id === dataChat[0].id ? 'lg:bg-backgroundHover':null}`} onClick={(event)=>{
+    <Link to="/Messages" className={`flex justify-between btn-message px-2 py-4 lg:hover:bg-backgroundHover btn-friend-message ${!props.data.name && props.data.id === dataChat[0].id ? 'lg:bg-backgroundHover':null}`} onClick={(event)=>{
 
         let btnMessage = document.querySelectorAll(".btn-friend-message");
         let find:boolean = false;
