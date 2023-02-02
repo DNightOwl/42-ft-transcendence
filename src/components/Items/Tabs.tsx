@@ -1,5 +1,6 @@
 import React from 'react'
 import { useEffect} from 'react';
+import { useLocation } from 'react-router-dom';
 
 interface Props {
   children: JSX.Element | JSX.Element[] | string,
@@ -9,7 +10,11 @@ interface Props {
 let tabPosition = 0;
 
 export function Tabs({children}:Props) {
+  const location = useLocation();
   useEffect(()=>{
+    if(location.pathname !== "/Messages")
+      tabPosition = 0;
+
     let btnSwitcher = document.querySelectorAll(".btn-switcher");
     let sideContent = document.querySelectorAll(".side-content")
 
@@ -47,7 +52,7 @@ export function Tabs({children}:Props) {
           }
         }
         
-  },[])
+  },[location.pathname])
   return (
     <div className='flex flex-col gap-6 h-full lg:overflow-hidden'>
         {children}
