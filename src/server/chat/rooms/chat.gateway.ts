@@ -15,6 +15,7 @@ import {
    import { JwtAuthGuard } from '../../auth/jwt/jwt.guard';
    import { dbUser } from '../../users/dto/types';
 import { Client } from 'socket.io/dist/client';
+import { Console } from 'console';
    
    @WebSocketGateway({
      cors: {
@@ -24,13 +25,24 @@ import { Client } from 'socket.io/dist/client';
    export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
    constructor(private prisma: PrismaService, private roomservice: RoomService) {}
     @WebSocketServer() server: Server;
+    OnlineUser: any[] = [];
 
     @SubscribeMessage('msgServer')
    async handleMessage(@MessageBody() Body, @ConnectedSocket() client: any) {
     // const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
     // const user1 = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
+    let room;
+    // for (let index = 0; index < this.OnlineUser.length; index++)
+    // {
+    //   if (this.OnlineUser[index].user.login == Body.name)
+    //   {
+    //     this.OnlineUser[index].client.join(room);
+    //   }
+    // }
+    // this.server.to(room).emit('msgServer', Body.data);
     const user1 = client.user;
-      if (Body.type == "DM")
+    console.log(Body.type);
+      if (Body.type.toString() == 'DM')
       {
         const room = await this.prisma.room.findUnique({
           where: {
@@ -78,18 +90,21 @@ import { Client } from 'socket.io/dist/client';
 
    
     handleDisconnect(@ConnectedSocket() client: any) {
-    // console.log(`Client disconnected: ${client.id}`);
-    console.log(client.id);
+    for (let index = 0; index < this.OnlineUser.length; index++)
+    {
+      if (this.OnlineUser[index].user.login == client.user.login)
+      {
+        this.OnlineUser.splice(index, 1);
+        break;
+      }
+    }
 
     }
    
    async  handleConnection(@ConnectedSocket() client: any) {
-     //console.log(`Client connected: ${client.id}`); 
      const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
-     //const jwttoken = client.handshake.headers.cookie;
     const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
     client.user = user;
-    console.log(user.login);
     if (user.status == "of")
     {
       const user1 = this.prisma.user.update({
@@ -100,6 +115,7 @@ import { Client } from 'socket.io/dist/client';
           status: "on"
         }
       })
+      }
+      this.OnlineUser.push(client);
     }
-  }
 }
