@@ -104,8 +104,12 @@ main{
     border-bottom:  none;
 }
 
-.number-profile{
-    border-left: 1px solid #81879C;
+.profile-number{
+    max-width: 8rem;
+}
+
+.separtor{
+    width: 1px;
 }
 
 @media screen and (min-width: 1024px) {

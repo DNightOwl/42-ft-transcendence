@@ -13,7 +13,7 @@ export default function CardProfile({settings}:typeProps){
           <img src={PictureProfile} alt="Profile" className='w-20 h-20 rounded-full' />
           <div className='flex flex-col gap-1'>
             <div className='flex items-center gap-2'>
-              <span className={`text-primaryText text-md max-w-sm overflow-hidden text-ellipsis whitespace-nowrap`}>Username</span>
+              <span className={`text-primaryText text-md max-w-xs overflow-hidden text-ellipsis whitespace-nowrap`}>Username</span>
               <span className="w-8 h-8 bg-shape flex justify-center items-center rounded-full">
                 <SettingsIcon edit="w-4 h-4 fill-secondaryText"/>
               </span>

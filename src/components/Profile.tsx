@@ -10,7 +10,24 @@ export default function Profile() {
     <main>
       <section className="flex  flex-col items-center gap-10  justify-center lg:flex-row lg:justify-between">
         <CardProfile settings={true} />
-        <div className="flex justify-around w-full bg-green-100">
+        <div className="flex gap-10">
+          <span className="flex flex-col items-center">
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">10</span>
+            <span className="text-secondaryText text-sm">Friends</span>
+          </span>
+          <span className="separtor bg-shape"></span>
+          <span className="flex flex-col items-center">
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">8</span>
+            <span className="text-secondaryText text-sm ">Wins</span>
+          </span>
+          <span className="separtor bg-shape"></span>
+          <span className="flex flex-col items-center">
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">0</span>
+            <span className="text-secondaryText text-sm ">Losses</span>
+          </span>
+        </div>
+        {/*
+                  <div className="flex justify-around w-full bg-green-100">
           <span className="flex flex-col items-center flex-1">
             <span className="text-primaryText font-extrabold text-4xl">10</span>
             <span className="text-secondaryText font-light text-sm">
@@ -28,6 +45,7 @@ export default function Profile() {
             </span>
           </span>
         </div>
+        */}
       </section>
     </main>
   );
