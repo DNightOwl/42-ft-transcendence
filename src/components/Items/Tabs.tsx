@@ -69,6 +69,7 @@ export function TabsList({children}:Props) {
   }
 
   export function Tab({children}:Props) {
+  const location = useLocation();
     return (
       <button className="btn-switcher"
       onClick={(e)=>{
@@ -76,7 +77,6 @@ export function TabsList({children}:Props) {
         let sideContent = document.querySelectorAll(".side-content");
 
         btnSwitcher.forEach((e,index)=>{
-
           e.classList.remove("tab-active");
           if(sideContent[index])
             sideContent[index].classList.add("hidden");
@@ -94,6 +94,9 @@ export function TabsList({children}:Props) {
           tabPosition = index;
           if(sideContent[index])
             sideContent[index].classList.remove("hidden");
+          if(location.pathname !== "/Messages")
+            tabPosition = 0;
+            
           return;
         }
         })
