@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import CardProfile from "./Items/CardProfile";
+import SwitchersProfile from "./Items/SwitchersProfile";
 
 export default function Profile() {
   useEffect(() => {
@@ -7,7 +8,7 @@ export default function Profile() {
   });
 
   return (
-    <main>
+    <main className="flex flex-col gap-12">
       <section className="flex  flex-col items-center gap-10  justify-center lg:flex-row lg:justify-between">
         <CardProfile settings={true} />
         <div className="flex gap-10">
@@ -26,27 +27,8 @@ export default function Profile() {
             <span className="text-secondaryText text-sm ">Losses</span>
           </span>
         </div>
-        {/*
-                  <div className="flex justify-around w-full bg-green-100">
-          <span className="flex flex-col items-center flex-1">
-            <span className="text-primaryText font-extrabold text-4xl">10</span>
-            <span className="text-secondaryText font-light text-sm">
-              Friends
-            </span>
-          </span>
-          <span className="flex flex-col items-center flex-1 border-secondaryText number-profile">
-            <span className="text-primaryText font-extrabold text-4xl">8</span>
-            <span className="text-secondaryText font-light text-sm">Wins</span>
-          </span>
-          <span className="flex flex-col items-center flex-1 border-secondaryText number-profile">
-            <span className="text-primaryText font-extrabold text-4xl">0</span>
-            <span className="text-secondaryText font-light text-sm">
-              Losses
-            </span>
-          </span>
-        </div>
-        */}
       </section>
+      <SwitchersProfile />
     </main>
   );
 }
