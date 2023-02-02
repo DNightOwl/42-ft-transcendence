@@ -102,6 +102,15 @@ export class RoomController
         
         return await this.roomservice.getDM("personnel", user);
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('RoomMessage')
+    async   getRM(@Req() req: dbUser)
+    {
+        const user = req.user
+        
+        return await this.roomservice.getRM(user);
+    }
     
     // @UseGuards(JwtAuthGuard)
     // @Patch('muted')

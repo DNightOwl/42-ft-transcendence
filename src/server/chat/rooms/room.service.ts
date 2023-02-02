@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable} from "@nestjs/common";
 import { use } from "passport";
 import { PrismaService } from "src/server/prisma/prisma.service";
 import { comparepassword, hashPassword} from "./utils/bcrypt";
-import { typeObject } from "./utils/typeObject";
+import { chanel, typeObject } from "./utils/typeObject";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from '@nestjs/config';
 
@@ -189,14 +189,9 @@ export class RoomService
         const id1 =  rooms.admins.find((login) =>login==room.login)
         if (id1)
             throw new ForbiddenException('already admins');
-            // const r = await this.prisma.room.findUnique({
-            //     where: {
-            //         name: user.name
-            //     }
-            // });
            const id2 =  rooms.members.find((login) =>login==room.login)
            if (!id2)
-            throw new ForbiddenException('is not member');
+              throw new ForbiddenException('is not member');
         const userUpdate = await this.prisma.room.update({
             where: {
               name: room.name,
@@ -325,7 +320,6 @@ export class RoomService
             type: type
           }
         })
-        console.log(rooms[0]);
         let obj: typeObject[] = []; 
         for (let index = 0; index < rooms.length; index++)
         {
@@ -334,26 +328,26 @@ export class RoomService
           if (id1)
           {
             let login;
-            if (user1.login == rooms[index].name)
+            if (rooms[index].name == (user1.login + rooms[index].members[0]))
             {
               login = rooms[index].members[0];
             }
             else
-                login = rooms[index].name 
-              const user = await this.prisma.user.findUnique({
-                where: {
-                    login: login     
-                } 
-              });
-              const allmessage = await this.prisma.room.findUnique({
-                where: {
-                    name: rooms[index].name
-                },
-                    select: {
-                        message: true
-                    }
-            })
-              let person : typeObject = {id : user.id, username : user.login, status: user.status ,latestMessage: allmessage.message[allmessage.message.length - 1].data   , conversation : []};
+                login = rooms[index].members[1];
+            const user = await this.prisma.user.findUnique({
+              where: {
+                  login: login     
+              } 
+            });
+            const allmessage = await this.prisma.room.findUnique({
+              where: {
+                  name: rooms[index].name
+              },
+                  select: {
+                      message: true
+                  }
+          })
+            let person : typeObject = {id : user.id, username : user.login, status: user.status ,latestMessage: allmessage.message[allmessage.message.length - 1].data   , conversation : []};
             person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
             for (let i = allmessage.message.length - 1; i >= 0 ;i--)
             {
@@ -368,6 +362,58 @@ export class RoomService
           }
         }
         return obj;
+    }
+
+    async getRM(user: any):Promise<chanel[]>
+    {
+      const rooms = await this.prisma.room.findMany({
+          where: {
+            OR : [
+              {type: "protected"},
+              {type: "public"},
+              {type: "private"}
+            ]
+          }
+      })
+      let obj: chanel[] = []; 
+      for (let index = 0; index < rooms.length; index++)
+      {
+        const id1 =  rooms[index].members.find((login) =>login==user.login)
+        if (id1)
+        {
+          const allmessage = await this.prisma.room.findUnique({
+            where: {
+                name: rooms[index].name
+            },
+                select: {
+                    message: true
+                }
+          })
+          let role;
+          if (rooms[index].owner == user.login)
+            role = "owner";
+          else 
+          {
+            const admin = rooms[index].admins.find((login) =>login==user.login)
+            if (admin)
+              role = "admins";
+            else
+              role = "members";
+          }
+          let person : chanel = {id : rooms[index].id, name: rooms[index].name, members: rooms[index].members.length, latestMessage: allmessage.message[allmessage.message.length - 1].data, role: role, conversation : []};
+          person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
+          for (let i = allmessage.message.length - 1; i >= 0 ;i--)
+            {
+              if (user.login == allmessage.message[i].userLogin)
+                  person.conversation[i].type = "user";
+              else
+                person.conversation[i].type = "member";
+
+            }
+            obj.push(person);
+        }
+      }
+      return obj;
     }
 
     parseCookie(cookie: string) : string
