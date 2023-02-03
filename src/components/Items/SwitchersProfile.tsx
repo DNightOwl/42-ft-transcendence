@@ -2,6 +2,8 @@ import React from 'react'
 import {Tabs,TabsList,Tab, TabsPanels, TabContent} from "./Tabs";
 import Achievements from '../Items/Achievements';
 import Friends from './Friends';
+import MatchHistory from "./MatchHistory";
+
 export default function SwitchersProfile() {
   return (
     <Tabs edit='gap-0 lg:overflow-visible'>
@@ -18,7 +20,7 @@ export default function SwitchersProfile() {
             <Friends />
         </TabContent>
         <TabContent edit="overflow-visible">
-            <div>three</div>
+            <MatchHistory />
         </TabContent>
     </TabsPanels>
 </Tabs>

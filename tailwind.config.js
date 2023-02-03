@@ -16,7 +16,11 @@ module.exports = {
         offline:"#EC6565",
         sideBackground: "#242630",
         backgroundHover:"#41455473",
-        time:"rgba(255, 255, 255, 0.39)"
+        time:"rgba(255, 255, 255, 0.39)",
+        winBadge:"#C6F6D5",
+        loseBadge:"#FED7D7",
+        textWinBadge:"#22543D",
+        textLoseBadge:"#822727"
         
       },
       fontFamily: {
