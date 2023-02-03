@@ -1,6 +1,7 @@
 import React from 'react';
-import {SearchIcon, ControllerIcon, ArrowDownIcon} from '../../Icons';
+import {SearchIcon, ControllerIcon, ArrowDownIcon,ArrowUpIcon,SettingsNavIcon,LogoutIcon} from '../../Icons';
 import UserPicture from '../../../../assets/user.jpg';
+import {useState} from 'react'
 
 
 interface typeProps{
@@ -8,6 +9,7 @@ interface typeProps{
     chatState:any
 }
 export default function HeaderNav({messages,chatState}:typeProps) {
+    const [dropDown,setDropDown] = useState<boolean>(false)
   return (
     (!messages)?(
         <section className='hidden lg:flex justify-between items-start mr-4 ml-64 pt-7 gap-5'>
@@ -22,15 +24,31 @@ export default function HeaderNav({messages,chatState}:typeProps) {
                     <ControllerIcon edit="w-7"/>
                     <span>Play now</span>
                 </button>
-                <button className='flex items-center gap-2 text-primaryText text-sm'>
+                <div className='relative text-primaryText text-sm'>
+                <button className='flex items-center gap-2' onClick={()=>{(!dropDown)?setDropDown(true):setDropDown(false)}} onBlur={()=>{setDropDown(false)}}>
                     <div className='flex items-center gap-2'>
                         <img src={UserPicture} alt="User" className='w-10 h-10 rounded-full' />
                         <span className='username'>Username</span>
                     </div>
                     <span className='bg-shape w-4 h-4 rounded-full flex justify-center items-center'>
-                        <ArrowDownIcon edit="w-1.5"/>
+                        {(!dropDown)?(<ArrowDownIcon edit="w-1.5"/>):(<ArrowUpIcon edit='w-1.5 h-1.5 fill-secondaryText' />)}
                     </span>
                 </button>
+                {
+                    (dropDown)?(
+                            <div className='absolute top-12 rounded-md bg-body shadow left-0 w-full flex flex-col py-5 gap-2'>
+                            <button className='flex gap-2   hover:bg-backgroundHover items-center justify-center p-2'>
+                                <SettingsNavIcon edit='w-5 h-5 fill-primaryText'/>
+                                Settings
+                            </button>
+                            <button className='flex gap-2  hover:bg-backgroundHover items-center justify-center p-2'>
+                                <LogoutIcon edit='w-5 h-5 fill-primaryText'/>
+                                Logout
+                            </button>
+                        </div>
+                        ):null
+                    }
+                </div>
             </div>
         </section>
     ):null
