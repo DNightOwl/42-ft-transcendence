@@ -1,9 +1,9 @@
 import React from 'react'
 import {Tabs,TabsList,Tab, TabsPanels, TabContent} from "./Tabs";
-
+import Achievements from '../Items/Achievements'
 export default function SwitchersProfile() {
   return (
-    <Tabs>
+    <Tabs edit='gap-0'>
     <TabsList>
         <Tab>Achievements</Tab>
         <Tab>Friends</Tab>
@@ -11,7 +11,7 @@ export default function SwitchersProfile() {
     </TabsList>
     <TabsPanels>
         <TabContent>
-            <div>one</div>
+            <Achievements/>
         </TabContent>
         <TabContent>
             <div>two</div>

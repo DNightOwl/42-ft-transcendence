@@ -4,12 +4,13 @@ import { useLocation } from 'react-router-dom';
 
 interface Props {
   children: JSX.Element | JSX.Element[] | string,
+  edit?:string
 
 };
 
 let tabPosition = 0;
 
-export function Tabs({children}:Props) {
+export function Tabs({children,edit}:Props) {
   const location = useLocation();
   useEffect(()=>{
     if(location.pathname !== "/Messages")
@@ -54,7 +55,7 @@ export function Tabs({children}:Props) {
         
   },[location.pathname])
   return (
-    <div className='flex flex-col gap-6 h-full lg:overflow-hidden'>
+    <div className={`flex flex-col gap-6 h-full lg:overflow-hidden ${edit}`}>
         {children}
     </div>
   )

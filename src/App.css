@@ -112,6 +112,11 @@ main{
     width: 1px;
 }
 
+.card-profile{
+    width: 26rem;
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 24px;
+}
+
 @media screen and (min-width: 1024px) {
     .active {
         background-color: #414554;
