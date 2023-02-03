@@ -7,7 +7,7 @@ import { ControllerIcon } from '../../Icons';
 export default function NavigationPhone() {
   return (
     <React.Fragment>
-    <section className='fixed bottom-0 w-full px-3 pb-3 lg:hidden bg-body'>
+    <section className='fixed bottom-0 w-full px-3 pb-3 lg:hidden bg-body phone-nav'>
         <nav className='bg-shape p-2 rounded-lg'>
             <ul className='flex justify-between items-center'>
                 <li>

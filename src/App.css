@@ -25,6 +25,10 @@ body{
     @apply h-full flex flex-col 2xl:mx-auto 2xl:container;
 }
 
+.phone-nav{
+    z-index: 999;
+}
+
 .desktop-nav-item{
     @apply flex items-center gap-4 p-3 pl-8 hover:bg-shape
 }
@@ -115,6 +119,10 @@ main{
 .card-profile{
     width: 26rem;
     box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 24px;
+}
+
+.achievements{
+    padding-bottom: 7.3rem;
 }
 
 @media screen and (min-width: 1024px) {

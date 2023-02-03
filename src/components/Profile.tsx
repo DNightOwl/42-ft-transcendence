@@ -8,7 +8,7 @@ export default function Profile() {
   });
 
   return (
-    <main className="flex flex-col gap-12 h-full">
+    <main className="flex flex-col gap-12 h-full pb-0">
       <section className="flex  flex-col items-center gap-10  justify-center lg:flex-row lg:justify-between">
         <CardProfile settings={true} />
         <div className="flex gap-10">

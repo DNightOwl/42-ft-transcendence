@@ -139,13 +139,13 @@ export function TabsList({children}:Props) {
     )
   }
 
-  export function TabsPanels({children}:Props) {
-    return <div className='h-full overflow-hidden'>{children}</div>
+  export function TabsPanels({children,edit}:Props) {
+    return <div className={`h-full overflow-hidden ${edit}`}>{children}</div>
   }
 
-  export function TabContent({children}:Props) {
+  export function TabContent({children,edit}:Props) {
     return (
-      <div className='hidden h-full overflow-hidden side-content'>
+      <div className={`hidden h-full overflow-hidden side-content ${edit}`}>
           {children}
       </div>
     )
