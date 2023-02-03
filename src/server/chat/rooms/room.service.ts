@@ -5,6 +5,7 @@ import { comparepassword, hashPassword} from "./utils/bcrypt";
 import { chanel, typeObject } from "./utils/typeObject";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from '@nestjs/config';
+import * as moment from 'moment';
 
 
 
@@ -287,20 +288,6 @@ export class RoomService
 
       async   getMessage(name: string)
     {
-      // interface typeobject{
-      //   type: string
-      //   message: string
-      // }
-      // interface typeObject{
-      //   id:string
-      //   username:string
-      //   latestMessage: string
-      //   conversation:typeObject[]
-      // }
-      // for (let index = 0; index < 8; index++) {
-      //   let person:typeObject;
-
-      // }
         const allmessage = await this.prisma.room.findUnique({
             where: {
                 name: name
@@ -436,4 +423,75 @@ export class RoomService
         }
         return jwttoken;
     }
+
+    async muted(user: any, room: any)
+    {
+      const rooms = await this.prisma.room.findUnique({
+        where: {
+          name: room.name
+        }
+      })
+      const id1 =  rooms.admins.find((login) =>login==user.login)
+      if (!id1)
+          throw new ForbiddenException('you are Not admins');
+      const id2 = rooms.admins.find((login) =>login==room.login)
+      if (id2 && rooms.owner != user.login)
+        throw new ForbiddenException('you are not owner, impossiple to mute admin');
+        const userUpdate = await this.prisma.room.update({
+        where: {
+         name: room.name
+        },
+        data: {
+          members: {
+            set: rooms.members.filter((login) => login != room.login)
+            }
+          }
+      })
+      if (id2)
+      {
+        const adminupdate = await this.prisma.room.update({
+          where: {
+           name: room.name
+          },
+          data: {
+            admins: {
+              set: rooms.admins.filter((login) => login != room.login)
+              }
+            }
+        })
+      }
+
+      const time = moment().add(1, 'days').format('YYYY-MM-DD hh:mm:ss')
+      const mute = await this.prisma.muted.create({
+        data: {
+          roomName: room.name,
+          userLogin: room.login,
+          time: time
+        }
+      }) 
+    }
+
+    async unmuted(user: any, room: any)
+    {
+        const user1 = await this.prisma.muted.findMany({
+          where: {
+            userLogin: user.login,
+            roomName: room.name
+          }
+        })
+        const time = moment().format('YYYY-MM-DD hh:mm:ss');
+       // if (user1[0].time < time)
+        //{
+          await this.prisma.muted.deleteMany({
+            where: {
+                AND: [
+                    {userLogin: user.login},
+                    {roomName: room.name}
+                ]
+            }
+            
+        })
+        this.addtoroom(user, room.name);
+        }
+    //}
 }

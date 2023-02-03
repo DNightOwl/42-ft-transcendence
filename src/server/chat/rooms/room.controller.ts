@@ -15,7 +15,7 @@ import { JwtAuthGuard } from '../../auth/jwt/jwt.guard';
 import { RoomService } from './room.service';
 import { prisma } from '@prisma/client';
 import { dbUser } from '../../users/dto/types';
-import moment, * as moments from 'moment';
+import * as moment from 'moment';
 
 interface mytype{
     name:string
@@ -112,19 +112,19 @@ export class RoomController
         return await this.roomservice.getRM(user);
     }
     
-    // @UseGuards(JwtAuthGuard)
-    // @Patch('muted')
-    // async muteduser(@Req() req: dbUser, @Body() room) {
-    //     const user = req.user;
-    //      await moment().add(1, 'days').calendar()
-    //     // await this.prisma.muted.create({
-    //     //   data: {
-    //     //     roomName: room.name,
-    //     //     userLogin: room.userLogin,
-    //     //     time: time
-    //     //   }
-    //     // }) 
-    //   }
+    @UseGuards(JwtAuthGuard)
+    @Patch('muted')
+    async muteduser(@Req() req: dbUser, @Body() room) {
+       const user = req.user;
+    return await this.roomservice.muted(user, room);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Patch('unmuted')
+    async unmuteduser(@Req() req: dbUser, @Body() room) {
+        const user = req.user;
+        return await this.roomservice.unmuted(user, room);
+    }
 
 }
 

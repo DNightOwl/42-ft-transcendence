@@ -56,9 +56,9 @@ model room {
 
 model Muted {
   id String @id @default(uuid())
-  roomName  String
+  roomName  String 
   userLogin  String
-  room room @relation(fields: [roomName], references: [id])
+  room room @relation(fields: [roomName], references: [name])
   time String
 
   @@map("muted")

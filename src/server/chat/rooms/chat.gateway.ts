@@ -16,6 +16,7 @@ import {
    import { dbUser } from '../../users/dto/types';
 import { Client } from 'socket.io/dist/client';
 import { Console } from 'console';
+import { userInfo } from 'os';
    
    @WebSocketGateway({
      cors: {
@@ -31,22 +32,21 @@ import { Console } from 'console';
    async handleMessage(@MessageBody() Body, @ConnectedSocket() client: any) {
     // const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
     // const user1 = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
-    let room;
-    // for (let index = 0; index < this.OnlineUser.length; index++)
-    // {
-    //   if (this.OnlineUser[index].user.login == Body.name)
-    //   {
-    //     this.OnlineUser[index].client.join(room);
-    //   }
-    // }
-    // this.server.to(room).emit('msgServer', Body.data);
     const user1 = client.user;
-    console.log(Body.type);
+    const roomName = ""
       if (Body.type.toString() == 'DM')
       {
+        for (let index = 0; index < this.OnlineUser.length; index++)
+        {
+          if (this.OnlineUser[index].user.login == Body.name)
+          {
+            this.OnlineUser[index].join(roomName);
+          }
+        }
+        this.server.to(roomName).emit("msgFromServer",Body.data);
         const room = await this.prisma.room.findUnique({
           where: {
-            name: (Body.login + user1.login)
+            name: (Body.name + user1.login)
           }
         })
         if (room)
@@ -72,13 +72,28 @@ import { Console } from 'console';
       }
       else
       {
-        const msg = await this.prisma.messages.create({
-          data: {
-              roomName: Body.name,
-              data: Body.data,
-              userLogin: user1.login
+        const rom = await this.prisma.room.findUnique({
+          where: {
+            name: Body.name
           }
         })
+        if (rom)
+        {
+          for (let i = 0; i < this.OnlineUser.length; i++)
+          {
+            const login = rom.members.find((login) => login==this.OnlineUser[i].user.login);
+            if (login && this.OnlineUser[i].user.login != user1.login)
+              this.OnlineUser[i].join(roomName);
+          }
+          this.server.to(roomName).emit("msgFromServer",Body.data);
+          const msg = await this.prisma.messages.create({
+            data: {
+                roomName: Body.name,
+                data: Body.data,
+                userLogin: user1.login
+            }
+          })
+        }
       }
       
 
@@ -89,17 +104,33 @@ import { Console } from 'console';
     // } 
 
    
-    handleDisconnect(@ConnectedSocket() client: any) {
+   async handleDisconnect(@ConnectedSocket() client: any) {
     for (let index = 0; index < this.OnlineUser.length; index++)
     {
-      if (this.OnlineUser[index].user.login == client.user.login)
+      if (this.OnlineUser[index].id == client.id)
       {
         this.OnlineUser.splice(index, 1);
         break;
       }
     }
+    //console.log(this.OnlineUser[0].user);
+    const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
+    const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
+     const test = this.OnlineUser.find((user) => user==user);
+     if (!test)
+     {
+        await this.prisma.user.update({
+        where: {
+          login: user.login
+        },
+        data: {
+          status: "of"
+        }
+      })
+     }
 
-    }
+
+  }
    
    async  handleConnection(@ConnectedSocket() client: any) {
      const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
@@ -107,7 +138,8 @@ import { Console } from 'console';
     client.user = user;
     if (user.status == "of")
     {
-      const user1 = this.prisma.user.update({
+      console.log(user.status);
+      const user1 = await this.prisma.user.update({
         where: {
           login: user.login
         },
@@ -115,7 +147,7 @@ import { Console } from 'console';
           status: "on"
         }
       })
-      }
-      this.OnlineUser.push(client);
     }
+    this.OnlineUser.push(client);
+  }
 }
