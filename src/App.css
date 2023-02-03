@@ -121,9 +121,28 @@ main{
     box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 24px;
 }
 
-.achievements{
+.shadow{
+    box-shadow: rgba(0, 0, 0, 0.2) 0px 0px 24px;
+}
+
+.content-profile{
     padding-bottom: 7.3rem;
 }
+
+.card-user{
+    width: 100%
+}
+
+.username-card{
+    width: 6.5rem;
+}
+
+@media screen and (min-width: 768px) {
+    .card-user{
+        width: 30.8%;
+    }
+  }
+
 
 @media screen and (min-width: 1024px) {
     .active {
