@@ -17,6 +17,7 @@ import {
 import { Client } from 'socket.io/dist/client';
 import { Console } from 'console';
 import { userInfo } from 'os';
+import * as moment from 'moment';
    
    @WebSocketGateway({
      cors: {
@@ -75,8 +76,23 @@ import { userInfo } from 'os';
         const rom = await this.prisma.room.findUnique({
           where: {
             name: Body.name
-          }
-        })
+            }
+          })
+        const user2 = await this.prisma.muted.findMany({
+          where: {
+            userLogin: user1.login,
+            roomName: Body.name
+            }
+          })
+
+        if (user2)
+        {
+            if (user2[0].time < moment().format('YYYY-MM-DD hh:mm:ss'))
+            {
+              this.roomservice.unmuted(user1, Body);
+            }
+            else return;
+        }
         if (rom)
         {
           for (let i = 0; i < this.OnlineUser.length; i++)
@@ -88,16 +104,14 @@ import { userInfo } from 'os';
           this.server.to(roomName).emit("msgFromServer",Body.data);
           const msg = await this.prisma.messages.create({
             data: {
-                roomName: Body.name,
-                data: Body.data,
-                userLogin: user1.login
+              roomName: Body.name,
+              data: Body.data,
+              userLogin: user1.login
             }
-          })
+            })
         }
       }
-      
-
-  }
+    }
    
     // afterInit(server: Server) {
     //  console.log('Init');

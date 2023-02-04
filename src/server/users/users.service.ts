@@ -110,6 +110,33 @@ export class UsersService {
             }
             
         })
+        const room = await this.prisma.room.findUnique({
+            where: {
+                name: login + freind.login
+            }
+        })
+        if (room)
+        {
+            await this.prisma.room.deleteMany({
+                where: {
+                    AND: [
+                        {name: login + freind.login}
+                    ]
+                }
+                
+            })
+        }
+        else
+        {
+            await this.prisma.room.deleteMany({
+                where: {
+                    AND: [
+                        {name: freind.login + login}
+                    ]
+                }
+                
+            })   
+        }
     }
 
     async   banuser(login: string, flogin: string)

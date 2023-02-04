@@ -461,7 +461,7 @@ export class RoomService
         })
       }
 
-      const time = moment().add(1, 'days').format('YYYY-MM-DD hh:mm:ss')
+      const time = moment().add(2, 'm').format('YYYY-MM-DD hh:mm:ss')
       const mute = await this.prisma.muted.create({
         data: {
           roomName: room.name,
@@ -473,15 +473,6 @@ export class RoomService
 
     async unmuted(user: any, room: any)
     {
-        const user1 = await this.prisma.muted.findMany({
-          where: {
-            userLogin: user.login,
-            roomName: room.name
-          }
-        })
-        const time = moment().format('YYYY-MM-DD hh:mm:ss');
-       // if (user1[0].time < time)
-        //{
           await this.prisma.muted.deleteMany({
             where: {
                 AND: [
