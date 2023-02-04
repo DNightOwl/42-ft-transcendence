@@ -461,7 +461,7 @@ export class RoomService
         })
       }
 
-      const time = moment().add(2, 'm').format('YYYY-MM-DD hh:mm:ss')
+      const time = moment().add(1, 'm').format('YYYY-MM-DD hh:mm:ss')
       const mute = await this.prisma.muted.create({
         data: {
           roomName: room.name,

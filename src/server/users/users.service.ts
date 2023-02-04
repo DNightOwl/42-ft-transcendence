@@ -71,9 +71,9 @@ export class UsersService {
                     login: login
                 }
             });
-            const id1 =  blockedUser.blocked.find((login) =>login==freindlogin)
-            if (id1)
-                throw new ForbiddenException('this user is blocked');
+            // const id1 =  blockedUser.blocked.find((login) =>login==freindlogin)
+            // if (id1)
+            //     throw new ForbiddenException('this user is blocked');
             const table = await this.prisma.freinds.create({
                 data: {
                     userLogin: login,
@@ -119,9 +119,7 @@ export class UsersService {
         {
             await this.prisma.room.deleteMany({
                 where: {
-                    AND: [
-                        {name: login + freind.login}
-                    ]
+                        name: login + freind.login
                 }
                 
             })
@@ -130,12 +128,10 @@ export class UsersService {
         {
             await this.prisma.room.deleteMany({
                 where: {
-                    AND: [
-                        {name: freind.login + login}
-                    ]
+                        name: freind.login + login
                 }
                 
-            })   
+            })
         }
     }
 

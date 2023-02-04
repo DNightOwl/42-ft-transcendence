@@ -41,10 +41,10 @@ import * as moment from 'moment';
         {
           if (this.OnlineUser[index].user.login == Body.name)
           {
+
             this.OnlineUser[index].join(roomName);
           }
         }
-        this.server.to(roomName).emit("msgFromServer",Body.data);
         const room = await this.prisma.room.findUnique({
           where: {
             name: (Body.name + user1.login)
@@ -59,16 +59,28 @@ import * as moment from 'moment';
                 userLogin: Body.name
             }
           })
+          this.server.to(roomName).emit("msgFromServer",Body.data);
         }
         else
         {
-          const msg = await this.prisma.messages.create({
-            data: {
-                roomName: (user1.login + Body.name),
-                data: Body.data,
-                userLogin: Body.name
+          const room_freind = await this.prisma.room.findUnique({
+            where: {
+              name: (user1.login + Body.name)
             }
           })
+          if (room_freind)
+          {
+            const msg = await this.prisma.messages.create({
+              data: {
+                  roomName: (user1.login + Body.name),
+                  data: Body.data,
+                  userLogin: Body.name
+                }
+            })
+            this.server.to(roomName).emit("msgFromServer",Body.data);
+          }
+          else
+            return ;
         }
       }
       else
@@ -85,7 +97,7 @@ import * as moment from 'moment';
             }
           })
 
-        if (user2)
+        if (user2[0])
         {
             if (user2[0].time < moment().format('YYYY-MM-DD hh:mm:ss'))
             {
@@ -150,6 +162,7 @@ import * as moment from 'moment';
      const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
     const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
     client.user = user;
+    console.log(user.login);
     if (user.status == "of")
     {
       console.log(user.status);
