@@ -42,7 +42,7 @@ export default function NavigationPhone() {
             </ul>
         </nav>
     </section>
-    <button className='fixed bg-primary bottom-24 right-3 flex justify-center items-center  w-14 h-14 rounded-full lg:hidden'>
+    <button className='fixed bg-primary bottom-24 right-3 flex justify-center items-center  w-14 h-14 rounded-full lg:hidden phone-nav'>
         <ControllerIcon edit='w-8' />
     </button>
     </React.Fragment>
