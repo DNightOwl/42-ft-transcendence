@@ -137,6 +137,11 @@ main{
     width: 6.5rem;
 }
 
+.settings{
+    height: 34rem;
+    width: 90%;
+}
+
 @media screen and (min-width: 768px) {
     .card-user{
         width: 30.8%;
@@ -157,6 +162,10 @@ main{
     }
     .primary-live, .live-list{
         height: 30rem;
+    }
+    .settings{
+        height: 21.5rem;
+        width: 40rem;
     }
   }
 

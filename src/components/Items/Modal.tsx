@@ -4,16 +4,13 @@ import { CloseIcon } from "./Icons";
 interface Props {
     children: JSX.Element | JSX.Element[] | string,
     edit?:string
-    width?:string
-    height?:string
   
   };
 
-  export function Modal({children,width,height}:Props){
-    let size={"width":width,"height":height}
+  export function Modal({children,edit}:Props){
     return(
-        <div className="absolute left-0 top-0 flex justify-center bg-black/30 w-full h-full backdrop-blur-sm">
-            <div className="bg-shape mt-8 rounded-lg flex flex-col p-4" style={size}>
+        <div className="absolute left-0 top-0 flex justify-center items-center lg:items-start bg-black/30 w-full h-full backdrop-blur-sm" style={{"zIndex":"999"}}>
+            <div className={`bg-shape mt-0 lg:mt-8 rounded-lg flex flex-col pt-4 px-4 ${edit}`}>
                 {children}
             </div>
         </div>

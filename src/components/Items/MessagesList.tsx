@@ -29,7 +29,7 @@ export default function MessagesList({
         </div>
       ) : (
         <div className="mx-2 flex items-center justify-between gap-2">
-          <div className="flex items-center rounded-md bg-shape pl-2 flex-1">
+          <div className="flex flex-1 items-center rounded-md bg-shape pl-2">
             <SearchIcon edit="w-3 relative" />
             <input
               type="text"
@@ -37,7 +37,7 @@ export default function MessagesList({
               className="placeholder-secondary-text flex-1 bg-transparent py-2.5 px-2 text-xs font-light text-primaryText placeholder:text-xs placeholder:font-light focus:outline-none"
             />
           </div>
-          <button className="h-6 w-6 bg-primary flex justify-center items-center rounded-full">
+          <button className="flex h-6 w-6 items-center justify-center rounded-full bg-primary">
             <PlusIcon edit="w-2.5 h-2.5 fill-primaryText" />
           </button>
         </div>
