@@ -214,7 +214,7 @@ export class RoomService
           })
           const id1 =  rooms.admins.find((login) =>login==user.login)
           if (!id1)
-              throw new ForbiddenException('is Not admins');
+              throw new ForbiddenException('you are  Not admins');
           const id2 = rooms.admins.find((login) =>login==room.login)
           if (id2 && rooms.owner != user.login)
             throw new ForbiddenException('you are not owner, impossiple to remove admin');
@@ -251,6 +251,39 @@ export class RoomService
               },
             },
           })
+        }
+
+        async unblockfromroom(user: any, room: any)
+        {
+          const rooms = await this.prisma.room.findUnique({
+            where: {
+              name: room.name
+            }
+          })
+          const id1 =  rooms.admins.find((login) =>login==user.login)
+          if (!id1)
+              throw new ForbiddenException('you are  Not admins');
+              const userUpdate = await this.prisma.room.update({
+                where: {
+                 name: room.name
+                },
+                data: {
+                  blocked: {
+                    set: rooms.blocked.filter((login) => login != room.login)
+                    }
+                  }
+              })
+              const addtoblock = await this.prisma.room.update({
+                where: {
+                  name: room.name,
+                },
+                data: {
+                  members: {
+                    push: room.login,
+                  },
+                },
+              })
+          
         }
 
         async quite_room(user: any, rom: any)
@@ -437,16 +470,16 @@ export class RoomService
       const id2 = rooms.admins.find((login) =>login==room.login)
       if (id2 && rooms.owner != user.login)
         throw new ForbiddenException('you are not owner, impossiple to mute admin');
-        const userUpdate = await this.prisma.room.update({
-        where: {
-         name: room.name
-        },
-        data: {
-          members: {
-            set: rooms.members.filter((login) => login != room.login)
-            }
-          }
-      })
+      //   const userUpdate = await this.prisma.room.update({
+      //   where: {
+      //    name: room.name
+      //   },
+      //   data: {
+      //     members: {
+      //       set: rooms.members.filter((login) => login != room.login)
+      //       }
+      //     }
+      // })
       if (id2)
       {
         const adminupdate = await this.prisma.room.update({
@@ -482,7 +515,6 @@ export class RoomService
             }
             
         })
-        this.addtoroom(user, room.name);
         }
     //}
 }

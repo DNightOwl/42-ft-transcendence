@@ -28,13 +28,16 @@ import * as moment from 'moment';
    constructor(private prisma: PrismaService, private roomservice: RoomService) {}
     @WebSocketServer() server: Server;
     OnlineUser: any[] = [];
+    id : number = 0;
 
     @SubscribeMessage('msgServer')
    async handleMessage(@MessageBody() Body, @ConnectedSocket() client: any) {
     // const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
     // const user1 = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
     const user1 = client.user;
-    let roomName = `<${client.user.login}_${Body.name}>`
+    this.id += 1;
+    let roomName = `<${client.user.login}_${this.id}>`
+    console.log(this.id);
       if (Body.type.toString() == 'DM')
       {
         for (let index = 0; index < this.OnlineUser.length; index++)
@@ -89,25 +92,21 @@ import * as moment from 'moment';
             name: Body.name
             }
           })
-       for (let index = 0; index < this.OnlineUser.length; index++)
-        {
           const user2 = await this.prisma.muted.findMany({
             where: {
-              userLogin: this.OnlineUser[index].user.login,
+              userLogin: user1.login,
               roomName: Body.name
               }
             })
-            console.log(user2[0]);
           if (user2[0])
           {
               console.log('============>');
               if (user2[0].time < moment().format('YYYY-MM-DD hh:mm:ss'))
               {
-                this.roomservice.unmuted(this.OnlineUser[index].user, Body);
+                this.roomservice.unmuted(user1, Body);
               }
               else return;
           }
-       }
         if (rom)
         {
           for (let i = 0; i < this.OnlineUser.length; i++)

@@ -88,6 +88,14 @@ export class RoomController
         await this.roomservice.banmember(user, room);
     }
 
+    @UseGuards(JwtAuthGuard)
+    @Patch('/unblockfromroom')
+     async  unblock(@Req() req: dbUser, @Body() room)
+    {
+        const user = req.user
+        await this.roomservice.unblockfromroom(user, room);
+    }
+
     @Get('allmessages')
     async   getMessage(@Body() room)
     {
