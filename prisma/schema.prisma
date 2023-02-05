@@ -11,7 +11,7 @@ datasource db {
 }
 
 model user {
-    
+
     id String @unique @default(uuid())
     login String @unique
     email String @unique
@@ -26,7 +26,8 @@ model user {
     freinds Freinds[]
     two_fa_secret String?
     two_fa_enabled Boolean @default(false)
-    
+  
+    achievements UserAchievement[] 
     @@map("users")
 }
 
@@ -48,6 +49,25 @@ model room {
   admins String[]
 
   hash String?
-  
+
   @@map("rooms")
+}
+
+model Achievement {
+  id              String            @id @unique @default(uuid())
+  name            String            @unique
+  goals           String            @unique
+  users UserAchievement[]
+  
+
+  @@map("achievements")
+}
+
+model UserAchievement {
+  user          user        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId        String
+  Achievement   Achievement @relation(fields: [AchievementId], references: [id],  onDelete: Cascade)
+  AchievementId String
+
+  @@id([userId, AchievementId])
 }
