@@ -34,14 +34,13 @@ import * as moment from 'moment';
     // const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
     // const user1 = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
     const user1 = client.user;
-    const roomName = ""
+    let roomName = `<${client.user.login}_${Body.name}>`
       if (Body.type.toString() == 'DM')
       {
         for (let index = 0; index < this.OnlineUser.length; index++)
         {
           if (this.OnlineUser[index].user.login == Body.name)
           {
-
             this.OnlineUser[index].join(roomName);
           }
         }
@@ -90,21 +89,25 @@ import * as moment from 'moment';
             name: Body.name
             }
           })
-        const user2 = await this.prisma.muted.findMany({
-          where: {
-            userLogin: user1.login,
-            roomName: Body.name
-            }
-          })
-
-        if (user2[0])
+       for (let index = 0; index < this.OnlineUser.length; index++)
         {
-            if (user2[0].time < moment().format('YYYY-MM-DD hh:mm:ss'))
-            {
-              this.roomservice.unmuted(user1, Body);
-            }
-            else return;
-        }
+          const user2 = await this.prisma.muted.findMany({
+            where: {
+              userLogin: this.OnlineUser[index].user.login,
+              roomName: Body.name
+              }
+            })
+            console.log(user2[0]);
+          if (user2[0])
+          {
+              console.log('============>');
+              if (user2[0].time < moment().format('YYYY-MM-DD hh:mm:ss'))
+              {
+                this.roomservice.unmuted(this.OnlineUser[index].user, Body);
+              }
+              else return;
+          }
+       }
         if (rom)
         {
           for (let i = 0; i < this.OnlineUser.length; i++)
@@ -162,7 +165,6 @@ import * as moment from 'moment';
      const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
     const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
     client.user = user;
-    console.log(user.login);
     if (user.status == "of")
     {
       console.log(user.status);
