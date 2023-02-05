@@ -40,7 +40,7 @@ export async function populateDB() {
 		update: {},
 		create: {
 			name: '2 lose streak',
-			goals: '3|2',
+			goals: '2|2',
 		}
 	})
 	await prisma.achievement.upsert({
