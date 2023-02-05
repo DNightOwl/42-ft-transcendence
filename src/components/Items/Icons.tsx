@@ -296,3 +296,34 @@ export function LogoutIcon(props:typeProps){
 </svg>
   )
 }
+
+export function CloseIcon(props:typeProps){
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25.432 25.139" className={props.edit}>
+  <g id="Group_179" data-name="Group 179" transform="translate(0 -1.844)">
+    <g id="Group_178" data-name="Group 178" transform="translate(0.001 1.844)">
+      <g id="close1" transform="translate(0 0)">
+        <path id="Path_58" data-name="Path 58" d="M2.411,27.547A2.409,2.409,0,0,1,.7,26.969a2.409,2.409,0,0,1,0-3.4L21.152,3.121A2.409,2.409,0,0,1,24.669,6.4L4.1,26.969A2.409,2.409,0,0,1,2.411,27.547Z" transform="translate(-0.001 -2.421)"/>
+        <path id="Path_59" data-name="Path 59" d="M24.245,26.97a2.409,2.409,0,0,1-1.686-.7L2.107,5.82a2.409,2.409,0,0,1,3.4-3.4L26.076,22.875a2.409,2.409,0,0,1,.112,3.4q-.054.058-.112.112a2.409,2.409,0,0,1-1.831.578Z" transform="translate(-1.407 -1.844)"/>
+      </g>
+    </g>
+  </g>
+</svg>
+  )
+}
+
+export function EditAvatarIcon(props:typeProps){
+  return(
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28.025 28" className={props.edit}>
+<g id="Group_408" data-name="Group 408" transform="translate(-2 -2)">
+  <g id="Group_407" data-name="Group 407">
+    <circle id="Ellipse_16" data-name="Ellipse 16" cx="2.5" cy="2.5" r="2.5" transform="translate(8.5 6)"/>
+    <path id="Path_79" data-name="Path 79" d="M17.7,11.3a.967.967,0,0,0-1.4,0L11,16.6,8.7,14.3a.967.967,0,0,0-1.4,0L6,15.6V22h5.8l.1-.1,8.2-8.2Z"/>
+    <path id="Path_80" data-name="Path 80" d="M4,23V5A1.075,1.075,0,0,1,5,4H23a1.075,1.075,0,0,1,1,1v5.5a6.465,6.465,0,0,1,2-.4V5a2.946,2.946,0,0,0-3-3H5A2.946,2.946,0,0,0,2,5V23a2.946,2.946,0,0,0,3,3h5.5l.4-2H5a.945.945,0,0,1-1-1Z"/>
+    <path id="Path_81" data-name="Path 81" d="M28.9,13.1a3.8,3.8,0,0,0-5.4,0l-.5.5L28.4,19l.5-.5A3.8,3.8,0,0,0,28.9,13.1Z"/>
+    <path id="Path_82" data-name="Path 82" d="M13.3,23.3a2.186,2.186,0,0,0-.3.5l-1,5a.806.806,0,0,0,.3.9,1.4,1.4,0,0,0,.9.3l5-1a.55.55,0,0,0,.5-.3L27,20.4,21.6,15Z"/>
+  </g>
+</g>
+</svg>
+  )
+}

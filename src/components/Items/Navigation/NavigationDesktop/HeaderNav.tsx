@@ -2,7 +2,8 @@ import React from 'react';
 import {SearchIcon, ControllerIcon, ArrowDownIcon,ArrowUpIcon,SettingsNavIcon,LogoutIcon} from '../../Icons';
 import UserPicture from '../../../../assets/user.jpg';
 import {useState} from 'react'
-
+import {Modal,ModalHeader,ModalBody} from '../../Modal';
+import SettingsBody from '../../SettingsBody';
 
 interface typeProps{
     messages:boolean,
@@ -50,6 +51,14 @@ export default function HeaderNav({messages,chatState}:typeProps) {
                     }
                 </div>
             </div>
+            <Modal width='40rem' height='20rem'>
+                <ModalHeader>
+                    Settings
+                </ModalHeader>
+                <ModalBody>
+                    <SettingsBody />
+                </ModalBody>
+            </Modal>
         </section>
     ):null
   )
