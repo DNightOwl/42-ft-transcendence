@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from 'src/auth/auth.module';
-import { PrismaModule } from '../prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import * as Joi from 'joi'
 import { RoomModule } from './chat/rooms/room.modules';
 import { AchievementsModule } from 'src/achievements/achievements.module';//TODO : to be added to the game module
+import { PrismaModule } from './prisma/prisma.module';
 
 
 @Module({

@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable} from "@nestjs/common";
 import { use } from "passport";
-import { PrismaService } from "src/server/prisma/prisma.service";
+import { PrismaService } from "src/prisma/prisma.service";
 import { comparepassword, hashPassword} from "./utils/bcrypt";
 import { chanel, typeObject } from "./utils/typeObject";
 import { JwtService } from "@nestjs/jwt";

@@ -10,10 +10,8 @@ import {
    } from '@nestjs/websockets';
    import { Logger,  UseGuards, Req } from '@nestjs/common';
    import { Socket, Server } from 'socket.io';
-   import { PrismaService } from "src/server/prisma/prisma.service";
+   import { PrismaService } from "src/prisma/prisma.service";
    import { RoomService } from "./room.service";
-   import { JwtAuthGuard } from '../../auth/jwt/jwt.guard';
-   import { dbUser } from '../../users/dto/types';
 import { Client } from 'socket.io/dist/client';
 import { Console } from 'console';
 import { userInfo } from 'os';

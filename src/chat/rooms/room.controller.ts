@@ -9,7 +9,7 @@ import {Controller,
     Body,} from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
-import { PrismaService } from "src/server/prisma/prisma.service";
+import { PrismaService } from "src/prisma/prisma.service";
 import { RoomDto} from "./dto";
 import { JwtAuthGuard } from '../../auth/jwt/jwt.guard';
 import { RoomService } from './room.service';

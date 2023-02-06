@@ -4,7 +4,7 @@ import { types } from 'joi';
 import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 import { UsersService } from './users.service';
 import { RequestWithUser, dbUser } from './dto/types';
-import { PrismaService } from "src/server/prisma/prisma.service";
+import { PrismaService } from "src/prisma/prisma.service";
 import { FileInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
 import { diskStorage } from 'multer';
