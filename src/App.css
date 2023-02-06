@@ -137,7 +137,7 @@ main{
     width: 6.5rem;
 }
 
-.settings{
+.modal{
     height: 34rem;
     width: 90%;
 }
@@ -163,7 +163,7 @@ main{
     .primary-live, .live-list{
         height: 30rem;
     }
-    .settings{
+    .modal{
         height: 21.5rem;
         width: 40rem;
     }

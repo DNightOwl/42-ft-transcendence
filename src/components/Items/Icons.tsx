@@ -340,3 +340,17 @@ export function QrIcon(props:typeProps){
 </svg>
   )
 }
+
+
+export function CheckIcon(props:typeProps){
+  return(
+    <svg id="Group_303" data-name="Group 303" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 19.034 13.696" className={props.edit}>
+  <g id="Group_302" data-name="Group 302" transform="translate(0 0)">
+    <g id="Group_301" data-name="Group 301" transform="translate(0 0)">
+      <path id="Path_75" data-name="Path 75" d="M18.591,72.23a1.51,1.51,0,0,0-2.135,0L6.848,81.839,2.577,77.569A1.51,1.51,0,0,0,.442,79.7L5.78,85.042a1.51,1.51,0,0,0,2.135,0L18.591,74.366A1.51,1.51,0,0,0,18.591,72.23Z" transform="translate(0.001 -71.788)" fill="#fff"/>
+    </g>
+  </g>
+</svg>
+
+  )
+}
