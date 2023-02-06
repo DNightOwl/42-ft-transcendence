@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { dataChat } from "../../../Data";
 import { Modal, ModalHeader, ModalBody } from "../Modal";
 import SettingsBody from "../SettingsBody";
-import CreateChannelBody from '../CreateChannelBody'
+//import CreateChannelBody from '../CreateChannelBody'
 
 interface typeprops {
   chatState: any;
@@ -25,6 +25,7 @@ export default function Navigation({
   setModal,
 }: typeprops) {
   const [messages, setMessages] = useState(false);
+  const [login,setLogin] = useState(false);
   const location = useLocation();
   useEffect(() => {
     if (location.pathname === "/Messages") {
@@ -34,9 +35,15 @@ export default function Navigation({
       setConversation(false);
       setChatState(dataChat[0]);
     }
-  }, [location.pathname, setConversation, setChatState]);
+
+    if(location.pathname === "/")
+      setLogin(true);
+  }, [location.pathname, setConversation, setChatState,login]);
+  console.log(login);
+  
   return (
-    <React.Fragment>
+    (!login)?(
+      <React.Fragment>
       <NavigationDesktop
         chatState={chatState}
         setChatState={setChatState}
@@ -57,12 +64,19 @@ export default function Navigation({
           </ModalBody>
         </Modal>
       ) : null}
-      <Modal edit="modal">
+{
+  /*
+  }      <Modal edit="modal">
         <ModalHeader>Create Channel</ModalHeader>
         <ModalBody>
           <CreateChannelBody />
         </ModalBody>
-      </Modal>
+      </Modal> 
+  */
+
+}
+
     </React.Fragment>
+    ):null
   );
 }
