@@ -5,7 +5,7 @@ services:
     image: transcendence-backend
     build:
       context: .
-      dockerfile: ./Dockerfile
+      dockerfile: ./backend/Dockerfile
     ports:
       - 3000:3000
       - 5555:5555
@@ -15,7 +15,7 @@ services:
       - postgres
     working_dir: /app/backend
     volumes:
-      - ./:/app/backend
+      - ./backend:/app/backend
       - /app/backend/node_modules
     restart: unless-stopped
 

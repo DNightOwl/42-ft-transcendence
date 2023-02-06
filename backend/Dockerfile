@@ -1,19 +1,15 @@
-FROM node:19-buster
+FROM node:18.13.0-buster
 
 USER node
 WORKDIR /app/backend
 
-COPY --chown=node:node package.json ./
-
-COPY --chown=node:node prisma ./prisma/
+COPY --chown=node:node ./backend ./
 
 # COPY ENV variable
-COPY --chown=node:node .env ./
+# COPY --chown=node:node .env ./
+# COPY --chown=node:node .env /app/
+# COPY --chown=node:node .env /app/backend
 
-RUN npm install
+RUN npm install --prefix /app/backend
 
-COPY --chown=node:node . .
-
-
-
-CMD ["bash", "run.sh"]
+CMD ["bash", "/app/backend/run.sh"]
