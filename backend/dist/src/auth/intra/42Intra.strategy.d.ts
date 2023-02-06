@@ -1,3 +1,4 @@
+/// <reference types="passport-oauth2" />
 import { Profile } from "passport";
 import { PrismaService } from "src/prisma/prisma.service";
 import { ConfigService } from "@nestjs/config";
