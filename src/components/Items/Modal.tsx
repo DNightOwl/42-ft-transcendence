@@ -36,8 +36,8 @@ export function ModalHeader({children,settings}:Props){
     )
 }
 
-export function ModalBody({children}:Props){
+export function ModalBody({children,edit}:Props){
     return(
-        <div className="flex justify-center h-full">{children}</div>
+        <div className={`flex h-full ${edit}`}>{children}</div>
     )
 }

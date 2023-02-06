@@ -52,7 +52,7 @@ export default function Navigation({
       {modal ? (
         <Modal edit="modal">
           <ModalHeader settings={setModal}>Settings</ModalHeader>
-          <ModalBody>
+          <ModalBody edit="justify-center">
             <SettingsBody settings={setModal} />
           </ModalBody>
         </Modal>
