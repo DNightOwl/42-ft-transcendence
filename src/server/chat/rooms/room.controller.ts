@@ -37,17 +37,30 @@ export class RoomController
 
     
     @UseGuards(JwtAuthGuard)
-    @Post('/addtoroom')
-    async  addtoroom(@Req() req: dbUser, @Body() room)
+    @Post('/addroom')
+    async  addroom(@Req() req: dbUser, @Body() room)
     {
         const user = req.user
         if (room.type === "public")
-        await this.roomservice.addtoroom(user, room.name);
+            await this.roomservice.addroom(user, room.name);
         else
-        await this.roomservice.addtoroomprotected(user, room);
+            await this.roomservice.addroomprotected(user, room);
     }
 
-     
+    
+    @UseGuards(JwtAuthGuard)
+    @Post('/addtoroom')
+    async addtoroom(@Req() req: dbUser, @Body() room)
+    {
+        const user = req.user;
+        await this.roomservice.addtoroom(user, room); 
+    }
+    
+    @Get('/userswithroom/:name')
+    async   getallUserswithRoom(@Param('name') name: string)
+    {
+        return await this.roomservice.getallUserswithRoom(name);
+    }
 
      @UseGuards(JwtAuthGuard)
      @Post('quiteRoom')
@@ -123,8 +136,8 @@ export class RoomController
     @UseGuards(JwtAuthGuard)
     @Patch('muted')
     async muteduser(@Req() req: dbUser, @Body() room) {
-       const user = req.user;
-    return await this.roomservice.muted(user, room);
+        const user = req.user;
+        return await this.roomservice.muted(user, room);
     }
 
     @UseGuards(JwtAuthGuard)

@@ -5,6 +5,7 @@ import { PrismaModule } from './prisma/prisma.module';
 import { UsersModule } from './users/users.module';
 import * as Joi from 'joi'
 import { RoomModule } from './chat/rooms/room.modules';
+import { AchievementsModule } from './achievements/achievements.module'; //TODO : to be added to the game module
 
 
 @Module({
@@ -13,6 +14,7 @@ import { RoomModule } from './chat/rooms/room.modules';
     PrismaModule,
     UsersModule,
     RoomModule,
+    AchievementsModule, //TODO : to be added to the game module
     ConfigModule.forRoot({
       isGlobal: true,
       validationSchema: Joi.object({
@@ -27,7 +29,7 @@ import { RoomModule } from './chat/rooms/room.modules';
         REFRESH_TOKEN_SECRET: Joi.string().required(),
         REFRESH_TOKEN_EXPIRATION: Joi.string().required(),
       })
-    })
+    }),
   ],
 })
 export class AppModule {}
