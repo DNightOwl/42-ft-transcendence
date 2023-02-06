@@ -3,7 +3,7 @@ import { PassportStrategy } from "@nestjs/passport";
 import { Profile } from "passport";
 import { Strategy  } from "passport-oauth2";
 import axios from 'axios';
-import { PrismaService } from "src/server/prisma/prisma.service";
+import { PrismaService } from "src/prisma/prisma.service";
 import { ConfigService } from "@nestjs/config";
 
 
