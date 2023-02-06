@@ -1,7 +1,11 @@
 import React, { useState } from "react";
 import { EditAvatarIcon, QrIcon } from "./Icons";
 
-export default function SettingsBody() {
+interface typeProps{
+  settings?:React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function SettingsBody({settings}:typeProps) {
   const [value, setValue] = useState<string>("mouassit");
   const [switchBtn, setSwitchBtn] = useState<boolean>(false);
   const [picture, setPicture] = useState<string>(
@@ -85,7 +89,13 @@ export default function SettingsBody() {
         </div>
       </div>
       <div className="flex w-full items-center justify-end gap-3">
-        <button className="w-32 rounded-md bg-shape p-2 text-sm text-primaryText shadow">
+        <button className="w-32 rounded-md bg-shape p-2 text-sm text-primaryText shadow" onClick={()=>{
+            if(settings)
+            {
+                settings(false);
+                document.body.style.overflow="auto";
+            }
+        }}>
           Cancel
         </button>
         <button className="w-32 rounded-md bg-primary p-2 text-sm text-primaryText">

@@ -264,7 +264,7 @@ export function SettingsNavIcon(props:typeProps){
     <g id="g117" transform="translate(-359.24 -277.713)">
       <g id="g119" transform="translate(0 0)">
         <g id="Group_362" data-name="Group 362">
-          <g id="Group_361" data-name="Group 361" clip-path="url(#clip-path)">
+          <g id="Group_361" data-name="Group 361" clipPath="url(#clip-path)">
             <g id="g121" transform="translate(0 -0.152)">
               <g id="g127">
                 <g id="path129">

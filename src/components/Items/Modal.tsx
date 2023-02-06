@@ -4,6 +4,8 @@ import { CloseIcon } from "./Icons";
 interface Props {
     children: JSX.Element | JSX.Element[] | string,
     edit?:string
+    settings?:React.Dispatch<React.SetStateAction<boolean>>
+
   
   };
 
@@ -17,11 +19,17 @@ interface Props {
     )
 }
 
-export function ModalHeader({children}:Props){
+export function ModalHeader({children,settings}:Props){
     return(
         <div className="flex items-center w-full justify-between border-secondaryText pb-5" style={{"borderBottom":"1px solid #81879C"}}>
             <div className="text-primaryText text-xl font-light">{children}</div>            
-            <button className="w-4 h-4 rounded-full">
+            <button className="w-4 h-4 rounded-full" onClick={()=>{
+                if(settings)
+                {
+                    settings(false)
+                    document.body.style.overflow="auto";
+                }
+                }}>
                 <CloseIcon edit="w-full h-full fill-secondaryText"/>
             </button>        
         </div>

@@ -1,20 +1,26 @@
-import React, { useEffect ,useRef} from 'react'
+import React, { useEffect, useRef} from 'react'
 import BoxMessagesFriend from './Items/BoxMessagesFriend';
 import BoxMessagesUser from './Items/BoxMessagesUser';
 import BoxMessagesMember from './Items/BoxMessagesMember';
 import { SendIcon } from './Items/Icons';
 import MessagesContainer from './Items/MessagesContainer';
-import HeaderChat from './Items/Navigation/NavigationDesktop/HeaderChat'
+import HeaderChat from './Items/Navigation/NavigationDesktop/HeaderChat';
+import {Modal,ModalHeader,ModalBody} from './Items/Modal';
+import SettingsBody from './Items/SettingsBody';
 
 interface typeProps{
   chatState:any,
   setChatState:React.Dispatch<React.SetStateAction<any>>
   conversation:boolean
   setConversation:React.Dispatch<React.SetStateAction<boolean>>
+  modal?:boolean
+  setModal?:React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function Messages({chatState,setChatState,conversation,setConversation}:typeProps) {
+export default function Messages({chatState,setChatState,conversation,setConversation,modal,setModal}:typeProps) {
 const scroll = useRef<HTMLDivElement>(null)
+
+
   useEffect(()=>{
     document.title = "Pong - Messages";
     let objDiv = document.querySelectorAll(".conversation");
@@ -37,7 +43,7 @@ const scroll = useRef<HTMLDivElement>(null)
     <React.Fragment>
     <main className={`lg:pt-0 overflow-hidden h-full lg:ml-64 lg:mr-4 pb-0 ${conversation?'pt-0':''}`}>
       <div className={`${conversation?'':'hidden'} lg:flex flex-col h-full relative overflow-hidden mb-16 pb-16 lg:mb-8 lg:pb-8`}>
-      <HeaderChat chatState={chatState}/>
+      <HeaderChat chatState={chatState} settings={setModal}/>
         <div className='h-full overflow-auto mb-16 pb-16 lg:mb-8 lg:pb-8 conversation' ref={scroll}>
           <div className='flex flex-col gap-20'>
             {
@@ -66,6 +72,18 @@ const scroll = useRef<HTMLDivElement>(null)
         (!conversation)?<MessagesContainer chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation}/>:null
       }
     </main>
+    {
+        (modal)?(
+        <Modal edit='settings'>
+          <ModalHeader settings={setModal}>
+            Settings
+          </ModalHeader>
+          <ModalBody>
+            <SettingsBody settings={setModal}/>
+          </ModalBody>
+        </Modal>
+        ):null
+      }
     </React.Fragment>
   )
 }
