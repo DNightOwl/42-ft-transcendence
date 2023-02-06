@@ -16,7 +16,7 @@ export default function HeaderPhone({conversation,setConversation,chatState}:typ
   {
     return (
       <section className='flex justify-center items-center pt-7 lg:hidden'>
-          <Link to="/">
+          <Link to="/Home">
               <img src={logo} alt="Pong logo" className='w-48' />
           </Link>
       </section>

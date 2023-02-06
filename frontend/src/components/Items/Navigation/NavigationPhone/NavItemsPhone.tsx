@@ -11,7 +11,7 @@ export default function NavigationPhone() {
         <nav className='bg-shape p-2 rounded-lg'>
             <ul className='flex justify-between items-center'>
                 <li>
-                    <NavLink to="/" className='phone-nav-item'>
+                    <NavLink to="/Home" className='phone-nav-item'>
                         <HomeIcon/>
                         <span>Home</span>
                     </NavLink>
@@ -29,13 +29,13 @@ export default function NavigationPhone() {
                     </NavLink>
                 </li>
                 <li>
-                    <a href="/" className='phone-nav-item'>
+                    <a href="/Home" className='phone-nav-item'>
                         <SearchIcon/>
                         <span>Search</span>
                     </a>
                 </li>
                 <li>
-                    <a href="/" className='flex flex-col justify-center items-center gap-1.5'>
+                    <a href="/Home" className='flex flex-col justify-center items-center gap-1.5'>
                         <img className='w-11 h-11 rounded-3xl' src={userPicture} alt="User profile" />
                     </a>
                 </li>
