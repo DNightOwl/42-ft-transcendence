@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 import { dataChat } from "../../../Data";
 import { Modal, ModalHeader, ModalBody } from "../Modal";
 import SettingsBody from "../SettingsBody";
-import CreateChannelBody from '../CreateChannelBody'
+//import CreateChannelBody from '../CreateChannelBody'
 
 interface typeprops {
   chatState: any;
@@ -57,12 +57,18 @@ export default function Navigation({
           </ModalBody>
         </Modal>
       ) : null}
-      <Modal edit="modal">
+{
+  /*
+  }      <Modal edit="modal">
         <ModalHeader>Create Channel</ModalHeader>
         <ModalBody>
           <CreateChannelBody />
         </ModalBody>
-      </Modal>
+      </Modal> 
+  */
+
+}
+
     </React.Fragment>
   );
 }
