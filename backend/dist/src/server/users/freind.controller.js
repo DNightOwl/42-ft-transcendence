@@ -1,0 +1,1 @@
+//# sourceMappingURL=freind.controller.js.map
