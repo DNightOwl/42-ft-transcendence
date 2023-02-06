@@ -5,6 +5,7 @@ import Navigation from "./components/Items/Navigation/Navigation";
 import Home from "./components/Home";
 import Messages from "./components/Messages";
 import Profile from "./components/Profile";
+import Login from "./components/Login";
 import {dataChat} from './Data'
 
 function App() {
@@ -16,8 +17,9 @@ function App() {
     <HashRouter>
       <Navigation chatState={chatState} setChatState={setChatState} conversation = {conversation} setConversation={setConversation} modal={modal} setModal={setModal}/>
         <Routes>
+          <Route path='/' element={<Login/>} />
+          <Route path='/Home' element={<Home/>} />
           <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal}/>} />
-          <Route path='/' element={<Home/>} />
           <Route path='/Profile' element={<Profile/>} />
         </Routes>
     </HashRouter>

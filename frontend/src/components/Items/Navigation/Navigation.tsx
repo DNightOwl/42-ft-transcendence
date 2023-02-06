@@ -25,6 +25,7 @@ export default function Navigation({
   setModal,
 }: typeprops) {
   const [messages, setMessages] = useState(false);
+  const [login,setLogin] = useState(false);
   const location = useLocation();
   useEffect(() => {
     if (location.pathname === "/Messages") {
@@ -34,9 +35,15 @@ export default function Navigation({
       setConversation(false);
       setChatState(dataChat[0]);
     }
-  }, [location.pathname, setConversation, setChatState]);
+
+    if(location.pathname === "/")
+      setLogin(true);
+  }, [location.pathname, setConversation, setChatState,login]);
+  console.log(login);
+  
   return (
-    <React.Fragment>
+    (!login)?(
+      <React.Fragment>
       <NavigationDesktop
         chatState={chatState}
         setChatState={setChatState}
@@ -70,5 +77,6 @@ export default function Navigation({
 }
 
     </React.Fragment>
+    ):null
   );
 }
