@@ -1,5 +1,5 @@
 import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
+import { JwtAuthGuard } from 'src/auth/jwt/jwt.guard';
 import { AchievementsService } from './achievements.service';
 
 @Controller('achievements')

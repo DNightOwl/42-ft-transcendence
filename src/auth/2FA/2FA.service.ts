@@ -1,7 +1,7 @@
 import * as qrcode from 'qrcode'
 import { Injectable } from '@nestjs/common';
 import { authenticator } from 'otplib';
-import { PrismaService } from 'src/server/prisma/prisma.service';
+import { PrismaService } from 'src/prisma/prisma.service';
 import { user } from '@prisma/client';
 
 @Injectable()
