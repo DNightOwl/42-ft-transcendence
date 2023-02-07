@@ -1,6 +1,6 @@
 
 import React, { useState } from "react";
-import { HashRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Items/Navigation/Navigation";
 import Home from "./components/Home";
 import Messages from "./components/Messages";
@@ -14,15 +14,16 @@ function App() {
   const [modal,setModal] = useState(false);
   
   return (
-    <HashRouter>
+    <BrowserRouter>
       <Navigation chatState={chatState} setChatState={setChatState} conversation = {conversation} setConversation={setConversation} modal={modal} setModal={setModal}/>
         <Routes>
-          <Route path='/' element={<Login/>} />
+        <Route path='/' element={<Login/>} />
+        <Route path='/Login' element={<Login/>} />
           <Route path='/Home' element={<Home/>} />
           <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal}/>} />
           <Route path='/Profile' element={<Profile/>} />
         </Routes>
-    </HashRouter>
+    </BrowserRouter>
   );
 }
 
