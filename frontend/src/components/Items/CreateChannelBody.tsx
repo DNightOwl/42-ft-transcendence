@@ -23,7 +23,36 @@ export default function CreateChannelBody() {
                     <span className='text-primaryText text-md font-light'>Protected</span>
                 </button>
             </div>
-            <div className='flex flex-col lg:flex-row items-center lg:items-end gap-3 '>
+            <div className='flex flex-col gap-6'>
+              <div className='flex gap-5'>
+              <div className="flex flex-col gap-1.5 w-80 lg:w-full">
+              <label htmlFor="Name channel" className="text-sm text-primaryText">
+                Name Channel
+              </label>
+              <input
+                type="text"
+                className="placeholder-secondary-text rounded-md bg-body p-3 text-xs text-primaryText outline-none placeholder:text-xs placeholder:font-light"
+                placeholder="Enter name channel"
+              />
+            </div>
+            <div className="flex flex-col gap-1.5 w-80 lg:w-full">
+              <label htmlFor="Name channel" className="text-sm text-primaryText">
+                Password
+              </label>
+              <input
+                type="text"
+                className="placeholder-secondary-text rounded-md bg-body p-3 text-xs text-primaryText outline-none placeholder:text-xs placeholder:font-light"
+                placeholder="Enter password"
+              />
+            </div>
+              </div>
+              <div className='flex justify-end'>
+              <button className="w-80 lg:w-32 rounded-md bg-primary p-2.5 text-sm text-primaryText">
+                Create
+            </button>
+              </div>
+            </div>
+            {/* <div className='flex flex-col lg:flex-row items-center lg:items-end gap-3 '>
             <div className="flex flex-col gap-1.5 w-80 lg:w-full">
               <label htmlFor="Name channel" className="text-sm text-primaryText">
                 Name Channel
@@ -37,7 +66,7 @@ export default function CreateChannelBody() {
             <button className="w-80 lg:w-32 rounded-md bg-primary p-2.5 text-sm text-primaryText">
                 Create
             </button>
-            </div>
+            </div> */}
         </div>
     </div>
   )

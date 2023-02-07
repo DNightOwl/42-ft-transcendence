@@ -6,7 +6,7 @@ import { dataChat } from "../../../Data";
 import { Modal, ModalHeader, ModalBody } from "../Modal";
 import SettingsBody from "../SettingsBody";
 import NotFound from "../../NotFound";
-//import CreateChannelBody from '../CreateChannelBody'
+import CreateChannelBody from '../CreateChannelBody'
 
 interface typeprops {
   chatState: any;
@@ -72,18 +72,13 @@ export default function Navigation({
             <SettingsBody settings={setModal} />
           </ModalBody>
         </Modal>
-      ) : null}
-{
-  /*
-  }      <Modal edit="modal">
+      ) : null}  
+      <Modal edit="modal">
         <ModalHeader>Create Channel</ModalHeader>
         <ModalBody>
           <CreateChannelBody />
         </ModalBody>
-      </Modal> 
-  */
-
-}
+      </Modal>
     </React.Fragment>
     ):null
   );
