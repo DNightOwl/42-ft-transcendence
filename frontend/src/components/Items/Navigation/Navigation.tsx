@@ -5,6 +5,7 @@ import { useLocation } from "react-router-dom";
 import { dataChat } from "../../../Data";
 import { Modal, ModalHeader, ModalBody } from "../Modal";
 import SettingsBody from "../SettingsBody";
+import NotFound from "../../NotFound";
 //import CreateChannelBody from '../CreateChannelBody'
 
 interface typeprops {
@@ -25,10 +26,16 @@ export default function Navigation({
   setModal,
 }: typeprops) {
   const [messages, setMessages] = useState(false);
-  const [login,setLogin] = useState(false);
+  const [display,setDisplay] = useState(false);
   const location = useLocation();
+
+  let pathname = location.pathname;
+  console.log(pathname);
+  
   useEffect(() => {
-    if (location.pathname === "/Messages") {
+    if(location.pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && location.pathname !== "/")
+      setDisplay(true);
+    if (location.pathname.toLocaleLowerCase() === "/Messages".toLocaleLowerCase()) {
       setMessages(true);
     } else {
       setMessages(false);
@@ -36,13 +43,15 @@ export default function Navigation({
       setChatState(dataChat[0]);
     }
 
-    if(location.pathname === "/")
-      setLogin(true);
-  }, [location.pathname, setConversation, setChatState,login]);
-  console.log(login);
-  
+  }, [location.pathname, setConversation, setChatState]);
+
+  if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase())
+  {
+    document.title = "Pong - Page not found"
+    return <NotFound />
+  }
   return (
-    (!login)?(
+    (display)?(
       <React.Fragment>
       <NavigationDesktop
         chatState={chatState}
@@ -75,7 +84,6 @@ export default function Navigation({
   */
 
 }
-
     </React.Fragment>
     ):null
   );

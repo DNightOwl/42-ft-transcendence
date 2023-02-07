@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 interface Props {
   children: JSX.Element | JSX.Element[] | string,
   edit?:string
-
+  id?:string
 };
 
 let tabPosition = 0;
@@ -13,7 +13,7 @@ let tabPosition = 0;
 export function Tabs({children,edit}:Props) {
   const location = useLocation();
   useEffect(()=>{
-    if(location.pathname !== "/Messages")
+    if(location.pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase())
       tabPosition = 0;
 
     let btnSwitcher = document.querySelectorAll(".btn-switcher");
@@ -69,10 +69,10 @@ export function TabsList({children}:Props) {
     )
   }
 
-  export function Tab({children}:Props) {
+  export function Tab({children,id}:Props) {
   const location = useLocation();
     return (
-      <button className="btn-switcher"
+      <button className="btn-switcher" id={id}
       onClick={(e)=>{
         let btnSwitcher = document.querySelectorAll(".btn-switcher");
         let sideContent = document.querySelectorAll(".side-content");
@@ -95,7 +95,7 @@ export function TabsList({children}:Props) {
           tabPosition = index;
           if(sideContent[index])
             sideContent[index].classList.remove("hidden");
-          if(location.pathname !== "/Messages")
+          if(location.pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase())
             tabPosition = 0;
             
           return;
