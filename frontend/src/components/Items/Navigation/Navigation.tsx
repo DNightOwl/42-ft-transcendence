@@ -30,10 +30,12 @@ export default function Navigation({
   const location = useLocation();
 
   let pathname = location.pathname;
+  console.log(pathname);
+  
   useEffect(() => {
-    if(location.pathname !== "/Login" && location.pathname !== "/")
+    if(location.pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && location.pathname !== "/")
       setDisplay(true);
-    if (location.pathname === "/Messages") {
+    if (location.pathname.toLocaleLowerCase() === "/Messages".toLocaleLowerCase()) {
       setMessages(true);
     } else {
       setMessages(false);
@@ -43,7 +45,7 @@ export default function Navigation({
 
   }, [location.pathname, setConversation, setChatState]);
 
-  if(pathname !== "/" && pathname !== "/Login" && pathname !== "/Home" && pathname !== "/Messages" && pathname !== "/Profile")
+  if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase())
   {
     document.title = "Pong - Page not found"
     return <NotFound />

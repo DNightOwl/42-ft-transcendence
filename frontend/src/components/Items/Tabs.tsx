@@ -13,7 +13,7 @@ let tabPosition = 0;
 export function Tabs({children,edit}:Props) {
   const location = useLocation();
   useEffect(()=>{
-    if(location.pathname !== "/Messages")
+    if(location.pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase())
       tabPosition = 0;
 
     let btnSwitcher = document.querySelectorAll(".btn-switcher");
@@ -95,7 +95,7 @@ export function TabsList({children}:Props) {
           tabPosition = index;
           if(sideContent[index])
             sideContent[index].classList.remove("hidden");
-          if(location.pathname !== "/Messages")
+          if(location.pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase())
             tabPosition = 0;
             
           return;
