@@ -5,7 +5,7 @@ import { useLocation } from 'react-router-dom';
 interface Props {
   children: JSX.Element | JSX.Element[] | string,
   edit?:string
-
+  id?:string
 };
 
 let tabPosition = 0;
@@ -69,10 +69,10 @@ export function TabsList({children}:Props) {
     )
   }
 
-  export function Tab({children}:Props) {
+  export function Tab({children,id}:Props) {
   const location = useLocation();
     return (
-      <button className="btn-switcher"
+      <button className="btn-switcher" id={id}
       onClick={(e)=>{
         let btnSwitcher = document.querySelectorAll(".btn-switcher");
         let sideContent = document.querySelectorAll(".side-content");
