@@ -15,6 +15,8 @@ interface typeprops {
   setConversation: React.Dispatch<React.SetStateAction<boolean>>;
   modal?: boolean;
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  create?: boolean;
+  setCreate?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Navigation({
@@ -23,12 +25,13 @@ export default function Navigation({
   conversation,
   setConversation,
   modal,
-  setModal
+  setModal,
+  create,
+  setCreate
 }: typeprops) {
   const [messages, setMessages] = useState(false);
   const [display,setDisplay] = useState(false);
   const location = useLocation();
-  const [create,setCreate] = useState(false);
 
   let pathname = location.pathname;
 
@@ -42,15 +45,6 @@ export default function Navigation({
       setConversation(false);
       setChatState(dataChat[0]);
     }
-    let create = document.querySelectorAll(".create")
-    create.forEach((e)=>{
-      e.addEventListener("click",()=>{
-        console.log(4);
-        
-      })
-    })
-    
-
   }, [location.pathname, setConversation, setChatState]);
 
   if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase())
@@ -67,6 +61,7 @@ export default function Navigation({
         message={messages}
         setMessages={setMessages}
         settings={setModal}
+        setCreate={setCreate}
       />
       <NavigationPhone
         conversation={conversation}

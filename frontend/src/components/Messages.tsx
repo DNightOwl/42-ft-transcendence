@@ -15,6 +15,7 @@ interface typeProps {
   setConversation: React.Dispatch<React.SetStateAction<boolean>>;
   modal?: boolean;
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  setCreate?: React.Dispatch<React.SetStateAction<boolean>>;
   
 }
 
@@ -25,6 +26,7 @@ export default function Messages({
   setConversation,
   modal,
   setModal,
+  setCreate
 }: typeProps) {
   const scroll = useRef<HTMLDivElement>(null);
 
@@ -109,6 +111,7 @@ export default function Messages({
             setChatState={setChatState}
             conversation={conversation}
             setConversation={setConversation}
+            setCreate={setCreate}
           />
         ) : null}
       </main>

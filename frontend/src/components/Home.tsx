@@ -1,7 +1,7 @@
 import React, { useEffect,useRef } from 'react';
 import fire from '../assets/fire.png';
 import axios from 'axios';
-import { getCookie ,setCookie} from 'typescript-cookie';
+//import { getCookie ,setCookie} from 'typescript-cookie';
 
 
 export default function Home() {

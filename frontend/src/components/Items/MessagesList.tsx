@@ -8,6 +8,8 @@ interface typeprops {
   conversation?: boolean;
   setConversation?: React.Dispatch<React.SetStateAction<boolean>>;
   channel?: boolean;
+  setCreate?:React.Dispatch<React.SetStateAction<boolean>>
+
 }
 
 export default function MessagesList({
@@ -15,6 +17,7 @@ export default function MessagesList({
   conversation,
   setConversation,
   channel,
+  setCreate
 }: typeprops) {
   return (
     <div className="flex h-full flex-col  gap-6 pb-20 lg:pb-0">
@@ -37,7 +40,13 @@ export default function MessagesList({
               className="placeholder-secondary-text flex-1 bg-transparent py-2.5 px-2 text-xs font-light text-primaryText placeholder:text-xs placeholder:font-light focus:outline-none"
             />
           </div>
-          <button className="flex h-6 w-6 items-center justify-center rounded-full bg-primary create">
+          <button className="flex h-6 w-6 items-center justify-center rounded-full bg-primary" onClick={()=>{
+            if(setCreate)
+            {
+              setCreate(true)
+              document.body.style.overflow="hidden";
+            }
+          }}>
             <PlusIcon edit="w-2.5 h-2.5 fill-primaryText" />
           </button>
         </div>
