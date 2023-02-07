@@ -27,6 +27,8 @@ services:
     ports:
       - 3000:3000
       - 5555:5555
+    env_file:
+      - .env
     networks:
       - nestjs-network
     depends_on:
@@ -49,8 +51,8 @@ services:
       PGDATA: /data/postgres
     volumes:
        - postgres:/data/postgres
-    # ports:
-    #   - 5432:5432
+    ports:
+      - 5432:5432
     networks:
       - nestjs-network
     restart: unless-stopped
