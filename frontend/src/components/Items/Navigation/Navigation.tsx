@@ -23,15 +23,15 @@ export default function Navigation({
   conversation,
   setConversation,
   modal,
-  setModal,
+  setModal
 }: typeprops) {
   const [messages, setMessages] = useState(false);
   const [display,setDisplay] = useState(false);
   const location = useLocation();
+  const [create,setCreate] = useState(false);
 
   let pathname = location.pathname;
-  console.log(pathname);
-  
+
   useEffect(() => {
     if(location.pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && location.pathname !== "/")
       setDisplay(true);
@@ -42,6 +42,14 @@ export default function Navigation({
       setConversation(false);
       setChatState(dataChat[0]);
     }
+    let create = document.querySelectorAll(".create")
+    create.forEach((e)=>{
+      e.addEventListener("click",()=>{
+        console.log(4);
+        
+      })
+    })
+    
 
   }, [location.pathname, setConversation, setChatState]);
 
@@ -72,13 +80,17 @@ export default function Navigation({
             <SettingsBody settings={setModal} />
           </ModalBody>
         </Modal>
-      ) : null}  
-      <Modal edit="modal">
-        <ModalHeader>Create Channel</ModalHeader>
-        <ModalBody>
-          <CreateChannelBody />
-        </ModalBody>
-      </Modal>
+      ) : null} 
+      {
+        (create)?(
+          <Modal edit="modal channel">
+          <ModalHeader create={setCreate}>Create Channel</ModalHeader>
+          <ModalBody>
+            <CreateChannelBody/>
+          </ModalBody>
+        </Modal>
+        ):null
+      }
     </React.Fragment>
     ):null
   );

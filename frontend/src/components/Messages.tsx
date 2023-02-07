@@ -15,6 +15,7 @@ interface typeProps {
   setConversation: React.Dispatch<React.SetStateAction<boolean>>;
   modal?: boolean;
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  
 }
 
 export default function Messages({

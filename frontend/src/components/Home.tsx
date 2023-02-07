@@ -1,11 +1,29 @@
 import React, { useEffect,useRef } from 'react';
 import fire from '../assets/fire.png';
+import axios from 'axios';
+import { getCookie ,setCookie} from 'typescript-cookie';
+
 
 export default function Home() {
   const scroll = useRef<HTMLDivElement>(null);
   useEffect(()=>{
     document.title = "Pong - Home";
-    if(scroll.current)
+    axios.get("http://localhost:3000/profile", { 
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'} 
+      }).then(()=>{
+      }).catch(error=>{
+        console.log(error.response.data.statusCode);
+        //call refresh end 
+      });
+    // const re =axios.get("http://localhost:3000/auth/refresh", { 
+    //   withCredentials: true,
+    //     headers :{'Access-Control-Allow-Origin': 'localhost:3000'} 
+    //   }).then(()=>{
+    //   });
+    //   setCookie("name", 'value',{expires : 900});
+    //   console.log(getCookie("token"));
+      if(scroll.current)
     {
       let hasVerticalScrollbar = scroll.current.scrollHeight > scroll.current.clientHeight;
       if(hasVerticalScrollbar)
@@ -28,6 +46,4 @@ export default function Home() {
       </div>
     </main>
   )
-
-
 }

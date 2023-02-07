@@ -142,6 +142,10 @@ main{
     width: 90%;
 }
 
+.channel{
+    height: 38rem;
+}
+
 @media screen and (min-width: 768px) {
     .card-user{
         width: 30.8%;

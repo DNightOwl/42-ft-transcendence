@@ -34,8 +34,6 @@ export default function SettingsBody({settings}:typeProps) {
                 onChange={(e) => {
                   if (e.target.files?.length) {
                     let extention = e.target.files[0].name.split(".").pop();
-                    console.log(extention);
-
                     if (
                       extention === "png" ||
                       extention === "PNG" ||

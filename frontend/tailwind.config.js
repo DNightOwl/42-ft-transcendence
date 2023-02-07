@@ -20,7 +20,7 @@ module.exports = {
         winBadge:"#C6F6D5",
         loseBadge:"#FED7D7",
         textWinBadge:"#22543D",
-        textLoseBadge:"#822727"
+        textLoseBadge:"#822727",
         
       },
       fontFamily: {

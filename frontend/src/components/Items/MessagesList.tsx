@@ -37,7 +37,7 @@ export default function MessagesList({
               className="placeholder-secondary-text flex-1 bg-transparent py-2.5 px-2 text-xs font-light text-primaryText placeholder:text-xs placeholder:font-light focus:outline-none"
             />
           </div>
-          <button className="flex h-6 w-6 items-center justify-center rounded-full bg-primary">
+          <button className="flex h-6 w-6 items-center justify-center rounded-full bg-primary create">
             <PlusIcon edit="w-2.5 h-2.5 fill-primaryText" />
           </button>
         </div>
