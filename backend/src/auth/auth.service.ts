@@ -39,8 +39,7 @@ export class AuthService {
 			return res.send({message : '2FA is activated verify code'}) ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
 		}
 
-		return res.send({message : 'login'}) ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
-		// return res.redirect("http://localhost:3001/messages") ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
+		return res.redirect("http://localhost:3001/home") ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
 	}
 
 	async logout(res: Response, login : string) {
@@ -80,7 +79,7 @@ export class AuthService {
 		}
 		
 		await this.refreshCookie(accessToken, 'accessToken', res);
-		return 'new_access_token';//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
+		// return 'new_access_token';//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
 	}
 		
 	////////////////helper functions 
