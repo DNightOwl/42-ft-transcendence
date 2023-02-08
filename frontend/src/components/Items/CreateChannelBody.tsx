@@ -15,7 +15,7 @@ export default function CreateChannelBody() {
                   }}>
                     <span aria-label='Check' className={`${type ==="public"?"bg-primary":"border-2 border-primary"} w-7 h-7 flex justify-center items-center rounded-full`}>
                         {
-                          (type === "public")?<CheckIcon edit='w-4 h-4'/>:null
+                          (type === "public")?<CheckIcon edit='w-4 h-4 fill-primaryText'/>:null
                         }
                     </span>
                     <span className='text-primaryText text-md font-light'>Public</span>
@@ -26,7 +26,7 @@ export default function CreateChannelBody() {
                   }}>
                     <span aria-label='Check' className={`${type ==="private"?"bg-primary":"border-2 border-primary"} w-7 h-7 flex justify-center items-center rounded-full`}>
                         {
-                          (type === "private")?<CheckIcon edit='w-4 h-4'/>:null
+                          (type === "private")?<CheckIcon edit='w-4 h-4 fill-primaryText'/>:null
                         }
                     </span>
                     <span className='text-primaryText text-md font-light'>Private</span>
@@ -37,7 +37,7 @@ export default function CreateChannelBody() {
                   }}>
                     <span aria-label='Check' className={`${type ==="protected"?"bg-primary":"border-2 border-primary"} w-7 h-7 flex justify-center items-center rounded-full`}>
                         {
-                          (type === "protected")?<CheckIcon edit='w-4 h-4'/>:null
+                          (type === "protected")?<CheckIcon edit='w-4 h-4 fill-primaryText'/>:null
                         }
                     </span>
                     <span className='text-primaryText text-md font-light'>Protected</span>
