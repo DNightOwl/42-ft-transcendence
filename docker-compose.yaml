@@ -14,8 +14,8 @@ services:
       - postgres
     working_dir: /app/frontend
     volumes:
-      - ./frontend:/app/frontend
-      - /app/frontend/node_modules
+      - frontend:/app/frontend
+      - node_modules_f:/app/frontend/node_modules
     restart: unless-stopped
     
   backend:
@@ -35,8 +35,8 @@ services:
       - postgres
     working_dir: /app/backend
     volumes:
-      - ./backend:/app/backend
-      - /app/backend/node_modules
+      - backend:/app/backend
+      - node_modules_b:/app/backend/node_modules
     restart: unless-stopped
 
   postgres:
@@ -51,6 +51,7 @@ services:
       PGDATA: /data/postgres
     volumes:
        - postgres:/data/postgres
+       - postgres:/var/lib/postgresql/data
     ports:
       - 5432:5432
     networks:
@@ -61,4 +62,18 @@ networks:
   nestjs-network:
 
 volumes:
+  node_modules_b:
+  node_modules_f:
   postgres:
+  backend:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/backend
+      o: bind
+  frontend:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/frontend
+      o: bind
