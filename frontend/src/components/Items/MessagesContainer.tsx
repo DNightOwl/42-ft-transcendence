@@ -8,12 +8,13 @@ interface typeprops{
     conversation?:boolean,
     setConversation?:React.Dispatch<React.SetStateAction<boolean>>
     setCreate?:React.Dispatch<React.SetStateAction<boolean>>
+    edit?:string
 
   }
 
-export default function MessagesContainer({chatState,setChatState,conversation,setConversation,setCreate}:typeprops) {
+export default function MessagesContainer({chatState,setChatState,conversation,setConversation,setCreate,edit}:typeprops) {
   return (
-    <Tabs>
+    <Tabs edit={edit}>
         <TabsList>
             <Tab>Chats</Tab>
             <Tab>Channels</Tab>

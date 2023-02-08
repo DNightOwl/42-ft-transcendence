@@ -112,6 +112,7 @@ export default function Messages({
             conversation={conversation}
             setConversation={setConversation}
             setCreate={setCreate}
+            edit = "lg:hidden"
           />
         ) : null}
       </main>
