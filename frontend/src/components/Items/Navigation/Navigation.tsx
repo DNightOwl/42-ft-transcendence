@@ -39,7 +39,7 @@ export default function Navigation({
   const location = useLocation();
 
   let pathname = location.pathname;
-
+  
   useEffect(() => {
     if(location.pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && location.pathname !== "/")
       setDisplay(true);

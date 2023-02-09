@@ -1,6 +1,4 @@
 import React from 'react'
-import SearchInput from './SearchInput'
-import PictureProfile from "../../assets/friend.jpg"
 import CardMember from './CardMember'
 
 
