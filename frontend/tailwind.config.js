@@ -21,6 +21,10 @@ module.exports = {
         loseBadge:"#FED7D7",
         textWinBadge:"#22543D",
         textLoseBadge:"#822727",
+        ownerBg:"#E9D8FD",
+        ownerText:"#595281",
+        adminBg:"#F6E791",
+        adminText:"#D98824"
         
       },
       fontFamily: {

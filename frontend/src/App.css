@@ -142,6 +142,10 @@ main{
     width: 90%;
 }
 
+.modal-members{
+    width: 90%;
+}
+
 .channel{
     height: 38rem;
 }
@@ -151,6 +155,20 @@ main{
     top: 3.4rem;
     z-index: 1;
 }
+
+.role{
+    border-bottom: 1px solid #81879C;
+}
+
+.content-rol{
+    max-height: 35rem;
+    overflow: auto;
+}
+
+.name-member{
+    max-width: 12rem;
+}
+
 
 @media screen and (min-width: 768px) {
     .card-user{
@@ -175,6 +193,10 @@ main{
     }
     .modal{
         height: 21.5rem;
+        width: 40rem;
+    }
+
+    .modal-members{
         width: 40rem;
     }
   }

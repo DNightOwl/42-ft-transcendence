@@ -6,6 +6,7 @@ interface Props {
     edit?:string
     settings?:React.Dispatch<React.SetStateAction<boolean>>
     create?:React.Dispatch<React.SetStateAction<boolean>>
+    setMembers?:React.Dispatch<React.SetStateAction<boolean>>
   };
 
   export function Modal({children,edit}:Props){
@@ -18,9 +19,9 @@ interface Props {
     )
 }
 
-export function ModalHeader({children,settings,create}:Props){
+export function ModalHeader({children,settings,create,edit,setMembers}:Props){
     return(
-        <div className="flex items-center w-full justify-between border-secondaryText pb-5" style={{"borderBottom":"1px solid #81879C"}}>
+        <div className={`flex items-center w-full justify-between border-secondaryText pb-5 ${edit}`} style={{"borderBottom":"1px solid #81879C"}}>
             <div className="text-primaryText text-xl font-light">{children}</div>            
             <button className="w-4 h-4 rounded-full" onClick={()=>{
                 if(settings)
@@ -32,6 +33,12 @@ export function ModalHeader({children,settings,create}:Props){
                 {
                     create(false)
                     document.body.style.overflow="auto";
+                }
+                if(setMembers)
+                {
+                    setMembers(false);
+                    document.body.style.overflow="auto";
+
                 }
                 }}>
                 <CloseIcon edit="w-full h-full fill-secondaryText"/>
