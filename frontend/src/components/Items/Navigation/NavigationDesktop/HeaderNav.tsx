@@ -16,16 +16,10 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
 
     useEffect(()=>{
         function getRes(res:any){
-            console.log(res);
-            
             setData(res)
         }
         getProfile(getRes)
     },[])
-        
-    
-
-
   return (
     (!messages)?(
         <section className='hidden lg:flex justify-between items-start mr-4 ml-64 pt-7 gap-5'>
@@ -52,7 +46,7 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
                 </button>
                 {
                     (dropDown)?(
-                            <div className='absolute top-12 rounded-md bg-body shadow left-0 w-full flex flex-col py-5 gap-2'>
+                            <div className='absolute top-12 rounded-md bg-body shadow right-0 w-36 flex flex-col py-5 gap-2'>
                             <button className='flex gap-2   hover:bg-backgroundHover items-center justify-center p-2' onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                                if(settings)
                                {
