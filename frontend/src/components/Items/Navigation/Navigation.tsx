@@ -6,7 +6,8 @@ import { dataChat } from "../../../Data";
 import { Modal, ModalHeader, ModalBody } from "../Modal";
 import SettingsBody from "../SettingsBody";
 import NotFound from "../../NotFound";
-//import CreateChannelBody from '../CreateChannelBody'
+import CreateChannelBody from '../CreateChannelBody'
+import Members from "../Members";
 
 interface typeprops {
   chatState: any;
@@ -15,6 +16,10 @@ interface typeprops {
   setConversation: React.Dispatch<React.SetStateAction<boolean>>;
   modal?: boolean;
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  create?: boolean;
+  setCreate?: React.Dispatch<React.SetStateAction<boolean>>;
+  members?: boolean;
+  setMembers?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Navigation({
@@ -24,14 +29,17 @@ export default function Navigation({
   setConversation,
   modal,
   setModal,
+  create,
+  setCreate,
+  members,
+  setMembers
 }: typeprops) {
   const [messages, setMessages] = useState(false);
   const [display,setDisplay] = useState(false);
   const location = useLocation();
 
   let pathname = location.pathname;
-  console.log(pathname);
-  
+
   useEffect(() => {
     if(location.pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && location.pathname !== "/")
       setDisplay(true);
@@ -42,7 +50,6 @@ export default function Navigation({
       setConversation(false);
       setChatState(dataChat[0]);
     }
-
   }, [location.pathname, setConversation, setChatState]);
 
   if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase())
@@ -59,11 +66,13 @@ export default function Navigation({
         message={messages}
         setMessages={setMessages}
         settings={setModal}
+        setCreate={setCreate}
       />
       <NavigationPhone
         conversation={conversation}
         setConversation={setConversation}
         chatState={chatState}
+        setMembers={setMembers}
       />
       {modal ? (
         <Modal edit="modal">
@@ -72,18 +81,27 @@ export default function Navigation({
             <SettingsBody settings={setModal} />
           </ModalBody>
         </Modal>
-      ) : null}
-{
-  /*
-  }      <Modal edit="modal">
-        <ModalHeader>Create Channel</ModalHeader>
-        <ModalBody>
-          <CreateChannelBody />
-        </ModalBody>
-      </Modal> 
-  */
-
-}
+      ) : null} 
+      {
+        (create)?(
+          <Modal edit="modal channel">
+          <ModalHeader create={setCreate}>Create Channel</ModalHeader>
+          <ModalBody>
+            <CreateChannelBody/>
+          </ModalBody>
+        </Modal>
+        ):null
+      }
+      {
+        (members)?(
+          <Modal edit="h-auto modal-members pr-0">
+              <ModalHeader edit="pr-4" setMembers={setMembers}>Members</ModalHeader>
+                <ModalBody>
+                  <Members/>
+                </ModalBody>
+            </Modal>
+            ):null
+              }
     </React.Fragment>
     ):null
   );

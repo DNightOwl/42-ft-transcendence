@@ -6,12 +6,13 @@ interface typeProps{
   conversation:boolean;
   setConversation:React.Dispatch<React.SetStateAction<boolean>>
   chatState:any,
+  setMembers?:React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function NavigationPhone({conversation, setConversation,chatState}:typeProps) {
+export default function NavigationPhone({conversation, setConversation,chatState,setMembers}:typeProps) {
   return (
     <React.Fragment>
-      <HeaderPhone conversation={conversation} setConversation={setConversation} chatState={chatState}/>
+      <HeaderPhone conversation={conversation} setConversation={setConversation} chatState={chatState} setMembers={setMembers}/>
       {!conversation?<NavItemsPhone/>:null}
     </React.Fragment>
   )

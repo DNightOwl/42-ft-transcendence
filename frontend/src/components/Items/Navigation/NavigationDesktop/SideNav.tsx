@@ -11,9 +11,11 @@ interface typeprops{
   setMessages:React.Dispatch<React.SetStateAction<boolean>>,
   chatState:any,
   setChatState:React.Dispatch<React.SetStateAction<any>>
+  setCreate?:React.Dispatch<React.SetStateAction<boolean>>
+
 }
 
-export default function SideNav({messages,setMessages,chatState,setChatState}:typeprops) {
+export default function SideNav({messages,setMessages,chatState,setChatState,setCreate}:typeprops) {
 
   return (
     <section className=' hidden lg:flex flex-col py-7 left-0 2xl:left-auto fixed gap-12  bg-sideBackground w-60 h-full'>
@@ -58,7 +60,7 @@ export default function SideNav({messages,setMessages,chatState,setChatState}:ty
         </div>
       </React.Fragment>
       ):(
-        <MessagesContainer chatState={chatState} setChatState={setChatState}/>
+        <MessagesContainer chatState={chatState} setChatState={setChatState} setCreate={setCreate}/>
       ) 
     }
 
