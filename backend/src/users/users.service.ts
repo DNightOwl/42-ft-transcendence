@@ -44,7 +44,9 @@ export class UsersService {
                 login: true,
                 id: true,
                 nickname: true,
-                email: true
+                email: true,
+                pictureLink: true,
+                status: true
 
             }
         });
