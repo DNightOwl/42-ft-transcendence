@@ -169,6 +169,16 @@ main{
     max-width: 12rem;
 }
 
+.username-search{
+    max-width: 12rem;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.box-search{
+    max-height: 40rem;
+    overflow: auto;
+}
 
 @media screen and (min-width: 768px) {
     .card-user{
