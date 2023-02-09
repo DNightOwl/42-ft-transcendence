@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
 import { checkToken } from "../Helpers";
+import { useLocation } from "react-router-dom";
 
 interface typeProps{
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -9,6 +10,9 @@ interface typeProps{
 }
 
 export default function Profile({setModal}:typeProps) {
+
+  const location = useLocation();
+  const dataUser = location.state;
 
   checkToken();
   useEffect(() => {
@@ -18,7 +22,15 @@ export default function Profile({setModal}:typeProps) {
   return (
     <main className="flex flex-col gap-12 h-full pb-0">
       <section className="flex  flex-col items-center gap-10  justify-center lg:flex-row lg:justify-between">
-        <CardProfile settings={true} setModal={setModal}/>
+        <CardProfile settings={true} setModal={setModal}  dataUser={dataUser?.data}/>
+
+        
+
+
+
+
+
+
         <div className="flex gap-10">
           <span className="flex flex-col items-center">
             <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">10</span>

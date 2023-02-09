@@ -13,8 +13,10 @@ interface typeProps{
 export default function HeaderNav({messages,chatState,settings}:typeProps) {
     const [dropDown,setDropDown] = useState<boolean>(false)
     const [mouse,setMouse] = useState<boolean>(false);
+    const [display,setDisplay] = useState<boolean>(false);
     const [dataUsers,setDataUser] = useState([]);
     const [fill,setFill] = useState([]);
+    const [value,setValue] = useState("");
     const [data,setData] = useState<any>({});
 
     useEffect(()=>{
@@ -29,9 +31,10 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
         <section className='hidden lg:flex justify-between items-start mr-4 ml-64 pt-7 gap-5'>
             <div className='flex-1 relative'>
                 <div className='flex items-center bg-shape pr-4 rounded-md'>
-                    <input type="text" placeholder='Search for user' className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-3 pl-4 pr-1.5 focus:outline-none text-primaryText' onChange={(e)=>{
+                    <input type="text" placeholder='Search for user' value={value} className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-3 pl-4 pr-1.5 focus:outline-none text-primaryText' onChange={(e)=>{
                         let value = e.currentTarget.value;
                         let data:any = [];
+                        setValue(e.currentTarget.value)
                         if(value.length)
                         {
                             data = fill.filter((e:any)=>{
@@ -39,12 +42,13 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
                                     return e;        
                                 }
                             })
-
+                            setDisplay(true)
                             setDataUser(data);
                         }
                         else
                         {
                             data=[];
+                            setDisplay(false);
                             setDataUser(data)
                             
                         }
@@ -53,14 +57,14 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
                     <SearchIcon edit="w-4"/>
                 </div>
                 {
-                    (dataUsers.length)?(
+                    (display && dataUsers.length)?(
                         <div className='bg-body absolute w-full shadow top-14 rounded-lg flex flex-col gap-4 py-4 box-search'>
                             {
                                 dataUsers.map((e:any,index)=>{
                                     console.log(e);
                                     
                                     return(
-                                        <CardSearch friend={e.freind} username={e.username} picture={e.pictureLink} key={index} />
+                                        <CardSearch friend={e.freind} username={e.username} picture={e.pictureLink} key={index} setDisplay={setDisplay} setValue={setValue} status={e.status}/>
                                     )
                                 })
                             }
