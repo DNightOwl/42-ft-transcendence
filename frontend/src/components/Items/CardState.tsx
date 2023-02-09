@@ -10,11 +10,9 @@ import {
   CheckIcon
 } from "../Items/Icons";
 
-import { Modal, ModalHeader, ModalBody } from "./Modal";
-import Members from "./Members";
-
 interface typeProps {
   chatState?: any;
+  setMembers?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function CardState(props: typeProps) {
@@ -22,7 +20,6 @@ export default function CardState(props: typeProps) {
   const [copy, setCopy] = useState(false);
   const [clickEye, setClickEye] = useState(false);
   const [check, setCheck] = useState(false);
-  const [members,setMembers] = useState(false);
   const [value,setValue] = useState("jkdjkljklfsjdlfjasdl;fjsdjf;asdfj;klasjdfl");
 
   useEffect(()=>{
@@ -94,21 +91,11 @@ export default function CardState(props: typeProps) {
           props.chatState.role === "admin" ? (
             <React.Fragment>
               <button className="flex h-10 w-10 items-center justify-center rounded-full bg-shape" onClick={()=>{
-                setMembers(true);
+                if(props.setMembers)props.setMembers(true);
                 document.body.style.overflow="hidden";
               }}>
                 <GroupIcon edit="fill-secondaryText w-5 h-5" />
               </button>
-              {
-                (members)?(
-                  <Modal edit="h-auto modal-members pr-0">
-                  <ModalHeader edit="pr-4" setMembers={setMembers}>Members</ModalHeader>
-                  <ModalBody>
-                    <Members />
-                  </ModalBody>
-                </Modal>
-                ):null
-              }
             </React.Fragment>
           ) : null}
           {props.chatState.role === "owner" ? (

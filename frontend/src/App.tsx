@@ -13,15 +13,16 @@ function App() {
   const [conversation,setConversation] = useState<boolean>(false);
   const [modal,setModal] = useState(false);
   const [create,setCreate] = useState(false);
+  const [members,setMembers] = useState(false);
   
   return (
     <BrowserRouter>
-      <Navigation chatState={chatState} setChatState={setChatState} conversation = {conversation} setConversation={setConversation} modal={modal} setModal={setModal} create={create} setCreate={setCreate}/>
+      <Navigation chatState={chatState} setChatState={setChatState} conversation = {conversation} setConversation={setConversation} modal={modal} setModal={setModal} create={create} setCreate={setCreate} members={members} setMembers={setMembers}/>
         <Routes>
         <Route path='/' element={<Login/>} />
         <Route path='/Login' element={<Login/>} />
           <Route path='/Home' element={<Home/>} />
-          <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate}/>}/>
+          <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} />}/>
           <Route path='/Profile' element={<Profile/>} />
         </Routes>
     </BrowserRouter>

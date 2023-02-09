@@ -8,10 +8,11 @@ interface typeProps{
   conversation:boolean;
   setConversation:React.Dispatch<React.SetStateAction<boolean>>
   chatState:any,
+  setMembers?:React.Dispatch<React.SetStateAction<boolean>>
 
 }
 
-export default function HeaderPhone({conversation,setConversation,chatState}:typeProps) {
+export default function HeaderPhone({conversation,setConversation,chatState,setMembers}:typeProps) {
   if(!conversation)
   {
     return (
@@ -27,7 +28,7 @@ export default function HeaderPhone({conversation,setConversation,chatState}:typ
       <button className='w-6 h-6 rounded-full flex justify-center items-center bg-shape' onClick={()=>{setConversation(false)}}>
         <ArrowLeftIcon edit='w-2.5 h-2.5 fill-secondaryText' />
       </button>
-      <CardState chatState={chatState}/>
+      <CardState chatState={chatState} setMembers={setMembers}/>
     </section>
   )
 }

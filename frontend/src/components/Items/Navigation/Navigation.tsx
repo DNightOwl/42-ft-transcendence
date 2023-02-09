@@ -7,6 +7,7 @@ import { Modal, ModalHeader, ModalBody } from "../Modal";
 import SettingsBody from "../SettingsBody";
 import NotFound from "../../NotFound";
 import CreateChannelBody from '../CreateChannelBody'
+import Members from "../Members";
 
 interface typeprops {
   chatState: any;
@@ -17,6 +18,8 @@ interface typeprops {
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
   create?: boolean;
   setCreate?: React.Dispatch<React.SetStateAction<boolean>>;
+  members?: boolean;
+  setMembers?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Navigation({
@@ -27,7 +30,9 @@ export default function Navigation({
   modal,
   setModal,
   create,
-  setCreate
+  setCreate,
+  members,
+  setMembers
 }: typeprops) {
   const [messages, setMessages] = useState(false);
   const [display,setDisplay] = useState(false);
@@ -67,6 +72,7 @@ export default function Navigation({
         conversation={conversation}
         setConversation={setConversation}
         chatState={chatState}
+        setMembers={setMembers}
       />
       {modal ? (
         <Modal edit="modal">
@@ -86,6 +92,16 @@ export default function Navigation({
         </Modal>
         ):null
       }
+      {
+        (members)?(
+          <Modal edit="h-auto modal-members pr-0">
+              <ModalHeader edit="pr-4" setMembers={setMembers}>Members</ModalHeader>
+                <ModalBody>
+                  <Members/>
+                </ModalBody>
+            </Modal>
+            ):null
+              }
     </React.Fragment>
     ):null
   );
