@@ -61,8 +61,6 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
                         <div className='bg-body absolute w-full shadow top-14 rounded-lg flex flex-col gap-4 py-4 box-search'>
                             {
                                 dataUsers.map((e:any,index)=>{
-                                    console.log(e);
-                                    
                                     return(
                                         <CardSearch friend={e.freind} username={e.username} picture={e.pictureLink} key={index} setDisplay={setDisplay} setValue={setValue} status={e.status}/>
                                     )
@@ -84,7 +82,7 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
                         <span className='username'>{(data.nickname)?data.nickname.charAt(0).toUpperCase() + data.nickname.slice(1):null}</span>
                     </div>
                     <span className='bg-shape w-4 h-4 rounded-full flex justify-center items-center'>
-                        {(!dropDown)?(<ArrowDownIcon edit="w-1.5"/>):(<ArrowUpIcon edit='w-1.5 h-1.5 fill-secondaryText' />)}
+                        {(!dropDown)?(<ArrowDownIcon edit="w-1.5 fill-secondaryText"/>):(<ArrowUpIcon edit='w-1.5 h-1.5 fill-secondaryText' />)}
                     </span>
                 </button>
                 {
