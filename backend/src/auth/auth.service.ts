@@ -101,11 +101,12 @@ export class AuthService {
 				login : intraUser.login,
 			},
 			update: {},
-			create: {
-				email: intraUser.email,
-				login : intraUser.login,
-				nickname : intraUser.login,
-			},
+				create: {
+					email: intraUser.email,
+					login : intraUser.login,
+					nickname : intraUser.login,
+					pictureLink : intraUser.imageUrl,
+				},
 			});
 		return user;
 	}

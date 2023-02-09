@@ -5,6 +5,7 @@ import { Strategy  } from "passport-oauth2";
 import axios from 'axios';
 import { PrismaService } from "src/prisma/prisma.service";
 import { ConfigService } from "@nestjs/config";
+import { AuthDto } from "../dto/auth.dto";
 
 
 @Injectable()
@@ -27,7 +28,9 @@ export class IntraStrategy extends PassportStrategy(Strategy,'intra') {
 			headers: { Authorization: `Bearer ${accessToken}`}
 		  }).then(res=> res.data)
 		///
-				
-		return intraUser ;
+		const email : string = intraUser.email;
+		const login : string = intraUser.login;
+		const imageUrl : string = intraUser.image.versions.medium;
+		return {email,login,imageUrl} ;
 	}
 }
