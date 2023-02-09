@@ -1,6 +1,7 @@
 .env
 envGen.sh
 note
+/files/*
 # compiled output
 /dist
 /node_modules
