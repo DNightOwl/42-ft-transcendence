@@ -8,7 +8,7 @@ interface typeProps{
 
 export default function CardSearch({friend}:typeProps){
     return (
-        <button className='hover:bg-backgroundHover px-4 py-2'>
+        <div className='hover:bg-backgroundHover px-4 py-2'>
             <div className='flex items-center justify-between w-full'>
                 <div className='flex items-center gap-3'>
                 <img src={Picture} alt="users" className='w-12 h-12 rounded-full' />
@@ -25,6 +25,6 @@ export default function CardSearch({friend}:typeProps){
                 
             </button>
         </div>
-        </button>
+        </div>
     )
 }

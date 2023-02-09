@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {SearchIcon, ControllerIcon, ArrowDownIcon,ArrowUpIcon,SettingsNavIcon,LogoutIcon} from '../../Icons';
 import UserPicture from '../../../../assets/user.jpg';
 import {useState} from 'react'
-import { getProfile } from '../../../../Helpers';
+import { getUserData } from '../../../../Helpers';
 import CardSearch from '../../CardSearch';
 
 interface typeProps{
@@ -12,14 +12,15 @@ interface typeProps{
 }
 export default function HeaderNav({messages,chatState,settings}:typeProps) {
     const [dropDown,setDropDown] = useState<boolean>(false)
-    const [mouse,setMouse] = useState<boolean>(false)
+    const [mouse,setMouse] = useState<boolean>(false);
+    const [dataUsers,setDataUser] = useState([]);
     const [data,setData] = useState<any>({});
 
     useEffect(()=>{
         function getRes(res:any){
             setData(res)
         }
-        getProfile(getRes)
+        getUserData(getRes)
     },[])
   return (
     (!messages)?(
@@ -30,11 +31,16 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
                     <SearchIcon edit="w-4"/>
                 </div>
                 <div className='bg-body absolute w-full shadow top-14 rounded-lg flex flex-col gap-4 py-4 box-search'>
-                    <CardSearch friend={true}/>
-                    <CardSearch friend={false}/>
-                    <CardSearch friend={true}/>
-                    <CardSearch friend={false}/>
-                    <CardSearch friend={true}/>
+                    {
+                        (dataUsers.length)?(
+                            dataUsers.map((e)=>{
+                                return(
+                                    
+                                    <CardSearch friend={true}/>
+                                )
+                            })       
+                        ):null
+                    }
                 </div>
             </div>
             <div className='flex items-center gap-5'>
