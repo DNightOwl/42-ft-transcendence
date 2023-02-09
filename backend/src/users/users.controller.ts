@@ -33,7 +33,7 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Get('/:login')
+  @Get('getprofile/:login')
   async GetProfileUser(@Param('login') login: string){
     return await this.usersService.findProfile(login);
   }
@@ -96,7 +96,7 @@ export class UsersController {
           throw new ForbiddenException('already freinds');
       this.usersService.addfreind(user.login, freind.login)
       await this.roomservice.CreateRoom(user.login, freind.login + user.login, "personnel");
-      await this.roomservice.addtoroom(freind, freind.login + user.login);
+      await this.roomservice.addroom(freind, freind.login + user.login);
   }
 
   @UseGuards(JwtAuthGuard)

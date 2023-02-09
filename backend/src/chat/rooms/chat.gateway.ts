@@ -30,8 +30,6 @@ import * as moment from 'moment';
 
     @SubscribeMessage('msgServer')
    async handleMessage(@MessageBody() Body, @ConnectedSocket() client: any) {
-    // const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
-    // const user1 = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
     const user1 = client.user;
     this.id += 1;
     let roomName = `<${client.user.login}_${this.id}>`
@@ -98,7 +96,6 @@ import * as moment from 'moment';
             })
           if (user2[0])
           {
-              console.log('============>');
               if (user2[0].time < moment().format('YYYY-MM-DD hh:mm:ss'))
               {
                 this.roomservice.unmuted(user1, Body);
@@ -139,7 +136,6 @@ import * as moment from 'moment';
         break;
       }
     }
-    //console.log(this.OnlineUser[0].user);
     const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
     const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
      const test = this.OnlineUser.find((user) => user==user);
@@ -154,11 +150,10 @@ import * as moment from 'moment';
         }
       })
      }
-
-
   }
    
    async  handleConnection(@ConnectedSocket() client: any) {
+    console.log(client.handshake.headers.cookie);
      const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
     const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
     client.user = user;

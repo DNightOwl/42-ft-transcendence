@@ -86,7 +86,19 @@ export class UsersService {
                     freinds: true
                 }
         })
-        return myfreinds;
+        let obj: usersObject[] = [];
+        for(let index = 0; index < myfreinds.freinds.length; index++)
+        {
+            const user = await this.prisma.user.findFirst({
+                where: {
+                    login: myfreinds.freinds[index].friendLogin
+                }
+            })
+            let freind : usersObject = {id: user.id, username: user.login, status: user.status, pictureLink: user.pictureLink, freind: "freind"}
+            obj.push(freind);
+        }
+        return obj;
+       // return myfreinds.freinds[0];
     }
 
     async   addfreind(login: string, freindlogin: string) {
