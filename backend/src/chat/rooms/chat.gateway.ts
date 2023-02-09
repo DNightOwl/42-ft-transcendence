@@ -30,8 +30,6 @@ import * as moment from 'moment';
 
     @SubscribeMessage('msgServer')
    async handleMessage(@MessageBody() Body, @ConnectedSocket() client: any) {
-    // const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
-    // const user1 = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
     const user1 = client.user;
     this.id += 1;
     let roomName = `<${client.user.login}_${this.id}>`
