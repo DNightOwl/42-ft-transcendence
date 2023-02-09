@@ -86,7 +86,7 @@ export class UsersService {
                     freinds: true
                 }
         })
-        return myfreinds;
+        return myfreinds.freinds;
     }
 
     async   addfreind(login: string, freindlogin: string) {

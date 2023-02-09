@@ -139,7 +139,7 @@ export class RoomService
 
   async addtoroom(user: any, room: any)
   {
-    const rooms = await this.prisma.room.findUnique({
+    const rooms = await this.prisma.room.findFirst({
       where: {
         name: room.name
       }

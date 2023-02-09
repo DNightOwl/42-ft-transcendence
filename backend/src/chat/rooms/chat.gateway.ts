@@ -98,7 +98,6 @@ import * as moment from 'moment';
             })
           if (user2[0])
           {
-              console.log('============>');
               if (user2[0].time < moment().format('YYYY-MM-DD hh:mm:ss'))
               {
                 this.roomservice.unmuted(user1, Body);
@@ -139,7 +138,6 @@ import * as moment from 'moment';
         break;
       }
     }
-    //console.log(this.OnlineUser[0].user);
     const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
     const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
      const test = this.OnlineUser.find((user) => user==user);
@@ -154,11 +152,10 @@ import * as moment from 'moment';
         }
       })
      }
-
-
   }
    
    async  handleConnection(@ConnectedSocket() client: any) {
+    console.log(client.handshake.headers.cookie);
      const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
     const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
     client.user = user;
