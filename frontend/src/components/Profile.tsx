@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
-import { checkToken } from "../Helpers";
+import { checkToken,addFriend } from "../Helpers";
 import { useLocation } from "react-router-dom";
 import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon } from "./Items/Icons";
 
@@ -89,6 +89,7 @@ export default function Profile({setModal}:typeProps) {
                   ):(
                     <button className="w-36 p-2 rounded-md bg-primary gap-2 flex items-center justify-center" onClick={()=>{
                       setFriend(true);
+                      addFriend(dataUser.data.username);
                     }}>
                     <AddFriendIcon edit="w-5 fill-primaryText"/>
                     <span className="text-primaryText text-sm">Add friend</span>

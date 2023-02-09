@@ -77,6 +77,7 @@ export class UsersController {
   @Post('addfreind')
   async addfriend(@Req() req : dbUser, @Body() freind)
   {
+    console.log("i was here in addfriend")
       const user = req.user
       const blockedUser = await this.prisma.user.findUnique({
         where: {

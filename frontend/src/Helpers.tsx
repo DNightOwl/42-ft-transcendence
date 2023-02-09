@@ -55,3 +55,8 @@ export function getUsers(getRes:any){
         getRes(res);
       })
 }
+
+export function addFriend(login:string){
+
+  axios.post("http://localhost:3000/profile/addfreind",{login},{withCredentials: true})
+}
