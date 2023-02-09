@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import {SearchIcon, ControllerIcon, ArrowDownIcon,ArrowUpIcon,SettingsNavIcon,LogoutIcon} from '../../Icons';
 import UserPicture from '../../../../assets/user.jpg';
 import {useState} from 'react'
-import { getProfile } from '../../../../Helpers';
+import { getUserData } from '../../../../Helpers';
+import CardSearch from '../../CardSearch';
 
 interface typeProps{
     messages:boolean,
@@ -11,22 +12,35 @@ interface typeProps{
 }
 export default function HeaderNav({messages,chatState,settings}:typeProps) {
     const [dropDown,setDropDown] = useState<boolean>(false)
-    const [mouse,setMouse] = useState<boolean>(false)
+    const [mouse,setMouse] = useState<boolean>(false);
+    const [dataUsers,setDataUser] = useState([]);
     const [data,setData] = useState<any>({});
 
     useEffect(()=>{
         function getRes(res:any){
             setData(res)
         }
-        getProfile(getRes)
+        getUserData(getRes)
     },[])
   return (
     (!messages)?(
         <section className='hidden lg:flex justify-between items-start mr-4 ml-64 pt-7 gap-5'>
-            <div className='flex-1'>
+            <div className='flex-1 relative'>
                 <div className='flex items-center bg-shape pr-4 rounded-md'>
                     <input type="text" placeholder='Search for user' className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-3 pl-4 pr-1.5 focus:outline-none text-primaryText'/>
                     <SearchIcon edit="w-4"/>
+                </div>
+                <div className='bg-body absolute w-full shadow top-14 rounded-lg flex flex-col gap-4 py-4 box-search'>
+                    {
+                        (dataUsers.length)?(
+                            dataUsers.map((e)=>{
+                                return(
+                                    
+                                    <CardSearch friend={true}/>
+                                )
+                            })       
+                        ):null
+                    }
                 </div>
             </div>
             <div className='flex items-center gap-5'>
