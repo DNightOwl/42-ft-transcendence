@@ -1,25 +1,10 @@
 import React, { useEffect,useRef } from 'react';
 import fire from '../assets/fire.png';
-import axios from 'axios';
+import { checkToken } from '../Helpers';
 
 
 export default function Home() {
-
-  axios.get("http://localhost:3000/profile", {
-  withCredentials: true,
-    headers :{'Access-Control-Allow-Origin': 'localhost:3000'} 
-  }).then().catch(error=>{
-      if(error.response.data.statusCode === 401)
-      {
-        axios.get("http://localhost:3000/auth/refresh", {
-          withCredentials: true,
-          headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
-        }).then().catch((error)=>{
-          window.location.href="http://localhost:3001/Login";
-        });
-      }
-  });
-
+  checkToken();
   const scroll = useRef<HTMLDivElement>(null);
   useEffect(()=>{
     document.title = "Pong - Home";

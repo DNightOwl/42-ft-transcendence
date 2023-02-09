@@ -1,23 +1,10 @@
 import React, { useEffect } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
-import axios from 'axios';
+import { checkToken } from "../Helpers";
 
 export default function Profile() {
-  axios.get("http://localhost:3000/profile", {
-    withCredentials: true,
-      headers :{'Access-Control-Allow-Origin': 'localhost:3000'} 
-    }).then().catch(error=>{
-        if(error.response.data.statusCode === 401)
-        {
-          axios.get("http://localhost:3000/auth/refresh", {
-            withCredentials: true,
-            headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
-          }).then().catch((error)=>{
-            window.location.href="http://localhost:3001/Login";
-          });
-        }
-    });
+  checkToken();
   useEffect(() => {
     document.title = "Pong - Profile";
   });

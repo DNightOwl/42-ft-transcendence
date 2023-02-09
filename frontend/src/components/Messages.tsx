@@ -8,6 +8,7 @@ import HeaderChat from "./Items/Navigation/NavigationDesktop/HeaderChat";
 import { Modal, ModalHeader, ModalBody } from "./Items/Modal";
 import SettingsBody from "./Items/SettingsBody";
 import axios from 'axios';
+import { checkToken } from "../Helpers";
 
 interface typeProps {
   chatState: any;
@@ -31,6 +32,7 @@ export default function Messages({
   setCreate,
   setMembers
 }: typeProps) {
+  checkToken();
   const scroll = useRef<HTMLDivElement>(null);
 
   axios.get("http://localhost:3000/profile", { 
