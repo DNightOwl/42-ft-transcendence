@@ -1,4 +1,4 @@
-import { IsString , IsEmail} from "class-validator";
+import { IsString , IsEmail, isString} from "class-validator";
 
 export class AuthDto {
 	@IsEmail()
@@ -7,5 +7,8 @@ export class AuthDto {
 	
 	@IsString()
 	public login : string;
+
+	@IsString()
+	public imageUrl : string;
 	
 }
