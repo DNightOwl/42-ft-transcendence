@@ -21,7 +21,8 @@ export class UsersService {
                 login: true,
                 id: true,
                 nickname: true,
-                email: true
+                email: true,
+                pictureLink: true
 
             }
         });
@@ -41,19 +42,18 @@ export class UsersService {
        })
     }
 
-    // async   updatepicture(login: string, @UploadedFile() file: Express.Multer.File)
-    // {
-    //     const id1 = await this.prisma.user.update({
-    //         where:{
-    //             login: login,
-    //         },
-    //         data: {
-    //             picturelink: file.path
-    //         }
-    //     })
-    // }
+    async   updatepicture(login: string, @UploadedFile() file: Express.Multer.File)
+    {
+        const id1 = await this.prisma.user.update({
+            where:{
+                login: login,
+            },
+            data: {
+               pictureLink: file.path
+            }
+        })
+    }
     async   getfreind(login: string) {
-       //let allfreinds = []
         const myfreinds = await this.prisma.user.findUnique({
             where: {
                 login: login
@@ -71,9 +71,6 @@ export class UsersService {
                     login: login
                 }
             });
-            // const id1 =  blockedUser.blocked.find((login) =>login==freindlogin)
-            // if (id1)
-            //     throw new ForbiddenException('this user is blocked');
             const table = await this.prisma.freinds.create({
                 data: {
                     userLogin: login,
@@ -85,10 +82,7 @@ export class UsersService {
                     userLogin: freindlogin,
                     friendLogin: login
                 }
-            })
-            //const pers = user.id.concat(user.freind);
-            //await this.roomservice.CreateRoom(user.id, pers,"personell");
-            //await this.roomservice.addtoroom(user.freind, pers);
+            }) 
     }
 
     async unfreind(login: string, freind){

@@ -17,9 +17,6 @@ import { prisma } from '@prisma/client';
 import { dbUser } from '../../users/dto/types';
 import * as moment from 'moment';
 
-interface mytype{
-    name:string
-}
 
 @Controller('rooms')
 export class RoomController
@@ -145,6 +142,14 @@ export class RoomController
     async unmuteduser(@Req() req: dbUser, @Body() room) {
         const user = req.user;
         return await this.roomservice.unmuted(user, room);
+    }
+
+    @UseGuards(JwtAuthGuard)
+    @Delete('Deleteroom')
+    async   DeleteRoom(@Req() req: dbUser, @Body() room)
+    {
+        const user = req.user;
+        return this.roomservice.deleteroom(user, room);
     }
 
 }

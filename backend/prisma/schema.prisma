@@ -59,7 +59,7 @@ model Muted {
   id String @id @default(uuid())
   roomName  String 
   userLogin  String
-  room room @relation(fields: [roomName], references: [name])
+  room room @relation(fields: [roomName], references: [name], onDelete: Cascade)
   time String
 
   @@map("muted")
@@ -69,7 +69,7 @@ model Messages {
   id String @id @default(uuid())
   roomName String
   userLogin  String
-  room room @relation(fields: [roomName], references: [name])
+  room room @relation(fields: [roomName], references: [name], onDelete: Cascade)
   data String
   
   @@map("messages")
