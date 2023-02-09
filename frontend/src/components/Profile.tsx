@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
+import { checkToken } from "../Helpers";
 
 export default function Profile() {
+  checkToken();
   useEffect(() => {
     document.title = "Pong - Profile";
   });

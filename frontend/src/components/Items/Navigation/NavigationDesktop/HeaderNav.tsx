@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import {SearchIcon, ControllerIcon, ArrowDownIcon,ArrowUpIcon,SettingsNavIcon,LogoutIcon} from '../../Icons';
 import UserPicture from '../../../../assets/user.jpg';
 import {useState} from 'react'
+import { getProfile } from '../../../../Helpers';
 
 interface typeProps{
     messages:boolean,
@@ -11,6 +12,14 @@ interface typeProps{
 export default function HeaderNav({messages,chatState,settings}:typeProps) {
     const [dropDown,setDropDown] = useState<boolean>(false)
     const [mouse,setMouse] = useState<boolean>(false)
+    const [data,setData] = useState<any>({});
+
+    useEffect(()=>{
+        function getRes(res:any){
+            setData(res)
+        }
+        getProfile(getRes)
+    },[])
   return (
     (!messages)?(
         <section className='hidden lg:flex justify-between items-start mr-4 ml-64 pt-7 gap-5'>
@@ -29,7 +38,7 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
                 <button className='flex items-center gap-2' onClick={()=>{(!dropDown)?setDropDown(true):setDropDown(false)}} onBlur={()=>{if(!mouse)setDropDown(false)}}>
                     <div className='flex items-center gap-2'>
                         <img src={UserPicture} alt="User" className='w-10 h-10 rounded-full' />
-                        <span className='username'>Username</span>
+                        <span className='username'>{(data.nickname)?data.nickname.charAt(0).toUpperCase() + data.nickname.slice(1):null}</span>
                     </div>
                     <span className='bg-shape w-4 h-4 rounded-full flex justify-center items-center'>
                         {(!dropDown)?(<ArrowDownIcon edit="w-1.5"/>):(<ArrowUpIcon edit='w-1.5 h-1.5 fill-secondaryText' />)}
@@ -37,7 +46,7 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
                 </button>
                 {
                     (dropDown)?(
-                            <div className='absolute top-12 rounded-md bg-body shadow left-0 w-full flex flex-col py-5 gap-2'>
+                            <div className='absolute top-12 rounded-md bg-body shadow right-0 w-36 flex flex-col py-5 gap-2'>
                             <button className='flex gap-2   hover:bg-backgroundHover items-center justify-center p-2' onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                                if(settings)
                                {

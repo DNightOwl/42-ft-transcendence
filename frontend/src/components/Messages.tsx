@@ -7,6 +7,8 @@ import MessagesContainer from "./Items/MessagesContainer";
 import HeaderChat from "./Items/Navigation/NavigationDesktop/HeaderChat";
 import { Modal, ModalHeader, ModalBody } from "./Items/Modal";
 import SettingsBody from "./Items/SettingsBody";
+import axios from 'axios';
+import { checkToken } from "../Helpers";
 
 interface typeProps {
   chatState: any;
@@ -30,7 +32,23 @@ export default function Messages({
   setCreate,
   setMembers
 }: typeProps) {
+  checkToken();
   const scroll = useRef<HTMLDivElement>(null);
+
+  axios.get("http://localhost:3000/profile", { 
+    withCredentials: true,
+      headers :{'Access-Control-Allow-Origin': 'localhost:3000'} 
+    }).then().catch(error=>{
+        if(error.response.data.statusCode === 401)
+        {
+          axios.get("http://localhost:3000/auth/refresh", {
+            withCredentials: true,
+            headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+          }).then().catch((error)=>{
+            window.location.href="http://localhost:3001/Login";
+          });
+        }
+    });
 
   useEffect(() => {
     document.title = "Pong - Messages";

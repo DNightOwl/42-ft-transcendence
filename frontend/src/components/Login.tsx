@@ -1,6 +1,8 @@
 import React, { useEffect } from 'react'
+import { checkTokenLogin } from '../Helpers';
 
 export default function Login() {
+  checkTokenLogin();
   useEffect(()=>{
     document.title = "Pong - Login";
     
