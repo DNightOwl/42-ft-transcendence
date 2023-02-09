@@ -400,3 +400,53 @@ export function RefreshIcon(props:typeProps){
 
   )
 }
+
+export function AddFiriendSearchIcon(props:typeProps){
+  return(
+    <svg id="Group_266" data-name="Group 266" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 23.165 23.165" className={props.edit}>
+  <g id="Group_263" data-name="Group 263" transform="translate(0)">
+    <g id="Group_262" data-name="Group 262">
+      <path id="Path_68" data-name="Path 68" d="M16.631,11.624a11.772,11.772,0,0,0-1.362-.547,6.153,6.153,0,1,0-7.368,0A11.77,11.77,0,0,0,.059,19.85a2.749,2.749,0,0,0,2.687,3.315H13.891a.9.9,0,1,0,0-1.81H2.746a.919.919,0,0,1-.724-.344.945.945,0,0,1-.192-.793A10,10,0,0,1,11.343,12.3q.119,0,.24,0t.242,0a9.857,9.857,0,0,1,4.029.956.9.9,0,0,0,.777-1.635ZM11.8,10.491l-.221,0-.219,0a4.344,4.344,0,1,1,.44,0Z" transform="translate(0 0)"/>
+    </g>
+  </g>
+  <g id="Group_265" data-name="Group 265" transform="translate(14.569 14.569)">
+    <g id="Group_264" data-name="Group 264">
+      <path id="Path_69" data-name="Path 69" d="M329.692,325.393H327.2V322.9a.9.9,0,0,0-1.81,0v2.489H322.9a.9.9,0,0,0,0,1.81h2.489v2.488a.9.9,0,1,0,1.81,0V327.2h2.488a.9.9,0,1,0,0-1.81Z" transform="translate(-322 -322)"/>
+    </g>
+  </g>
+</svg>
+  )
+}
+
+export function FriendIcon(props:typeProps){
+  return(
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31.328 31.342" className={props.edit}>
+  <g id="Group_293" data-name="Group 293" transform="translate(-1.75 -1.75)">
+    <g id="Group_292" data-name="Group 292" transform="translate(1.75 1.75)">
+      <path id="Path_70" data-name="Path 70" d="M14.537,19.323a8.8,8.8,0,1,1,6.209-2.578A8.787,8.787,0,0,1,14.537,19.323Zm0-15.281a6.51,6.51,0,1,0,4.588,1.907,6.494,6.494,0,0,0-4.588-1.907Z" transform="translate(0.363 -1.75)" fill="#fff"/>
+      <path id="Path_71" data-name="Path 71" d="M2.9,26.267A1.161,1.161,0,0,1,1.75,25.121,13.4,13.4,0,0,1,15.121,11.75h3.056a1.146,1.146,0,0,1,0,2.292H15.121A11.094,11.094,0,0,0,4.042,25.121,1.161,1.161,0,0,1,2.9,26.267Z" transform="translate(-1.75 3.531)" />
+      <path id="Path_72" data-name="Path 72" d="M16.915,27.268a1.146,1.146,0,0,1-.764-.382l-6.113-6.113a1.146,1.146,0,0,1,1.528-1.528l5.241,5.241,9.948-11.354a1.147,1.147,0,0,1,1.712,1.528l-10.7,12.225a1.115,1.115,0,0,1-.81.4Z" transform="translate(2.568 4.059)" />
+    </g>
+  </g>
+</svg>
+  )
+}
+
+export function AddFriendIcon(props:typeProps){
+  return(
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32.031 32.031" className={props.edit}>
+  <g id="Group_266" data-name="Group 266" transform="translate(0)">
+    <g id="Group_263" data-name="Group 263" transform="translate(0)">
+      <g id="Group_262" data-name="Group 262">
+        <path id="Path_68" data-name="Path 68" d="M23,16.073a16.278,16.278,0,0,0-1.883-.756,8.508,8.508,0,1,0-10.188.005A16.274,16.274,0,0,0,.082,27.447,3.8,3.8,0,0,0,3.8,32.031H19.207a1.251,1.251,0,1,0,0-2.5H3.8a1.271,1.271,0,0,1-1-.476,1.307,1.307,0,0,1-.265-1.1A13.824,13.824,0,0,1,15.684,17.01q.165.006.332.006t.335-.007a13.629,13.629,0,0,1,5.571,1.323A1.251,1.251,0,0,0,23,16.073Zm-6.675-1.566-.305,0-.3,0a6.006,6.006,0,1,1,.608,0Z" transform="translate(0 0)"/>
+      </g>
+    </g>
+    <g id="Group_265" data-name="Group 265" transform="translate(20.145 20.145)">
+      <g id="Group_264" data-name="Group 264">
+        <path id="Path_69" data-name="Path 69" d="M332.635,326.692h-3.441v-3.441a1.251,1.251,0,0,0-2.5,0v3.441h-3.441a1.251,1.251,0,0,0,0,2.5h3.441v3.441a1.251,1.251,0,1,0,2.5,0v-3.441h3.441a1.251,1.251,0,1,0,0-2.5Z" transform="translate(-322 -322)"/>
+      </g>
+    </g>
+  </g>
+</svg>
+  )
+}

@@ -38,11 +38,20 @@ export function checkTokenLogin(){
 
 }
 
-export function getProfile(getRes:any){
+export function getUserData(getRes:any){
     axios.get("http://localhost:3000/profile", {
         withCredentials: true,
           headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
         }).then((res)=>{
             getRes(res.data) 
         })
+}
+
+export function getProfile(getRes:any){
+  axios.get("http://localhost:3000/profile/AllUsers", {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+        getRes(res);
+      })
 }
