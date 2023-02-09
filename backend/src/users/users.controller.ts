@@ -7,6 +7,7 @@ import { RequestWithUser, dbUser } from './dto/types';
 import { PrismaService } from "src/prisma/prisma.service";
 import { FileInterceptor } from '@nestjs/platform-express';
 import { extname } from 'path';
+import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { RoomService } from '../chat/rooms/room.service';
 
@@ -29,6 +30,12 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Get('/:login')
+  async GetProfileUser(@Param('login') login: string){
+    return await this.usersService.findProfile(login);
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Patch()
   async UpdateProfile(@Req() req : dbUser, @Body() modify) {
       const user = req.user;
@@ -36,28 +43,28 @@ export class UsersController {
       return await this.usersService.updateuserinfo(user.login, modify.nickname);
   }
 
-  // @UseGuards(JwtAuthGuard)
-  // @Patch('picture')
-  //       @UseInterceptors(FileInterceptor('file', {
-  //         storage: diskStorage({
-  //             destination: './files',
-  //             filename: (req, file, callback) => {
-  //                 const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-  //                 const ext = extname(file.originalname);
-  //                 const filename = `${uniqueSuffix}${ext}`;
-  //                 callback(null, filename)
-  //             }
-  //         })
-  //       }))
-  //       async UpdatePicture(@Req() req: RequestWithUser, @UploadedFile() file: Express.Multer.File)
-  //       {
-  //         const user = req.user;
-  //           this.usersService.updatepicture(user.login, file);
-  //       }
+  @UseGuards(JwtAuthGuard)
+  @Patch('picture')
+        @UseInterceptors(FileInterceptor('file', {
+          storage: diskStorage({
+              destination: './files',
+              filename: (req, file, callback) => {
+                  const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
+                  const ext = extname(file.originalname);
+                  const filename = `${uniqueSuffix}${ext}`;
+                  callback(null, filename)
+              }
+          })
+        }))
+        async UpdatePicture(@Req() req: RequestWithUser, @UploadedFile() file: Express.Multer.File)
+        {
+            const user = req.user;
+            this.usersService.updatepicture(user.login, file);
+        }
 
   @UseGuards(JwtAuthGuard)
   @Get('getfreind')
-  async   getFreinds(@Req() req: RequestWithUser)
+  async   getFreinds(@Req() req : dbUser)
   {
     const user = req.user
     return await this.usersService.getfreind(user.login);

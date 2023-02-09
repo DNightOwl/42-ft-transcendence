@@ -315,7 +315,17 @@ export class RoomService
             set: rooms.blocked.filter((login) => login != room.login)
             }
           }
-    })    
+    })
+    const userupdate = await this.prisma.room.update({
+      where: {
+       name: room.name
+      },
+      data: {
+        members: {
+          push: room.login
+          }
+        }
+  })
   }
 
   async quite_room(user: any, rom: any)
@@ -546,6 +556,23 @@ export class RoomService
             }
             
         })
-        }
-    //}
+      }
+
+      async deleteroom(user: any, room: any)
+      {
+          const testOwner = await this.prisma.room.findUnique({
+            where: {
+              name: room.name
+            }
+          })
+          const id1 =  testOwner.admins.find((login) =>login==user.login)
+          if (!id1)
+              throw new ForbiddenException('you are not admin');
+              const rom = await this.prisma.room.delete({
+                where: {
+                    name: room.name
+                }
+            })  
+      }
+        
 }
