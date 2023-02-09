@@ -3,6 +3,7 @@ import { PrismaService } from '../prisma/prisma.service';
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 
 
+
 @Injectable()
 export class UsersService {
 	constructor(private prisma: PrismaService) {}
@@ -21,8 +22,7 @@ export class UsersService {
                 login: true,
                 id: true,
                 nickname: true,
-                email: true,
-                pictureLink: true
+                email: true
 
             }
         });
@@ -49,7 +49,7 @@ export class UsersService {
                 login: login,
             },
             data: {
-               pictureLink: file.path
+                pictureLink: file.path
             }
         })
     }
@@ -82,7 +82,7 @@ export class UsersService {
                     userLogin: freindlogin,
                     friendLogin: login
                 }
-            }) 
+            })
     }
 
     async unfreind(login: string, freind){
@@ -163,3 +163,4 @@ export class UsersService {
     }
 
 }
+
