@@ -8,7 +8,7 @@ export function ArrowDownIcon(props:typeProps) {
     return (
       <svg xmlns="http://www.w3.org/2000/svg" className={props.edit} viewBox="0 0 9.703 5.531">
     <g id="Group_20" data-name="Group 20" transform="translate(0 0)">
-      <path id="Path_28" data-name="Path 28" d="M4.852,102.671a.677.677,0,0,1-.48-.2L.2,98.3a.679.679,0,0,1,.961-.961l3.691,3.692L8.543,97.34A.679.679,0,0,1,9.5,98.3l-4.172,4.172A.677.677,0,0,1,4.852,102.671Z" transform="translate(-0.001 -97.141)" fill="#81879c"/>
+      <path id="Path_28" data-name="Path 28" d="M4.852,102.671a.677.677,0,0,1-.48-.2L.2,98.3a.679.679,0,0,1,.961-.961l3.691,3.692L8.543,97.34A.679.679,0,0,1,9.5,98.3l-4.172,4.172A.677.677,0,0,1,4.852,102.671Z" transform="translate(-0.001 -97.141)"/>
     </g>
   </svg>
   
@@ -52,9 +52,9 @@ export function ArrowDownIcon(props:typeProps) {
     )
   }
 
-  export function MessagesIcon() {
+  export function MessagesIcon(props:typeProps) {
     return (
-  <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 43 43">
+  <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 43 43" className={props.edit}>
     <defs>
       <clipPath id="clip-path">
         <rect id="Rectangle_4" data-name="Rectangle 4" width="43" height="43"/>

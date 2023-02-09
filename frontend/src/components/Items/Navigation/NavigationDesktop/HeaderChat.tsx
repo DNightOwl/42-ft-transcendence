@@ -30,7 +30,7 @@ export default function HeaderChat({chatState,settings,setMembers}:typeProps) {
                         <span className='username'>Username</span>
                     </div>
                     <span className='bg-shape w-4 h-4 rounded-full flex justify-center items-center'>
-                        {(!dropDown)?(<ArrowDownIcon edit="w-1.5"/>):(<ArrowUpIcon edit='w-1.5 h-1.5 fill-secondaryText' />)}
+                        {(!dropDown)?(<ArrowDownIcon edit="w-1.5 fill-secondaryText"/>):(<ArrowUpIcon edit='w-1.5 h-1.5 fill-secondaryText' />)}
                     </span>
                 </button>
                 {
