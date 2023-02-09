@@ -1,6 +1,7 @@
 import { Injectable, ForbiddenException, UploadedFile } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
+import { usersObject } from './utils/usersObject';
 
 
 
@@ -8,10 +9,31 @@ import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 export class UsersService {
 	constructor(private prisma: PrismaService) {}
 
-	// async getAllUsers() {
+	async getAllUsers(user: any) :Promise<usersObject[]>
+    {
+		let obj: usersObject[] = []
+        const users = await this.prisma.user.findMany({});
+        console.log(user.login);
+        for (let index = 0; index < users.length; index++)
+        {
+            if (users[index].login == user.login)
+                continue;
+            const id = this.prisma.freinds.findMany({
+                where: {
+                    userLogin: user.login,
+                    friendLogin: users[index].login
+                }
+            })
+            let pers : usersObject = {id: users[index].id, username: users[index].login, status: users[index].status, pictureLink: users[index].pictureLink, freind: ""}
+            if ((await id).length == 0)
+                pers.freind = "Not friend";
+            else
+                pers.freind = "friend"
+            obj.push(pers);
+        }
+        return obj;
 		
-	// 	return {msg : "users"};
-	// }
+	}
 
 	async findProfile(login : string) {
         const id1 = await this.prisma.user.findUnique ({
