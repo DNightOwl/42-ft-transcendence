@@ -47,7 +47,7 @@ export function getUserData(getRes:any){
         })
 }
 
-export function getProfile(getRes:any){
+export function getUsers(getRes:any){
   axios.get("http://localhost:3000/profile/AllUsers", {
       withCredentials: true,
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}

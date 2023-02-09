@@ -15,15 +15,13 @@ export default function CardProfile({settings,setModal}:typeProps){
   useEffect(()=>{
     function getRes(res:any){
       setData(res);
-      console.log(res);
-      
   }
   getUserData(getRes);
   },[])
     return(
         <div className={`flex flex-1 items-center`}>
         <div className='flex items-center gap-2'>
-          <img src={PictureProfile} alt="Profile" className='w-20 h-20 rounded-full' />
+          <img src={data.pictureLink} alt="Profile" className='w-20 h-20 rounded-full' />
           <div className='flex flex-col gap-1'>
             <div className='flex items-center gap-2'>
               <span className={`text-primaryText text-md max-w-xs overflow-hidden text-ellipsis whitespace-nowrap`}>{(data.nickname)?data.nickname.charAt(0).toUpperCase() + data.nickname.slice(1):null}</span>
@@ -35,8 +33,8 @@ export default function CardProfile({settings,setModal}:typeProps){
               </button>
             </div>
             <div className='flex items-center gap-1.5'>
-            <span className={`w-2 h-2 rounded-full bg-online`}></span>
-                <span className='text-secondaryText font-light text-sm'>Online</span>
+            <span className={`w-2 h-2 rounded-full ${data.status === "of" ?"bg-offline":"bg-online"}`}></span>
+                <span className='text-secondaryText font-light text-sm'>{(data.status === "of")?"Offline":"Online"}</span>
             </div>
           </div>
         </div>
