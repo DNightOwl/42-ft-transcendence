@@ -17,15 +17,18 @@ import { RoomService } from '../chat/rooms/room.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService, private prisma: PrismaService, private roomservice: RoomService) {}
 
-  // @Get()
-  // getAllUsers(req: RequestWithUser) {
-    //   const user = req.user;
+  @UseGuards(JwtAuthGuard)
+  @Get('/AllUsers')
+  getAllUsers(@Req() req : dbUser) {
+      const user = req.user;
+      return this.usersService.getAllUsers(user);
     
-    // }
+    }
   @UseGuards(JwtAuthGuard)
   @Get()
   async GetProfile(@Req() req : dbUser){
     const user = req.user;
+    console.log()
     return await this.usersService.findProfile(user.login);
   }
 
