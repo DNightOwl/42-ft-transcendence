@@ -210,10 +210,20 @@ main{
     .modal-members{
         width: 40rem;
     }
+    .btn-profile{
+        flex-direction: column;
+    }
   }
 
   @media screen and (min-width: 1536px) {
     .content{
         max-width: 1500px;
+    }
+  }
+
+  @media screen and (min-width: 1186px) {
+
+    .btn-profile{
+        flex-direction: row !important;
     }
   }

@@ -21,7 +21,7 @@ export default function CardProfile({settings,setModal,dataUser}:typeProps){
   getUserData(getRes);
   },[])
     return(
-        <div className={`flex flex-1 items-center`}>
+        <div className={`flex ${(!dataUser)?"flex-1":""}items-center`}>
         <div className='flex items-center gap-2'>
           <img src={(dataUser)?dataUser.picture:data.pictureLink} alt="Profile" className='w-20 h-20 rounded-full' />
           <div className='flex flex-col gap-1'>

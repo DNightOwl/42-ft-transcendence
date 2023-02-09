@@ -52,9 +52,9 @@ export function ArrowDownIcon(props:typeProps) {
     )
   }
 
-  export function MessagesIcon() {
+  export function MessagesIcon(props:typeProps) {
     return (
-  <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 43 43">
+  <svg xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" viewBox="0 0 43 43" className={props.edit}>
     <defs>
       <clipPath id="clip-path">
         <rect id="Rectangle_4" data-name="Rectangle 4" width="43" height="43"/>
