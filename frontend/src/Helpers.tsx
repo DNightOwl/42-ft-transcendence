@@ -63,3 +63,12 @@ export function addFriend(login:string){
 export function unFriend(login:string){
   axios.delete(`http://localhost:3000/profile/unfreind/${login}`,{withCredentials: true})
 }
+
+export function getFriends(getRes:any){
+  axios.get("http://localhost:3000/profile/getfreind/", {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+          getRes(res.data) 
+      })
+}
