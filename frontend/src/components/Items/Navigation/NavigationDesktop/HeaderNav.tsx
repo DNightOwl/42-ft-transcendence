@@ -28,6 +28,7 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
         })
     },[click]);
     
+    
   return (
     (!messages)?(
         <section className='hidden lg:flex justify-between items-start mr-4 ml-64 pt-7 gap-5'>
@@ -82,7 +83,7 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
                 <div className='relative text-primaryText text-sm'>
                 <button className='flex items-center gap-2' onClick={()=>{(!dropDown)?setDropDown(true):setDropDown(false)}} onBlur={()=>{if(!mouse)setDropDown(false)}}>
                     <div className='flex items-center gap-2'>
-                        <img src={UserPicture} alt="User" className='w-10 h-10 rounded-full' />
+                        <img src={data.pictureLink} alt="User" className='w-10 h-10 rounded-full' />
                         <span className='username'>{(data.nickname)?data.nickname.charAt(0).toUpperCase() + data.nickname.slice(1):null}</span>
                     </div>
                     <span className='bg-shape w-4 h-4 rounded-full flex justify-center items-center'>
