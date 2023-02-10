@@ -36,6 +36,9 @@ export default function Profile({setModal}:typeProps) {
     })
     
   },[]);
+
+  console.log(fill);
+  
   
   return (
     <main className="flex flex-col gap-12 h-full pb-0">
@@ -104,7 +107,9 @@ export default function Profile({setModal}:typeProps) {
                   ):(
                     <button className="w-36 p-2 rounded-md bg-primary gap-2 flex items-center justify-center" onClick={()=>{
                       setFriend(true);
-                      addFriend(dataUser.data.username)
+                      addFriend(dataUser.data.username);
+                      console.log("send up");
+                      
                     }}>
                     <AddFriendIcon edit="w-5 fill-primaryText"/>
                     <span className="text-primaryText text-sm">Add friend</span>
@@ -175,7 +180,11 @@ export default function Profile({setModal}:typeProps) {
                   ):(
                     <button className="w-36 p-2 rounded-md bg-primary gap-2 flex items-center justify-center" onClick={()=>{
                       setFriend(true);
+                      console.log("send down");
+                      console.log(dataUser.data.username);
+                      
                       addFriend(dataUser.data.username)
+                      
                     }}>
                     <AddFriendIcon edit="w-5 fill-primaryText"/>
                     <span className="text-primaryText text-sm">Add friend</span>
