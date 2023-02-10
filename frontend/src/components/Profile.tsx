@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
-import { checkToken } from "../Helpers";
+import { checkToken,addFriend } from "../Helpers";
 import { useLocation } from "react-router-dom";
 import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon } from "./Items/Icons";
 
 interface typeProps{
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  setFill?:React.Dispatch<React.SetStateAction<string>>;
+  fill?:string;
 
 }
 
-export default function Profile({setModal}:typeProps) {
+export default function Profile({setModal,fill,setFill}:typeProps) {
 
   const [dropDown,setDropDwon] = useState<boolean>(false)
   const [arrow,setArrow] = useState<boolean>(false)
@@ -23,7 +25,11 @@ export default function Profile({setModal}:typeProps) {
   checkToken();
   useEffect(() => {
     document.title = "Pong - Profile";
-  });
+
+    const dataUser = location.state;
+    console.log(fill);
+    
+  },[]);
     
   return (
     <main className="flex flex-col gap-12 h-full pb-0">
@@ -46,6 +52,8 @@ export default function Profile({setModal}:typeProps) {
                     else{
                       setDropDwon(true);
                       setArrow(true);
+                      if(setFill)
+                        setFill("friend")
                     }
                   }} onBlur={()=>{
                     if(!mouse)
@@ -61,7 +69,7 @@ export default function Profile({setModal}:typeProps) {
                     <span className="rounded-full">
                       {
                         (!arrow)?<ArrowDownIcon edit="w-2 h-2 fill-primaryText"/>:<ArrowUpIcon edit="w-2 h-2 fill-primaryText"/>
-    
+  
                       }
                     </span>
                   </button>
@@ -89,6 +97,7 @@ export default function Profile({setModal}:typeProps) {
                   ):(
                     <button className="w-36 p-2 rounded-md bg-primary gap-2 flex items-center justify-center" onClick={()=>{
                       setFriend(true);
+                      addFriend(dataUser.data.username);
                     }}>
                     <AddFriendIcon edit="w-5 fill-primaryText"/>
                     <span className="text-primaryText text-sm">Add friend</span>
@@ -139,7 +148,7 @@ export default function Profile({setModal}:typeProps) {
                 setArrow(false);
                 
               }}>
-                Block
+                Unfriend
               </button>
               <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onClick={()=>{
                 setDropDwon(false);
