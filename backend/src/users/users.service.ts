@@ -69,14 +69,14 @@ export class UsersService {
        })
     }
 
-    async   updatepicture(login: string, @UploadedFile() file: Express.Multer.File)
+    async   updatepicture(login: string, response: any)
     {
         const id1 = await this.prisma.user.update({
             where:{
                 login: login,
             },
             data: {
-                pictureLink: file.path
+                pictureLink: response.filePath
             }
         })
     }
