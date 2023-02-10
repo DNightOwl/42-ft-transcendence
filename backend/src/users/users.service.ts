@@ -18,6 +18,9 @@ export class UsersService {
         {
             if (users[index].login == user.login)
                 continue;
+            const blocked = users[index].blocked.find((login) =>login==user.login);
+            if (blocked)
+                continue;
             const id = this.prisma.freinds.findMany({
                 where: {
                     userLogin: user.login,
@@ -98,7 +101,6 @@ export class UsersService {
             obj.push(freind);
         }
         return obj;
-       // return myfreinds.freinds[0];
     }
 
     async   addfreind(login: string, freindlogin: string) {
