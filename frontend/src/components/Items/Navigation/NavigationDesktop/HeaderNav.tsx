@@ -17,6 +17,7 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
     const [dataUsers,setDataUser] = useState([]);
     const [fill,setFill] = useState([]);
     const [value,setValue] = useState("");
+    const [click,setClick] = useState<boolean>(false);
 
     const [data,setData] = useState<any>({});
 
@@ -25,14 +26,16 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
         getUsers((res:any)=>{
             setFill(res.data)
         })
-    },[value]);
+    },[click]);
     
   return (
     (!messages)?(
         <section className='hidden lg:flex justify-between items-start mr-4 ml-64 pt-7 gap-5'>
             <div className='flex-1 relative'>
                 <div className='flex items-center bg-shape pr-4 rounded-md'>
-                    <input type="text" placeholder='Search for user' value={value} className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-3 pl-4 pr-1.5 focus:outline-none text-primaryText' onChange={(e)=>{
+                    <input type="text" placeholder='Search for user' value={value} className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-3 pl-4 pr-1.5 focus:outline-none text-primaryText' onClick={()=>{
+                        (click)?(setClick(false)):setClick(true);
+                    }} onChange={(e)=>{
                         let value = e.currentTarget.value;
                         let data:any = [];
                         setValue(e.currentTarget.value)

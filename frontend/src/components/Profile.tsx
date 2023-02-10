@@ -27,15 +27,19 @@ export default function Profile({setModal}:typeProps) {
     document.title = "Pong - Profile";
     
     getUsers((res:any)=>{
+      
       res.data.forEach((e:any)=>{
+
         if(e.username === dataUser?.data.username)
         {
           setFill(e);
         }
       })
     })
-    
-  },[]);
+  },[dataUser]);
+
+  
+
   return (
     <main className="flex flex-col gap-12 h-full pb-0">
       <section className="flex  flex-col items-center gap-10  justify-center lg:flex-row lg:justify-between">
