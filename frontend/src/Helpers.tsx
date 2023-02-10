@@ -57,6 +57,9 @@ export function getUsers(getRes:any){
 }
 
 export function addFriend(login:string){
-
   axios.post("http://localhost:3000/profile/addfreind",{login},{withCredentials: true})
+}
+
+export function unFriend(login:string){
+  axios.delete(`http://localhost:3000/profile/unfreind/${login}`,{withCredentials: true})
 }
