@@ -4,7 +4,6 @@ import SwitchersProfile from "./Items/SwitchersProfile";
 import { checkToken,addFriend } from "../Helpers";
 import { useLocation } from "react-router-dom";
 import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon } from "./Items/Icons";
-import { addFriend } from "../Helpers";
 
 interface typeProps{
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
