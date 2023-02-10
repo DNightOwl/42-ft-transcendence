@@ -36,10 +36,6 @@ export default function Profile({setModal}:typeProps) {
     })
     
   },[]);
-
-  console.log(fill);
-  
-  
   return (
     <main className="flex flex-col gap-12 h-full pb-0">
       <section className="flex  flex-col items-center gap-10  justify-center lg:flex-row lg:justify-between">
@@ -108,7 +104,6 @@ export default function Profile({setModal}:typeProps) {
                     <button className="w-36 p-2 rounded-md bg-primary gap-2 flex items-center justify-center" onClick={()=>{
                       setFriend(true);
                       addFriend(dataUser.data.username);
-                      console.log("send up");
                       
                     }}>
                     <AddFriendIcon edit="w-5 fill-primaryText"/>
