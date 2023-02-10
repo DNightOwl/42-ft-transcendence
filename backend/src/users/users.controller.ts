@@ -77,7 +77,11 @@ export class UsersController {
   @Post('addfreind')
   async addfriend(@Req() req : dbUser, @Body() freind)
   {
+<<<<<<< HEAD
     console.log("i was here in addfriend")
+=======
+    console.log("======>");
+>>>>>>> 65eff70810a6ffb606fe6c86834ce22a5d81f5b7
       const user = req.user
       const blockedUser = await this.prisma.user.findUnique({
         where: {
@@ -101,8 +105,8 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Delete('unfreind')
-  async   unfriend (@Req() req : dbUser, @Body() freind)
+  @Delete('unfreind/:login')
+  async   unfriend (@Req() req : dbUser, @Param() freind)
   {
     const user = req.user;
       this.usersService.unfreind(user.login, freind);
