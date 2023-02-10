@@ -17,6 +17,7 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
     const [dataUsers,setDataUser] = useState([]);
     const [fill,setFill] = useState([]);
     const [value,setValue] = useState("");
+
     const [data,setData] = useState<any>({});
 
     useEffect(()=>{
@@ -24,7 +25,7 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
         getUsers((res:any)=>{
             setFill(res.data)
         })
-    },[])
+    },[value]);
     
   return (
     (!messages)?(
