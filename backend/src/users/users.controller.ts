@@ -39,7 +39,7 @@ export class UsersController {
   @UseGuards(JwtAuthGuard)
   @Get('getprofile/:login')
   async GetProfileUser(@Param('login') login: string){
-    return await this.usersService.getfreind(login);
+    return await this.usersService.findProfile(login);
   }
 
   @UseGuards(JwtAuthGuard)
