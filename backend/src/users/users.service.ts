@@ -39,6 +39,7 @@ export class UsersService {
 	}
 
 	async findProfile(login : string) {
+        console.log(login);
         const id1 = await this.prisma.user.findUnique ({
             where: {
                 login: login
