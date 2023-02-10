@@ -39,11 +39,11 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
-  @Patch()
+  @Patch('seting')
   async UpdateProfile(@Req() req : dbUser, @Body() modify) {
       const user = req.user;
-      console.log(modify.nickname);
-      return await this.usersService.updateuserinfo(user.login, modify.nickname);
+      if (modify.nickname)
+        return await this.usersService.updateuserinfo(user.login, modify.nickname);
   }
 
   @UseGuards(JwtAuthGuard)
@@ -59,7 +59,7 @@ export class UsersController {
               }
           })
         }))
-        async UpdatePicture(@Req() req: RequestWithUser, @UploadedFile() file: Express.Multer.File)
+        async UpdatePicture(@Req() req : dbUser, @UploadedFile() file: Express.Multer.File)
         {
             const user = req.user;
             this.usersService.updatepicture(user.login, file);
