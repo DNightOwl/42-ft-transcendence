@@ -73,6 +73,12 @@ export class UsersController {
     return await this.usersService.getfreind(user.login);
   }
 
+  @Get('getfreindUser/:login')
+  async   getFreindsUser(@Param() user)
+  {
+    return await this.usersService.getfreind(user.login);
+  }
+
   @UseGuards(JwtAuthGuard)
   @Post('addfreind')
   async addfriend(@Req() req : dbUser, @Body() freind)
@@ -89,7 +95,7 @@ export class UsersController {
       const id1 = await this.prisma.freinds.findFirst ({
           where: {
               userLogin: user.login,
-              friendLogin : freind.login   
+              friendLogin : freind.login 
           }
       })
       if (id1)
