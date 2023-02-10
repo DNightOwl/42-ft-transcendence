@@ -124,6 +124,7 @@ export class UsersService {
     }
 
     async unfreind(login: string, freind){
+        console.log(login);
         await this.prisma.freinds.deleteMany({
             where: {
                 AND: [
