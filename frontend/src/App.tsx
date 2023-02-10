@@ -14,6 +14,7 @@ function App() {
   const [modal,setModal] = useState(false);
   const [create,setCreate] = useState(false);
   const [members,setMembers] = useState(false);
+  const [fill,setFill] = useState("");
   
   return (
     <BrowserRouter>
@@ -23,7 +24,7 @@ function App() {
         <Route path='/Login' element={<Login/>} />
           <Route path='/Home' element={<Home/>} />
           <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} />}/>
-          <Route path='/Profile' element={<Profile setModal={setModal}/>} />
+          <Route path='/Profile' element={<Profile setModal={setModal} fill={fill} setFill={setFill}/>} />
         </Routes>
     </BrowserRouter>
   );

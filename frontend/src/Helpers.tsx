@@ -57,9 +57,17 @@ export function getUsers(getRes:any){
 }
 
 export function addFriend(login:string){
+<<<<<<< HEAD
 
   console.log(login);
   
 
   axios.post("http://localhost:3000/profile/addfreind",{login},{withCredentials: true})
+=======
+  axios.post("http://localhost:3000/profile/addfreind",{login},{withCredentials: true})
+}
+
+export function unFriend(login:string){
+  axios.delete(`http://localhost:3000/profile/unfreind/${login}`,{withCredentials: true})
+>>>>>>> e4620e77da7af170411b0aa813675895fbfe7288
 }
