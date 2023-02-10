@@ -4,7 +4,11 @@ import Achievements from '../Items/Achievements';
 import Friends from './Friends';
 import MatchHistory from "./MatchHistory";
 
-export default function SwitchersProfile() {
+interface  typeProps{
+    login?:any
+}
+
+export default function SwitchersProfile({login}:typeProps) {
     useEffect(()=>{
         let btnSwitcher = document.getElementById("first");
         btnSwitcher?.click();
@@ -21,7 +25,7 @@ export default function SwitchersProfile() {
             <Achievements/>
         </TabContent>
         <TabContent edit="overflow-visible">
-            <Friends />
+            <Friends login={login}/>
         </TabContent>
         <TabContent edit="overflow-visible">
             <MatchHistory />

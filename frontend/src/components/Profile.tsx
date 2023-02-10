@@ -18,6 +18,7 @@ export default function Profile({setModal}:typeProps) {
   const [mouse,setMouse] = useState<boolean>(false);
   const [friend,setFriend] = useState<boolean>(false);
   const [display,setDisplay] = useState<boolean>(true);
+  const [username,setUsername] = useState<any>("");
   const [fill,setFill]     = useState<any>({});
 
   const location = useLocation();
@@ -25,7 +26,10 @@ export default function Profile({setModal}:typeProps) {
   
   useEffect(() => {
     document.title = "Pong - Profile";
-    
+
+    let profileUsername = document.getElementById("username");
+    setUsername(profileUsername?.innerHTML.toString());
+
     getUsers((res:any)=>{
       
       res.data.forEach((e:any)=>{
@@ -37,7 +41,6 @@ export default function Profile({setModal}:typeProps) {
       })
     })
   },[dataUser]);
-
   
 
   return (
@@ -198,13 +201,7 @@ export default function Profile({setModal}:typeProps) {
             )
           ):null
         }
-
-
-
-
-
-
-        <div className="flex gap-10">
+         <div className="flex gap-10">
           <span className="flex flex-col items-center">
             <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">10</span>
             <span className="text-secondaryText text-sm">Friends</span>
@@ -221,7 +218,7 @@ export default function Profile({setModal}:typeProps) {
           </span>
         </div>
       </section>
-      <SwitchersProfile />
+          <SwitchersProfile login={dataUser?.data.username}/>
     </main>
   );
 }

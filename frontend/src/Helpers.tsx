@@ -72,3 +72,15 @@ export function getFriends(getRes:any){
           getRes(res.data) 
       })
 }
+
+export function getFriendsUsers(getRes:any,login:string){
+  console.log("login: ",login);
+  
+  axios.get(`http://localhost:3000/profile/getfreindUser/${login}`, {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+  console.log("res: ",res);
+          getRes(res.data) 
+      })
+}
