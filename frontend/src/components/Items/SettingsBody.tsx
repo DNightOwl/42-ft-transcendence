@@ -1,17 +1,19 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import { EditAvatarIcon, QrIcon } from "./Icons";
-import { editPicture,editNickName } from "../../Helpers";
+import { editPicture,editNickName,getUserData } from "../../Helpers";
 
 interface typeProps{
   settings?:React.Dispatch<React.SetStateAction<boolean>>
+  nickname?:any
+  pictureUser?:any
 }
 
-export default function SettingsBody({settings}:typeProps) {
-  const [value, setValue] = useState<string>("mouassit");
+
+export default function SettingsBody({settings,nickname,pictureUser}:typeProps) {
+
+  const [value, setValue] = useState<string>(nickname);
   const [switchBtn, setSwitchBtn] = useState<boolean>(false);
-  const [picture, setPicture] = useState<string>(
-    "https://cdn.intra.42.fr/users/2cc53519ab737304bcdd74e4125c3e61/mouassit.jpg"
-  );
+  const [picture, setPicture] = useState<string>(pictureUser);
   const [tempPic,setTempPic] = useState("");
   const [display,setDisplay] = useState<boolean>(false)
   return !display ? (
