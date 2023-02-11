@@ -81,3 +81,9 @@ export function getFriendsUsers(getRes:any,login:string){
           getRes(res.data) 
       })
 }
+
+export function blockFriend(login:string){
+  console.log("login: ",login);
+  
+  axios.patch("http://localhost:3000/profile/blocked",{login},{withCredentials: true})
+}

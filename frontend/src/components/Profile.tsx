@@ -214,7 +214,7 @@ export default function Profile({setModal,username}:typeProps) {
         </div>
       </section>
       {
-        (dataUser.data.username === fill.username)?(
+        (dataUser?.data.username === fill.username)?(
           <SwitchersProfile username={dataUser?.data.username}/>
           
         ):null
