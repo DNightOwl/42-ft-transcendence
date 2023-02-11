@@ -56,9 +56,6 @@ export class UsersController {
           storage: diskStorage({
               destination: './files',
               filename: (req, file, callback) => {
-                  // const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9);
-                  // const ext = extname(file.originalname);
-                  // const filename = `${uniqueSuffix}${ext}`;
                   const name: string = file.originalname.split('.')[0];
                   const fileExtention: string = file.originalname.split(".")[1];
                   const newFileName: string = name.split(" ").join("_") + "_" + Date.now() + "." + fileExtention;
@@ -74,11 +71,13 @@ export class UsersController {
         }))
         async UpdatePicture(@Req() req : dbUser, @UploadedFile() file: Express.Multer.File)
         {
+            console.log(file);
             const user = req.user;
             if (!file)
                 throw new BadRequestException("File is not image");
             else
             {
+              console.log('hna2');
               const response = {
                 filePath: `http://localhost:3000/profile/picture/${file.filename}`
               }
