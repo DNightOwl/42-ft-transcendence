@@ -15,9 +15,6 @@ export default function CardUser({username,picture,user,data}:typeProps) {
   const [mouse,setMouse] = useState(false);
   const[display,setDisplay] = useState(true);
 
-  console.log(data);
-  
-  
   if(display)
     return(
       <Link to ="/Profile" state={{data:data}} className='flex items-center p-4 card-user shadow justify-between bg-body rounded-xl'>

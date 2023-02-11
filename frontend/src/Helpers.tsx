@@ -103,7 +103,6 @@ export function editNickName(nickname:string){
 }
 
 export function getAchievements(getRes:any,id:string){
-  console.log(id);
   axios.post("http://localhost:3000/achievements",{id},{withCredentials: true}).then((res:any)=>{
     getRes(res)
   })
