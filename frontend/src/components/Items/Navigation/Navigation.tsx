@@ -8,6 +8,8 @@ import SettingsBody from "../SettingsBody";
 import NotFound from "../../NotFound";
 import CreateChannelBody from '../CreateChannelBody'
 import Members from "../Members";
+import { getUserData } from "../../../Helpers";
+
 
 interface typeprops {
   chatState: any;
@@ -40,6 +42,7 @@ export default function Navigation({
 }: typeprops) {
   const [messages, setMessages] = useState(false);
   const [display,setDisplay] = useState(false);
+  const [data,setData] = useState<any>({});
   const location = useLocation();
 
   let pathname = location.pathname;
@@ -54,6 +57,9 @@ export default function Navigation({
       setConversation(false);
       setChatState(dataChat[0]);
     }
+    getUserData((res:any)=>{
+      setData(res);
+    })
   }, [location.pathname, setConversation, setChatState]);
 
   if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase())
@@ -84,7 +90,7 @@ export default function Navigation({
         <Modal edit="modal">
           <ModalHeader settings={setModal}>Settings</ModalHeader>
           <ModalBody edit="justify-center">
-            <SettingsBody settings={setModal} />
+            <SettingsBody settings={setModal} nickname={data?.nickname} pictureUser={data?.pictureLink} />
           </ModalBody>
         </Modal>
       ) : null} 
