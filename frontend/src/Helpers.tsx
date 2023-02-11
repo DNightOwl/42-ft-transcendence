@@ -86,7 +86,7 @@ export function blockFriend(login:string){
   axios.patch("http://localhost:3000/profile/blocked",{login},{withCredentials: true})
 }
 
-export function editPicture(file:string){
+export function editPicture(file:any){
 
   axios({
     method: "patch",

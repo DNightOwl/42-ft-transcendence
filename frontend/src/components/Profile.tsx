@@ -23,7 +23,7 @@ export default function Profile({setModal,username}:typeProps) {
 
   const location = useLocation();
   const dataUser = location.state;
-  
+
   useEffect(() => {
     document.title = "Pong - Profile";
     
@@ -40,14 +40,14 @@ export default function Profile({setModal,username}:typeProps) {
     
   },[dataUser]);
   
-
   return (
     <main className="flex flex-col gap-12 h-full pb-0">
       <section className="flex  flex-col items-center gap-10  justify-center lg:flex-row lg:justify-between">
-        <CardProfile settings={true} setModal={setModal}  dataUser={dataUser?.data}/>
+        <CardProfile settings={true} setModal={setModal}  dataUser={(dataUser.data.friend!=="none" && dataUser)?.data}/>
 
         {
-          (dataUser)?(
+          (dataUser.data.friend !== "none" && dataUser)?(
+            
             (fill?.freind === "Not friend")?(
               <div className="flex btn-profile items-center gap-3">
                 {
@@ -214,10 +214,12 @@ export default function Profile({setModal,username}:typeProps) {
         </div>
       </section>
       {
-        (dataUser?.data.username === fill.username)?(
-          <SwitchersProfile username={dataUser?.data.username}/>
-          
-        ):null
+        (dataUser.data.friend === "none")?(
+          <SwitchersProfile />
+        ):(dataUser?.data.username === fill.username)?(
+            <SwitchersProfile username={dataUser?.data.username}/>
+            
+          ):null
       }
     </main>
   );
