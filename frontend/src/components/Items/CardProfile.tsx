@@ -7,8 +7,7 @@ import {getUserData } from "../../Helpers";
 interface typeProps{
   settings:boolean
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
-  dataUser?: any;
-
+  dataUser?: any
 }
 
 export default function CardProfile({settings,setModal,dataUser}:typeProps){
