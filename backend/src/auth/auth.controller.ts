@@ -1,4 +1,5 @@
-import { Body, Controller, Get, HttpCode, HttpStatus, Post, Req, Res, UseGuards } from '@nestjs/common';
+import { Body, Controller, Get, HttpCode, HttpStatus, Post, Query, Req, Res, UseGuards } from '@nestjs/common';
+import { ConfigService } from '@nestjs/config';
 import { Response } from 'express';
 import { TFAService } from './2FA/2FA.service';
 import { AuthService } from './auth.service';
@@ -10,11 +11,15 @@ import { RefreshGuard } from './jwt/refresh.guard';
 
 @Controller('auth')
 export class AuthController {
-  constructor(private readonly authService: AuthService, private readonly tfa : TFAService) {}
+  constructor(private readonly authService: AuthService, private readonly tfa : TFAService, private configService: ConfigService) {}
 
-  @UseGuards(IntraAuthGuard)
   @Get('42intra/login')
-  handleLogin() {}
+  handleLogin(@Res() res : Response) {
+    res.redirect(this.configService.get("AUTHORIZATION_URL")+
+      "?client_id="+this.configService.get("CLIENT_ID")+
+      "&redirect_uri="+this.configService.get("CALLBACK_URL")+
+      "&response_type=code&scope=public&state="+this.configService.get("ACCESS_TOKEN_SECRET"));
+  }
 
   @UseGuards(IntraAuthGuard)
   @Get('42intra/redirect')
