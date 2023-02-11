@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { EditAvatarIcon, QrIcon } from "./Icons";
+import { editPicture,editNickName } from "../../Helpers";
 
 interface typeProps{
   settings?:React.Dispatch<React.SetStateAction<boolean>>
@@ -11,6 +12,7 @@ export default function SettingsBody({settings}:typeProps) {
   const [picture, setPicture] = useState<string>(
     "https://cdn.intra.42.fr/users/2cc53519ab737304bcdd74e4125c3e61/mouassit.jpg"
   );
+  const [tempPic,setTempPic] = useState("");
   const [display,setDisplay] = useState<boolean>(false)
   return !display ? (
     <div className="flex flex-col justify-between py-6">
@@ -42,7 +44,8 @@ export default function SettingsBody({settings}:typeProps) {
                       extention === "jpg" ||
                       extention === "JPG"
                     )
-                      setPicture(URL.createObjectURL(e.target.files[0]));
+                      setPicture(URL.createObjectURL(e.target.files[0]))
+                      setTempPic(e.target.files[0].name)
                   }
                 }}
               />
@@ -96,7 +99,12 @@ export default function SettingsBody({settings}:typeProps) {
         }}>
           Cancel
         </button>
-        <button className="w-32 rounded-md bg-primary p-2 text-sm text-primaryText">
+        <button className="w-32 rounded-md bg-primary p-2 text-sm text-primaryText" onClick={()=>{
+          console.log("Link: ",tempPic);
+          console.log("name: ",value);
+          editPicture("user.jpg");
+          editNickName(value);
+        }}>
           Save
         </button>
       </div>
