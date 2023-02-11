@@ -7,23 +7,30 @@ import {getUserData } from "../../Helpers";
 interface typeProps{
   settings:boolean
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
-  dataUser?: any;
-
+  dataUser?: any
 }
 
 export default function CardProfile({settings,setModal,dataUser}:typeProps){
-
   const [data,setData] = useState<any>({});
+
   useEffect(()=>{
     function getRes(res:any){
       setData(res);
   }
   getUserData(getRes);
   },[setData])
+
+  
     return(
         <div className={`flex ${(!dataUser)?"flex-1":""}items-center`}>
         <div className='flex items-center gap-2'>
-          <img src={(dataUser)?dataUser.picture:data.pictureLink} alt="Profile" className='w-20 h-20 rounded-full' />
+          {
+            (dataUser && !dataUser.picture)?(
+              <img src={dataUser.pictureLink} alt="Profile" className='w-20 h-20 rounded-full' />
+            ):(
+              <img src={(dataUser)?dataUser.picture:data.pictureLink} alt="Profile" className='w-20 h-20 rounded-full' />
+            )
+          }
           <div className='flex flex-col gap-1'>
             <div className='flex items-center gap-2'>
               <span className={`text-primaryText text-md max-w-xs overflow-hidden text-ellipsis whitespace-nowrap`} id="username">{

@@ -32,7 +32,7 @@ export default function Achievements({id}:typeProps) {
 
     if(idUser){
       getAchievements((res:any)=>{
-        console.log(res);
+        // console.log(res);
       },idUser)
     }
     

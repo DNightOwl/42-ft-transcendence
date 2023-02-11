@@ -1,6 +1,6 @@
 import React, { useEffect,useState } from 'react';
 import CardUser from './CardUser';
-import { getFriends,getFriendsUsers } from '../../Helpers';
+import { getFriends,getFriendsUsers,getUserData } from '../../Helpers';
 
 interface typeProps{
     username?:string
@@ -8,13 +8,16 @@ interface typeProps{
 
 export default function Friends({username}:typeProps) {
     const [friends,setFriends] = useState([]);
+    const [name,setName] = useState<any>({})
     let count = 0;
     useEffect(()=>{
+        getUserData((res:any)=>{
+            setName(res.nickname)
+        })
         if(username !== undefined)
         {
             getFriendsUsers((res:any)=>{
-                setFriends(res)
-                
+                setFriends(res)         
             },username);
         }
         else
@@ -49,7 +52,7 @@ export default function Friends({username}:typeProps) {
         {
             (friends)?(
                 friends.map((e:any,index)=>{
-                    if(e.username === "mouassit")
+                    if(e.username === name)
                         e.friend = "none"                
                     return(<CardUser key={index} username={e.username} picture={e.pictureLink} user={(username === undefined)?false:true} data={e}/>)
                 })
