@@ -101,3 +101,10 @@ export function editPicture(file:any){
 export function editNickName(nickname:string){
   axios.patch("http://localhost:3000/profile/seting",{nickname},{withCredentials: true})
 }
+
+export function getAchievements(getRes:any,id:string){
+  console.log(id);
+  axios.post("http://localhost:3000/achievements",{id},{withCredentials: true}).then((res:any)=>{
+    getRes(res)
+  })
+}
