@@ -20,6 +20,8 @@ interface typeprops {
   setCreate?: React.Dispatch<React.SetStateAction<boolean>>;
   members?: boolean;
   setMembers?: React.Dispatch<React.SetStateAction<boolean>>;
+  setClick: React.Dispatch<React.SetStateAction<boolean>>
+  click: boolean
 }
 
 export default function Navigation({
@@ -32,7 +34,9 @@ export default function Navigation({
   create,
   setCreate,
   members,
-  setMembers
+  setMembers,
+  click,
+  setClick
 }: typeprops) {
   const [messages, setMessages] = useState(false);
   const [display,setDisplay] = useState(false);
@@ -67,6 +71,8 @@ export default function Navigation({
         setMessages={setMessages}
         settings={setModal}
         setCreate={setCreate}
+        click={click}
+        setClick={setClick}
       />
       <NavigationPhone
         conversation={conversation}

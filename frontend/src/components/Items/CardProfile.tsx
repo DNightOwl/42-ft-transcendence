@@ -19,14 +19,14 @@ export default function CardProfile({settings,setModal,dataUser}:typeProps){
       setData(res);
   }
   getUserData(getRes);
-  },[])
+  },[setData])
     return(
         <div className={`flex ${(!dataUser)?"flex-1":""}items-center`}>
         <div className='flex items-center gap-2'>
           <img src={(dataUser)?dataUser.picture:data.pictureLink} alt="Profile" className='w-20 h-20 rounded-full' />
           <div className='flex flex-col gap-1'>
             <div className='flex items-center gap-2'>
-              <span className={`text-primaryText text-md max-w-xs overflow-hidden text-ellipsis whitespace-nowrap`}>{
+              <span className={`text-primaryText text-md max-w-xs overflow-hidden text-ellipsis whitespace-nowrap`} id="username">{
               (dataUser)?(dataUser.username.charAt(0).toUpperCase() + dataUser.username.slice(1)):(data.nickname)?data.nickname.charAt(0).toUpperCase() + data.nickname.slice(1):null
               }</span>
               {

@@ -72,3 +72,32 @@ export function getFriends(getRes:any){
           getRes(res.data) 
       })
 }
+
+export function getFriendsUsers(getRes:any,login:string){
+  axios.get(`http://localhost:3000/profile/getfreindUser/${login}`, {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+          getRes(res.data) 
+      })
+}
+
+export function blockFriend(login:string){
+  axios.patch("http://localhost:3000/profile/blocked",{login},{withCredentials: true})
+}
+
+export function editPicture(file:string){
+
+  axios({
+    method: "patch",
+    data:file,
+    headers: { "Content-Type": "multipart/form-data" },
+    url: "http://localhost:3000/profile/upload-photo",
+    withCredentials:true
+  })
+  // axios.patch("http://localhost:3000/profile/upload-photo",{file},{withCredentials: true})
+}
+
+export function editNickName(nickname:string){
+  axios.patch("http://localhost:3000/profile/seting",{nickname},{withCredentials: true})
+}

@@ -7,18 +7,19 @@ import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon } from 
 
 interface typeProps{
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
-
+  username?:string
 }
 
-export default function Profile({setModal}:typeProps) {
-  
+export default function Profile({setModal,username}:typeProps) {
+
   checkToken();
   const [dropDown,setDropDwon] = useState<boolean>(false);
   const [arrow,setArrow] = useState<boolean>(false);
   const [mouse,setMouse] = useState<boolean>(false);
   const [friend,setFriend] = useState<boolean>(false);
   const [display,setDisplay] = useState<boolean>(true);
-  const [fill,setFill]     = useState<any>({});
+  const [fill,setFill]    = useState<any>({});
+  const [name,setName] = useState("")
 
   const location = useLocation();
   const dataUser = location.state;
@@ -27,7 +28,9 @@ export default function Profile({setModal}:typeProps) {
     document.title = "Pong - Profile";
     
     getUsers((res:any)=>{
+      
       res.data.forEach((e:any)=>{
+
         if(e.username === dataUser?.data.username)
         {
           setFill(e);
@@ -35,11 +38,9 @@ export default function Profile({setModal}:typeProps) {
       })
     })
     
-  },[]);
+  },[dataUser]);
+  
 
-  console.log(fill);
-  
-  
   return (
     <main className="flex flex-col gap-12 h-full pb-0">
       <section className="flex  flex-col items-center gap-10  justify-center lg:flex-row lg:justify-between">
@@ -108,7 +109,6 @@ export default function Profile({setModal}:typeProps) {
                     <button className="w-36 p-2 rounded-md bg-primary gap-2 flex items-center justify-center" onClick={()=>{
                       setFriend(true);
                       addFriend(dataUser.data.username);
-                      console.log("send up");
                       
                     }}>
                     <AddFriendIcon edit="w-5 fill-primaryText"/>
@@ -180,9 +180,6 @@ export default function Profile({setModal}:typeProps) {
                   ):(
                     <button className="w-36 p-2 rounded-md bg-primary gap-2 flex items-center justify-center" onClick={()=>{
                       setFriend(true);
-                      console.log("send down");
-                      console.log(dataUser.data.username);
-                      
                       addFriend(dataUser.data.username)
                       
                     }}>
@@ -199,13 +196,7 @@ export default function Profile({setModal}:typeProps) {
             )
           ):null
         }
-
-
-
-
-
-
-        <div className="flex gap-10">
+         <div className="flex gap-10">
           <span className="flex flex-col items-center">
             <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">10</span>
             <span className="text-secondaryText text-sm">Friends</span>
@@ -222,7 +213,12 @@ export default function Profile({setModal}:typeProps) {
           </span>
         </div>
       </section>
-      <SwitchersProfile />
+      {
+        (dataUser?.data.username === fill.username)?(
+          <SwitchersProfile username={dataUser?.data.username}/>
+          
+        ):null
+      }
     </main>
   );
 }

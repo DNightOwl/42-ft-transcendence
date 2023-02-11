@@ -9,14 +9,17 @@ interface typeProps{
     messages:boolean,
     chatState:any,
     settings?:React.Dispatch<React.SetStateAction<boolean>>
+    setClickUser: React.Dispatch<React.SetStateAction<boolean>>
+    clickUser: boolean
 }
-export default function HeaderNav({messages,chatState,settings}:typeProps) {
+export default function HeaderNav({messages,chatState,settings,setClickUser,clickUser}:typeProps) {
     const [dropDown,setDropDown] = useState<boolean>(false)
     const [mouse,setMouse] = useState<boolean>(false);
     const [display,setDisplay] = useState<boolean>(false);
     const [dataUsers,setDataUser] = useState([]);
     const [fill,setFill] = useState([]);
     const [value,setValue] = useState("");
+    const [click,setClick] = useState<boolean>(false);
 
     const [data,setData] = useState<any>({});
 
@@ -25,14 +28,17 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
         getUsers((res:any)=>{
             setFill(res.data)
         })
-    },[value]);
+    },[click]);
+    
     
   return (
     (!messages)?(
         <section className='hidden lg:flex justify-between items-start mr-4 ml-64 pt-7 gap-5'>
             <div className='flex-1 relative'>
                 <div className='flex items-center bg-shape pr-4 rounded-md'>
-                    <input type="text" placeholder='Search for user' value={value} className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-3 pl-4 pr-1.5 focus:outline-none text-primaryText' onChange={(e)=>{
+                    <input type="text" placeholder='Search for user' value={value} className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-3 pl-4 pr-1.5 focus:outline-none text-primaryText' onClick={()=>{
+                        (click)?(setClick(false)):setClick(true);
+                    }} onChange={(e)=>{
                         let value = e.currentTarget.value;
                         let data:any = [];
                         setValue(e.currentTarget.value)
@@ -63,7 +69,7 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
                             {
                                 dataUsers.map((e:any,index)=>{
                                     return(
-                                        <CardSearch friend={e.freind} username={e.username} picture={e.pictureLink} key={index} setDisplay={setDisplay} setValue={setValue} status={e.status}/>
+                                        <CardSearch friend={e.freind} username={e.username} picture={e.pictureLink} key={index} setDisplay={setDisplay} setValue={setValue} status={e.status} click={clickUser} setClick={setClickUser}/>
                                     )
                                 })
                             }
@@ -79,7 +85,7 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
                 <div className='relative text-primaryText text-sm'>
                 <button className='flex items-center gap-2' onClick={()=>{(!dropDown)?setDropDown(true):setDropDown(false)}} onBlur={()=>{if(!mouse)setDropDown(false)}}>
                     <div className='flex items-center gap-2'>
-                        <img src={UserPicture} alt="User" className='w-10 h-10 rounded-full' />
+                        <img src={data.pictureLink} alt="User" className='w-10 h-10 rounded-full' />
                         <span className='username'>{(data.nickname)?data.nickname.charAt(0).toUpperCase() + data.nickname.slice(1):null}</span>
                     </div>
                     <span className='bg-shape w-4 h-4 rounded-full flex justify-center items-center'>
