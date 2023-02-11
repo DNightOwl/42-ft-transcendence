@@ -5,4 +5,5 @@ export interface usersObject {
     pictureLink: string
     freind: string
     blocked: string
+    NumberofFreinds: number
 }
