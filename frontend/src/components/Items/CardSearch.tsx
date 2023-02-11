@@ -15,7 +15,7 @@ interface typeProps{
 }
 
 export default function CardSearch({friend,username,picture,setDisplay,setValue,status,setClick,click}:typeProps){
-    let data = {username: username,picture:picture,status:status, friend:friend}
+    let data = {username: username,picture:picture,status:"on", friend:friend}
     return (
         <Link to="/Profile" state={{data:data}} className='hover:bg-backgroundHover px-4 py-2 cursor-pointer' onClick={()=>{
             if(setDisplay)

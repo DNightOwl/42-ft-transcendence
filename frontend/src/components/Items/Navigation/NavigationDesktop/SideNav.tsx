@@ -17,8 +17,15 @@ interface typeprops{
 }
 
 export default function SideNav({messages,setMessages,chatState,setChatState,setCreate}:typeprops) {
+  const [data,setData] = useState<any>({});
 
-
+  useEffect(()=>{
+    getUserData((res:any)=>{
+      setData(res);
+    })
+  },)
+  
+  let fill = {username: data?.nickname,picture:data.pictureLink,status:data.status, friend:"none"};
   return (
     <section className=' hidden lg:flex flex-col py-7 left-0 2xl:left-auto fixed gap-12  bg-sideBackground w-60 h-full'>
     <Link to="/Home" className='flex items-center justify-center'>
@@ -42,7 +49,7 @@ export default function SideNav({messages,setMessages,chatState,setChatState,set
               </NavLink>
             </li>
             <li>
-              <NavLink to="/Profile" className='desktop-nav-item'>
+              <NavLink to="/Profile" state={{data:fill}}  className='desktop-nav-item'>
                 <UserIcon />
                 <span>Profile</span>
               </NavLink>

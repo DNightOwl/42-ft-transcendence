@@ -15,7 +15,8 @@ export default function SwitchersProfile({username}:typeProps) {
         let btnSwitcher = document.getElementById("first");
         btnSwitcher?.click();
         
-    },[])
+        
+    },[username])
   return (
     <Tabs edit='gap-0 lg:overflow-visible'>
     <TabsList>

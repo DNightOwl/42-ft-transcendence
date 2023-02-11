@@ -90,7 +90,7 @@ export class AuthService {
 		const expr_duration = (decoded_token.exp - decoded_token.iat) * 1000;
 		
 		//cookie setting tokens
-		res.cookie(tokenName, token, { maxAge: expr_duration, httpOnly: true, sameSite: "none", domain: "localhost"});
+		res.cookie(tokenName, token, { maxAge: expr_duration, httpOnly: true});
 	}
 
 	//check if user exist if not create it
