@@ -13,14 +13,17 @@ interface typeProps{
 export default function CardUser({username,picture,user,data}:typeProps) {
   const[dropDown,setDropDown] = useState<boolean>(false)
   const [mouse,setMouse] = useState(false);
+  const [move,setMove] = useState(false);
   const[display,setDisplay] = useState(true);
 
-  console.log(data);
-  
-  
   if(display)
     return(
-      <Link to ="/Profile" state={{data:data}} className='flex items-center p-4 card-user shadow justify-between bg-body rounded-xl'>
+      <Link to ="/Profile" state={{data:data}} className='flex items-center p-4 card-user shadow justify-between bg-body rounded-xl' onClick={(e)=>{
+        if(move)  
+          e.preventDefault()
+        else
+          setDropDown(false)
+      }}>
       <div className='flex gap-3 items-center'>
           <img src={picture} alt="Friend" className='w-12 h-12 rounded-full' />
           <span className='text-sm text-primaryText username-card overflow-hidden text-ellipsis whitespace-nowrap'>{username.charAt(0).toUpperCase() + username.slice(1)}</span>
@@ -33,7 +36,11 @@ export default function CardUser({username,picture,user,data}:typeProps) {
           }} onBlur={()=>{
               if(mouse)
                 setDropDown(false)}
-            }>
+            }onMouseMove={()=>{
+              setMove(true)
+            }} onMouseLeave={()=>{
+              setMove(false)
+            }}>
             <PointsIcon edit='w-2 h-2 fill-secondaryText' />
           </button>
           {
@@ -44,8 +51,10 @@ export default function CardUser({username,picture,user,data}:typeProps) {
                 setDisplay(false)
               }} onMouseMove={()=>{
                 setMouse(false)
+                setMove(true)
               }} onMouseLeave={()=>{
                 setMouse(true)
+                setMove(false)
               }}>
                 Block
               </button>
