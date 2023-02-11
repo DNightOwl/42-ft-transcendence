@@ -26,7 +26,7 @@ export default function SwitchersProfile({username}:typeProps) {
     </TabsList>
     <TabsPanels edit="overflow-visible">
         <TabContent edit="overflow-visible">
-            <Achievements/>
+            <Achievements id={username}/>
         </TabContent>
         <TabContent edit="overflow-visible">
             <Friends username={username}/>
