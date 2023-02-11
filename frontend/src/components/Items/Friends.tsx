@@ -49,7 +49,9 @@ export default function Friends({username}:typeProps) {
         {
             (friends)?(
                 friends.map((e:any,index)=>{
-                    return(<CardUser key={index} username={e.username} picture={e.pictureLink} />)
+                    if(e.username === "mouassit")
+                        e.friend = "none"                
+                    return(<CardUser key={index} username={e.username} picture={e.pictureLink} user={(username === undefined)?false:true} data={e}/>)
                 })
             ):null
         }

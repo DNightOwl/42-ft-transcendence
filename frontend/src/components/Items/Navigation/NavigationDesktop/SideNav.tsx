@@ -23,7 +23,7 @@ export default function SideNav({messages,setMessages,chatState,setChatState,set
     getUserData((res:any)=>{
       setData(res);
     })
-  },)
+  },[])
   
   let fill = {username: data?.nickname,picture:data.pictureLink,status:data.status, friend:"none"};
   return (
