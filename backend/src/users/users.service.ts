@@ -18,8 +18,8 @@ export class UsersService {
         {
             if (users[index].login == user.login)
                 continue;
-            const blocked = users[index].blocked.find((login) =>login==user.login);
-            if (blocked)
+            const block = users[index].blocked.find((login) =>login==user.login);
+            if (block)
                 continue;
             const id = this.prisma.freinds.findMany({
                 where: {
@@ -27,11 +27,17 @@ export class UsersService {
                     friendLogin: users[index].login
                 }
             })
-            let pers : usersObject = {id: users[index].id, username: users[index].login, status: users[index].status, pictureLink: users[index].pictureLink, freind: ""}
+            let pers : usersObject = {id: users[index].id, username: users[index].login, status: users[index].status, pictureLink: users[index].pictureLink, freind: "", blocked: ""}
             if ((await id).length == 0)
                 pers.freind = "Not friend";
             else
-                pers.freind = "friend"
+                pers.freind = "friend";
+            const blockedUser = user.blocked.find((login) =>login==users[index].login);
+            if (blockedUser)
+                pers.blocked = "blocked";
+            else
+                pers.blocked = "No blocked"
+            
             obj.push(pers);
         }
         return obj;
@@ -98,7 +104,7 @@ export class UsersService {
                     login: myfreinds.freinds[index].friendLogin
                 }
             })
-            let freind : usersObject = {id: user.id, username: user.login, status: user.status, pictureLink: user.pictureLink, freind: "freind"}
+            let freind : usersObject = {id: user.id, username: user.login, status: user.status, pictureLink: user.pictureLink, freind: "freind", blocked: ""}
             obj.push(freind);
         }
         return obj;

@@ -4,4 +4,5 @@ export interface usersObject {
     status: string
     pictureLink: string
     freind: string
+    blocked: string
 }
