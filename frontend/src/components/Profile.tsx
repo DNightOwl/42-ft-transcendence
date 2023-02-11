@@ -7,29 +7,26 @@ import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon } from 
 
 interface typeProps{
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
-
+  username?:string
 }
 
-export default function Profile({setModal}:typeProps) {
-  
+export default function Profile({setModal,username}:typeProps) {
+
   checkToken();
   const [dropDown,setDropDwon] = useState<boolean>(false);
   const [arrow,setArrow] = useState<boolean>(false);
   const [mouse,setMouse] = useState<boolean>(false);
   const [friend,setFriend] = useState<boolean>(false);
   const [display,setDisplay] = useState<boolean>(true);
-  const [username,setUsername] = useState<any>("");
-  const [fill,setFill]     = useState<any>({});
+  const [fill,setFill]    = useState<any>({});
+  const [name,setName] = useState("")
 
   const location = useLocation();
   const dataUser = location.state;
   
   useEffect(() => {
     document.title = "Pong - Profile";
-
-    let profileUsername = document.getElementById("username");
-    setUsername(profileUsername?.innerHTML.toString());
-
+    
     getUsers((res:any)=>{
       
       res.data.forEach((e:any)=>{
@@ -40,6 +37,7 @@ export default function Profile({setModal}:typeProps) {
         }
       })
     })
+    
   },[dataUser]);
   
 
@@ -182,9 +180,6 @@ export default function Profile({setModal}:typeProps) {
                   ):(
                     <button className="w-36 p-2 rounded-md bg-primary gap-2 flex items-center justify-center" onClick={()=>{
                       setFriend(true);
-                      console.log("send down");
-                      console.log(dataUser.data.username);
-                      
                       addFriend(dataUser.data.username)
                       
                     }}>
@@ -218,7 +213,12 @@ export default function Profile({setModal}:typeProps) {
           </span>
         </div>
       </section>
-          <SwitchersProfile login={dataUser?.data.username}/>
+      {
+        (dataUser.data.username === fill.username)?(
+          <SwitchersProfile username={dataUser?.data.username}/>
+          
+        ):null
+      }
     </main>
   );
 }

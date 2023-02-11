@@ -1,10 +1,11 @@
 
-import React from 'react';
+import React, { useEffect,useState } from 'react';
 import logo from '../../../../assets/logo.svg';
 import CardFriendOnline from '../../CardFriendOnline';
 import { NavLink,Link} from "react-router-dom";
 import { HomeIcon,MessagesIcon,UserIcon} from '../../Icons';
 import MessagesContainer from '../../MessagesContainer';
+import { getUserData } from '../../../../Helpers';
 
 interface typeprops{
   messages:boolean
@@ -16,6 +17,7 @@ interface typeprops{
 }
 
 export default function SideNav({messages,setMessages,chatState,setChatState,setCreate}:typeprops) {
+
 
   return (
     <section className=' hidden lg:flex flex-col py-7 left-0 2xl:left-auto fixed gap-12  bg-sideBackground w-60 h-full'>

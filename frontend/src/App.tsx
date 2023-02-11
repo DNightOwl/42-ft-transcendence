@@ -1,5 +1,5 @@
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Navigation from "./components/Items/Navigation/Navigation";
 import Home from "./components/Home";
@@ -14,16 +14,20 @@ function App() {
   const [modal,setModal] = useState(false);
   const [create,setCreate] = useState(false);
   const [members,setMembers] = useState(false);
+  const [click,setClick] = useState<boolean>(false);
+  const [username,setUsername] = useState<string>("");
+  
+  
   
   return (
     <BrowserRouter>
-      <Navigation chatState={chatState} setChatState={setChatState} conversation = {conversation} setConversation={setConversation} modal={modal} setModal={setModal} create={create} setCreate={setCreate} members={members} setMembers={setMembers}/>
+      <Navigation chatState={chatState} setChatState={setChatState} conversation = {conversation} setConversation={setConversation} modal={modal} setModal={setModal} create={create} setCreate={setCreate} members={members} setMembers={setMembers} click={click} setClick={setClick}/>
         <Routes>
         <Route path='/' element={<Login/>} />
         <Route path='/Login' element={<Login/>} />
           <Route path='/Home' element={<Home/>} />
           <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} />}/>
-          <Route path='/Profile' element={<Profile setModal={setModal} />} />
+          <Route path='/Profile' element={<Profile setModal={setModal} username={username} />}/>
         </Routes>
     </BrowserRouter>
   );

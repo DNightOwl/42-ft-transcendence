@@ -9,8 +9,10 @@ interface typeProps{
     messages:boolean,
     chatState:any,
     settings?:React.Dispatch<React.SetStateAction<boolean>>
+    setClickUser: React.Dispatch<React.SetStateAction<boolean>>
+    clickUser: boolean
 }
-export default function HeaderNav({messages,chatState,settings}:typeProps) {
+export default function HeaderNav({messages,chatState,settings,setClickUser,clickUser}:typeProps) {
     const [dropDown,setDropDown] = useState<boolean>(false)
     const [mouse,setMouse] = useState<boolean>(false);
     const [display,setDisplay] = useState<boolean>(false);
@@ -67,7 +69,7 @@ export default function HeaderNav({messages,chatState,settings}:typeProps) {
                             {
                                 dataUsers.map((e:any,index)=>{
                                     return(
-                                        <CardSearch friend={e.freind} username={e.username} picture={e.pictureLink} key={index} setDisplay={setDisplay} setValue={setValue} status={e.status}/>
+                                        <CardSearch friend={e.freind} username={e.username} picture={e.pictureLink} key={index} setDisplay={setDisplay} setValue={setValue} status={e.status} click={clickUser} setClick={setClickUser}/>
                                     )
                                 })
                             }

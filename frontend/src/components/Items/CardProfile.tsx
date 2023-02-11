@@ -19,7 +19,7 @@ export default function CardProfile({settings,setModal,dataUser}:typeProps){
       setData(res);
   }
   getUserData(getRes);
-  },[])
+  },[setData])
     return(
         <div className={`flex ${(!dataUser)?"flex-1":""}items-center`}>
         <div className='flex items-center gap-2'>

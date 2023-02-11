@@ -3,17 +3,19 @@ import CardUser from './CardUser';
 import { getFriends,getFriendsUsers } from '../../Helpers';
 
 interface typeProps{
-    login?:string;
+    username?:string
 }
 
-export default function Friends({login}:typeProps) {
+export default function Friends({username}:typeProps) {
     const [friends,setFriends] = useState([]);
     let count = 0;
     useEffect(()=>{
-        if(login)
+        if(username !== undefined)
         {
             getFriendsUsers((res:any)=>{
-            },login)
+                setFriends(res)
+                
+            },username);
         }
         else
         {

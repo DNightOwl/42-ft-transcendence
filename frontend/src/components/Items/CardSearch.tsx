@@ -8,11 +8,13 @@ interface typeProps{
     picture:string
     setDisplay?:React.Dispatch<React.SetStateAction<boolean>>
     setValue?:React.Dispatch<React.SetStateAction<string>>
-    status:string
+    status:string,
+    setClick: React.Dispatch<React.SetStateAction<boolean>>
+    click:boolean
 
 }
 
-export default function CardSearch({friend,username,picture,setDisplay,setValue,status}:typeProps){
+export default function CardSearch({friend,username,picture,setDisplay,setValue,status,setClick,click}:typeProps){
     let data = {username: username,picture:picture,status:status, friend:friend}
     return (
         <Link to="/Profile" state={{data:data}} className='hover:bg-backgroundHover px-4 py-2 cursor-pointer' onClick={()=>{
@@ -20,6 +22,10 @@ export default function CardSearch({friend,username,picture,setDisplay,setValue,
                 setDisplay(false)
             if(setValue)
                 setValue("");
+                if(!click)
+                    setClick(true)
+                else
+                    setClick(false)
             }}>
             <div className='flex items-center justify-between w-full'>
                 <div className='flex items-center gap-3'>
