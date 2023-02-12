@@ -11,9 +11,8 @@ export default function Friends({username}:typeProps) {
     const [fill,setFill] = useState([]);
     const [name,setName] = useState<any>({});
     const [display,setDisplay] = useState(false)
-    const [click,setClick] = useState(1);
+    const [click,setClick] = useState(-1);
     useEffect(()=>{      
-        console.log(click);
         getUserData((res:any)=>{
             setName(res.nickname)
         })
@@ -44,6 +43,7 @@ export default function Friends({username}:typeProps) {
                 let data:string[] = [];
                 let fill:any = [];
                 let count = 0;
+                setClick(res.length)
                 res.forEach((element:any) => {
                     data.push(element);
                     count++;
@@ -60,8 +60,7 @@ export default function Friends({username}:typeProps) {
             })   
         }
     },[username,click])
-
-    if(fill.length && !display)
+    if(click && fill.length && !display)
   return (
     <div className='flex pt-10 content-profile lg:pb-10 flex-col gap-12'>
         {

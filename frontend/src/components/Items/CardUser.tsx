@@ -69,7 +69,7 @@ export default function CardUser({username,picture,user,data,displayFriends,clic
                 if(setClick)
                 {
                   if(click)
-                    setClick(click++)
+                    setClick(--click)
                 }
                 if(displayFriends)
                   displayFriends(true)
