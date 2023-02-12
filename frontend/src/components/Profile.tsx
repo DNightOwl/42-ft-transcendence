@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
-import { checkToken,addFriend,getUsers,unFriend,unblockFriend } from "../Helpers";
+import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend } from "../Helpers";
 import { useLocation } from "react-router-dom";
 import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon,UnblockIcon } from "./Items/Icons";
 
@@ -118,6 +118,16 @@ export default function Profile({setModal,username}:typeProps) {
                   }}>
                     Unfriend
                   </button>
+                  <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onClick={()=>{
+                    setDropDwon(false);
+                    setArrow(false);
+                    blockFriend(fill.username)
+                    setDisplay(false);
+                    setUnblock(false)
+                    fill.blocked = "blocked"
+                  }}>
+                    Block
+                  </button>
                   <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onClick={()=>{
                     setDropDwon(false);
                     setArrow(false);
@@ -189,6 +199,16 @@ export default function Profile({setModal,username}:typeProps) {
                     
                   }}>
                     Unfriend
+                  </button>
+                  <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onClick={()=>{
+                    setDropDwon(false);
+                    setArrow(false);
+                    blockFriend(fill.username)
+                    setDisplay(false);
+                    setUnblock(false)
+                    fill.blocked = "blocked"
+                  }}>
+                    Block
                   </button>
                   <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onClick={()=>{
                     setDropDwon(false);
