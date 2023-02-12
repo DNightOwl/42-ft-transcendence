@@ -450,3 +450,16 @@ export function AddFriendIcon(props:typeProps){
 </svg>
   )
 }
+
+export function UnblockIcon(props:typeProps){
+  return(
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25.417 31.896" className={props.edit}>
+  <g id="Group_550" data-name="Group 550" transform="translate(-1.987 -5.394)">
+    <g id="Group_552" data-name="Group 552" transform="translate(-50.013 5.394)">
+      <path id="Path_113" data-name="Path 113" d="M73.679,11.712H60.47V6.589a4.239,4.239,0,0,1,8.472,0V8.971h2.492V6.589a6.73,6.73,0,0,0-13.456,0v5.123h-2.24A3.742,3.742,0,0,0,52,15.45V28.158A3.742,3.742,0,0,0,55.738,31.9H73.679a3.742,3.742,0,0,0,3.738-3.738V15.45A3.742,3.742,0,0,0,73.679,11.712Zm1.246,16.446A1.247,1.247,0,0,1,73.679,29.4H55.738a1.247,1.247,0,0,1-1.246-1.246V15.45A1.247,1.247,0,0,1,55.738,14.2H73.679a1.247,1.247,0,0,1,1.246,1.246Z" transform="translate(0 0)"/>
+      <path id="Path_114" data-name="Path 114" d="M221.3,286a2.3,2.3,0,0,0-1.248,4.242v2.735a1.246,1.246,0,1,0,2.492,0v-2.732A2.3,2.3,0,0,0,221.3,286Z" transform="translate(-156.596 -268.183)" />
+    </g>
+  </g>
+</svg>
+  )
+}

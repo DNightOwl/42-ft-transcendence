@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
-import { checkToken,addFriend,getUsers,unFriend } from "../Helpers";
+import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend } from "../Helpers";
 import { useLocation } from "react-router-dom";
-import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon } from "./Items/Icons";
+import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon,UnblockIcon } from "./Items/Icons";
 
 interface typeProps{
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,6 +20,7 @@ export default function Profile({setModal,username}:typeProps) {
   const [display,setDisplay] = useState<boolean>(true);
   const [fill,setFill]    = useState<any>({});
   const [name,setName] = useState("")
+  const [unblock,setUnblock] = useState(false);
 
   const location = useLocation();
   const dataUser = location.state;
@@ -38,16 +39,39 @@ export default function Profile({setModal,username}:typeProps) {
       })
     })
     
-  },[dataUser]);
+  },[dataUser,unblock]);
   
+  if(dataUser.data.friend !== 'none' && (fill.blocked === "blocked" && !unblock))
+  {
+    return(
+      <main className="flex flex-col gap-12 h-full pb-0 items-center">
+        <section className="flex  flex-col items-center gap-10  justify-center">
+        <CardProfile settings={true} setModal={setModal}  dataUser={(dataUser.data.friend!=="none" && dataUser)?.data} block={true}/>
+        <div className="flex btn-profile items-center gap-3">
+              <button className="w-36 p-2 rounded-md bg-unblock gap-2 flex items-center justify-center" onClick={()=>{
+                setUnblock(true)
+                unblockFriend(fill.username)
+              }}>
+                <UnblockIcon edit="w-4 fill-primaryText"/>
+                <span className="text-primaryText text-sm">Unblock</span>
+              </button>
+        </div>
+      </section>
+      </main>
+    )
+  }
+
+
+  
+  else
   return (
-    <main className="flex flex-col gap-12 h-full pb-0">
+    (dataUser.data.friend === 'none' || unblock || fill.blocked !== "blocked")?(
+      <main className="flex flex-col gap-12 h-full pb-0">
       <section className="flex  flex-col items-center gap-10  justify-center lg:flex-row lg:justify-between">
         <CardProfile settings={true} setModal={setModal}  dataUser={(dataUser.data.friend!=="none" && dataUser)?.data}/>
 
         {
           (dataUser.data.friend !== "none" && dataUser)?(
-            
             (fill?.freind === "Not friend")?(
               <div className="flex btn-profile items-center gap-3">
                 {
@@ -93,6 +117,16 @@ export default function Profile({setModal,username}:typeProps) {
                     
                   }}>
                     Unfriend
+                  </button>
+                  <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onClick={()=>{
+                    setDropDwon(false);
+                    setArrow(false);
+                    blockFriend(fill.username)
+                    setDisplay(false);
+                    setUnblock(false)
+                    fill.blocked = "blocked"
+                  }}>
+                    Block
                   </button>
                   <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onClick={()=>{
                     setDropDwon(false);
@@ -166,6 +200,16 @@ export default function Profile({setModal,username}:typeProps) {
                   }}>
                     Unfriend
                   </button>
+                  <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onClick={()=>{
+                    setDropDwon(false);
+                    setArrow(false);
+                    blockFriend(fill.username)
+                    setDisplay(false);
+                    setUnblock(false)
+                    fill.blocked = "blocked"
+                  }}>
+                    Block
+                  </button>
                   <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onClick={()=>{
                     setDropDwon(false);
                     setArrow(false);
@@ -222,5 +266,6 @@ export default function Profile({setModal,username}:typeProps) {
           ):null
       }
     </main>
+    ):null
   );
 }

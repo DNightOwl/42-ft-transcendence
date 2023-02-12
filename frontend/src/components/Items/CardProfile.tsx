@@ -8,9 +8,10 @@ interface typeProps{
   settings:boolean
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
   dataUser?: any
+  block?:boolean
 }
 
-export default function CardProfile({settings,setModal,dataUser}:typeProps){
+export default function CardProfile({settings,setModal,dataUser,block}:typeProps){
   const [data,setData] = useState<any>({});
 
   useEffect(()=>{
@@ -49,17 +50,19 @@ export default function CardProfile({settings,setModal,dataUser}:typeProps){
             </div>
 
             {
-              (dataUser)?(
-                <div className='flex items-center gap-1.5'>
-                <span className={`w-2 h-2 rounded-full ${dataUser.status === "of" ?"bg-offline":"bg-online"}`}></span>
-                    <span className='text-secondaryText font-light text-sm'>{(dataUser.status === "of")?"Offline":"Online"}</span>
-                </div>
-              ):(
-                <div className='flex items-center gap-1.5'>
-                  <span className={`w-2 h-2 rounded-full ${data.status === "of" ?"bg-offline":"bg-online"}`}></span>
-                    <span className='text-secondaryText font-light text-sm'>{(data.status === "of")?"Offline":"Online"}</span>
-                </div>
-              )
+              (!block)?(
+                (dataUser)?(
+                  <div className='flex items-center gap-1.5'>
+                  <span className={`w-2 h-2 rounded-full ${dataUser.status === "of" ?"bg-offline":"bg-online"}`}></span>
+                      <span className='text-secondaryText font-light text-sm'>{(dataUser.status === "of")?"Offline":"Online"}</span>
+                  </div>
+                ):(
+                  <div className='flex items-center gap-1.5'>
+                    <span className={`w-2 h-2 rounded-full ${data.status === "of" ?"bg-offline":"bg-online"}`}></span>
+                      <span className='text-secondaryText font-light text-sm'>{(data.status === "of")?"Offline":"Online"}</span>
+                  </div>
+                )
+              ):null
             }
 
           </div>
