@@ -71,11 +71,13 @@ export class UsersController {
         }))
         async UpdatePicture(@Req() req : dbUser, @UploadedFile() file: Express.Multer.File)
         {
+            console.log(file);
             const user = req.user;
             if (!file)
                 throw new BadRequestException("File is not image");
             else
             {
+              console.log('hna2');
               const response = {
                 filePath: `http://localhost:3000/profile/picture/${file.filename}`
               }
