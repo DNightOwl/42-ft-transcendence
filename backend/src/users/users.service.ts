@@ -2,6 +2,7 @@ import { Injectable, ForbiddenException, UploadedFile } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
 import { usersObject } from './utils/usersObject';
+import { number } from 'joi';
 
 
 
@@ -21,14 +22,19 @@ export class UsersService {
             const block = users[index].blocked.find((login) =>login==user.login);
             if (block)
                 continue;
-            const id = this.prisma.freinds.findMany({
+            const id = await this.prisma.freinds.findMany({
                 where: {
                     userLogin: user.login,
                     friendLogin: users[index].login
                 }
             })
-            let pers : usersObject = {id: users[index].id, username: users[index].login, status: users[index].status, pictureLink: users[index].pictureLink, freind: "", blocked: ""}
-            if ((await id).length == 0)
+            const NumberofFreinds = await this.prisma.freinds.findMany({
+                where: {
+                    userLogin: users[index].login,
+                }
+            })
+            let pers : usersObject = {id: users[index].id, username: users[index].nickname, status: users[index].status, pictureLink: users[index].pictureLink, freind: "", blocked: "", NumberofFreinds:  NumberofFreinds.length}
+            if ( id.length == 0)
                 pers.freind = "Not friend";
             else
                 pers.freind = "friend";
@@ -104,7 +110,7 @@ export class UsersService {
                     login: myfreinds.freinds[index].friendLogin
                 }
             })
-            let freind : usersObject = {id: user.id, username: user.login, status: user.status, pictureLink: user.pictureLink, freind: "freind", blocked: ""}
+            let freind : usersObject = {id: user.id, username: user.nickname, status: user.status, pictureLink: user.pictureLink, freind: "freind", blocked: "",  NumberofFreinds: myfreinds.freinds.length}
             obj.push(freind);
         }
         return obj;
