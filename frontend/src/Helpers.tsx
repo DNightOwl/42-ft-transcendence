@@ -57,8 +57,6 @@ export function getUsers(getRes:any){
 }
 
 export function addFriend(login:string){
-  console.log(login)
-  
   axios.post("http://localhost:3000/profile/addfreind",{login},{withCredentials: true})
 }
 
@@ -89,8 +87,6 @@ export function blockFriend(login:string){
 }
 
 export function unblockFriend(login:string){
-  console.log("login: ",login);
-  
   axios.patch("http://localhost:3000/profile/unblocked",{login},{withCredentials: true})
 }
 

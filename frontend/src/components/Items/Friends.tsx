@@ -8,8 +8,8 @@ interface typeProps{
 
 export default function Friends({username}:typeProps) {
     const [friends,setFriends] = useState([]);
+    const [fill,setFill] = useState([]);
     const [name,setName] = useState<any>({})
-    let count = 0;
     useEffect(()=>{
         getUserData((res:any)=>{
             setName(res.nickname)
@@ -23,7 +23,20 @@ export default function Friends({username}:typeProps) {
         else
         {
             getFriends((res:any)=>{
-                setFriends(res);
+                let data:string[] = [];
+                let fill:any = [];
+                let count = 0;
+                res.forEach((element:any) => {
+                    data.push(element);
+                    count++;
+                    if(count >= 3)
+                    {
+                        fill.push(data)
+                        count = 0;
+                        data = [];
+                    }
+                });
+                setFill(fill)
             })   
         }
     },[username])
@@ -50,11 +63,29 @@ export default function Friends({username}:typeProps) {
             <CardUser />
         </div> */}
         {
-            (friends)?(
-                friends.map((e:any,index)=>{
-                    if(e.username === name)
-                        e.friend = "none"                
-                    return(<CardUser key={index} username={e.username} picture={e.pictureLink} user={(username === undefined)?false:true} data={e}/>)
+            (fill.length)?(
+                fill.map((e:any,index)=>{
+                    return(
+                        <div className='flex w-full flex-col md:flex-row gap-12' key={index}>
+                        {
+                            e.map((element:any,index:number)=>{
+                                if(element.username === name)
+                                element.friend = "none"
+                                return(
+                                    <CardUser key={index} username={element.username} picture={element.pictureLink} user={(username === undefined)?false:true} data={element}/>
+                                )
+                            })
+                        }
+                        </div>
+                    )
+                    // e.map((element:any)=>{
+                    //     if(element.username === name)
+                    //         e.friend = "none"
+                        
+                        
+                    // })
+                    return null
+                    
                 })
             ):null
         }
