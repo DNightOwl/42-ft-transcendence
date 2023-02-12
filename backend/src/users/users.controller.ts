@@ -71,13 +71,11 @@ export class UsersController {
         }))
         async UpdatePicture(@Req() req : dbUser, @UploadedFile() file: Express.Multer.File)
         {
-            console.log(file);
             const user = req.user;
             if (!file)
                 throw new BadRequestException("File is not image");
             else
             {
-              console.log('hna2');
               const response = {
                 filePath: `http://localhost:3000/profile/picture/${file.filename}`
               }
@@ -108,7 +106,7 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Post('addfreind')
-  async addfriend(@Req() req : dbUser, @Body() freind, @Req()req1 : Request)
+  async addfriend(@Req() req : dbUser, @Body() freind)
   {
       const user = req.user
       const blockedUser = await this.prisma.user.findUnique({
