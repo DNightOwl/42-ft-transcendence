@@ -11,7 +11,9 @@ export default function Friends({username}:typeProps) {
     const [fill,setFill] = useState([]);
     const [name,setName] = useState<any>({});
     const [display,setDisplay] = useState(false)
-    useEffect(()=>{
+    const [click,setClick] = useState(1);
+    useEffect(()=>{      
+        console.log(click);
         getUserData((res:any)=>{
             setName(res.nickname)
         })
@@ -57,7 +59,7 @@ export default function Friends({username}:typeProps) {
                 setFill(fill)
             })   
         }
-    },[username])
+    },[username,click])
 
     if(fill.length && !display)
   return (
@@ -71,7 +73,7 @@ export default function Friends({username}:typeProps) {
                                 if(element.username === name)
                                     element.friend = "none"
                                         return(
-                                            <CardUser key={index} username={element.username} picture={element.pictureLink} user={(username === undefined)?false:true} data={element}/>
+                                        <CardUser key={index} username={element.username} picture={element.pictureLink} user={(username === undefined)?false:true} data={element} click={click} setClick={(setClick)} />
                                         )
                                         })
                                     }
@@ -83,6 +85,6 @@ export default function Friends({username}:typeProps) {
   )
   else
     return(
-        <div className='h-full flex content-profile justify-center items-center text-primaryText text-md'>No friends.</div>
+        <div className='h-full flex content-profile lg:pb-0 justify-center items-center text-primaryText text-md'>No friends.</div>
     )
 }

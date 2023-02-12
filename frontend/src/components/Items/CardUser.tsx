@@ -9,16 +9,19 @@ interface typeProps{
   user:boolean
   data:any
   displayFriends?: React.Dispatch<React.SetStateAction<boolean>>;
+  click?:number;
+  setClick?: React.Dispatch<React.SetStateAction<number>>;
+
 }
 
-export default function CardUser({username,picture,user,data,displayFriends}:typeProps) {
+export default function CardUser({username,picture,user,data,displayFriends,click,setClick}:typeProps) {
   const[dropDown,setDropDown] = useState<boolean>(false)
   const [mouse,setMouse] = useState(true);
   const [move,setMove] = useState(false);
   const[display,setDisplay] = useState(true);
   if(display)
     return(
-      <Link to ="/Profile" state={{data:data}} className='flex items-center p-4 card-user shadow justify-between bg-body rounded-xl' onClick={(e)=>{
+      <Link to ="/Profile" state={{data:data}} className='flex items-center p-4 card-user shadow justify-between bg-body rounded-xl display-friends' onClick={(e)=>{
         if(move)  
           e.preventDefault()
         else
@@ -47,8 +50,27 @@ export default function CardUser({username,picture,user,data,displayFriends}:typ
             (dropDown)?(
             <div className="w-32 absolute top-6 right-0 flex flex-col gap-2 rounded-md bg-body py-3 shadow z-10">
               <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onClick={()=>{
+                //blockFriend(username)
+                setDisplay(false)
+                if(displayFriends)
+                  displayFriends(true)
+              }} onMouseMove={()=>{
+                setMouse(false)
+                setMove(true)
+              }} onMouseLeave={()=>{
+                setMouse(true)
+                setMove(false)
+              }}>
+                Unfriend
+              </button>
+              <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onClick={()=>{
                 blockFriend(username)
                 setDisplay(false)
+                if(setClick)
+                {
+                  if(click)
+                    setClick(click++)
+                }
                 if(displayFriends)
                   displayFriends(true)
               }} onMouseMove={()=>{
