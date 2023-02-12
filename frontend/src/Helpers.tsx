@@ -57,6 +57,8 @@ export function getUsers(getRes:any){
 }
 
 export function addFriend(login:string){
+  console.log(login)
+  
   axios.post("http://localhost:3000/profile/addfreind",{login},{withCredentials: true})
 }
 
@@ -86,6 +88,12 @@ export function blockFriend(login:string){
   axios.patch("http://localhost:3000/profile/blocked",{login},{withCredentials: true})
 }
 
+export function unblockFriend(login:string){
+  console.log("login: ",login);
+  
+  axios.patch("http://localhost:3000/profile/unblocked",{login},{withCredentials: true})
+}
+
 export function editPicture(file:any){
 
   axios({
@@ -95,7 +103,6 @@ export function editPicture(file:any){
     url: "http://localhost:3000/profile/upload-photo",
     withCredentials:true
   })
-  // axios.patch("http://localhost:3000/profile/upload-photo",{file},{withCredentials: true})
 }
 
 export function editNickName(nickname:string){
@@ -107,3 +114,4 @@ export function getAchievements(getRes:any,id:string){
     getRes(res)
   })
 }
+

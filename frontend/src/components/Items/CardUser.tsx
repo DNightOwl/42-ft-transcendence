@@ -12,7 +12,7 @@ interface typeProps{
 
 export default function CardUser({username,picture,user,data}:typeProps) {
   const[dropDown,setDropDown] = useState<boolean>(false)
-  const [mouse,setMouse] = useState(false);
+  const [mouse,setMouse] = useState(true);
   const [move,setMove] = useState(false);
   const[display,setDisplay] = useState(true);
 
@@ -58,7 +58,13 @@ export default function CardUser({username,picture,user,data}:typeProps) {
               }}>
                 Block
               </button>
-              <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light">
+              <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onMouseMove={()=>{
+                setMouse(false)
+                setMove(true)
+              }} onMouseLeave={()=>{
+                setMouse(true)
+                setMove(false)
+              }}>
                 Invite to play
               </button>
             </div>
