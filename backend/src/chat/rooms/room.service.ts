@@ -137,8 +137,9 @@ export class RoomService
       })
   }
 
-  async addtoroom(user: any, room: any)
+  async addtoroomNopublic(user: any, room: any)
   {
+    console.log('=======>2222222');
     const rooms = await this.prisma.room.findFirst({
       where: {
         name: room.name
@@ -155,6 +156,9 @@ export class RoomService
     const id_ban = rooms.blocked.find((login) => login==room.login)
     if (id_ban)
       throw new ForbiddenException('user banned');
+      const user_members = rooms.members.find((login) => login==room.login)
+      if (user_members)
+          throw new ForbiddenException('user already members');
     const userUpdate = await this.prisma.room.update({
       where: {
         name: room.name,
@@ -166,6 +170,39 @@ export class RoomService
       },
     })
   }
+
+  async addtoroom(user: any, room: any)
+  {
+    console.log('=======>1111');
+    const rooms = await this.prisma.room.findFirst({
+      where: {
+        name: room.name
+      }
+    })
+    const rom = await this.prisma.room.findUnique({
+      where: {
+          name: room.name
+      }
+    });
+    const id_ban = rooms.blocked.find((login) => login==room.login)
+    if (id_ban)
+      throw new ForbiddenException('user banned');
+    const user_members = rooms.members.find((login) => login==room.login)
+    if (user_members)
+        throw new ForbiddenException('user already members');
+    const userUpdate = await this.prisma.room.update({
+      where: {
+        name: room.name,
+      },
+      data: {
+        members: {
+          push: room.login,
+        },
+      },
+    })
+  }
+
+
 
   async getallUserswithRoom(name: string)
   {

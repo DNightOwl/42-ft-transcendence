@@ -27,9 +27,9 @@ export class RoomController
     async CreateRoom(@Req() req: dbUser, @Body() room) {
         const user = req.user
         if (room.type === "public" || room.type === "private")
-        await this.roomservice.CreateRoom(user.login, room.name, room.type);
+            await this.roomservice.CreateRoom(user.login, room.name, room.type);
         else
-        await this.roomservice.CreateRoomprotected(user.login, room.name, room.type, room.password);
+            await this.roomservice.CreateRoomprotected(user.login, room.name, room.type, room.password);
     }
 
     
@@ -40,7 +40,7 @@ export class RoomController
         const user = req.user
         if (room.type === "public")
             await this.roomservice.addroom(user, room.name);
-        else
+        else if (room.type == "protected")
             await this.roomservice.addroomprotected(user, room);
     }
 
@@ -49,8 +49,12 @@ export class RoomController
     @Post('/addtoroom')
     async addtoroom(@Req() req: dbUser, @Body() room)
     {
+        console.log('======');
         const user = req.user;
-        await this.roomservice.addtoroom(user, room); 
+        if (room.type == "public")
+            await this.roomservice.addtoroom(user, room); 
+        else
+            await this.roomservice.addtoroomNopublic(user, room);
     }
     
     @Get('/userswithroom/:name')
