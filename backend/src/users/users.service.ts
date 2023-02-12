@@ -33,7 +33,7 @@ export class UsersService {
                     userLogin: users[index].login,
                 }
             })
-            let pers : usersObject = {id: users[index].id, username: users[index].login, status: users[index].status, pictureLink: users[index].pictureLink, freind: "", blocked: "", NumberofFreinds:  NumberofFreinds.length}
+            let pers : usersObject = {id: users[index].id, username: users[index].nickname, status: users[index].status, pictureLink: users[index].pictureLink, freind: "", blocked: "", NumberofFreinds:  NumberofFreinds.length}
             if ( id.length == 0)
                 pers.freind = "Not friend";
             else
@@ -110,7 +110,7 @@ export class UsersService {
                     login: myfreinds.freinds[index].friendLogin
                 }
             })
-            let freind : usersObject = {id: user.id, username: user.login, status: user.status, pictureLink: user.pictureLink, freind: "freind", blocked: "",  NumberofFreinds: myfreinds.freinds.length}
+            let freind : usersObject = {id: user.id, username: user.nickname, status: user.status, pictureLink: user.pictureLink, freind: "freind", blocked: "",  NumberofFreinds: myfreinds.freinds.length}
             obj.push(freind);
         }
         return obj;
