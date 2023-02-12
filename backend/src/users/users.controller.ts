@@ -108,7 +108,7 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Post('addfreind')
-  async addfriend(@Req() req : dbUser, @Body() freind)
+  async addfriend(@Req() req : dbUser, @Body() freind, @Req()req1 : Request)
   {
       const user = req.user
       const blockedUser = await this.prisma.user.findUnique({
