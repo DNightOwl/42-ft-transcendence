@@ -97,7 +97,7 @@ export class UsersController {
   async   getFreinds(@Req() req : dbUser)
   {
     const user = req.user
-    return await this.usersService.getfreind(user.login);
+    return await this.usersService.getfreind(user.nickname);
   }
 
   @Get('getfreindUser/:login')
@@ -111,33 +111,43 @@ export class UsersController {
   async addfriend(@Req() req : dbUser, @Body() freind)
   {
       const user = req.user
-      const blockedUser = await this.prisma.user.findUnique({
+      const user_freind = await this.prisma.user.findUnique({
         where: {
-            login: user.login
+            nickname: freind.login
         }
     });
-    const id =  blockedUser.blocked.find((login) =>login==freind.login)
+      const blockedUser = await this.prisma.user.findUnique({
+        where: {
+            nickname: user.login
+        }
+    });
+    const id =  blockedUser.blocked.find((login) =>login==user_freind.login)
     if (id)
         throw new ForbiddenException('this user is blocked');
       const id1 = await this.prisma.freinds.findFirst ({
           where: {
               userLogin: user.login,
-              friendLogin : freind.login 
+              friendLogin : user_freind.login 
           }
       })
       if (id1)
           throw new ForbiddenException('already freinds');
-      this.usersService.addfreind(user.login, freind.login)
-      await this.roomservice.CreateRoom(user.login, freind.login + user.login, "personnel");
-      await this.roomservice.addroom(freind, freind.login + user.login);
+      this.usersService.addfreind(user.login, user_freind.login)
+      await this.roomservice.CreateRoom(user.login, user_freind.login + user.login, "personnel");
+      await this.roomservice.addroom(freind, user_freind.login + user.login);
   }
 
   @UseGuards(JwtAuthGuard)
   @Delete('unfreind/:login')
   async   unfriend (@Req() req : dbUser, @Param() freind)
   {
-    const user = req.user;
-      this.usersService.unfreind(user.login, freind);
+      const user = req.user;
+      const user_freind = await this.prisma.user.findUnique({
+        where: {
+            nickname: freind.login
+        }
+    });
+      this.usersService.unfreind(user.login, user_freind);
   }
 
   @UseGuards(JwtAuthGuard)
