@@ -127,7 +127,7 @@ import * as moment from 'moment';
     // } 
 
    
-   async handleDisconnect(@ConnectedSocket() client: any) {
+   async handleDisconnect(@ConnectedSocket() client: any){
     for (let index = 0; index < this.OnlineUser.length; index++)
     {
       if (this.OnlineUser[index].id == client.id)
@@ -136,7 +136,7 @@ import * as moment from 'moment';
         break;
       }
     }
-    const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
+    const jwttoken : string= client.handshake.headers.cookie;
     const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
      const test = this.OnlineUser.find((user) => user==user);
      if (!test)
@@ -153,9 +153,14 @@ import * as moment from 'moment';
   }
    
    async  handleConnection(@ConnectedSocket() client: any) {
-    console.log(client.handshake.headers.cookie);
-     const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
+
+    const jwttoken : string= client.handshake.headers.cookie;
     const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
+    if (!user)
+    {
+      client.disconnect();
+      return;
+    }
     client.user = user;
     if (user.status == "of")
     {
