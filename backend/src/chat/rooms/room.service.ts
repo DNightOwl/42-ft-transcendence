@@ -139,13 +139,17 @@ export class RoomService
 
   async addtoroomNopublic(user: any, room: any)
   {
-    console.log('=======>2222222');
+    const user_freind = await this.prisma.user.findUnique({
+      where: {
+          nickname: room.login
+       }
+    });
     const rooms = await this.prisma.room.findFirst({
       where: {
         name: room.name
       }
     })
-    const id1 =  rooms.admins.find((login) =>login==user.login)
+    const id1 =  rooms.admins.find((login) =>login==user_freind.login)
     if (!id1)
         throw new ForbiddenException('you are  Not admins');
     const rom = await this.prisma.room.findUnique({
@@ -153,10 +157,10 @@ export class RoomService
           name: room.name
       }
     });
-    const id_ban = rooms.blocked.find((login) => login==room.login)
+    const id_ban = rooms.blocked.find((login) => login==user_freind.login)
     if (id_ban)
       throw new ForbiddenException('user banned');
-      const user_members = rooms.members.find((login) => login==room.login)
+      const user_members = rooms.members.find((login) => login==user_freind.login)
       if (user_members)
           throw new ForbiddenException('user already members');
     const userUpdate = await this.prisma.room.update({
@@ -165,7 +169,7 @@ export class RoomService
       },
       data: {
         members: {
-          push: room.login,
+          push: user_freind.login,
         },
       },
     })
@@ -173,7 +177,11 @@ export class RoomService
 
   async addtoroom(user: any, room: any)
   {
-    console.log('=======>1111');
+    const user_freind = await this.prisma.user.findUnique({
+      where: {
+          nickname: room.login
+       }
+    });
     const rooms = await this.prisma.room.findFirst({
       where: {
         name: room.name
@@ -184,10 +192,10 @@ export class RoomService
           name: room.name
       }
     });
-    const id_ban = rooms.blocked.find((login) => login==room.login)
+    const id_ban = rooms.blocked.find((login) => login==user_freind.login)
     if (id_ban)
       throw new ForbiddenException('user banned');
-    const user_members = rooms.members.find((login) => login==room.login)
+    const user_members = rooms.members.find((login) => login==user_freind.login)
     if (user_members)
         throw new ForbiddenException('user already members');
     const userUpdate = await this.prisma.room.update({
@@ -196,7 +204,7 @@ export class RoomService
       },
       data: {
         members: {
-          push: room.login,
+          push: user_freind.login,
         },
       },
     })
@@ -204,7 +212,7 @@ export class RoomService
 
 
 
-  async getallUserswithRoom(name: string)
+  async getallUsersinRoom(name: string)
   {
         const users = await this.prisma.room.findMany({
           where: {
@@ -260,6 +268,11 @@ export class RoomService
 
   async   adduseradmins(user: any, room: any)
   {
+    const user_freind = await this.prisma.user.findUnique({
+      where: {
+          nickname: room.login
+       }
+    });
       const rooms = await this.prisma.room.findUnique({
           where: {
               name: room.name
@@ -267,10 +280,10 @@ export class RoomService
       });
       if (rooms.owner != user.login)
         throw new ForbiddenException('you are not owner');
-      const id1 =  rooms.admins.find((login) =>login==room.login)
+      const id1 =  rooms.admins.find((login) =>login==user_freind.login)
       if (id1)
           throw new ForbiddenException('already admins');
-         const id2 =  rooms.members.find((login) =>login==room.login)
+         const id2 =  rooms.members.find((login) =>login==user_freind.login)
          if (!id2)
             throw new ForbiddenException('is not member');
       const userUpdate = await this.prisma.room.update({
@@ -279,7 +292,7 @@ export class RoomService
           },
           data: {
             admins: {
-              push: room.login,
+              push: user_freind.login,
             },
           },
         })
@@ -287,6 +300,11 @@ export class RoomService
 
     async   banmember(user: any, room: any)
     {
+      const user_freind = await this.prisma.user.findUnique({
+        where: {
+            nickname: room.login
+         }
+      });
       const rooms = await this.prisma.room.findUnique({
           where: {
             name: room.name
@@ -295,7 +313,7 @@ export class RoomService
         const id1 =  rooms.admins.find((login) =>login==user.login)
         if (!id1)
             throw new ForbiddenException('you are  Not admins');
-        const id2 = rooms.admins.find((login) =>login==room.login)
+        const id2 = rooms.admins.find((login) =>login==user_freind.login)
         if (id2 && rooms.owner != user.login)
           throw new ForbiddenException('you are not owner, impossiple to remove admin');
           const userUpdate = await this.prisma.room.update({
@@ -304,7 +322,7 @@ export class RoomService
           },
           data: {
             members: {
-              set: rooms.members.filter((login) => login != room.login)
+              set: rooms.members.filter((login) => login != user_freind.login)
               }
             }
         })
@@ -316,7 +334,7 @@ export class RoomService
             },
             data: {
               admins: {
-                set: rooms.admins.filter((login) => login != room.login)
+                set: rooms.admins.filter((login) => login != user_freind.login)
                 }
               }
           })
@@ -327,7 +345,7 @@ export class RoomService
           },
           data: {
               blocked: {
-                push: room.login,
+                push: user_freind.login,
               },
             },
           })
@@ -335,6 +353,11 @@ export class RoomService
 
   async unblockfromroom(user: any, room: any)
   {
+    const user_freind = await this.prisma.user.findUnique({
+      where: {
+          nickname: room.login
+       }
+    });
     const rooms = await this.prisma.room.findUnique({
       where: {
         name: room.name
@@ -349,7 +372,7 @@ export class RoomService
         },
         data: {
           blocked: {
-            set: rooms.blocked.filter((login) => login != room.login)
+            set: rooms.blocked.filter((login) => login != user_freind.login)
             }
           }
     })
@@ -359,7 +382,7 @@ export class RoomService
       },
       data: {
         members: {
-          push: room.login
+          push: user_freind.login
           }
         }
   })
@@ -446,7 +469,7 @@ export class RoomService
                     message: true
                 }
         })
-        let person : typeObject = {id : user.id, username : user.login, status: user.status ,latestMessage: allmessage.message[allmessage.message.length - 1].data   , conversation : []};
+        let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: allmessage.message[allmessage.message.length - 1].data   , conversation : []};
         person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
         for (let i = allmessage.message.length - 1; i >= 0 ;i--)
         {
@@ -537,6 +560,11 @@ export class RoomService
 
     async muted(user: any, room: any)
     {
+      const user_freind = await this.prisma.user.findUnique({
+        where: {
+            nickname: room.login
+         }
+      });
       const rooms = await this.prisma.room.findUnique({
         where: {
           name: room.name
@@ -545,7 +573,7 @@ export class RoomService
       const id1 =  rooms.admins.find((login) =>login==user.login)
       if (!id1)
           throw new ForbiddenException('you are Not admins');
-      const id2 = rooms.admins.find((login) =>login==room.login)
+      const id2 = rooms.admins.find((login) =>login==user_freind.login)
       if (id2 && rooms.owner != user.login)
         throw new ForbiddenException('you are not owner, impossiple to mute admin');
       //   const userUpdate = await this.prisma.room.update({
@@ -566,7 +594,7 @@ export class RoomService
           },
           data: {
             admins: {
-              set: rooms.admins.filter((login) => login != room.login)
+              set: rooms.admins.filter((login) => login != user_freind.login)
               }
             }
         })
@@ -576,7 +604,7 @@ export class RoomService
       const mute = await this.prisma.muted.create({
         data: {
           roomName: room.name,
-          userLogin: room.login,
+          userLogin: user_freind.login,
           time: time
         }
       }) 

@@ -49,7 +49,6 @@ export class RoomController
     @Post('/addtoroom')
     async addtoroom(@Req() req: dbUser, @Body() room)
     {
-        console.log('======');
         const user = req.user;
         if (room.type == "public")
             await this.roomservice.addtoroom(user, room); 
@@ -57,10 +56,10 @@ export class RoomController
             await this.roomservice.addtoroomNopublic(user, room);
     }
     
-    @Get('/userswithroom/:name')
-    async   getallUserswithRoom(@Param('name') name: string)
+    @Get('/usersinroom/:name')
+    async   getallUserinRoom(@Param('name') name: string)
     {
-        return await this.roomservice.getallUserswithRoom(name);
+        return await this.roomservice.getallUsersinRoom(name);
     }
 
      @UseGuards(JwtAuthGuard)
