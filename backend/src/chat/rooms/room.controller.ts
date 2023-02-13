@@ -119,10 +119,19 @@ export class RoomController
     @Get('DM')
     async   getDM(@Req() req: dbUser)
     {
-        const user = req.user
-        
+        const user = req.user     
         return await this.roomservice.getDM("personnel", user);
     }
+
+    @UseGuards(JwtAuthGuard)
+    @Get('DMWithAllUsers')
+    async   getDMWithAllUsers(@Req() req: dbUser)
+    {
+        const user = req.user     
+        return await this.roomservice.getDMWithAllUsers("personnel", user);
+    }
+    
+    
 
     @UseGuards(JwtAuthGuard)
     @Get('RoomMessage')
@@ -154,6 +163,5 @@ export class RoomController
         const user = req.user;
         return this.roomservice.deleteroom(user, room);
     }
-
 }
 
