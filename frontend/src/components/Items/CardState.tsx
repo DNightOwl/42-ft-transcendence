@@ -22,20 +22,6 @@ export default function CardState(props: typeProps) {
   const [check, setCheck] = useState(false);
   const [value,setValue] = useState("jkdjkljklfsjdlfjasdl;fjsdjf;asdfj;klasjdfl");
 
-  useEffect(()=>{
-    document.body.addEventListener("click",()=>{
-      if(!check && clickEye)
-        setClickEye(false);
-      else
-      {
-        if(check)
-          setClickEye(true)
-      }
-
-    })
-    
-  },[check,clickEye])
-
   return (
     <div
       className={`flex flex-1 items-center ${
@@ -102,7 +88,10 @@ export default function CardState(props: typeProps) {
             <div className="relative">
               <button className="flex h-10 w-10 items-center justify-center rounded-full bg-shape" onClick={()=>{
                 (clickEye)?setClickEye(false):setClickEye(true);
-              }} onMouseMove={()=>{setCheck(true)}} onMouseOut={()=>{setCheck(false)}}>
+              }} onBlur={()=>{
+                if(!check)
+                  setClickEye(false);
+              }}  >
                 <EyeChannelIcon edit="fill-secondaryText w-5 h-5" />
               </button>
               {

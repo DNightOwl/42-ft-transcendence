@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { HomeIcon,MessagesIcon,UserIcon,SearchIcon } from '../../Icons';
 import userPicture from '../../../../assets/user.jpg';
 import { NavLink} from "react-router-dom";
 import { ControllerIcon } from '../../Icons';
+import { getUserData } from '../../../../Helpers';
 
 export default function NavigationPhone() {
+    const [data,setData] = useState<any>({});
+    useEffect(()=>{
+        getUserData((res:any)=>{
+          setData(res);
+        })
+      },[])
+      let fill = {username: data?.nickname,picture:data.pictureLink,status:data.status, friend:"none"};
   return (
     <React.Fragment>
     <section className='fixed bottom-0 w-full px-3 pb-3 lg:hidden bg-body phone-nav'>
@@ -23,7 +31,7 @@ export default function NavigationPhone() {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/Profile" className='phone-nav-item'>
+                    <NavLink to="/Profile" state={{data:fill}} className='phone-nav-item'>
                         <UserIcon/>
                         <span>Profile</span>
                     </NavLink>

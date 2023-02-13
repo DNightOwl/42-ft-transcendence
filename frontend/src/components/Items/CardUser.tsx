@@ -31,7 +31,7 @@ export default function CardUser({username,picture,user,data,displayFriends,clic
           <img src={picture} alt="Friend" className='w-12 h-12 rounded-full' />
           <span className='text-sm text-primaryText username-card overflow-hidden text-ellipsis whitespace-nowrap'>{username.charAt(0).toUpperCase() + username.slice(1)}</span>
       </div>
-      {
+      {/* {
         (!user)?(
           <div className='relative'>
           <button className='w-4 h-4 bg-shape flex justify-center items-center rounded-full hover:bg-backgroundHover' onClick={()=>{
@@ -96,7 +96,7 @@ export default function CardUser({username,picture,user,data,displayFriends,clic
           }
         </div>
         ):null
-      }
+      } */}
   </Link>
     )
   else{
