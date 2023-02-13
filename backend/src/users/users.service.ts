@@ -14,7 +14,6 @@ export class UsersService {
     {
 		let obj: usersObject[] = []
         const users = await this.prisma.user.findMany({});
-        console.log(user.login);
         for (let index = 0; index < users.length; index++)
         {
             if (users[index].login == user.login)
@@ -103,6 +102,8 @@ export class UsersService {
                 }
         })
         let obj: usersObject[] = [];
+        if (!myfreinds)
+            return obj;
         for(let index = 0; index < myfreinds.freinds.length; index++)
         {
             const user = await this.prisma.user.findFirst({
