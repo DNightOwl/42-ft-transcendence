@@ -32,7 +32,7 @@ export default function CardSearch({friend,username,picture,setDisplay,setValue,
                 <img src={picture} alt="users" className='w-12 h-12 rounded-full' />
                 <span className='text-primaryText text-sm username-search'>{username}</span>
             </div>
-            <button className={` ${friend?"w-8 h-8":"w-7 h-7"} rounded-full  flex justify-center items-center bg-shape`}>
+            {/* <button className={` ${friend?"w-8 h-8":"w-7 h-7"} rounded-full  flex justify-center items-center bg-shape`}>
                 {
                     
                     (friend === "Not friend")?(
@@ -42,7 +42,7 @@ export default function CardSearch({friend,username,picture,setDisplay,setValue,
                     )
                 }
                 
-            </button>
+            </button> */}
         </div>
         </Link>
     )

@@ -16,6 +16,7 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
   const [picture, setPicture] = useState<string>(pictureUser);
   const [tempPic,setTempPic] = useState("");
   const [display,setDisplay] = useState<boolean>(false)
+
   return !display ? (
     <div className="flex flex-col justify-between py-6">
       <div>
