@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef,useState } from "react";
 import BoxMessagesFriend from "./Items/BoxMessagesFriend";
 import BoxMessagesUser from "./Items/BoxMessagesUser";
 import BoxMessagesMember from "./Items/BoxMessagesMember";
@@ -8,7 +8,7 @@ import HeaderChat from "./Items/Navigation/NavigationDesktop/HeaderChat";
 import { Modal, ModalHeader, ModalBody } from "./Items/Modal";
 import SettingsBody from "./Items/SettingsBody";
 import axios from 'axios';
-import { checkToken } from "../Helpers";
+import { checkToken,getUserData } from "../Helpers";
 
 interface typeProps {
   chatState: any;
@@ -34,6 +34,7 @@ export default function Messages({
 }: typeProps) {
   checkToken();
   const scroll = useRef<HTMLDivElement>(null);
+  const [data,setData] = useState<any>({});
 
   axios.get("http://localhost:3000/profile", { 
     withCredentials: true,
@@ -63,6 +64,10 @@ export default function Messages({
         scroll.current.scrollHeight > scroll.current.clientHeight;
       if (hasVerticalScrollbar) scroll.current.classList.add("pr-4");
     }
+
+    getUserData((res:any)=>{
+      setData(res);
+    })
   }, [conversation, chatState]);
 
   return (
@@ -140,7 +145,7 @@ export default function Messages({
         <Modal edit="modal">
           <ModalHeader settings={setModal}>Settings</ModalHeader>
           <ModalBody>
-            <SettingsBody settings={setModal} />
+            <SettingsBody settings={setModal} nickname={data?.nickname} pictureUser={data?.pictureLink}/>
           </ModalBody>
         </Modal>
       ) : null}
