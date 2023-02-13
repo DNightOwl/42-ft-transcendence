@@ -12,11 +12,12 @@ import {
    import { Socket, Server } from 'socket.io';
    import { PrismaService } from "src/prisma/prisma.service";
    import { RoomService } from "./room.service";
-import { Client } from 'socket.io/dist/client';
-import { Console } from 'console';
-import { userInfo } from 'os';
-import * as moment from 'moment';
-   
+   import { Client } from 'socket.io/dist/client';
+   import { Console } from 'console';
+   import { userInfo } from 'os';
+   import * as moment from 'moment';
+   import * as cookie from 'cookie';
+
    @WebSocketGateway({
      cors: {
        origin: '*',
@@ -127,7 +128,7 @@ import * as moment from 'moment';
     // } 
 
    
-   async handleDisconnect(@ConnectedSocket() client: any) {
+   async handleDisconnect(@ConnectedSocket() client: any){
     for (let index = 0; index < this.OnlineUser.length; index++)
     {
       if (this.OnlineUser[index].id == client.id)
@@ -136,39 +137,77 @@ import * as moment from 'moment';
         break;
       }
     }
-    const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
-    const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
-     const test = this.OnlineUser.find((user) => user==user);
-     if (!test)
-     {
-        await this.prisma.user.update({
-        where: {
-          login: user.login
-        },
-        data: {
-          status: "of"
-        }
-      })
-     }
+    const cookies = cookie.parse(client.handshake.headers.cookie);
+    if (!cookies['accessToken'])
+    {
+      client.emit('error', 'unauthorized');
+      return;
+    }
+    const jwttoken : string= cookies['accessToken'];
+    if(!jwttoken)
+    {
+      client.emit('error', 'unauthorized');
+      return;
+    }
+    try {
+      const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
+      const test = this.OnlineUser.find((user) => user==user);
+      if (!test)
+      {
+         await this.prisma.user.update({
+         where: {
+           login: user.login
+         },
+         data: {
+           status: "of"
+         }
+       })
+      }
+    } catch (error) {
+      client.emit('error', 'unauthorized');
+    }
   }
    
    async  handleConnection(@ConnectedSocket() client: any) {
-    console.log(client.handshake.headers.cookie);
-     const jwttoken : string= this.roomservice.parseCookie(client.handshake.headers.cookie);
-    const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
-    client.user = user;
-    if (user.status == "of")
+
+    const cookies = cookie.parse(client.handshake.headers.cookie);
+    if (!cookies['accessToken'])
     {
-      console.log(user.status);
-      const user1 = await this.prisma.user.update({
-        where: {
-          login: user.login
-        },
-        data: {
-          status: "on"
-        }
-      })
+      client.emit('error', 'unauthorized');
+      client.disconnect();
+      return;
     }
-    this.OnlineUser.push(client);
+    const jwttoken : string= cookies['accessToken'];
+    if(!jwttoken)
+    {
+      client.emit('error', 'unauthorized');
+      client.disconnect();
+      return;
+    }
+    try {
+      const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
+      if (!user)
+      {
+        client.disconnect();
+        return;
+      }
+      client.user = user;
+      if (user.status == "of")
+      {
+        console.log(user.status);
+        const user1 = await this.prisma.user.update({
+          where: {
+            login: user.login
+          },
+          data: {
+            status: "on"
+          }
+        })
+      }
+      this.OnlineUser.push(client);
+    } catch (error) {
+      client.emit('error', 'unauthorized');
+      client.disconnect();
+    }
   }
 }
