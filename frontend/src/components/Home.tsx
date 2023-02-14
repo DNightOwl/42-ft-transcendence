@@ -1,10 +1,12 @@
 import React, { useEffect,useRef } from 'react';
 import fire from '../assets/fire.png';
 import { checkToken } from '../Helpers';
+import {SocketContext} from '../context/socket';
 
 
 export default function Home() {
   checkToken();
+  const socket  = React.useContext(SocketContext);
   const scroll = useRef<HTMLDivElement>(null);
   useEffect(()=>{
     document.title = "Pong - Home";
@@ -14,6 +16,23 @@ export default function Home() {
       if(hasVerticalScrollbar)
         scroll.current.classList.add("lg:pr-6")
     }
+    
+    if(!socket.connected)
+      socket.connect();
+    socket.on("connect", () => {
+      console.log("connected");
+    });
+    
+    socket.on("disconnect", () => {
+      socket.disconnect()
+      console.log("disconnected");
+    });
+    socket.on("error", (msg) => {
+      console.log("error ",msg);
+    });
+    socket.on("test", (msg) => {
+      console.log("test: ",msg);
+    });
   },[]);
   
   return (
