@@ -1,5 +1,5 @@
 import React, { useState,useEffect } from "react";
-import { EditAvatarIcon, QrIcon } from "./Icons";
+import { EditAvatarIcon, ExclamationIcon } from "./Icons";
 import { editPicture,editNickName } from "../../Helpers";
 import { getQR,confermQr,getUserData } from "../../Helpers";
 
@@ -18,14 +18,13 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
   const [tempPic,setTempPic] = useState("");
   const [display,setDisplay] = useState<boolean>(false)
   const [base,setBase] = useState("");
+  const [error,setError] = useState<boolean>(false);
   const [errorMessage,setErrorMessage] = useState("");
   const [codeValue,setCodeValue] = useState("");
-  const [conferm,SetConferm] = useState(false);
 
   useEffect(()=>{
     getUserData((res:any)=>{
       setSwitchBtn(res.tofactor);
-      
     })
   },[])
 
@@ -146,11 +145,15 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
               value={codeValue}
               onChange={(e)=>{
                 setCodeValue(e.currentTarget.value);
+                setError(false)
               }}
             />
             {
-              (errorMessage)?(
-                <div>{errorMessage}</div>
+              (error)?(
+                <div className="text-error text-xs font-medium fill-error flex gap-1.5">
+                  <ExclamationIcon edit="w-3 h-3 relative top-0.5"/>
+                  <span>{errorMessage}</span>
+                </div>
               ):null
             }
           </div>
@@ -161,12 +164,53 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
               Back
             </button>
             <button className="w-32 rounded-md bg-primary p-2 text-sm text-primaryText" onClick={()=>{
-                confermQr((res:any)=>{
-                  if(res.data === "T"){
-                    setSwitchBtn(true)
-                    setDisplay(false)
-                  }
-                },codeValue)
+              
+              let error = false;
+
+              if(!codeValue.length)
+              {
+                error = true;
+                setErrorMessage("Zone text empty");
+                setError(true);
+              }
+
+             else if(!/^[0-9]+$/.test(codeValue))
+              {
+                error = true;
+                setErrorMessage("Digit only")
+                setError(true);
+              }
+
+              else if(codeValue.length > 6)
+              {
+                error = true;
+                setErrorMessage("Maximum 6 digit")
+                setError(true);
+              }
+
+              else if(codeValue.length < 6)
+              {
+                error = true;
+                setErrorMessage("Minimum 6 digit")
+                setError(true);
+              }
+
+              if(!error)
+              {
+                if(!switchBtn){
+                  confermQr((res:any)=>{
+                    if(res.data === "T"){
+                      setSwitchBtn(true)
+                      setDisplay(false)
+                    }
+                  },codeValue)
+                }
+                else{
+                  setSwitchBtn(false)
+                  setDisplay(false)
+                  setCodeValue("")
+                }
+              }
             }}>
               Confirm
             </button>

@@ -61,7 +61,7 @@ export class AuthController {
 		const isValid = await this.tfa.verifyTfaCode(code, req.user) ;
     if(isValid === true)
       this.tfa.tfaActivation(true,req.user);
-    return isValid; //TODO :  response format and data
+    return isValid?"T":"F"; //TODO :  response format and data
 	}
 	
   @UseGuards(JwtAuthGuard)
