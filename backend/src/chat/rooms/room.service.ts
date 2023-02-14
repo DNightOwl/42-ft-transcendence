@@ -469,7 +469,7 @@ export class RoomService
                     message: true
                 }
         })
-        let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: allmessage.message[allmessage.message.length - 1].data   , conversation : []};
+        let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: allmessage.message[allmessage.message.length - 1].data, picture: user.pictureLink, conversation : []};
         person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
         for (let i = allmessage.message.length - 1; i >= 0 ;i--)
         {
@@ -477,7 +477,7 @@ export class RoomService
           if (user1.login == allmessage.message[i].userLogin)
               person.conversation[i].type = "user";
           else
-            person.conversation[i].type = "freind"; 
+            person.conversation[i].type = "friend"; 
         }
         obj.push(person);
       }
@@ -493,7 +493,7 @@ export class RoomService
         }
         if (index == obj.length && users[i].login != user1.login)
         {
-          let person : typeObject = {id : users[i].id, username : users[i].nickname, status: users[i].status ,latestMessage: ""  , conversation : []};
+          let person : typeObject = {id : users[i].id, username : users[i].nickname, status: users[i].status ,latestMessage: "" , picture: users[i].pictureLink, conversation : []};
           obj.push(person);
         }
     }
@@ -534,7 +534,7 @@ export class RoomService
                     message: true
                 }
         })
-        let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: allmessage.message[allmessage.message.length - 1].data   , conversation : []};
+        let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: allmessage.message[allmessage.message.length - 1].data , picture: user.pictureLink, conversation : []};
         person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
         for (let i = allmessage.message.length - 1; i >= 0 ;i--)
         {
@@ -542,7 +542,7 @@ export class RoomService
           if (user1.login == allmessage.message[i].userLogin)
               person.conversation[i].type = "user";
           else
-            person.conversation[i].type = "freind"; 
+            person.conversation[i].type = "friend"; 
         }
         obj.push(person);
       }
@@ -550,158 +550,144 @@ export class RoomService
     return obj;
   }
 
-    async getRM(user: any):Promise<chanel[]>
+  async getRM(user : any):Promise<chanel[]>
+  {
+    const rooms = await this.prisma.room.findMany({
+        where: {
+          OR : [
+            {type: "protected"},
+            {type: "public"},
+            {type: "private"}
+          ]
+        }
+    })
+    let obj: chanel[] = []; 
+    for (let index = 0; index < rooms.length; index++)
     {
-      const rooms = await this.prisma.room.findMany({
+      const id1 =  rooms[index].members.find((login) =>login==user.login)
+      if (id1)
+      {
+        const allmessage = await this.prisma.room.findUnique({
           where: {
-            OR : [
-              {type: "protected"},
-              {type: "public"},
-              {type: "private"}
-            ]
+              name: rooms[index].name
+          },
+              select: {
+                  message: true
+              }
+        })
+        let role;
+        if (rooms[index].owner == user.login)
+          role = "owner";
+        else 
+        {
+          const admin = rooms[index].admins.find((login) =>login==user.login)
+          if (admin)
+            role = "admins";
+          else
+            role = "members";
+        }
+        let person : chanel = {id : rooms[index].id, name: rooms[index].name, members: rooms[index].members.length, latestMessage: allmessage.message[allmessage.message.length - 1].data, role: role, conversation : []};
+        person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data, picture: "" }));
+        for (let i = allmessage.message.length - 1; i >= 0 ;i--)
+          {
+            const user_chanel = await this.prisma.user.findUnique({
+              where: {
+                login: allmessage.message[i].userLogin
+              }
+            })
+            if (user.login == allmessage.message[i].userLogin)
+                person.conversation[i].type = "user";
+            else
+            {
+              person.conversation[i].type = "member";
+              person.conversation[i].picture = user_chanel.pictureLink
+            }
+
+          }
+          obj.push(person);
+      }
+    }
+    return obj;
+  }
+  
+  async muted(user: any, room: any)
+  {
+    const user_freind = await this.prisma.user.findUnique({
+      where: {
+          nickname: room.login
+       }
+    });
+    const rooms = await this.prisma.room.findUnique({
+      where: {
+        name: room.name
+      }
+    })
+    const id1 =  rooms.admins.find((login) =>login==user.login)
+    if (!id1)
+        throw new ForbiddenException('you are Not admins');
+    const id2 = rooms.admins.find((login) =>login==user_freind.login)
+    if (id2 && rooms.owner != user.login)
+      throw new ForbiddenException('you are not owner, impossiple to mute admin');
+    //   const userUpdate = await this.prisma.room.update({
+    //   where: {
+    //    name: room.name
+    //   },
+    //   data: {
+    //     members: {
+    //       set: rooms.members.filter((login) => login != room.login)
+    //       }
+    //     }
+    // })
+    if (id2)
+    {
+      const adminupdate = await this.prisma.room.update({
+        where: {
+         name: room.name
+        },
+        data: {
+          admins: {
+            set: rooms.admins.filter((login) => login != user_freind.login)
+            }
           }
       })
-      let obj: chanel[] = []; 
-      for (let index = 0; index < rooms.length; index++)
-      {
-        const id1 =  rooms[index].members.find((login) =>login==user.login)
-        if (id1)
-        {
-          const allmessage = await this.prisma.room.findUnique({
-            where: {
-                name: rooms[index].name
-            },
-                select: {
-                    message: true
-                }
-          })
-          let role;
-          if (rooms[index].owner == user.login)
-            role = "owner";
-          else 
-          {
-            const admin = rooms[index].admins.find((login) =>login==user.login)
-            if (admin)
-              role = "admins";
-            else
-              role = "members";
-          }
-          let person : chanel = {id : rooms[index].id, name: rooms[index].name, members: rooms[index].members.length, latestMessage: allmessage.message[allmessage.message.length - 1].data, role: role, conversation : []};
-          person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
-          for (let i = allmessage.message.length - 1; i >= 0 ;i--)
-            {
-              if (user.login == allmessage.message[i].userLogin)
-                  person.conversation[i].type = "user";
-              else
-                person.conversation[i].type = "member";
-
-            }
-            obj.push(person);
-        }
+    }
+    const time = moment().add(1, 'm').format('YYYY-MM-DD hh:mm:ss')
+    const mute = await this.prisma.muted.create({
+      data: {
+        roomName: room.name,
+        userLogin: user_freind.login,
+        time: time
       }
-      return obj;
-    }
+    }) 
+  }
 
-    parseCookie(cookie: string) : string
-    {
-      let jwttoken: string ="";
-        for (let index = 0; index < cookie.length; index++)
-        {
-          if (cookie[index] == "=")
-          {
-            index++;
-            let i = 0;
-            while(index != cookie.length)
-            {
-              jwttoken += cookie[index];
-              i++;
-              index++;
-            }
-            break;
+  async unmuted(user: any, room: any)
+  {
+        await this.prisma.muted.deleteMany({
+          where: {
+              AND: [
+                  {userLogin: user.login},
+                  {roomName: room.name}
+              ]
           }
-        }
-        return jwttoken;
-    }
+          
+      })
+  }
 
-    async muted(user: any, room: any)
-    {
-      const user_freind = await this.prisma.user.findUnique({
-        where: {
-            nickname: room.login
-         }
-      });
-      const rooms = await this.prisma.room.findUnique({
+  async deleteroom(user: any, room: any)
+  {
+      const testOwner = await this.prisma.room.findUnique({
         where: {
           name: room.name
         }
       })
-      const id1 =  rooms.admins.find((login) =>login==user.login)
+      const id1 =  testOwner.admins.find((login) =>login==user.login)
       if (!id1)
-          throw new ForbiddenException('you are Not admins');
-      const id2 = rooms.admins.find((login) =>login==user_freind.login)
-      if (id2 && rooms.owner != user.login)
-        throw new ForbiddenException('you are not owner, impossiple to mute admin');
-      //   const userUpdate = await this.prisma.room.update({
-      //   where: {
-      //    name: room.name
-      //   },
-      //   data: {
-      //     members: {
-      //       set: rooms.members.filter((login) => login != room.login)
-      //       }
-      //     }
-      // })
-      if (id2)
-      {
-        const adminupdate = await this.prisma.room.update({
-          where: {
-           name: room.name
-          },
-          data: {
-            admins: {
-              set: rooms.admins.filter((login) => login != user_freind.login)
-              }
-            }
-        })
-      }
-
-      const time = moment().add(1, 'm').format('YYYY-MM-DD hh:mm:ss')
-      const mute = await this.prisma.muted.create({
-        data: {
-          roomName: room.name,
-          userLogin: user_freind.login,
-          time: time
-        }
-      }) 
-    }
-
-    async unmuted(user: any, room: any)
-    {
-          await this.prisma.muted.deleteMany({
+          throw new ForbiddenException('you are not admin');
+          const rom = await this.prisma.room.delete({
             where: {
-                AND: [
-                    {userLogin: user.login},
-                    {roomName: room.name}
-                ]
+                name: room.name
             }
-            
-        })
-      }
-
-      async deleteroom(user: any, room: any)
-      {
-          const testOwner = await this.prisma.room.findUnique({
-            where: {
-              name: room.name
-            }
-          })
-          const id1 =  testOwner.admins.find((login) =>login==user.login)
-          if (!id1)
-              throw new ForbiddenException('you are not admin');
-              const rom = await this.prisma.room.delete({
-                where: {
-                    name: room.name
-                }
-            })  
-      }      
+        })  
+  }      
 }
