@@ -469,31 +469,43 @@ export class RoomService
                     message: true
                 }
         })
-        let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: allmessage.message[allmessage.message.length - 1].data, picture: user.pictureLink, conversation : []};
-        person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
-        for (let i = allmessage.message.length - 1; i >= 0 ;i--)
+        if (allmessage.message.length != 0)
         {
-          //person.conversation[i].message = allmessage.message[i].data;
-          if (user1.login == allmessage.message[i].userLogin)
-              person.conversation[i].type = "user";
-          else
-            person.conversation[i].type = "friend"; 
+          let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: allmessage.message[allmessage.message.length - 1].data, picture: user.pictureLink, conversation : []};
+          person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
+          for (let i = allmessage.message.length - 1; i >= 0 ;i--)
+          {
+            //person.conversation[i].message = allmessage.message[i].data;
+            if (user1.login == allmessage.message[i].userLogin)
+                person.conversation[i].type = "user";
+            else
+              person.conversation[i].type = "friend"; 
+          }
+          obj.push(person);
         }
-        obj.push(person);
       }
     }
-    const users = await this.prisma.user.findMany({});
-    for (let i = 0; i < users.length; i++)
+    const user_freind = await this.prisma.freinds.findMany({
+      where: {
+          userLogin: user1.login
+      }
+    });
+    for (let i = 0; i < user_freind.length; i++)
     {
+        const users = await this.prisma.user.findUnique({
+          where: {
+            login: user_freind[i].friendLogin
+          }
+        })
         let index = 0;
         for (index; index < obj.length; index++)
         {
-            if (users[i].nickname == obj[index].username)
+            if (users.nickname == obj[index].username)
               break;
         }
-        if (index == obj.length && users[i].login != user1.login)
+        if (index == obj.length && users.login != user1.login)
         {
-          let person : typeObject = {id : users[i].id, username : users[i].nickname, status: users[i].status ,latestMessage: "" , picture: users[i].pictureLink, conversation : []};
+          let person : typeObject = {id : users.id, username : users.nickname, status: users.status ,latestMessage: "" , picture: users.pictureLink, conversation : []};
           obj.push(person);
         }
     }
@@ -542,7 +554,7 @@ export class RoomService
           if (user1.login == allmessage.message[i].userLogin)
               person.conversation[i].type = "user";
           else
-            person.conversation[i].type = "friend"; 
+            person.conversation[i].type = "friend";
         }
         obj.push(person);
       }
