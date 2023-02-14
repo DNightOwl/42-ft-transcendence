@@ -135,13 +135,13 @@ import {
    
    async handleDisconnect(@ConnectedSocket() client: any){
     for (let index = 0; index < this.OnlineUser.length; index++)
-    {
-      if (this.OnlineUser[index].id == client.id)
       {
-        this.OnlineUser.splice(index, 1);
-        break;
+        if (this.OnlineUser[index].id == client.id)
+        {
+          this.OnlineUser.splice(index, 1);
+          break;
+        }
       }
-    }
     const cookies = cookie.parse(client.handshake.headers.cookie);
     if (!cookies['accessToken'])
     {
@@ -156,9 +156,12 @@ import {
     }
     try {
       const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
-      const test = this.OnlineUser.find((user) => user==user);
+      client.user = user;
+      const test = this.OnlineUser.find((user) => user==client.user);
+      console.log(test);
       if (!test)
       {
+        console.log('=======>');
          await this.prisma.user.update({
          where: {
            login: user.login
@@ -199,7 +202,6 @@ import {
       client.user = user;
       if (user.status == "of")
       {
-        console.log(user.status);
         const user1 = await this.prisma.user.update({
           where: {
             login: user.login
