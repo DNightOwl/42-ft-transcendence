@@ -36,7 +36,7 @@ export class AuthService {
 		if (userData.two_fa_enabled === true)
 		{
 			//return for the user to verify the code 2fa
-			return res.send({message : '2FA is activated verify code'}) ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
+			return res.redirect("http://localhost:3001/Tfa") ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
 		}
 
 		return res.redirect("http://localhost:3001/home") ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
