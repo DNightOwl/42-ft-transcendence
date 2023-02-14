@@ -2,7 +2,7 @@ import React, { useEffect, useRef,useState } from "react";
 import BoxMessagesFriend from "./Items/BoxMessagesFriend";
 import BoxMessagesUser from "./Items/BoxMessagesUser";
 import BoxMessagesMember from "./Items/BoxMessagesMember";
-import { SendIcon } from "./Items/Icons";
+import { SendIcon, NomessagesIcon } from "./Items/Icons";
 import MessagesContainer from "./Items/MessagesContainer";
 import HeaderChat from "./Items/Navigation/NavigationDesktop/HeaderChat";
 import { Modal, ModalHeader, ModalBody } from "./Items/Modal";
@@ -84,11 +84,11 @@ export default function Messages({
         >
           <HeaderChat chatState={chatState} settings={setModal} setMembers={setMembers} />
           <div
-            className="conversation mb-16 h-full overflow-auto pb-16 lg:mb-8 lg:pb-8"
+            className={`conversation h-full overflow-auto ${chatState?.conversation?"mb-16 pb-16 lg:mb-8 lg:pb-8":""}`}
             ref={scroll}
           >
-            <div className="flex flex-col gap-20">
-              {chatState.conversation
+            <div className={`flex flex-col gap-20  ${(chatState?.conversation)?"":"h-full"}`}>
+              {chatState?.conversation
                 ? chatState.conversation.map((e: any, index: number) => {
                     if (e.type === "friend")
                       return (
@@ -116,19 +116,30 @@ export default function Messages({
                         />
                       );
                   })
-                : null}
+                : (<div className="h-full flex justify-center items-center">
+                  <div className="flex flex-col justify-center gap-3 items-center">
+                    <div className="bg-shape p-7 rounded-full">
+                      <NomessagesIcon edit="w-20 h-20 fill-secondaryText"/>
+                    </div>
+                      <span className="text-md text-secondaryText">No messages.</span>
+                  </div>
+                </div>)}
             </div>
           </div>
-          <div className="send absolute bottom-3 flex w-full items-center rounded-md bg-shape pr-2">
-            <input
-              type="text"
-              placeholder="Type a message"
-              className="placeholder-secondary-text flex-1 bg-transparent p-4 pl-3 pr-2 text-sm font-light text-primaryText placeholder:text-sm placeholder:font-light focus:outline-none"
-            />
-            <button className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
-              <SendIcon edit="w-4 fill-white" />
-            </button>
-          </div>
+          {
+            (chatState?.conversation)?(
+              <div className="send absolute bottom-3 flex w-full items-center rounded-md bg-shape pr-2">
+              <input
+                type="text"
+                placeholder="Type a message"
+                className="placeholder-secondary-text flex-1 bg-transparent p-4 pl-3 pr-2 text-sm font-light text-primaryText placeholder:text-sm placeholder:font-light focus:outline-none"
+              />
+              <button className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
+                <SendIcon edit="w-4 fill-white" />
+              </button>
+            </div>
+            ):null
+          }
         </div>
         {!conversation ? (
           <MessagesContainer

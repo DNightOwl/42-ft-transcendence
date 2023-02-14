@@ -34,9 +34,6 @@ export default function MessagesList({
     })
 
   },[]);
-
-  console.log("CONV: ",dataChat);
-  console.log("dm: ",dm);
   
 
 
