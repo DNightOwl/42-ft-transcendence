@@ -156,7 +156,9 @@ import {
     }
     try {
       const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
+      client.user = user;
       const test = this.OnlineUser.find((user) => user==client.user);
+      console.log(test);
       if (!test)
       {
         console.log('=======>');
