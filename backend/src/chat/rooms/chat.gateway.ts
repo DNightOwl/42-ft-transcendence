@@ -20,7 +20,9 @@ import {
 
    @WebSocketGateway({
      cors: {
-       origin: '*',
+       origin: 'http://localhost:3001',
+       credentials: true,
+       allowedHeaders : ["Cookie"]
      },
    })
    export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -174,21 +176,18 @@ import {
     if (!cookies['accessToken'])
     {
       client.emit('error', 'unauthorized');
-      client.disconnect();
       return;
     }
     const jwttoken : string= cookies['accessToken'];
     if(!jwttoken)
     {
       client.emit('error', 'unauthorized');
-      client.disconnect();
       return;
     }
     try {
       const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
       if (!user)
       {
-        client.disconnect();
         return;
       }
       client.user = user;
