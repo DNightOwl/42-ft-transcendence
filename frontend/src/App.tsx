@@ -38,7 +38,6 @@ function App() {
           <Route path='/Home' element={<Home/>} />
           <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} />}/>
           <Route path='/Profile' element={<Profile setModal={setModal} username={username} />}/>
-          <Route path='/Profile' element={<Profile setModal={setModal} username={username} />}/>
           <Route path='/Tfa' element={<Tfa />}/>
         </Routes>
     </BrowserRouter>

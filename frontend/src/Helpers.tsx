@@ -129,7 +129,9 @@ export function getAllUsersDm(getRes:any){
   axios.get("http://localhost:3000/rooms/DMWithAllUsers", {
       withCredentials: true,
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
-      }).then((res)=>{
+      }).then((res:any)=>{
+        console.log(res);
+        
         getRes(res);
       })
 }
