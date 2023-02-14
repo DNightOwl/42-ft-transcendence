@@ -22,6 +22,7 @@ interface typeProps {
   
 }
 
+
 export default function Messages({
   chatState,
   setChatState,
@@ -69,7 +70,8 @@ export default function Messages({
       setData(res);
     })
   }, [conversation, chatState]);
-
+  
+  
   return (
     <React.Fragment>
       <main
@@ -88,7 +90,7 @@ export default function Messages({
             ref={scroll}
           >
             <div className={`flex flex-col gap-20  ${(chatState?.conversation)?"":"h-full"}`}>
-              {chatState?.conversation
+              {chatState?.conversation?.length
                 ? chatState.conversation.map((e: any, index: number) => {
                     if (e.type === "friend")
                       return (

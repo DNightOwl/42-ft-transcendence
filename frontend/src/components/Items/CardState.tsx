@@ -21,7 +21,7 @@ export default function CardState(props: typeProps) {
   const [clickEye, setClickEye] = useState(false);
   const [check, setCheck] = useState(false);
   const [value,setValue] = useState("jkdjkljklfsjdlfjasdl;fjsdjf;asdfj;klasjdfl");
-
+  
   return (
     <div
       className={`flex flex-1 items-center ${
@@ -33,7 +33,7 @@ export default function CardState(props: typeProps) {
 
 <React.Fragment>
         {
-          (props.chatState?.length)?(
+          ( props.chatState != undefined && Object.keys(props.chatState).length)?(
             <div className="flex items-center gap-2">
             <img
               src={props.chatState.picture}
@@ -57,7 +57,7 @@ export default function CardState(props: typeProps) {
                 {!props.chatState.members ? (
                   <span
                     className={`h-2 w-2 rounded-full ${
-                      props.chatState.status === "online"
+                      props.chatState.status === "on"
                         ? "bg-online"
                         : "bg-offline"
                     }`}
@@ -65,8 +65,9 @@ export default function CardState(props: typeProps) {
                 ) : null}
                 <span className="text-sm font-light text-secondaryText">
                   {!props.chatState.members
-                    ? props.chatState.status.charAt(0).toUpperCase() +
-                      props.chatState.status.slice(1)
+                    ? (props.chatState.status === "on")?(
+                      "Online"
+                    ):"Offline"
                     : props.chatState.members + " members"}
                 </span>
               </div>
