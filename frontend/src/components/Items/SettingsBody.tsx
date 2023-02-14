@@ -23,11 +23,8 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
   const [conferm,SetConferm] = useState(false);
 
   useEffect(()=>{
-    getQR((res:any)=>{
-      setBase(res.data);
-    })
     getUserData((res:any)=>{
-      console.log(res);
+      setSwitchBtn(res.tofactor);
       
     })
   },[])
@@ -93,7 +90,12 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
                   switchBtn ? "justify-end bg-primary" : "justify-start bg-body"
                 } items-center rounded-full`}
                 onClick={() => {
-                        setDisplay(true);
+                  if(!switchBtn){
+                    getQR((res:any)=>{
+                      setBase(res.data);
+                    })
+                  }
+                  setDisplay(true);
                 }}
               >
                 <span className="h-5 w-5 rounded-full bg-primaryText"></span>
@@ -125,9 +127,13 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
   ) : (
     <div className="flex items-center">
       <div className="flex gap-10 lg:gap-12 flex-col lg:flex-row items-center">
-        <div className="h-32 w-32 rounded-lg bg-white p-1.5">
-          <img src={base} alt="qr code" />
-        </div>
+        {
+          (!switchBtn)?(
+            <div className="h-32 w-32 rounded-lg bg-white p-1.5">
+            <img src={base} alt="qr code" />
+          </div>
+          ):null
+        }
         <div className="flex w-full gap-6 flex-col lg:w-64">
           <div className="flex flex-col gap-1.5">
             <label htmlFor="Code" className="text-sm text-primaryText">
@@ -150,7 +156,6 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
           </div>
           <div className="flex w-full items-center justify-end gap-3">
             <button className="w-32 rounded-md bg-shape p-2 text-sm text-primaryText shadow" onClick={()=>{
-                setSwitchBtn(false);
                 setDisplay(false);
             }}>
               Back
