@@ -12,7 +12,7 @@ export default function NavigationPhone() {
           setData(res);
         })
       },[])
-      let fill = {username: data?.nickname,picture:data.pictureLink,status:data.status, friend:"none"};
+      let fill = {username: data?.nickname,picture:data.pictureLink,status:data.status, friend:"none" , NumberofFreinds:data.NumberofFreinds};
   return (
     <React.Fragment>
     <section className='fixed bottom-0 w-full px-3 pb-3 lg:hidden bg-body phone-nav'>
