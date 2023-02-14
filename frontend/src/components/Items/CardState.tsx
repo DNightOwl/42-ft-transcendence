@@ -31,48 +31,50 @@ export default function CardState(props: typeProps) {
       }`}
     >
 
-      {
-        (props.chatState?.length)?(
-          <React.Fragment>
-                  <div className="flex items-center gap-2">
-        <img
-          src={props.chatState.picture}
-          alt="Friend"
-          className="h-14 w-14 rounded-full"
-        />
-        <div className="flex flex-col gap-1">
-          <div className="flex items-center gap-1.5">
-            <span
-              className={`text-md text-primaryText ${
-                props.chatState.members ? "channel-name" : "max-w-sm"
-              } overflow-hidden text-ellipsis whitespace-nowrap`}
-            >
-              {(props.chatState.username || props.chatState.name)
-                .charAt(0)
-                .toUpperCase() +
-                (props.chatState.username || props.chatState.name).slice(1)}
-            </span>
+<React.Fragment>
+        {
+          (props.chatState?.length)?(
+            <div className="flex items-center gap-2">
+            <img
+              src={props.chatState.picture}
+              alt="Friend"
+              className="h-14 w-14 rounded-full"
+            />
+            <div className="flex flex-col gap-1">
+              <div className="flex items-center gap-1.5">
+                <span
+                  className={`text-md text-primaryText ${
+                    props.chatState.members ? "channel-name" : "max-w-sm"
+                  } overflow-hidden text-ellipsis whitespace-nowrap`}
+                >
+                  {(props.chatState.username || props.chatState.name)
+                    .charAt(0)
+                    .toUpperCase() +
+                    (props.chatState.username || props.chatState.name).slice(1)}
+                </span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                {!props.chatState.members ? (
+                  <span
+                    className={`h-2 w-2 rounded-full ${
+                      props.chatState.status === "online"
+                        ? "bg-online"
+                        : "bg-offline"
+                    }`}
+                  ></span>
+                ) : null}
+                <span className="text-sm font-light text-secondaryText">
+                  {!props.chatState.members
+                    ? props.chatState.status.charAt(0).toUpperCase() +
+                      props.chatState.status.slice(1)
+                    : props.chatState.members + " members"}
+                </span>
+              </div>
+            </div>
           </div>
-          <div className="flex items-center gap-1.5">
-            {!props.chatState.members ? (
-              <span
-                className={`h-2 w-2 rounded-full ${
-                  props.chatState.status === "online"
-                    ? "bg-online"
-                    : "bg-offline"
-                }`}
-              ></span>
-            ) : null}
-            <span className="text-sm font-light text-secondaryText">
-              {!props.chatState.members
-                ? props.chatState.status.charAt(0).toUpperCase() +
-                  props.chatState.status.slice(1)
-                : props.chatState.members + " members"}
-            </span>
-          </div>
-        </div>
-      </div>
-      {props.chatState.members ? (
+          ):null
+        }
+      {props.chatState?.members ? (
         <div className="flex items-center gap-4">
           <button className="flex h-10 w-10 items-center justify-center rounded-full bg-shape">
             <PlusIcon edit="fill-secondaryText w-4 h-4" />
@@ -169,8 +171,12 @@ export default function CardState(props: typeProps) {
         </div>
       ) : null}
           </React.Fragment>
+
+      {/* {
+        (props.chatState?.length)?(
+
         ):null
-      }
+      } */}
 
     </div>
   );
