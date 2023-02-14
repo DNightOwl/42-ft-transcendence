@@ -1,6 +1,7 @@
 import React, { useState,useEffect } from "react";
 import { EditAvatarIcon, QrIcon } from "./Icons";
-import { editPicture,editNickName,getUserData } from "../../Helpers";
+import { editPicture,editNickName } from "../../Helpers";
+import { getQR,confermQr,getUserData } from "../../Helpers";
 
 interface typeProps{
   settings?:React.Dispatch<React.SetStateAction<boolean>>
@@ -16,6 +17,20 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
   const [picture, setPicture] = useState<string>(pictureUser);
   const [tempPic,setTempPic] = useState("");
   const [display,setDisplay] = useState<boolean>(false)
+  const [base,setBase] = useState("");
+  const [errorMessage,setErrorMessage] = useState("");
+  const [codeValue,setCodeValue] = useState("");
+  const [conferm,SetConferm] = useState(false);
+
+  useEffect(()=>{
+    getQR((res:any)=>{
+      setBase(res.data);
+    })
+    getUserData((res:any)=>{
+      console.log(res);
+      
+    })
+  },[])
 
   return !display ? (
     <div className="flex flex-col justify-between py-6">
@@ -78,12 +93,7 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
                   switchBtn ? "justify-end bg-primary" : "justify-start bg-body"
                 } items-center rounded-full`}
                 onClick={() => {
-                    if(switchBtn)
-                        setSwitchBtn(false);
-                    else{
-                        setSwitchBtn(true);
                         setDisplay(true);
-                    }
                 }}
               >
                 <span className="h-5 w-5 rounded-full bg-primaryText"></span>
@@ -116,7 +126,7 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
     <div className="flex items-center">
       <div className="flex gap-10 lg:gap-12 flex-col lg:flex-row items-center">
         <div className="h-32 w-32 rounded-lg bg-white p-1.5">
-          <QrIcon />
+          <img src={base} alt="qr code" />
         </div>
         <div className="flex w-full gap-6 flex-col lg:w-64">
           <div className="flex flex-col gap-1.5">
@@ -127,7 +137,16 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
               type="text"
               className="placeholder-secondary-text rounded-md bg-body p-3 text-xs text-primaryText outline-none placeholder:text-xs placeholder:font-light"
               placeholder="Enter code"
+              value={codeValue}
+              onChange={(e)=>{
+                setCodeValue(e.currentTarget.value);
+              }}
             />
+            {
+              (errorMessage)?(
+                <div>{errorMessage}</div>
+              ):null
+            }
           </div>
           <div className="flex w-full items-center justify-end gap-3">
             <button className="w-32 rounded-md bg-shape p-2 text-sm text-primaryText shadow" onClick={()=>{
@@ -137,8 +156,12 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
               Back
             </button>
             <button className="w-32 rounded-md bg-primary p-2 text-sm text-primaryText" onClick={()=>{
-                setSwitchBtn(true);
-                setDisplay(false);
+                confermQr((res:any)=>{
+                  if(res.data === "T"){
+                    setSwitchBtn(true)
+                    setDisplay(false)
+                  }
+                },codeValue)
             }}>
               Confirm
             </button>

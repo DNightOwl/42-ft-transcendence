@@ -49,7 +49,7 @@ export default function Navigation({
   const[dataChat,setDataChat] = useState([]);
   
   useEffect(() => {
-    if(location.pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && location.pathname !== "/")
+    if(location.pathname !== "/Tfa" && location.pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && location.pathname !== "/")
       setDisplay(true);
     if (location.pathname.toLocaleLowerCase() === "/Messages".toLocaleLowerCase()) {
       setMessages(true);
@@ -67,7 +67,7 @@ export default function Navigation({
     })
   }, [location.pathname, setConversation, setChatState]);
 
-  if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase())
+  if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Tfa".toLocaleLowerCase())
   {
     document.title = "Pong - Page not found"
     return <NotFound />

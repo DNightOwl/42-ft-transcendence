@@ -6,6 +6,7 @@ import Home from "./components/Home";
 import Messages from "./components/Messages";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
+import Tfa from "./components/Tfa";
 import { getConversations } from "./Helpers";
 
 function App() {
@@ -37,6 +38,8 @@ function App() {
           <Route path='/Home' element={<Home/>} />
           <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} />}/>
           <Route path='/Profile' element={<Profile setModal={setModal} username={username} />}/>
+          <Route path='/Profile' element={<Profile setModal={setModal} username={username} />}/>
+          <Route path='/Tfa' element={<Tfa />}/>
         </Routes>
     </BrowserRouter>
   );
