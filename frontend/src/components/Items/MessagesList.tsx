@@ -30,7 +30,10 @@ export default function MessagesList({
     })
 
     getAllUsersDm((res:any)=>{
-      setDm(res);
+
+      console.log("dm: ",res);
+      
+      setDm(res.data);
     })
 
   },[]);
