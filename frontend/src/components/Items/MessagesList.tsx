@@ -30,9 +30,6 @@ export default function MessagesList({
     })
 
     getAllUsersDm((res:any)=>{
-
-      console.log("dm: ",res);
-      
       setDm(res.data);
     })
 
@@ -74,7 +71,7 @@ export default function MessagesList({
       )}
       <div className="flex h-full flex-col overflow-auto">
         {!channel
-          ? dataChat
+          ? dataChat.length
             ? dataChat.map((e, index) => {
                 return (
                   <CardFriendMessage
@@ -86,7 +83,7 @@ export default function MessagesList({
                   />
                 );
               })
-            : null
+            : <div className="h-full flex justify-center items-center text-primaryText text-md lg:hidden">No messages.</div>
           : dataChannel
           ? dataChannel.map((e, index) => {
               return (

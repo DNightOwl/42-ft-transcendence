@@ -1,7 +1,8 @@
-import React,{useState} from "react";
+import React,{useState,useEffect} from "react";
 import { PointsIcon } from "../Items/Icons";
 import { Link } from "react-router-dom";
-import { dataChat, dataChannel } from "../../Data";
+import {dataChannel } from "../../Data";
+import { getConversations } from "../../Helpers";
 interface Props {
   newMessage?: boolean;
   data: any;
@@ -14,12 +15,22 @@ interface Props {
 export default function CardFriendMessage(props: Props) {
   const [dropDown,setDropDwon] = useState<boolean>(false)
   const [mouse,setMouse] = useState(false);
+
+  const[dataChat,setDataChat] = useState<any>([]);
+
+  useEffect(()=>{
+    getConversations((res:any)=>{
+      
+      setDataChat(res.data);
+    });
+
+  },[]);
   return (
     <React.Fragment>
       <Link
         to="/Messages"
         className={`btn-message btn-friend-message flex justify-between px-2 py-4 lg:hover:bg-backgroundHover ${
-          !props.data.name && props.data.id === dataChat[0].id
+          !props.data.name && props.data.id === dataChat[0]?.id
             ? "lg:bg-backgroundHover"
             : null
         }`}
@@ -50,7 +61,7 @@ export default function CardFriendMessage(props: Props) {
             });
   
             if (!props.channel) {
-              dataChat.forEach((e, index) => {
+              dataChat.forEach((e:any, index:number) => {
                 if (e.id === props.data.id) {
                   props.setChatState(dataChat[index]);
                   return;

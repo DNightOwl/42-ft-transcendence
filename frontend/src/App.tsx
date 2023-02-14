@@ -23,7 +23,7 @@ function App() {
 
   useEffect(()=>{
     getConversations((res:any)=>{
-      setDataChat(res.data);
+      setChatState(res.data[0]);
     })
 
   },[]);
