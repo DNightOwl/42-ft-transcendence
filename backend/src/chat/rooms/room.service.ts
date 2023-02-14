@@ -514,12 +514,12 @@ export class RoomService
 
   async   getDM(type: string, user1: any):Promise<typeObject[]>
   {
+      let obj: typeObject[] = [];
       const rooms = await this.prisma.room.findMany({
         where: {
           type: type
         }
       })
-      let obj: typeObject[] = []; 
       for (let index = 0; index < rooms.length; index++)
       {
         // let person : typeObject = {÷};
@@ -546,15 +546,25 @@ export class RoomService
                     message: true
                 }
         })
-        let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: allmessage.message[allmessage.message.length - 1].data , picture: user.pictureLink, conversation : []};
-        person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
+        let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: "" , picture: user.pictureLink, conversation : []};
+        const message_user = await this.prisma.messages.findFirst({
+            where: 
+            {
+                roomName: rooms[index].name
+            }
+        })
+        if (message_user)
+        {
+            person.latestMessage = allmessage.message[allmessage.message.length - 1].data;
+            person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
+        }
         for (let i = allmessage.message.length - 1; i >= 0 ;i--)
         {
           //person.conversation[i].message = allmessage.message[i].data;
           if (user1.login == allmessage.message[i].userLogin)
-              person.conversation[i].type = "user";
-          else
             person.conversation[i].type = "friend";
+          else
+            person.conversation[i].type = "user";
         }
         obj.push(person);
       }
