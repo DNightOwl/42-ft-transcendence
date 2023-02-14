@@ -134,6 +134,15 @@ export function getAllUsersDm(getRes:any){
       })
 }
 
+export function getChannelConversations(getRes:any){
+  axios.get("http://localhost:3000/rooms/RoomMessage", {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+        getRes(res);
+      })
+}
+
 export function getQR(getRes:any){
   axios.post("http://localhost:3000/auth/generateqr",{},{withCredentials: true}).then((res:any)=>{
     getRes(res)

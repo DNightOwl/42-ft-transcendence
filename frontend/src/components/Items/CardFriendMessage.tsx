@@ -1,8 +1,7 @@
 import React,{useState,useEffect} from "react";
 import { PointsIcon } from "../Items/Icons";
 import { Link } from "react-router-dom";
-import {dataChannel } from "../../Data";
-import { getConversations } from "../../Helpers";
+import { getConversations, getChannelConversations } from "../../Helpers";
 interface Props {
   newMessage?: boolean;
   data: any;
@@ -17,11 +16,16 @@ export default function CardFriendMessage(props: Props) {
   const [mouse,setMouse] = useState(false);
 
   const[dataChat,setDataChat] = useState<any>([]);
+  const[dataChannel,setDataChannel] = useState<any>([]);
 
   useEffect(()=>{
     getConversations((res:any)=>{
       
       setDataChat(res.data);
+    });
+
+    getConversations((res:any)=>{
+      setDataChannel(res.data)
     });
 
   },[]);
@@ -68,7 +72,7 @@ export default function CardFriendMessage(props: Props) {
                 }
               });
             } else {
-              dataChannel.forEach((e, index) => {
+              dataChannel.forEach((e:any, index:any) => {
                 if (e.id === props.data.id) {
                   props.setChatState(dataChannel[index]);
                   return;
