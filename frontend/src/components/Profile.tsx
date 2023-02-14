@@ -245,8 +245,10 @@ export default function Profile({setModal,username}:typeProps) {
           <span className="flex flex-col items-center">
             <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{
         (dataUser.data.friend === "none")?(
+
+          dataUser.data.NumberofFreinds
           
-          0
+          
         ):(dataUser?.data.username === fill.username)?(
           fill.NumberofFreinds
             

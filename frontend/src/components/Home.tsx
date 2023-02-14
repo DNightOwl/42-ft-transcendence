@@ -5,6 +5,7 @@ import { checkToken } from '../Helpers';
 
 export default function Home() {
   checkToken();
+  
   const scroll = useRef<HTMLDivElement>(null);
   useEffect(()=>{
     document.title = "Pong - Home";

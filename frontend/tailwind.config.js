@@ -25,7 +25,8 @@ module.exports = {
         ownerText:"#595281",
         adminBg:"#F6E791",
         adminText:"#D98824",
-        unblock:"#BC4A58"
+        unblock:"#BC4A58",
+        error:"#FF6174"
         
       },
       fontFamily: {
