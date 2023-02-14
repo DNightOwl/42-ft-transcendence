@@ -6,18 +6,28 @@ import Home from "./components/Home";
 import Messages from "./components/Messages";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
-import {dataChat} from './Data'
+import { getConversations } from "./Helpers";
 
 function App() {
-  const [chatState,setChatState] = useState(dataChat[0]);
+  const [chatState,setChatState] = useState([]);
   const [conversation,setConversation] = useState<boolean>(false);
   const [modal,setModal] = useState(false);
   const [create,setCreate] = useState(false);
   const [members,setMembers] = useState(false);
   const [click,setClick] = useState<boolean>(false);
   const [username,setUsername] = useState<string>("");
+
+
   
-  
+  const[dataChat,setDataChat] = useState([]);
+
+  useEffect(()=>{
+    getConversations((res:any)=>{
+      setDataChat(res.data);
+      setChatState(res.data[0])
+    })
+
+  },[]);
   
   return (
     <BrowserRouter>

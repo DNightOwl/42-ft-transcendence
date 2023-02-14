@@ -41,6 +41,7 @@ export default function Profile({setModal,username}:typeProps) {
     
   },[dataUser,unblock]);
   
+  
   if(dataUser.data.friend !== 'none' && (fill.blocked === "blocked" && !unblock))
   {
     return(
@@ -242,7 +243,15 @@ export default function Profile({setModal,username}:typeProps) {
         }
          <div className="flex gap-10">
           <span className="flex flex-col items-center">
-            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">10</span>
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{
+        (dataUser.data.friend === "none")?(
+          
+          0
+        ):(dataUser?.data.username === fill.username)?(
+          fill.NumberofFreinds
+            
+          ):null
+            }</span>
             <span className="text-secondaryText text-sm">Friends</span>
           </span>
           <span className="separtor bg-shape"></span>

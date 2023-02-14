@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { PlusIcon, SearchIcon } from "../Items/Icons";
 import CardFriendMessage from "./CardFriendMessage";
-import { dataChat, dataChannel } from "../../Data";
+import { dataChannel } from "../../Data";
+import { getConversations, getAllUsersDm } from "../../Helpers";
 
 interface typeprops {
   setChatState: React.Dispatch<React.SetStateAction<any>>;
@@ -19,6 +20,23 @@ export default function MessagesList({
   channel,
   setCreate
 }: typeprops) {
+
+  const[dataChat,setDataChat] = useState([]);
+  const[dm,setDm] = useState([]);;
+
+  useEffect(()=>{
+    getConversations((res:any)=>{
+      setDataChat(res.data);
+    })
+
+    getAllUsersDm((res:any)=>{
+      setDm(res);
+    })
+
+  },[]);
+  
+
+
   return (
     <div className="flex h-full flex-col  gap-6 pb-20 lg:pb-0">
       {!channel ? (

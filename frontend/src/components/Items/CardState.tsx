@@ -25,12 +25,16 @@ export default function CardState(props: typeProps) {
   return (
     <div
       className={`flex flex-1 items-center ${
-        props.chatState.members
+        props.chatState?.members
           ? "justify-between lg:justify-start lg:gap-8"
           : ""
       }`}
     >
-      <div className="flex items-center gap-2">
+
+      {
+        (props.chatState?.length)?(
+          <React.Fragment>
+                  <div className="flex items-center gap-2">
         <img
           src={props.chatState.picture}
           alt="Friend"
@@ -164,6 +168,10 @@ export default function CardState(props: typeProps) {
           ) : null}
         </div>
       ) : null}
+          </React.Fragment>
+        ):null
+      }
+
     </div>
   );
 }
