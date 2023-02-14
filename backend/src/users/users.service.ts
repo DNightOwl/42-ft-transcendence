@@ -61,7 +61,8 @@ export class UsersService {
                 nickname: true,
                 email: true,
                 pictureLink: true,
-                status: true
+                status: true,
+                two_fa_enabled: true
 
             }
         });
@@ -72,7 +73,7 @@ export class UsersService {
                     userLogin: id1.login,
                 }
             })
-        let pers : profileObject = {id: id1.id, nickname: id1.nickname, status: id1.status, pictureLink: id1.pictureLink, freind: "", blocked: "", NumberofFreinds:  NumberofFreinds.length}
+        let pers : profileObject = {id: id1.id, nickname: id1.nickname, status: id1.status, pictureLink: id1.pictureLink, freind: "", blocked: "", NumberofFreinds:  NumberofFreinds.length, tofactor: id1.two_fa_enabled}
         return pers;
     }
 

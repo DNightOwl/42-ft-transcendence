@@ -16,4 +16,5 @@ export interface profileObject {
     freind: string
     blocked: string
     NumberofFreinds: number
+    tofactor: boolean
 }
