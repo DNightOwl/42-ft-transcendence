@@ -4,11 +4,17 @@ export interface typeobject{
     type: string
     message: string
   }
+  export interface objectChannel{
+    type: string
+    message: string
+    picture: string
+  }
   export interface typeObject{
     id:string
     username:string
     status: string
     latestMessage: string | undefined
+    picture: string
     conversation:typeobject[] ;
   }
 
@@ -18,5 +24,5 @@ export interface typeobject{
     members: number,
     latestMessage: string
     role: string,
-    conversation: typeobject[]
+    conversation: objectChannel[]
   }
