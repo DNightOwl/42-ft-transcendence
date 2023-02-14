@@ -608,9 +608,19 @@ export class RoomService
           else
             role = "members";
         }
-        let person : chanel = {id : rooms[index].id, name: rooms[index].name, members: rooms[index].members.length, latestMessage: allmessage.message[allmessage.message.length - 1].data, role: role, conversation : []};
-        person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data, picture: "" }));
-        for (let i = allmessage.message.length - 1; i >= 0 ;i--)
+        let person : chanel = {id : rooms[index].id, name: rooms[index].name, members: rooms[index].members.length, latestMessage: "", role: role, conversation : []};
+        person.conversation = allmessage.message.map((x) =>    ({type :"", message : "", picture: "" }));
+        const message_user = await this.prisma.messages.findFirst({
+          where: 
+          {
+              roomName: rooms[index].name
+          }
+      })
+        if (message_user)
+        {
+          person.latestMessage = allmessage.message[allmessage.message.length - 1].data;
+          person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data, picture: "" }));
+          for (let i = allmessage.message.length - 1; i >= 0 ;i--)
           {
             const user_chanel = await this.prisma.user.findUnique({
               where: {
@@ -626,6 +636,7 @@ export class RoomService
             }
 
           }
+        }
           obj.push(person);
       }
     }
