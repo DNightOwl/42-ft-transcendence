@@ -2,13 +2,12 @@ import React, { useState, useEffect } from "react";
 import NavigationDesktop from "./NavigationDesktop/NavigationDesktop";
 import NavigationPhone from "./NavigationPhone/NavigationPhone";
 import { useLocation } from "react-router-dom";
-import { dataChat } from "../../../Data";
 import { Modal, ModalHeader, ModalBody } from "../Modal";
 import SettingsBody from "../SettingsBody";
 import NotFound from "../../NotFound";
 import CreateChannelBody from '../CreateChannelBody'
 import Members from "../Members";
-import { getUserData } from "../../../Helpers";
+import { getUserData,getConversations } from "../../../Helpers";
 
 
 interface typeprops {
@@ -46,6 +45,8 @@ export default function Navigation({
   const location = useLocation();
 
   let pathname = location.pathname;
+
+  const[dataChat,setDataChat] = useState([]);
   
   useEffect(() => {
     if(location.pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && location.pathname !== "/")
@@ -59,6 +60,10 @@ export default function Navigation({
     }
     getUserData((res:any)=>{
       setData(res);
+    })
+
+    getConversations((res:any)=>{
+      setDataChat(res.data);
     })
   }, [location.pathname, setConversation, setChatState]);
 

@@ -11,7 +11,7 @@ import axios from 'axios';
 import { checkToken,getUserData } from "../Helpers";
 
 interface typeProps {
-  chatState: any;
+  chatState?: any;
   setChatState: React.Dispatch<React.SetStateAction<any>>;
   conversation: boolean;
   setConversation: React.Dispatch<React.SetStateAction<boolean>>;
