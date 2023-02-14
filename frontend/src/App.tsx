@@ -8,6 +8,7 @@ import Profile from "./components/Profile";
 import Login from "./components/Login";
 import { getConversations } from "./Helpers";
 
+import { socket , SocketContext} from "./context/socket";
 function App() {
   const [chatState,setChatState] = useState([]);
   const [conversation,setConversation] = useState<boolean>(false);
@@ -16,21 +17,18 @@ function App() {
   const [members,setMembers] = useState(false);
   const [click,setClick] = useState<boolean>(false);
   const [username,setUsername] = useState<string>("");
-
-
-  
   const[dataChat,setDataChat] = useState([]);
-
   useEffect(()=>{
     getConversations((res:any)=>{
       setChatState(res.data[0]);
     })
-
+    
   },[]);
   
   return (
     <BrowserRouter>
       <Navigation chatState={chatState} setChatState={setChatState} conversation = {conversation} setConversation={setConversation} modal={modal} setModal={setModal} create={create} setCreate={setCreate} members={members} setMembers={setMembers} click={click} setClick={setClick}/>
+        <SocketContext.Provider value={socket}>
         <Routes>
         <Route path='/' element={<Login/>} />
         <Route path='/Login' element={<Login/>} />
@@ -38,6 +36,7 @@ function App() {
           <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} />}/>
           <Route path='/Profile' element={<Profile setModal={setModal} username={username} />}/>
         </Routes>
+        </SocketContext.Provider>
     </BrowserRouter>
   );
 }
