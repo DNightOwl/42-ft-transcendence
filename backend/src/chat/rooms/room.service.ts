@@ -546,13 +546,15 @@ export class RoomService
                     message: true
                 }
         })
-        let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: "" , picture: user.pictureLink, conversation : []};
         const message_user = await this.prisma.messages.findFirst({
-            where: 
-            {
-                roomName: rooms[index].name
-            }
+          where: 
+          {
+              roomName: rooms[index].name
+          }
         })
+        if (!message_user)
+          continue ;
+        let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: "" , picture: user.pictureLink, conversation : []};
         if (message_user)
         {
             person.latestMessage = allmessage.message[allmessage.message.length - 1].data;
