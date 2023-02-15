@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable} from "@nestjs/common";
 import { use } from "passport";
 import { PrismaService } from "src/prisma/prisma.service";
 import { comparepassword, hashPassword} from "./utils/bcrypt";
-import { chanel, typeObject } from "./utils/typeObject";
+import { chanel, typeObject, userchanel } from "./utils/typeObject";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from '@nestjs/config';
 import { usersObject, RoomMembers  } from '../../users/utils/usersObject';
@@ -245,45 +245,49 @@ export class RoomService
   }
 
 
-  async getallUsersinRoom(user1: any, name: string)
+  async getallUsersinRoom(user: any, name: string)
   {
-        let obj : RoomMembers[] = [];
-        const users = await this.prisma.room.findFirst({
-          where: {
-            name: name,
-          },
-          select: {
-            members: true,
-            admins: true
-          }
-        })
-          // if (user1.login == user.login)
-          //     continue;
-          //const admin = users.admins.find((login) =>login==user.login)
-          let member : RoomMembers = {admins: [], members: []}
-          member.admins = users.admins.map( (e:any) =>{
-            const user:any =  this.prisma.user.findUnique({
-              where: {
-                login: e
-              }
-            })
-            let obj = {id: user.id, username: user.nickname, status: user.status, pictureLink: user.pictureLink, freind: "freind", blocked: "",  NumberofFreinds: 0};
-
-            return obj
-          });
-          member.members = users.members.map( (e:any) =>{
-            const user:any =  this.prisma.user.findUnique({
-              where: {
-                login: e
-              }
-            })
-            let obj = {id: user.id, username: user.nickname, status: user.status, pictureLink: user.pictureLink, freind: "freind", blocked: "",  NumberofFreinds: 0};
-
-            return obj
-          });
-          obj.push(member);
-        return (obj);
-  } 
+    const rooms = await this.prisma.room.findFirst({
+      where: {
+        name: name
+      },
+      select: {
+        members: true,
+        admins: true,
+        owner: true,
+        type: true
+      }
+  })
+  let obj: userchanel[] = [];
+  for (let index = 0; index < rooms.members.length; index++)
+  {
+    if (rooms.members[index] == user.login)
+        continue;
+    const id1 =  rooms.members.find((login) =>login==rooms.members[index])
+    if (id1)
+    {
+      const user1 = await this.prisma.user.findUnique({
+        where: {
+          login: rooms.members[index]
+        }
+      })
+      let role;
+      if (rooms.owner == rooms.members[index])
+        role = "owner";
+      else 
+      {
+        const admin = rooms.admins.find((login) =>login==rooms.members[index])
+        if (admin)
+          role = "admins";
+        else
+          role = "members";
+      }
+      let person : userchanel = {id : user1.id, username: user1.nickname, status: user1.status, pictureLink: user1.pictureLink, role: role,};
+        obj.push(person);
+    }
+  }
+  return obj;
+} 
 
   async getallRooms(){
     let allRooms = [];
