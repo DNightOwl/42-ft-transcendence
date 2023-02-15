@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import PictureProfile from "../../assets/friend.jpg"
 import { PlusIcon, CheckIcon } from './Icons'
+import {addFriendToChannel} from "../../Helpers"
 
 interface typeProps{
     role?:string
@@ -39,7 +40,7 @@ export default function CardFriend({role,data,channelData}:typeProps){
                     type:channelData.type,
                     login:data.username,
                 }
-                
+                addFriendToChannel(object)
                 setCheck(true)
                 setClick(false);
             }

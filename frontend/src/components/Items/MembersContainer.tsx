@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import CardMember from './CardMember'
-import { getFriends } from '../../Helpers'
+import { getFriendChannel } from '../../Helpers'
 import CardFriend from './CardFriend';
 
 interface typeProps{
@@ -11,10 +11,10 @@ interface typeProps{
 export default function MembersContainer({channelData}:typeProps){
     const [data,setData] =  useState([]);
     useEffect(()=>{
-        getFriends((res:any)=>{
+        getFriendChannel((res:any)=>{
             setData(res);
             
-        })
+        },channelData.name)
     },[])
     return(
         <div className='flex flex-col gap-6 content-rol'>
