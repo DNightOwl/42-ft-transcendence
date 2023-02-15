@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { CheckIcon,EyeOnPasswordIcon,EyeOffPasswordIcon } from './Icons'
+import { CheckIcon,EyeOnPasswordIcon,EyeOffPasswordIcon,ExclamationIcon } from './Icons'
 import { CreateChannel } from '../../Helpers';
 
 interface typeProps{
@@ -13,6 +13,8 @@ export default function CreateChannelBody({setCreate}:typeProps) {
   const [protectd,setProtected] = useState(false)
   const [nameChannel,setNameChannel] = useState("")
   const [passwordValue,setPasswordValue] = useState("")
+  const [error,setError] = useState(false);
+  const [errorMessage,setErrorMessage] = useState("");
 
 
   return (
@@ -23,6 +25,8 @@ export default function CreateChannelBody({setCreate}:typeProps) {
                   setType("public")
                   setProtected(false)
                   setNameChannel("")
+                  setError(false)
+
                   }}>
                     <span aria-label='Check' className={`${type ==="public"?"bg-primary":"border-2 border-primary"} w-7 h-7 flex justify-center items-center rounded-full`}>
                         {
@@ -35,6 +39,7 @@ export default function CreateChannelBody({setCreate}:typeProps) {
                   setType("private")
                   setProtected(false)
                   setNameChannel("")
+                  setError(false)
 
                   }}>
                     <span aria-label='Check' className={`${type ==="private"?"bg-primary":"border-2 border-primary"} w-7 h-7 flex justify-center items-center rounded-full`}>
@@ -58,29 +63,54 @@ export default function CreateChannelBody({setCreate}:typeProps) {
             </div>
             {
               (!protectd)?(
-                <div className='flex flex-col lg:flex-row items-center lg:items-end gap-3 '>
-                <div className="flex flex-col gap-1.5 w-80 lg:w-full">
-                  <label htmlFor="Name channel" className="text-sm text-primaryText">
-                    Name Channel
-                  </label>
-                  <input
-                    type="text"
-                    className="placeholder-secondary-text rounded-md bg-body p-3 text-xs text-primaryText outline-none placeholder:text-xs placeholder:font-light"
-                    placeholder="Enter name channel" value={nameChannel}
-                    onChange={(e:any)=>{setNameChannel(e.currentTarget.value)}}
-                  />
-                </div>
-                <button className="w-80 lg:w-32 rounded-md bg-primary p-2.5 text-sm text-primaryText" onClick={()=>{
-                  let object = {
-                  type:type,
-                  name:nameChannel,
-                }
-                CreateChannel(object)
-                if(setCreate)
-                  setCreate(false);
+                <div className='flex flex-col gap-1'>
+                  <div className='flex flex-col lg:flex-row items-center lg:items-end gap-3 '>
+                  <div className="flex flex-col gap-1.5 w-80 lg:w-full">
+                    <label htmlFor="Name channel" className="text-sm text-primaryText">
+                      Name Channel
+                    </label>
+                    <input
+                      type="text"
+                      className="placeholder-secondary-text rounded-md bg-body p-3 text-xs text-primaryText outline-none placeholder:text-xs placeholder:font-light"
+                      placeholder="Enter name channel" value={nameChannel}
+                      onChange={(e:any)=>{
+                        setError(false)
+                        setNameChannel(e.currentTarget.value)
+                      }}
+                    />
+                  </div>
+                  <button className="w-80 lg:w-32 rounded-md bg-primary p-2.5 text-sm text-primaryText" onClick={()=>{
+                    let error = false;
+
+                    if (!nameChannel.trim().length)
+                    {
+                      error = true;
+                      setErrorMessage("Zone text empty")
+                      setError(true);
+                    }
+                    
+
+                    if(!error){
+                      let object = {
+                        type:type,
+                        name:nameChannel,
+                      }
+                    CreateChannel(object)
+                    if(setCreate)
+                      setCreate(false);
+                  }
                 }}>
                     Create
                 </button>
+                </div>
+                {
+                  (error)?(
+                    <div className="text-error text-xs font-medium fill-error flex gap-1.5">
+                    <ExclamationIcon edit="w-3 h-3 relative top-0.5"/>
+                    <span>{errorMessage}</span>
+                  </div>
+                  ):null
+                }
                 </div>
               ):(
                 <div className='flex flex-col gap-5 lg:gap-5'>
