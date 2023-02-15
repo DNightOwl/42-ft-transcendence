@@ -5,6 +5,7 @@ import { comparepassword, hashPassword} from "./utils/bcrypt";
 import { chanel, typeObject } from "./utils/typeObject";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from '@nestjs/config';
+import { usersObject, profileObject } from '../../users/utils/usersObject';
 import * as moment from 'moment';
 
 
@@ -212,10 +213,41 @@ export class RoomService
   }
 
 
-
-  async getallUsersinRoom(name: string)
+  async getfreindNotjoinRoom(user: any, name: string)
   {
-        const users = await this.prisma.room.findMany({
+      const user_freind = await this.prisma.freinds.findMany({
+        where: {
+          userLogin: user.login
+        }
+      })
+      let obj: usersObject[] = [];
+      const room = await this.prisma.room.findFirst({
+        where: {
+            name: name
+        }
+      })
+      for (let index = 0; index < user_freind.length; index++)
+      {
+          const user_in_room = room.members.find((login) => login==user_freind[index].friendLogin);
+          if (!user_in_room)
+          {
+            const user2 = await this.prisma.user.findUnique({
+              where: {
+                login: user_freind[index].friendLogin
+              }
+            })
+            let freind : usersObject = {id: user2.id, username: user2.nickname, status: user2.status, pictureLink: user2.pictureLink, freind: "freind", blocked: "",  NumberofFreinds: 0}
+            obj.push(freind);
+          }
+      }
+      return obj;
+  }
+
+
+  async getallUsersinRoom(user1: any, name: string)
+  {
+        let obj: usersObject[] = [];
+        const users = await this.prisma.room.findFirst({
           where: {
             name: name,
           },
@@ -223,8 +255,21 @@ export class RoomService
             members: true
           }
         })
-        return (users[0].members);
-  }  
+        for (let index = 0; index < users.members.length; index++)
+        {
+          const user = await this.prisma.user.findUnique({
+            where: {
+              login: users.members[index]
+            }
+          })
+          if (user1.login == user.login)
+              continue;
+          let freind : usersObject = {id: user.id, username: user.nickname, status: user.status, pictureLink: user.pictureLink, freind: "freind", blocked: "",  NumberofFreinds: 0}
+          obj.push(freind);
+          
+        }
+        return (obj);
+  } 
 
   async getallRooms(){
     let allRooms = [];
