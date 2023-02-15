@@ -84,11 +84,13 @@ export default function CardFriendMessage(props: Props) {
         }}
       >
         <div className="flex items-center gap-2">
-          <img
-            src={props.data.picture}
-            alt="Friend"
-            className="h-10 w-10 rounded-full"
-          />
+          {!props.channel?(
+                      <img
+                      src={props.data.picture}
+                      alt="Friend"
+                      className="h-10 w-10 rounded-full"
+                    />
+          ):null}
           <div className="flex flex-col gap-1">
             <div className="flex items-center gap-1.5">
               <span

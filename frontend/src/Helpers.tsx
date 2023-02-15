@@ -125,12 +125,12 @@ export function getConversations(getRes:any){
       })
 }
 
+
 export function getAllUsersDm(getRes:any){
   axios.get("http://localhost:3000/rooms/DMWithAllUsers", {
       withCredentials: true,
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
       }).then((res:any)=>{
-        console.log(res);
         
         getRes(res);
       })
@@ -158,4 +158,10 @@ export function confermQr(getRes:any,code:string){
   }).catch((error)=>{
     getRes(error);
   })
+}
+
+export function CreateChannel(data:any){
+  console.log(data);
+  
+  axios.post("http://localhost:3000/rooms/createroom",{data},{withCredentials: true})
 }

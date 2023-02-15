@@ -41,9 +41,6 @@ export default function Profile({setModal,username}:typeProps) {
     
   },[dataUser,unblock]);
 
-  console.log("dataUser: ",dataUser);
-  console.log("fill: ",fill);
-  
   
   
   if(dataUser.data.friend !== 'none' && (fill.blocked === "blocked" && !unblock))
