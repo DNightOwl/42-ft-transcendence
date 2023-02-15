@@ -5,7 +5,7 @@ import { comparepassword, hashPassword} from "./utils/bcrypt";
 import { chanel, typeObject, userchanel } from "./utils/typeObject";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from '@nestjs/config';
-import { usersObject} from '../../users/utils/usersObject';
+import { usersObject, RoomMembers  } from '../../users/utils/usersObject';
 import * as moment from 'moment';
 
 
@@ -289,27 +289,29 @@ export class RoomService
   return obj;
 } 
 
-  async getallRooms(){
-    let allRooms = [];
+  // async getallRooms(user: any){
+  //   let allRooms = [];
 
-    const rooms = await this.prisma.room.findMany();
-    rooms.forEach(element => {
-      let obj = {
-          id: element.id,
-          admins: element.admins,
-          members: element.members,
-          name: element.name,
-          type: element.type,
-          owner: element.owner
+  //   const rooms = await this.prisma.room.findMany();
+  //   rooms.forEach(element => {
+
+  //     let obj = {
+  //         id: element.id,
+  //         admins: element.admins,
+  //         members: element.members,
+  //         name: element.name,
+  //         type: element.type,
+  //         owner: element.owner
           
-        }
-        if (obj.type === "public" || obj.type === "protected")
-          allRooms.push(obj);
-      });
-      return allRooms;
-    }
-
-  async getRoomsForUser(user: any){
+  //       }
+  //       console.log()
+  //       //const u = element.members.find((login): => login==user.login);
+  //       if (obj.type === "public" || obj.type === "protected")
+  //         allRooms.push(obj);
+  //     });
+  //     return allRooms;
+  //   }
+  async getAllRooms(user: any){
     let allRooms = [];
 
     const rooms = await this.prisma.room.findMany();
@@ -324,7 +326,7 @@ export class RoomService
           
       }
       const id = obj.members.find((login) => login==user.login)
-      if (id)
+      if (!id && (obj.type == "public" || obj.type == "protected"))
           allRooms.push(obj);
     });
     return allRooms;
