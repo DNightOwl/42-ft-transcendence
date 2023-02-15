@@ -24,5 +24,6 @@ export interface typeobject{
     members: number,
     latestMessage: string
     role: string,
+    type: string,
     conversation: objectChannel[]
   }
