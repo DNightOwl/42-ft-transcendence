@@ -1,8 +1,9 @@
 import React, { useEffect,useRef } from 'react';
 import fire from '../assets/fire.png';
 import { checkToken } from '../Helpers';
+/////////////////////////////////laafilal
 import {SocketContext} from '../context/socket';
-
+///////////////////////////////////////////////
 
 export default function Home() {
   checkToken();
@@ -17,7 +18,7 @@ export default function Home() {
       if(hasVerticalScrollbar)
         scroll.current.classList.add("lg:pr-6")
     }
-    
+    /////////////////////////////////laafilal
     if(!socket.connected)
       socket.connect();
     socket.on("connect", () => {
@@ -34,6 +35,7 @@ export default function Home() {
     socket.on("test", (msg) => {
       console.log("test: ",msg);
     });
+    ///////////////////////////////////////////
   },[]);
   
   return (

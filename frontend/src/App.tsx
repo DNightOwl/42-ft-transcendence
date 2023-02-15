@@ -9,7 +9,9 @@ import Login from "./components/Login";
 import Tfa from "./components/Tfa";
 import { getConversations } from "./Helpers";
 
+/////////////////////////////////laafilal
 import { socket , SocketContext} from "./context/socket";
+/////////////////////////////////
 function App() {
   const [chatState,setChatState] = useState([]);
   const [conversation,setConversation] = useState<boolean>(false);
@@ -38,7 +40,6 @@ function App() {
           <Route path='/Profile' element={<Profile setModal={setModal} username={username} />}/>
           <Route path='/Tfa' element={<Tfa />}/>
         </Routes>
-        </SocketContext.Provider>
     </BrowserRouter>
   );
 }
