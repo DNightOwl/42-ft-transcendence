@@ -181,6 +181,18 @@ main{
     z-index: 1;
 }
 
+.error-input{
+    border: 1px solid #FF6174;
+}
+
+.error-pass{
+    border-right: none;
+}
+
+.error-eye{
+    border-left: none;
+}
+
 @media screen and (min-width: 768px) {
     .card-user{
         width: 30.8%;
