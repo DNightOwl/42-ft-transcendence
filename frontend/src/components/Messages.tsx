@@ -71,7 +71,6 @@ export default function Messages({
     })
   }, [conversation, chatState]);
   
-  
   return (
     <React.Fragment>
       <main
@@ -90,7 +89,7 @@ export default function Messages({
             ref={scroll}
           >
             <div className={`flex flex-col gap-20  ${(chatState?.conversation)?"":"h-full"}`}>
-              {chatState?.conversation?.length
+              {(chatState?.members) || (chatState?.conversation?.length)
                 ? chatState.conversation.map((e: any, index: number) => {
                     if (e.type === "friend")
                       return (

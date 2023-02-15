@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PlusIcon, SearchIcon } from "../Items/Icons";
 import CardFriendMessage from "./CardFriendMessage";
-import { getConversations, getAllUsersDm } from "../../Helpers";
+import { getConversations, getAllUsersDm, getChannelConversations } from "../../Helpers";
 
 interface typeprops {
   setChatState: React.Dispatch<React.SetStateAction<any>>;
@@ -33,7 +33,7 @@ export default function MessagesList({
       setDm(res.data);
     })
 
-    getConversations((res:any)=>{
+    getChannelConversations((res:any)=>{
       setDataChannel(res.data)
     });
 

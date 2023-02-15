@@ -1,10 +1,14 @@
 import React, { useState } from 'react'
 import { CheckIcon,EyeOnPasswordIcon,EyeOffPasswordIcon } from './Icons'
+import { CreateChannel } from '../../Helpers';
 
 export default function CreateChannelBody() {
   const [password,setPassword] = useState(true);
   const [type,setType] = useState("public");
   const [protectd,setProtected] = useState(false)
+  const [nameChannel,setNameChannel] = useState("")
+  const [passwordValue,setPasswordValue] = useState("")
+
   return (
     <div className='flex items-center w-full'>
         <div className='flex flex-col gap-11 w-full'>
@@ -54,9 +58,16 @@ export default function CreateChannelBody() {
                     type="text"
                     className="placeholder-secondary-text rounded-md bg-body p-3 text-xs text-primaryText outline-none placeholder:text-xs placeholder:font-light"
                     placeholder="Enter name channel"
+                    onChange={(e:any)=>{setNameChannel(e.currentTarget.value)}}
                   />
                 </div>
-                <button className="w-80 lg:w-32 rounded-md bg-primary p-2.5 text-sm text-primaryText">
+                <button className="w-80 lg:w-32 rounded-md bg-primary p-2.5 text-sm text-primaryText" onClick={()=>{
+                  let object = {
+                  type:type,
+                  name:nameChannel,
+                }
+                CreateChannel(object)  
+                }}>
                     Create
                 </button>
                 </div>
@@ -71,6 +82,7 @@ export default function CreateChannelBody() {
                   type="text"
                   className="placeholder-secondary-text rounded-md bg-body p-3 text-xs text-primaryText outline-none placeholder:text-xs placeholder:font-light"
                   placeholder="Enter name channel"
+                  onChange={(e:any)=>{setNameChannel(e.currentTarget.value)}}
                 />
               </div>
               <div className="flex flex-col gap-1.5 w-80 lg:w-full">
@@ -82,6 +94,7 @@ export default function CreateChannelBody() {
                   type={`${password?"password":"text"}`}
                   className="flex-1 placeholder-secondary-text rounded-md rounded-r-none bg-body p-3 text-xs text-primaryText outline-none placeholder:text-xs placeholder:font-light"
                   placeholder="Enter password"
+                  onChange={(e:any)=>{setPasswordValue(e.currentTarget.value)}}
                 />
                 <button className='bg-secondaryText p-3 rounded-md rounded-l-none' onClick={()=>{
                   (password)?setPassword(false):setPassword(true)
@@ -94,7 +107,14 @@ export default function CreateChannelBody() {
               </div>
                 </div>
                 <div className='flex justify-center lg:justify-end'>
-                <button className="w-80 lg:w-32 rounded-md bg-primary p-2.5 text-sm text-primaryText">
+                <button className="w-80 lg:w-32 rounded-md bg-primary p-2.5 text-sm text-primaryText" onClick={()=>{
+                  let object = {
+                    type:type,
+                    name:nameChannel,
+                    password:passwordValue,
+                  }
+                  CreateChannel(object)
+                }}>
                   Create
               </button>
                 </div>

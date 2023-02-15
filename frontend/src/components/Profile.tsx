@@ -40,6 +40,7 @@ export default function Profile({setModal,username}:typeProps) {
     })
     
   },[dataUser,unblock]);
+
   
   
   if(dataUser.data.friend !== 'none' && (fill.blocked === "blocked" && !unblock))
@@ -247,7 +248,6 @@ export default function Profile({setModal,username}:typeProps) {
         (dataUser.data.friend === "none")?(
 
           dataUser.data.NumberofFreinds
-          
           
         ):(dataUser?.data.username === fill.username)?(
           fill.NumberofFreinds
