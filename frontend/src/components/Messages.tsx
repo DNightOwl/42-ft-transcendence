@@ -19,6 +19,8 @@ interface typeProps {
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
   setCreate?: React.Dispatch<React.SetStateAction<boolean>>;
   setMembers?: React.Dispatch<React.SetStateAction<boolean>>;
+  add?: boolean;
+  setAdd?: React.Dispatch<React.SetStateAction<boolean>>;
   
 }
 
@@ -31,7 +33,9 @@ export default function Messages({
   modal,
   setModal,
   setCreate,
-  setMembers
+  setMembers,
+  add,
+  setAdd
 }: typeProps) {
   checkToken();
   const scroll = useRef<HTMLDivElement>(null);
@@ -83,7 +87,7 @@ export default function Messages({
             conversation ? "" : "hidden"
           } relative mb-16 h-full flex-col overflow-hidden pb-16 lg:mb-8 lg:flex lg:pb-8`}
         >
-          <HeaderChat chatState={chatState} settings={setModal} setMembers={setMembers} />
+          <HeaderChat chatState={chatState} settings={setModal} setMembers={setMembers} setAdd={setAdd}/>
           <div
             className={`conversation h-full overflow-auto ${chatState?.conversation?"mb-16 pb-16 lg:mb-8 lg:pb-8":""}`}
             ref={scroll}

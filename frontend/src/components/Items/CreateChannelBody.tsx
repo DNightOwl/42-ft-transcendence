@@ -2,12 +2,18 @@ import React, { useState } from 'react'
 import { CheckIcon,EyeOnPasswordIcon,EyeOffPasswordIcon } from './Icons'
 import { CreateChannel } from '../../Helpers';
 
-export default function CreateChannelBody() {
+interface typeProps{
+  setCreate?: React.Dispatch<React.SetStateAction<boolean>>;
+
+}
+
+export default function CreateChannelBody({setCreate}:typeProps) {
   const [password,setPassword] = useState(true);
   const [type,setType] = useState("public");
   const [protectd,setProtected] = useState(false)
   const [nameChannel,setNameChannel] = useState("")
   const [passwordValue,setPasswordValue] = useState("")
+
 
   return (
     <div className='flex items-center w-full'>
@@ -16,6 +22,7 @@ export default function CreateChannelBody() {
                 <button className='bg-body flex items-center gap-3 w-80 lg:w-40 p-2.5 rounded-md' onClick={()=>{
                   setType("public")
                   setProtected(false)
+                  setNameChannel("")
                   }}>
                     <span aria-label='Check' className={`${type ==="public"?"bg-primary":"border-2 border-primary"} w-7 h-7 flex justify-center items-center rounded-full`}>
                         {
@@ -27,6 +34,8 @@ export default function CreateChannelBody() {
                 <button className='bg-body flex items-center gap-3 w-80 lg:w-40 p-2.5 rounded-md' onClick={()=>{
                   setType("private")
                   setProtected(false)
+                  setNameChannel("")
+
                   }}>
                     <span aria-label='Check' className={`${type ==="private"?"bg-primary":"border-2 border-primary"} w-7 h-7 flex justify-center items-center rounded-full`}>
                         {
@@ -57,7 +66,7 @@ export default function CreateChannelBody() {
                   <input
                     type="text"
                     className="placeholder-secondary-text rounded-md bg-body p-3 text-xs text-primaryText outline-none placeholder:text-xs placeholder:font-light"
-                    placeholder="Enter name channel"
+                    placeholder="Enter name channel" value={nameChannel}
                     onChange={(e:any)=>{setNameChannel(e.currentTarget.value)}}
                   />
                 </div>
@@ -66,7 +75,9 @@ export default function CreateChannelBody() {
                   type:type,
                   name:nameChannel,
                 }
-                CreateChannel(object)  
+                CreateChannel(object)
+                if(setCreate)
+                  setCreate(false);
                 }}>
                     Create
                 </button>
@@ -114,6 +125,8 @@ export default function CreateChannelBody() {
                     password:passwordValue,
                   }
                   CreateChannel(object)
+                  if(setCreate)
+                    setCreate(false);
                 }}>
                   Create
               </button>

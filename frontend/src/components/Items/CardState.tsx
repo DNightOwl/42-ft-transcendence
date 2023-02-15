@@ -13,6 +13,7 @@ import {
 interface typeProps {
   chatState?: any;
   setMembers?: React.Dispatch<React.SetStateAction<boolean>>;
+  setAdd?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function CardState(props: typeProps) {
@@ -82,7 +83,10 @@ export default function CardState(props: typeProps) {
         }
       {props.chatState?.members ? (
         <div className="flex items-center gap-4">
-          <button className="flex h-10 w-10 items-center justify-center rounded-full bg-shape">
+          <button className="flex h-10 w-10 items-center justify-center rounded-full bg-shape" onClick={()=>{
+                            if(props.setAdd)props.setAdd(true);
+                            document.body.style.overflow="hidden";
+          }}>
             <PlusIcon edit="fill-secondaryText w-4 h-4" />
           </button>
           {props.chatState.role === "owner" ||
