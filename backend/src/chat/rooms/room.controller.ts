@@ -56,11 +56,21 @@ export class RoomController
         else
             await this.roomservice.addtoroomNopublic(user, room);
     }
-    
-    @Get('/usersinroom/:name')
-    async   getallUserinRoom(@Param('name') name: string)
+
+    @UseGuards(JwtAuthGuard)
+    @Get('/FreindNotjoin/:name')
+    async   getfreindNotjoinRoom(@Req() req: dbUser, @Param('name') name: string)
     {
-        return await this.roomservice.getallUsersinRoom(name);
+        const user = req.user;
+        return await this.roomservice.getfreindNotjoinRoom(user, name);
+    }
+    
+    @UseGuards(JwtAuthGuard)
+    @Get('/usersinroom/:name')
+    async   getallUserinRoom(@Req() req: dbUser, @Param('name') name: string)
+    {
+        const user = req.user;
+        return await this.roomservice.getallUsersinRoom(user, name);
     }
 
      @UseGuards(JwtAuthGuard)
