@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from "react";
 import { EditAvatarIcon, ExclamationIcon } from "./Icons";
 import { editPicture,editNickName } from "../../Helpers";
-import { getQR,confermQr,getUserData } from "../../Helpers";
+import { getQR,confermQr, confermDisableQr,getUserData } from "../../Helpers";
 
 interface typeProps{
   settings?:React.Dispatch<React.SetStateAction<boolean>>
@@ -89,6 +89,8 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
                   switchBtn ? "justify-end bg-primary" : "justify-start bg-body"
                 } items-center rounded-full`}
                 onClick={() => {
+                  setCodeValue("");
+                  setError(false)
                   if(!switchBtn){
                     getQR((res:any)=>{
                       setBase(res.data);
@@ -140,7 +142,7 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
             </label>
             <input
               type="text"
-              className="placeholder-secondary-text rounded-md bg-body p-3 text-xs text-primaryText outline-none placeholder:text-xs placeholder:font-light"
+              className={`placeholder-secondary-text rounded-md bg-body p-3 text-xs text-primaryText outline-none placeholder:text-xs placeholder:font-light ${error?'error-input':''}`}
               placeholder="Enter code"
               value={codeValue}
               onChange={(e)=>{
@@ -194,21 +196,38 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
                 setErrorMessage("Minimum 6 digit")
                 setError(true);
               }
-
+              console.log(error);
+              
               if(!error)
               {
                 if(!switchBtn){
                   confermQr((res:any)=>{
-                    if(res.data === "T"){
+                    if(res.data === "enabled"){
                       setSwitchBtn(true)
                       setDisplay(false)
+                    }
+                    else{
+                      error = true;
+                      setErrorMessage("Code not valid")
+                      setError(true);
                     }
                   },codeValue)
                 }
                 else{
-                  setSwitchBtn(false)
-                  setDisplay(false)
-                  setCodeValue("")
+
+                  confermDisableQr((res:any)=>{
+                    console.log("res: ",res);
+                    
+                    if(res.data === "disabled"){
+                      setSwitchBtn(false)
+                      setDisplay(false)
+                    }
+                    else{
+                      error = true;
+                      setErrorMessage("Code not valid")
+                      setError(true);
+                    }
+                  },codeValue)
                 }
               }
             }}>

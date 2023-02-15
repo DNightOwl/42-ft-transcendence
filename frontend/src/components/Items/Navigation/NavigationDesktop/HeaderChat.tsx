@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {ControllerIcon, ArrowDownIcon,ArrowUpIcon,SettingsNavIcon,LogoutIcon} from '../../Icons';
 import UserPicture from '../../../../assets/user.jpg';
 import CardState from '../../CardState'
-import { getUserData } from '../../../../Helpers';
+import { getUserData,logout } from '../../../../Helpers';
 
 
 interface typeProps{
@@ -53,7 +53,9 @@ export default function HeaderChat({chatState,settings,setMembers,setAdd}:typePr
                                 <SettingsNavIcon edit='w-5 h-5 fill-primaryText'/>
                                 Settings
                             </button>
-                            <button className='flex gap-2  hover:bg-backgroundHover items-center justify-center p-2'>
+                            <button className='flex gap-2  hover:bg-backgroundHover items-center justify-center p-2' onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
+                                logout();
+                            }}>
                                 <LogoutIcon edit='w-5 h-5 fill-primaryText'/>
                                 Logout
                             </button>

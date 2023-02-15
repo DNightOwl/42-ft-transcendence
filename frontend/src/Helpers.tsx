@@ -160,6 +160,15 @@ export function confermQr(getRes:any,code:string){
   })
 }
 
+export function confermDisableQr(getRes:any,code:string){
+
+  axios.post("http://localhost:3000/auth/disabletfa",{code:code},{withCredentials: true}).then((res:any)=>{
+  getRes(res)
+  }).catch((error)=>{
+    getRes(error);
+  })
+}
+
 export function CreateChannel(data:any){
 
   axios.post("http://localhost:3000/rooms/createroom",{data},{withCredentials: true})
@@ -178,4 +187,18 @@ export function getFriendChannel(getRes:any,nameChannel:string){
 export function addFriendToChannel(data:any){
 
   axios.post("http://localhost:3000/rooms/addtoroom",{data},{withCredentials: true})
+}
+
+export function getMemberChannel(getRes:any,nameChannel:string){
+
+  axios.get(`http://localhost:3000/rooms/usersinroom/${nameChannel}`, {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+          getRes(res.data) 
+      })
+}
+
+export function logout(){
+  axios.get("http://localhost:3000/auth/logout",{withCredentials: true})
 }

@@ -120,7 +120,7 @@ export default function Navigation({
           <Modal edit="h-auto modal-members pr-0">
               <ModalHeader edit="pr-4" setMembers={setMembers}>Members</ModalHeader>
                 <ModalBody>
-                  <Members/>
+                  <Members channelData = {chatState}/>
                 </ModalBody>
             </Modal>
             ):null
