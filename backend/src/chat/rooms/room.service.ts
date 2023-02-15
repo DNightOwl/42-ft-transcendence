@@ -5,7 +5,7 @@ import { comparepassword, hashPassword} from "./utils/bcrypt";
 import { chanel, typeObject, userchanel } from "./utils/typeObject";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from '@nestjs/config';
-import { usersObject, RoomMembers  } from '../../users/utils/usersObject';
+import { usersObject} from '../../users/utils/usersObject';
 import * as moment from 'moment';
 
 
