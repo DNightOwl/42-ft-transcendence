@@ -8,37 +8,55 @@ interface typeProps{
 
 export default function Role({channelData}:typeProps){
     const [data,setData] =  useState([]);
+    const [roles,setRoles] = useState<any>([]);
+    const [members,setMembers] = useState<any>([]);
     useEffect(()=>{
+
+        let roles:any = [];
+        let members:any= [];
         getMemberChannel((res:any)=>{
-            setData(res);
+
+            res.forEach((e:any)=>{
+                if(e.role !== "members")
+                    roles.push(e);
+                else
+                    members.push(e);
+            })
+
+            setRoles(roles);
+            setMembers(members);
             
         },channelData.name)
     },[])
 
-    console.log(data);
+    console.log(members);
     
     return(
         <div className='flex flex-col gap-6 content-rol'>
-            <div className='flex flex-col gap-5 pb-6 role'>
-                <CardMember role="owner"/>
-                <CardMember role="admin"/>
-            </div>
-            <div className='flex flex-col gap-5'>
-            <CardMember />
-            <CardMember />
-            <CardMember />
-            <CardMember />
-            <CardMember />
-            <CardMember />
-            <CardMember />
-            <CardMember />
-            <CardMember />
-            <CardMember />
-            <CardMember />
-            <CardMember />
-            <CardMember />
-            <CardMember />
-            </div>
+            {
+                (roles.length)?(
+                    <div className='flex flex-col gap-5 pb-6 role'>
+                    {
+                        roles.map((e:any,index:number)=>{
+                               return <CardMember data={e} role={e.role} key={index}/>
+                        })
+                    }
+                </div>
+                ):null
+            }
+
+            {
+                (members.length)?(
+                    <div className='flex flex-col gap-5'>
+                    {
+                        members.map((e:any, index:number)=>{{
+                            return <CardMember data={e} key={index}/>
+                        }})
+                    }
+                    </div>
+                ):null
+            }
+
         </div>
     )
 }

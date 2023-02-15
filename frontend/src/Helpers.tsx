@@ -202,3 +202,29 @@ export function getMemberChannel(getRes:any,nameChannel:string){
 export function logout(){
   axios.get("http://localhost:3000/auth/logout",{withCredentials: true})
 }
+
+export function validationQr(getRes:any,code:string){
+
+  axios.post("http://localhost:3000/auth/tfaverification",{code:code},{withCredentials: true}).then((res:any)=>{
+  getRes(res)
+  }).catch((error)=>{
+    getRes(error);
+  });
+}
+
+
+export async function refreshToken(){
+try
+{
+  await axios.get("http://localhost:3000/auth/refresh", {
+    withCredentials: true,
+    headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+  }).then().catch(()=>{
+    window.location.href="http://localhost:3001/Login";
+  });
+}
+catch(error){
+  console.log(error);
+  
+}
+}
