@@ -69,11 +69,11 @@ volumes:
     driver: local
     driver_opts:
       type: none
-      device: ./backend_vloume
+      device: ./${PWD}/backend
       o: bind
   frontend:
     driver: local
     driver_opts:
       type: none
-      device: ./frontend_volume
+      device: ./${PWD}/frontend
       o: bind
