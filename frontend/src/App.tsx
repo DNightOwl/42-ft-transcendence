@@ -9,9 +9,6 @@ import Login from "./components/Login";
 import Tfa from "./components/Tfa";
 import { getConversations } from "./Helpers";
 
-/////////////////////////////////laafilal
-import { socket , SocketContext} from "./context/socket";
-/////////////////////////////////
 function App() {
   const [chatState,setChatState] = useState([]);
   const [conversation,setConversation] = useState<boolean>(false);
