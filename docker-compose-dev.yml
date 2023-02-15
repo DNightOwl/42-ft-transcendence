@@ -1,0 +1,14 @@
+version: '3.3'
+services:
+    dev-db:
+        image: postgres:13
+        ports:
+            - '5432:5432'
+        environment:
+            POSTGRES_USER: hamada
+            POSTGRES_PASSWORD: hamada123
+            POSTGRES_DB: pingpongdb
+        networks:
+            - cc-network
+networks:
+    cc-network:

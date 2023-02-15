@@ -6,6 +6,7 @@ import * as Joi from 'joi'
 import { RoomModule } from './chat/rooms/room.modules';
 import { AchievementsModule } from 'src/achievements/achievements.module';//TODO : to be added to the game module
 import { PrismaModule } from './prisma/prisma.module';
+import { gameModule } from './game/game.module';
 
 
 @Module({
@@ -14,6 +15,7 @@ import { PrismaModule } from './prisma/prisma.module';
     PrismaModule,
     UsersModule,
     RoomModule,
+    gameModule,
     AchievementsModule, //TODO : to be added to the game module
     ConfigModule.forRoot({
       isGlobal: true,
