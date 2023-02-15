@@ -33,10 +33,10 @@ export class AuthService {
 		await this.refreshCookie(refreshToken, 'token', res);
 
 		//check if 2fa is  enable === true
-		if (userData.two_fa_enabled === true)
+		if (userData.two_fa_enabled === true && userData.rToken === null)
 		{
 			//return for the user to verify the code 2fa
-			return res.send({message : '2FA is activated verify code'}) ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
+			return res.redirect("http://localhost:3001/Tfa") ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
 		}
 
 		return res.redirect("http://localhost:3001/home") ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
@@ -56,7 +56,8 @@ export class AuthService {
 		})
 		res.clearCookie('token');
 		res.clearCookie('accessToken');
-		return res.send({msg : "done"}) // TODO :  think of right payload to send
+		res.redirect("http://localhost:3001/login");
+		return res; // TODO :  think of right payload to send
 	}
 
 	
@@ -151,4 +152,3 @@ export class AuthService {
 	}
 
 }
-	

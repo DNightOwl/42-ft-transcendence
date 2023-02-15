@@ -7,6 +7,7 @@ interface Props {
     settings?:React.Dispatch<React.SetStateAction<boolean>>
     create?:React.Dispatch<React.SetStateAction<boolean>>
     setMembers?:React.Dispatch<React.SetStateAction<boolean>>
+    setAdd?:React.Dispatch<React.SetStateAction<boolean>>
   };
 
   export function Modal({children,edit}:Props){
@@ -19,7 +20,7 @@ interface Props {
     )
 }
 
-export function ModalHeader({children,settings,create,edit,setMembers}:Props){
+export function ModalHeader({children,settings,create,edit,setMembers,setAdd}:Props){
     return(
         <div className={`flex items-center w-full justify-between border-secondaryText pb-5 ${edit}`} style={{"borderBottom":"1px solid #81879C"}}>
             <div className="text-primaryText text-xl font-light">{children}</div>            
@@ -37,6 +38,12 @@ export function ModalHeader({children,settings,create,edit,setMembers}:Props){
                 if(setMembers)
                 {
                     setMembers(false);
+                    document.body.style.overflow="auto";
+
+                }
+                if(setAdd)
+                {
+                    setAdd(false);
                     document.body.style.overflow="auto";
 
                 }

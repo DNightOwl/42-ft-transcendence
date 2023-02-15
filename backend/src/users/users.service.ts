@@ -1,7 +1,7 @@
 import { Injectable, ForbiddenException, UploadedFile } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime";
-import { usersObject } from './utils/usersObject';
+import { usersObject, profileObject } from './utils/usersObject';
 import { number } from 'joi';
 
 
@@ -61,13 +61,20 @@ export class UsersService {
                 nickname: true,
                 email: true,
                 pictureLink: true,
-                status: true
+                status: true,
+                two_fa_enabled: true
 
             }
         });
         if (!id1.login)
             throw new ForbiddenException('Credentials incorrect');
-        return id1;
+            const NumberofFreinds = await this.prisma.freinds.findMany({
+                where: {
+                    userLogin: id1.login,
+                }
+            })
+        let pers : profileObject = {id: id1.id, nickname: id1.nickname, status: id1.status, pictureLink: id1.pictureLink, freind: "", blocked: "", NumberofFreinds:  NumberofFreinds.length, tofactor: id1.two_fa_enabled}
+        return pers;
     }
 
     async   updateuserinfo(login : string, nickname: string) {

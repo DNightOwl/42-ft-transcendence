@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { Await } from 'react-router-dom';
 
 export function checkToken(){
     axios.get("http://localhost:3000/profile", {
@@ -15,6 +16,10 @@ export function checkToken(){
               });
             }
         });
+}
+
+export function checkTfa(){
+  
 }
 
 export function checkTokenLogin(){
@@ -120,11 +125,59 @@ export function getConversations(getRes:any){
       })
 }
 
+
 export function getAllUsersDm(getRes:any){
   axios.get("http://localhost:3000/rooms/DMWithAllUsers", {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res:any)=>{
+        
+        getRes(res);
+      })
+}
+
+export function getChannelConversations(getRes:any){
+  axios.get("http://localhost:3000/rooms/RoomMessage", {
       withCredentials: true,
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
       }).then((res)=>{
         getRes(res);
       })
+}
+
+export function getQR(getRes:any){
+  axios.post("http://localhost:3000/auth/generateqr",{},{withCredentials: true}).then((res:any)=>{
+    getRes(res)
+  })
+}
+
+export function confermQr(getRes:any,code:string){
+
+  axios.post("http://localhost:3000/auth/enabletfa",{code:code},{withCredentials: true}).then((res:any)=>{
+  getRes(res)
+  }).catch((error)=>{
+    getRes(error);
+  })
+}
+
+export function CreateChannel(data:any){
+
+  axios.post("http://localhost:3000/rooms/createroom",{data},{withCredentials: true})
+}
+
+export function getFriendChannel(getRes:any,nameChannel:string){
+
+  axios.get(`http://localhost:3000/rooms/FreindNotjoin/${nameChannel}`, {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+          getRes(res.data) 
+      })
+}
+
+export function addFriendToChannel(data:any){
+
+  console.log(data);
+  
+  axios.post("http://localhost:3000/rooms/addtoroom",{data},{withCredentials: true})
 }

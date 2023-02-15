@@ -39,25 +39,30 @@ import {
     console.log(this.id);
       if (Body.type.toString() == 'DM')
       {
+        const user_freind = await this.prisma.user.findUnique({
+          where: {
+              nickname: Body.name
+          }
+      });
         for (let index = 0; index < this.OnlineUser.length; index++)
         {
-          if (this.OnlineUser[index].user.login == Body.name)
+          if (this.OnlineUser[index].user.login == user_freind.login)
           {
             this.OnlineUser[index].join(roomName);
           }
         }
         const room = await this.prisma.room.findUnique({
           where: {
-            name: (Body.name + user1.login)
+            name: (user_freind.login + user1.login)
           }
         })
         if (room)
         {
           const msg = await this.prisma.messages.create({
             data: {
-                roomName: (Body.name + user1.login),
+                roomName: (user_freind.login + user1.login),
                 data: Body.data,
-                userLogin: Body.name
+                userLogin: user_freind.login
             }
           })
           this.server.to(roomName).emit("msgFromServer",Body.data);
@@ -66,16 +71,16 @@ import {
         {
           const room_freind = await this.prisma.room.findUnique({
             where: {
-              name: (user1.login + Body.name)
+              name: (user1.login + user_freind.login)
             }
           })
           if (room_freind)
           {
             const msg = await this.prisma.messages.create({
               data: {
-                  roomName: (user1.login + Body.name),
+                  roomName: (user1.login + user_freind.login),
                   data: Body.data,
-                  userLogin: Body.name
+                  userLogin: user_freind.login
                 }
             })
             this.server.to(roomName).emit("msgFromServer",Body.data);
@@ -132,13 +137,13 @@ import {
    
    async handleDisconnect(@ConnectedSocket() client: any){
     for (let index = 0; index < this.OnlineUser.length; index++)
-    {
-      if (this.OnlineUser[index].id == client.id)
       {
-        this.OnlineUser.splice(index, 1);
-        break;
+        if (this.OnlineUser[index].id == client.id)
+        {
+          this.OnlineUser.splice(index, 1);
+          break;
+        }
       }
-    }
     const cookies = cookie.parse(client.handshake.headers.cookie);
     if (!cookies['accessToken'])
     {
@@ -154,8 +159,10 @@ import {
     try {
       const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
       const test = this.OnlineUser.find((user) => user==user);
+      console.log(test);
       if (!test)
       {
+        console.log('=======>');
          await this.prisma.user.update({
          where: {
            login: user.login
@@ -193,7 +200,6 @@ import {
       client.user = user;
       if (user.status == "of")
       {
-        console.log(user.status);
         const user1 = await this.prisma.user.update({
           where: {
             login: user.login

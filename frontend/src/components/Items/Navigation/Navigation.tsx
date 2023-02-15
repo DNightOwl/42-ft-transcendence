@@ -4,6 +4,7 @@ import NavigationPhone from "./NavigationPhone/NavigationPhone";
 import { useLocation } from "react-router-dom";
 import { Modal, ModalHeader, ModalBody } from "../Modal";
 import SettingsBody from "../SettingsBody";
+import AddMember from "../AddMember";
 import NotFound from "../../NotFound";
 import CreateChannelBody from '../CreateChannelBody'
 import Members from "../Members";
@@ -21,6 +22,8 @@ interface typeprops {
   setCreate?: React.Dispatch<React.SetStateAction<boolean>>;
   members?: boolean;
   setMembers?: React.Dispatch<React.SetStateAction<boolean>>;
+  add?: boolean;
+  setAdd?: React.Dispatch<React.SetStateAction<boolean>>;
   setClick: React.Dispatch<React.SetStateAction<boolean>>
   click: boolean
 }
@@ -37,7 +40,9 @@ export default function Navigation({
   members,
   setMembers,
   click,
-  setClick
+  setClick,
+  add,
+  setAdd
 }: typeprops) {
   const [messages, setMessages] = useState(false);
   const [display,setDisplay] = useState(false);
@@ -49,7 +54,7 @@ export default function Navigation({
   const[dataChat,setDataChat] = useState([]);
   
   useEffect(() => {
-    if(location.pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && location.pathname !== "/")
+    if(location.pathname !== "/Tfa" && location.pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && location.pathname !== "/")
       setDisplay(true);
     if (location.pathname.toLocaleLowerCase() === "/Messages".toLocaleLowerCase()) {
       setMessages(true);
@@ -67,7 +72,7 @@ export default function Navigation({
     })
   }, [location.pathname, setConversation, setChatState]);
 
-  if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase())
+  if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Tfa".toLocaleLowerCase())
   {
     document.title = "Pong - Page not found"
     return <NotFound />
@@ -84,6 +89,7 @@ export default function Navigation({
         setCreate={setCreate}
         click={click}
         setClick={setClick}
+        
       />
       <NavigationPhone
         conversation={conversation}
@@ -104,7 +110,7 @@ export default function Navigation({
           <Modal edit="modal channel">
           <ModalHeader create={setCreate}>Create Channel</ModalHeader>
           <ModalBody>
-            <CreateChannelBody/>
+            <CreateChannelBody setCreate={setCreate}/>
           </ModalBody>
         </Modal>
         ):null
@@ -115,6 +121,17 @@ export default function Navigation({
               <ModalHeader edit="pr-4" setMembers={setMembers}>Members</ModalHeader>
                 <ModalBody>
                   <Members/>
+                </ModalBody>
+            </Modal>
+            ):null
+              });
+      
+      {
+        (add)?(
+          <Modal edit="h-auto modal-members pr-0">
+              <ModalHeader edit="pr-4" setAdd={setAdd}>Add member</ModalHeader>
+                <ModalBody>
+                  <AddMember channelData = {chatState}/>
                 </ModalBody>
             </Modal>
             ):null

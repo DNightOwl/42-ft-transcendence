@@ -7,6 +7,7 @@ import {SocketContext} from '../context/socket';
 export default function Home() {
   checkToken();
   const socket  = React.useContext(SocketContext);
+  
   const scroll = useRef<HTMLDivElement>(null);
   useEffect(()=>{
     document.title = "Pong - Home";

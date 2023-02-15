@@ -26,10 +26,11 @@ export class RoomController
     @Post('createroom')
     async CreateRoom(@Req() req: dbUser, @Body() room) {
         const user = req.user
-        if (room.type === "public" || room.type === "private")
-            await this.roomservice.CreateRoom(user.login, room.name, room.type);
+        console.log(room);
+        if (room.data.type === "public" || room.data.type === "private")
+            await this.roomservice.CreateRoom(user.login, room.data.name, room.data.type);
         else
-            await this.roomservice.CreateRoomprotected(user.login, room.name, room.type, room.password);
+            await this.roomservice.CreateRoomprotected(user.login, room.data.name, room.data.type, room.data.password);
     }
 
     
@@ -50,16 +51,27 @@ export class RoomController
     async addtoroom(@Req() req: dbUser, @Body() room)
     {
         const user = req.user;
-        if (room.type == "public")
+        console.log(room);
+        if (room.data.type == "public")
             await this.roomservice.addtoroom(user, room); 
         else
             await this.roomservice.addtoroomNopublic(user, room);
     }
-    
-    @Get('/usersinroom/:name')
-    async   getallUserinRoom(@Param('name') name: string)
+
+    @UseGuards(JwtAuthGuard)
+    @Get('/FreindNotjoin/:name')
+    async   getfreindNotjoinRoom(@Req() req: dbUser, @Param('name') name: string)
     {
-        return await this.roomservice.getallUsersinRoom(name);
+        const user = req.user;
+        return await this.roomservice.getfreindNotjoinRoom(user, name);
+    }
+    
+    @UseGuards(JwtAuthGuard)
+    @Get('/usersinroom/:name')
+    async   getallUserinRoom(@Req() req: dbUser, @Param('name') name: string)
+    {
+        const user = req.user;
+        return await this.roomservice.getallUsersinRoom(user, name);
     }
 
      @UseGuards(JwtAuthGuard)
@@ -71,19 +83,21 @@ export class RoomController
         
      }
     
+     @UseGuards(JwtAuthGuard)
     @Get('allrooms')
-    async getallRooms()
-    {
-        return await this.roomservice.getallRooms();
-    }
-
-    @UseGuards(JwtAuthGuard)
-    @Get()
-    async   getRoomsForUser(@Req() req: dbUser)
+    async getallRooms(@Req() req: dbUser)
     {
         const user = req.user;
-        return await this.roomservice.getRoomsForUser(user);
+        return await this.roomservice.getAllRooms(user);
     }
+
+    // @UseGuards(JwtAuthGuard)
+    // @Get()
+    // async   getRoomsForUser(@Req() req: dbUser)
+    // {
+    //     const user = req.user;
+    //     return await this.roomservice.getRoomsForUser(user);
+    // }
 
     @UseGuards(JwtAuthGuard)
     @Post('/setadmins')

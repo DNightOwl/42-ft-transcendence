@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PlusIcon, SearchIcon } from "../Items/Icons";
 import CardFriendMessage from "./CardFriendMessage";
-import { dataChannel } from "../../Data";
-import { getConversations, getAllUsersDm } from "../../Helpers";
+import { getConversations, getAllUsersDm, getChannelConversations } from "../../Helpers";
 
 interface typeprops {
   setChatState: React.Dispatch<React.SetStateAction<any>>;
@@ -22,7 +21,8 @@ export default function MessagesList({
 }: typeprops) {
 
   const[dataChat,setDataChat] = useState([]);
-  const[dm,setDm] = useState([]);;
+  const[dm,setDm] = useState([]);
+  const[dataChannel,setDataChannel] = useState<any>([]);
 
   useEffect(()=>{
     getConversations((res:any)=>{
@@ -32,6 +32,10 @@ export default function MessagesList({
     getAllUsersDm((res:any)=>{
       setDm(res.data);
     })
+
+    getChannelConversations((res:any)=>{
+      setDataChannel(res.data)
+    });
 
   },[]);
   
@@ -85,7 +89,7 @@ export default function MessagesList({
               })
             : <div className="h-full flex justify-center items-center text-primaryText text-md lg:hidden">No messages.</div>
           : dataChannel
-          ? dataChannel.map((e, index) => {
+          ? dataChannel.map((e:any, index:any) => {
               return (
                 <CardFriendMessage
                   data={dataChannel[index]}
