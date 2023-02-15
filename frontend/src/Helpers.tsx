@@ -161,7 +161,23 @@ export function confermQr(getRes:any,code:string){
 }
 
 export function CreateChannel(data:any){
+
+  axios.post("http://localhost:3000/rooms/createroom",{data},{withCredentials: true})
+}
+
+export function getFriendChannel(getRes:any,nameChannel:string){
+
+  axios.get(`http://localhost:3000/rooms/FreindNotjoin/${nameChannel}`, {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+          getRes(res.data) 
+      })
+}
+
+export function addFriendToChannel(data:any){
+
   console.log(data);
   
-  axios.post("http://localhost:3000/rooms/createroom",{data},{withCredentials: true})
+  axios.post("http://localhost:3000/rooms/addtoroom",{data},{withCredentials: true})
 }

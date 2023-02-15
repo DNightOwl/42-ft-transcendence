@@ -9,9 +9,10 @@ interface typeProps{
     chatState:any
     settings?:React.Dispatch<React.SetStateAction<boolean>>
     setMembers?: React.Dispatch<React.SetStateAction<boolean>>;
+    setAdd?: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function HeaderChat({chatState,settings,setMembers}:typeProps) {
+export default function HeaderChat({chatState,settings,setMembers,setAdd}:typeProps) {
     const [dropDown,setDropDown] = useState<boolean>(false)
     const [mouse,setMouse] = useState<boolean>(false)
     const [data,setData] = useState<any>({});
@@ -22,7 +23,7 @@ export default function HeaderChat({chatState,settings,setMembers}:typeProps) {
 
     return (
     <section className='hidden lg:flex justify-between items-start pt-7 gap-5 pb-7'>
-        <CardState chatState={chatState} setMembers={setMembers}/>
+        <CardState chatState={chatState} setMembers={setMembers} setAdd={setAdd}/>
         <div className='flex items-center gap-5'>
                 <button className='bg-primary text-primaryText text-sm flex items-center justify-center gap-2.5 w-36 rounded-md p-3'>
                     <ControllerIcon edit="w-7"/>
