@@ -24,7 +24,7 @@ export default function CardFriendMessage(props: Props) {
       setDataChat(res.data);
     });
 
-    getConversations((res:any)=>{
+    getChannelConversations((res:any)=>{
       setDataChannel(res.data)
     });
 
