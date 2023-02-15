@@ -33,7 +33,7 @@ export class AuthService {
 		await this.refreshCookie(refreshToken, 'token', res);
 
 		//check if 2fa is  enable === true
-		if (userData.two_fa_enabled === true)
+		if (userData.two_fa_enabled === true && userData.rToken === null)
 		{
 			//return for the user to verify the code 2fa
 			return res.redirect("http://localhost:3001/Tfa") ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
@@ -151,4 +151,3 @@ export class AuthService {
 	}
 
 }
-	

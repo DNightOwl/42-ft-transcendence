@@ -7,6 +7,7 @@ import { dbUser, RequestWithAuthDto } from './dto/types';
 import { IntraAuthGuard } from './intra/auth.guard';
 import { JwtAuthGuard } from './jwt/jwt.guard';
 import { RefreshGuard } from './jwt/refresh.guard';
+import { TfaGuard } from './2FA/tfa.guard';
 
 
 @Controller('auth')
@@ -61,7 +62,7 @@ export class AuthController {
 		const isValid = await this.tfa.verifyTfaCode(code, req.user) ;
     if(isValid === true)
       this.tfa.tfaActivation(true,req.user);
-    return isValid; //TODO :  response format and data
+    return (isValid ? "enabled": "none");
 	}
 	
   @UseGuards(JwtAuthGuard)
@@ -70,10 +71,10 @@ export class AuthController {
     const isValid =  await this.tfa.verifyTfaCode(code, req.user) ;
     if(isValid === true)
       this.tfa.tfaActivation(false,req.user);
-    return isValid; //TODO :  response format and data
+    return (isValid ? "disabled": "none");
   }
   
-  @UseGuards(JwtAuthGuard)
+  @UseGuards(TfaGuard)
   @Post('tfaverification')
 	async signinTfaVerification(@Body('code') code: string, @Req() req : dbUser, @Res({ passthrough: true }) res : Response) {
     const isValid =  await this.tfa.verifyTfaCode(code, req.user) ;
@@ -82,9 +83,9 @@ export class AuthController {
       const refreshToken = await this.authService.generateTokens(req.user, "refresh");
       await this.authService.updateRefreshToken( req.user.login,refreshToken);
       await this.authService.refreshCookie(refreshToken, 'token', res);
-      return isValid;
+      return "valid";
     }
-    return isValid;
+    return "invalid";
   }
 
 
