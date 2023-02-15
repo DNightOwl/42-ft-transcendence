@@ -196,7 +196,6 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
                 setErrorMessage("Minimum 6 digit")
                 setError(true);
               }
-              console.log(error);
               
               if(!error)
               {
@@ -216,7 +215,6 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
                 else{
 
                   confermDisableQr((res:any)=>{
-                    console.log("res: ",res);
                     
                     if(res.data === "disabled"){
                       setSwitchBtn(false)

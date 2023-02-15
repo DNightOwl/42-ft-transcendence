@@ -21,16 +21,22 @@ export default function MessagesList({
 }: typeprops) {
 
   const[dataChat,setDataChat] = useState([]);
-  const[dm,setDm] = useState([]);
+  const[allConversation,setAllCoversation] = useState([]);
   const[dataChannel,setDataChannel] = useState<any>([]);
+  const[value,setValue] = useState<any>([]);
+  const[display,setDisplay] = useState(false);
+  const [reset,setReset] = useState<any>([]);
+  const [empty,setEmpty] = useState(false);
 
   useEffect(()=>{
     getConversations((res:any)=>{
+      
       setDataChat(res.data);
+      setReset(res.data)
     })
 
     getAllUsersDm((res:any)=>{
-      setDm(res.data);
+      setAllCoversation(res.data);
     })
 
     getChannelConversations((res:any)=>{
@@ -38,8 +44,6 @@ export default function MessagesList({
     });
 
   },[]);
-  
-
 
   return (
     <div className="flex h-full flex-col  gap-6 pb-20 lg:pb-0">
@@ -50,6 +54,33 @@ export default function MessagesList({
             type="text"
             placeholder="Search for friend"
             className="placeholder-secondary-text flex-1 bg-transparent py-2.5 px-2 text-xs font-light text-primaryText placeholder:text-xs placeholder:font-light focus:outline-none"
+            value={value}
+            onChange={(e)=>{
+              if(!channel){
+                let value = e.currentTarget.value;
+                let data:any = [];
+                setValue(e.currentTarget.value)
+                if(value.length)
+                {
+                  setEmpty(false);
+                    data = allConversation.filter((e:any)=>{
+                        if(e.username.search(value) != -1){
+                            return e;        
+                        }
+                    })
+                    setDisplay(true)
+                    setDataChat(data);
+                }
+                else
+                {
+                    data=[];
+                    setDisplay(false);
+                    setDataChat(reset)
+                    setEmpty(true);
+                    
+                }
+              }
+            }}
           />
         </div>
       ) : (
@@ -84,6 +115,8 @@ export default function MessagesList({
                     setChatState={setChatState}
                     conversation={conversation}
                     setConversation={setConversation}
+                    dataChat={dataChat}
+                    empty={empty}
                   />
                 );
               })

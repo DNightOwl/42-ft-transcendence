@@ -37,7 +37,7 @@ export default function CardState(props: typeProps) {
           ( props.chatState != undefined && Object.keys(props.chatState).length)?(
             <div className="flex items-center gap-2">
              {
-              (!props.setMembers)?(
+              (!props.chatState?.members)?(
                 <img
                 src={props.chatState.picture}
                 alt="Friend"

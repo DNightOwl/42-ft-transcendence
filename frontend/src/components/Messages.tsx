@@ -74,6 +74,9 @@ export default function Messages({
       setData(res);
     })
   }, [conversation, chatState]);
+
+  console.log("chat: ",chatState);
+  
   
   return (
     <React.Fragment>

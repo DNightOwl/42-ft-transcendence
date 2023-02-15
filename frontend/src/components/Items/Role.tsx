@@ -28,8 +28,6 @@ export default function Role({channelData}:typeProps){
             
         },channelData.name)
     },[])
-
-    console.log(members);
     
     return(
         <div className='flex flex-col gap-6 content-rol'>
