@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
-import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend } from "../Helpers";
+import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend, getUserData } from "../Helpers";
 import { useLocation } from "react-router-dom";
 import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon,UnblockIcon } from "./Items/Icons";
 
@@ -21,6 +21,7 @@ export default function Profile({setModal,username}:typeProps) {
   const [fill,setFill]    = useState<any>({});
   const [name,setName] = useState("")
   const [unblock,setUnblock] = useState(false);
+  const [numberFriends,setNumberFriends]=useState(0);
 
   const location = useLocation();
   const dataUser = location.state;
@@ -41,8 +42,8 @@ export default function Profile({setModal,username}:typeProps) {
     
   },[dataUser,unblock]);
 
-  console.log("dataUser: ",dataUser);
-  console.log("fill: ",fill);
+  // console.log("dataUser: ",dataUser);
+  // console.log("fill: ",fill);
   
   
   
@@ -249,8 +250,11 @@ export default function Profile({setModal,username}:typeProps) {
           <span className="flex flex-col items-center">
             <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{
         (dataUser.data.friend === "none")?(
-
-          dataUser.data.NumberofFreinds
+          getUserData((res:any)=>{
+            setNumberFriends(res.NumberofFreinds);
+            
+          }),
+          numberFriends
           
         ):(dataUser?.data.username === fill.username)?(
           fill.NumberofFreinds

@@ -177,7 +177,5 @@ export function getFriendChannel(getRes:any,nameChannel:string){
 
 export function addFriendToChannel(data:any){
 
-  console.log(data);
-  
   axios.post("http://localhost:3000/rooms/addtoroom",{data},{withCredentials: true})
 }
