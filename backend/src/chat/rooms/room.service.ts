@@ -2,10 +2,10 @@ import { ForbiddenException, Injectable} from "@nestjs/common";
 import { use } from "passport";
 import { PrismaService } from "src/prisma/prisma.service";
 import { comparepassword, hashPassword} from "./utils/bcrypt";
-import { chanel, typeObject } from "./utils/typeObject";
+import { chanel, typeObject, userchanel } from "./utils/typeObject";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from '@nestjs/config';
-import { usersObject, profileObject } from '../../users/utils/usersObject';
+import { usersObject, RoomMembers  } from '../../users/utils/usersObject';
 import * as moment from 'moment';
 
 
@@ -141,14 +141,14 @@ export class RoomService
 
   async addtoroomNopublic(user: any, room: any)
   {
-    const user_freind = await this.prisma.user.findUnique({
+    const user_freind = await this.prisma.user.findFirst({
       where: {
-          nickname: room.login
+          nickname: room.data.login
        }
     });
     const rooms = await this.prisma.room.findFirst({
       where: {
-        name: room.name
+        name: room.data.name
       }
     })
     const id1 =  rooms.admins.find((login) =>login==user_freind.login)
@@ -156,7 +156,7 @@ export class RoomService
         throw new ForbiddenException('you are  Not admins');
     const rom = await this.prisma.room.findUnique({
       where: {
-          name: room.name
+          name: room.data.name
       }
     });
     const id_ban = rooms.blocked.find((login) => login==user_freind.login)
@@ -167,7 +167,7 @@ export class RoomService
           throw new ForbiddenException('user already members');
     const userUpdate = await this.prisma.room.update({
       where: {
-        name: room.name,
+        name: room.data.name,
       },
       data: {
         members: {
@@ -181,17 +181,18 @@ export class RoomService
   {
     const user_freind = await this.prisma.user.findUnique({
       where: {
-          nickname: room.login
+          nickname: room.data.login
        }
     });
+    console.log(user_freind.login);
     const rooms = await this.prisma.room.findFirst({
       where: {
-        name: room.name
+        name: room.data.name
       }
     })
     const rom = await this.prisma.room.findUnique({
       where: {
-          name: room.name
+          name: room.data.name
       }
     });
     const id_ban = rooms.blocked.find((login) => login==user_freind.login)
@@ -202,7 +203,7 @@ export class RoomService
         throw new ForbiddenException('user already members');
     const userUpdate = await this.prisma.room.update({
       where: {
-        name: room.name,
+        name: room.data.name,
       },
       data: {
         members: {
@@ -244,32 +245,49 @@ export class RoomService
   }
 
 
-  async getallUsersinRoom(user1: any, name: string)
+  async getallUsersinRoom(user: any, name: string)
   {
-        let obj: usersObject[] = [];
-        const users = await this.prisma.room.findFirst({
-          where: {
-            name: name,
-          },
-          select: {
-            members: true
-          }
-        })
-        for (let index = 0; index < users.members.length; index++)
-        {
-          const user = await this.prisma.user.findUnique({
-            where: {
-              login: users.members[index]
-            }
-          })
-          if (user1.login == user.login)
-              continue;
-          let freind : usersObject = {id: user.id, username: user.nickname, status: user.status, pictureLink: user.pictureLink, freind: "freind", blocked: "",  NumberofFreinds: 0}
-          obj.push(freind);
-          
+    const rooms = await this.prisma.room.findFirst({
+      where: {
+        name: name
+      },
+      select: {
+        members: true,
+        admins: true,
+        owner: true,
+        type: true
+      }
+  })
+  let obj: userchanel[] = [];
+  for (let index = 0; index < rooms.members.length; index++)
+  {
+    if (rooms.members[index] == user.login)
+        continue;
+    const id1 =  rooms.members.find((login) =>login==rooms.members[index])
+    if (id1)
+    {
+      const user1 = await this.prisma.user.findUnique({
+        where: {
+          login: rooms.members[index]
         }
-        return (obj);
-  } 
+      })
+      let role;
+      if (rooms.owner == rooms.members[index])
+        role = "owner";
+      else 
+      {
+        const admin = rooms.admins.find((login) =>login==rooms.members[index])
+        if (admin)
+          role = "admins";
+        else
+          role = "members";
+      }
+      let person : userchanel = {id : user1.id, username: user1.nickname, status: user1.status, pictureLink: user1.pictureLink, role: role,};
+        obj.push(person);
+    }
+  }
+  return obj;
+} 
 
   async getallRooms(){
     let allRooms = [];
