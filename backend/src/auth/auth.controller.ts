@@ -83,7 +83,7 @@ export class AuthController {
       const refreshToken = await this.authService.generateTokens(req.user, "refresh");
       await this.authService.updateRefreshToken( req.user.login,refreshToken);
       await this.authService.refreshCookie(refreshToken, 'token', res);
-      return "valid";
+      return res.redirect("http://localhost:3001/home");
     }
     return "invalid";
   }
