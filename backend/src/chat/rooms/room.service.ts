@@ -46,6 +46,7 @@ export class RoomService
       }
   }
     async CreateRoom(userlogin: string, name: string, type: string) {
+      console.log(name);
         const rooms = await this.prisma.room.findUnique({
           where: {
               name: name
@@ -610,7 +611,7 @@ export class RoomService
           else
             role = "members";
         }
-        let person : chanel = {id : rooms[index].id, name: rooms[index].name, members: rooms[index].members.length, latestMessage: "", role: role, conversation : []};
+        let person : chanel = {id : rooms[index].id, name: rooms[index].name, members: rooms[index].members.length, latestMessage: "", role: role, type: rooms[index].type, conversation : []};
         person.conversation = allmessage.message.map((x) =>    ({type :"", message : "", picture: "" }));
         const message_user = await this.prisma.messages.findFirst({
           where: 
