@@ -12,6 +12,7 @@ export default function CardFriend({role,data,channelData}:typeProps){
     
     const [check,setCheck] = useState(false);
     const [click,setClick] = useState(true);
+    
     return(
     <div className={`flex flex-1 items-center justify-between pr-4 gap-0.5`}>
         <div className='flex items-center gap-2'>

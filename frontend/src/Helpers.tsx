@@ -161,7 +161,6 @@ export function confermQr(getRes:any,code:string){
 }
 
 export function CreateChannel(data:any){
-  console.log(data);
-  
+
   axios.post("http://localhost:3000/rooms/createroom",{data},{withCredentials: true})
 }
