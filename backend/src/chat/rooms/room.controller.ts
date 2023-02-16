@@ -39,9 +39,9 @@ export class RoomController
     async  joinroom(@Req() req: dbUser, @Body() room)
     {
         const user = req.user
-        if (room.type === "public")
-           return await this.roomservice.joinroom(user, room.name);
-        else if (room.type == "protected")
+        if (room.data.type === "public")
+           return await this.roomservice.joinroom(user, room.data.name);
+        else if (room.data.type == "protected")
             return await this.roomservice.joinroomprotected(user, room);
     }
 
