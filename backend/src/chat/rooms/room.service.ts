@@ -902,9 +902,9 @@ export class RoomService
     {
       //person.conversation[i].message = allmessage.message[i].data;
       if (user.login == allmessage.message[i].userLogin)
-        person.conversation[i].type = "friend";
-      else
         person.conversation[i].type = "user";
+      else
+        person.conversation[i].type = "friend";
     }
     return (person);
   }
