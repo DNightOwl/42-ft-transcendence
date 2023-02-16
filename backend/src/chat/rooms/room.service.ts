@@ -88,15 +88,18 @@ export class RoomService
             }
         })
       }
-      async addroom(user: any, name: string) {
+      async joinroom(user: any, name: string) {
         const rooms = await this.prisma.room.findUnique({
             where: {
                 name: name
             }
         });
-        const id_ban = rooms.blocked.find((login) => login==user.login)
-        if (id_ban)
-          throw new ForbiddenException('you are  banned');
+        if (rooms.blocked)
+        {
+          const id_ban = rooms.blocked.find((login) => login==user.login)
+          if (id_ban)
+            throw new ForbiddenException('you are  banned');
+        }
        const id1 =  rooms.members.find((login) => login==user.login)
        if (id1)
             throw new ForbiddenException('already members');
@@ -110,9 +113,46 @@ export class RoomService
               },
             },
         })
+        const allmessage = await this.prisma.room.findUnique({
+          where: {
+              name: name
+          },
+              select: {
+                  message: true
+              }
+        })
+        const message_user = await this.prisma.messages.findFirst({
+          where: 
+          {
+              roomName: name
+          }
+      })
+        let person : chanel = {id : userUpdate.id, name: userUpdate.name, members: userUpdate.members.length, latestMessage: "", role: "members", type: userUpdate.type, conversation : []}
+        if (message_user)
+        {
+          person.latestMessage = allmessage.message[allmessage.message.length - 1].data;
+          person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data, picture: "" }));
+          for (let i = allmessage.message.length - 1; i >= 0 ;i--)
+          {
+            const user_chanel = await this.prisma.user.findUnique({
+              where: {
+                login: allmessage.message[i].userLogin
+              }
+            })
+            if (user.login == allmessage.message[i].userLogin)
+                person.conversation[i].type = "user";
+            else
+            {
+              person.conversation[i].type = "member";
+              person.conversation[i].picture = user_chanel.pictureLink
+            }
+
+          }
+        }
+        return person; 
     }
 
-    async addroomprotected(user: any, room: any) {
+    async joinroomprotected(user: any, room: any) {
       const rooms = await this.prisma.room.findUnique({
           where: {
               name: room.name
@@ -541,7 +581,7 @@ export class RoomService
               roomName: rooms[index].name
           }
         })
-        if (!message_user)
+        if (!message_user) 
           continue ;
         let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: "" , picture: user.pictureLink, conversation : []};
         if (message_user)
