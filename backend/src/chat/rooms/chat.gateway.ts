@@ -17,6 +17,7 @@ import {
    import { userInfo } from 'os';
    import * as moment from 'moment';
    import * as cookie from 'cookie';
+   import { chanel, typeObject, userchanel, Searchchanel, chanelprotected } from "./utils/typeObject";
 
    @WebSocketGateway({
      cors: {
@@ -65,7 +66,19 @@ import {
                 userLogin: user_freind.login
             }
           })
-          this.server.to(roomName).emit("msgFromServer",Body.data);
+          // this.server.to(roomName).emit("msgFromServer", this.roomservice.emit_message(user1, room));
+          // this.server.to(client).emit("msgFromServer", this.roomservice.emit_message(user_freind, room));
+          //this.server.to(roomName).emit("msgFromServer", Body.data);
+          this.server.to(roomName).emit("msgFromServer", await this.roomservice.emit_message(user1, room));
+          for (let index = 0; index < this.OnlineUser.length; index++)
+          {
+            if (this.OnlineUser[index].user.login == user1.login)
+            {
+              console.log ('hnaaaaaaaa');
+              client.emit("msgFromServer", await this.roomservice.emit_message(user_freind, room));
+              break;
+            }
+          }
         }
         else
         {
@@ -83,7 +96,17 @@ import {
                   userLogin: user_freind.login
                 }
             })
-            this.server.to(roomName).emit("msgFromServer",Body.data);
+            this.server.to(roomName).emit("msgFromServer", await this.roomservice.emit_message(user1, room_freind));
+            for (let index = 0; index < this.OnlineUser.length; index++)
+            {
+              if (this.OnlineUser[index].user.login == user1.login)
+              {
+                console.log ('hnaaaaaaaa');
+                client.emit("msgFromServer", await this.roomservice.emit_message(user_freind, room_freind));
+                break;
+              }
+            }
+            //this.server.to(roomName).emit("msgFromServer", Body.data);
           }
           else
             return ;
@@ -144,7 +167,7 @@ import {
           break;
         }
       }
-    const cookies = cookie.parse(client.handshake.headers.cookie);
+    const cookies :{ [key: string]: string } = cookie.parse(client.handshake.headers.cookie || "");
     if (!cookies['accessToken'])
     {
       client.emit('error', 'unauthorized');
@@ -179,7 +202,7 @@ import {
    
    async  handleConnection(@ConnectedSocket() client: any) {
 
-    const cookies = cookie.parse(client.handshake.headers.cookie);
+    const cookies :{ [key: string]: string } = cookie.parse(client.handshake.headers.cookie || "");
     if (!cookies['accessToken'])
     {
       client.emit('error', 'unauthorized');

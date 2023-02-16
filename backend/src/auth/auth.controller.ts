@@ -41,7 +41,7 @@ export class AuthController {
   @UseGuards(JwtAuthGuard)
   @Get('logout')
   @HttpCode(HttpStatus.OK)
-  logout( @Res() res : Response, @Req() req : dbUser ) {
+  logout( @Res({ passthrough: true }) res : Response, @Req() req : dbUser ) {
     const user = req.user;
     return this.authService.logout(res,user.login); //TODO :  response format and data
   }
@@ -83,7 +83,7 @@ export class AuthController {
       const refreshToken = await this.authService.generateTokens(req.user, "refresh");
       await this.authService.updateRefreshToken( req.user.login,refreshToken);
       await this.authService.refreshCookie(refreshToken, 'token', res);
-      return res.redirect("http://localhost:3001/home");
+      return "valid";
     }
     return "invalid";
   }
