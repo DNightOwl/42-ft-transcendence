@@ -75,7 +75,6 @@ import {
             if (this.OnlineUser[index].user.login == user1.login)
             {
               client.emit("msgFromServer", await this.roomservice.emit_message(user_freind, room));
-              break;
             }
           }
         }
