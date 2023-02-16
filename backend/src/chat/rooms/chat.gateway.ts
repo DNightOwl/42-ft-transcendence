@@ -74,9 +74,7 @@ import {
           {
             if (this.OnlineUser[index].user.login == user1.login)
             {
-              console.log ('hnaaaaaaaa');
               client.emit("msgFromServer", await this.roomservice.emit_message(user_freind, room));
-              break;
             }
           }
         }
@@ -101,9 +99,7 @@ import {
             {
               if (this.OnlineUser[index].user.login == user1.login)
               {
-                console.log ('hnaaaaaaaa');
                 client.emit("msgFromServer", await this.roomservice.emit_message(user_freind, room_freind));
-                break;
               }
             }
             //this.server.to(roomName).emit("msgFromServer", Body.data);
@@ -141,7 +137,6 @@ import {
             if (login && this.OnlineUser[i].user.login != user1.login)
               this.OnlineUser[i].join(roomName);
           }
-          this.server.to(roomName).emit("msgFromServer",Body.data);
           const msg = await this.prisma.messages.create({
             data: {
               roomName: Body.name,
@@ -149,6 +144,8 @@ import {
               userLogin: user1.login
             }
             })
+            this.server.to(roomName).emit("msgFromServer",await this.roomservice.emit_messagetoRoom(user1, rom));
+            client.emit("msgFromServer", await this.roomservice.emit_messagetoRoom(user1, rom));
         }
       }
     }
