@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import { PointsIcon } from "../Items/Icons";
 import { Link } from "react-router-dom";
-import { getConversations, getChannelConversations } from "../../Helpers";
+import { getConversations, getChannelConversations, joinPublicRoom } from "../../Helpers";
 interface Props {
   newMessage?: boolean;
   data: any;
@@ -60,9 +60,19 @@ export default function CardFriendMessage(props: Props) {
             } else {
               props.dataChannel.forEach((e:any, index:any) => {
                 if (e.id === props.data.id) {
-                  console.log("data: ",props.dataChannel);
-                  
-                  props.setChatState(props.dataChannel[index]);
+                  if(props.dataChannel[index].type === "public" && props.dataChannel[index].join === "NON")
+                  {
+                    let obj = {
+                      name: props.dataChannel[index].name,
+                      type: props.dataChannel[index].type
+                    }
+                    joinPublicRoom((res:any)=>{
+                      console.log(res);
+                      
+                    },obj)
+                  }
+                  else
+                    props.setChatState(props.dataChannel[index]);
                   return;
                 }
               });

@@ -240,7 +240,12 @@ catch(error){
 }
 }
 
-export function joinPublicRoom(data:string){
+export function joinPublicRoom(getRes:any,data:any){
 
-  axios.post("http://localhost:3000/rooms/joinroom",{data},{withCredentials: true})
+  console.log(data);
+  
+
+  axios.post("http://localhost:3000/rooms/joinroom",{data},{withCredentials: true}).then((res)=>{
+    getRes(res)
+  })
 }

@@ -42,8 +42,6 @@ export default function Messages({
   const scroll = useRef<HTMLDivElement>(null);
   const [data,setData] = useState<any>({});
   const [message,setMessage] = useState<any>("");
-
-  console.log(chatState);
   
 
   // axios.get("http://localhost:3000/profile", { 
