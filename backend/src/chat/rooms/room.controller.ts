@@ -126,7 +126,7 @@ export class RoomController
     @Get('allmessages')
     async   getMessage(@Body() room)
     {
-        return await this.roomservice.getMessage(room.name);
+        return await this.roomservice.getMessage(room.name); 
     }
 
     @UseGuards(JwtAuthGuard)

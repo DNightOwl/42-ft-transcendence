@@ -7,6 +7,7 @@ import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from '@nestjs/config';
 import { usersObject } from '../../users/utils/usersObject';
 import * as moment from 'moment';
+import { room, user } from "@prisma/client";
 
 
 
@@ -881,5 +882,30 @@ export class RoomService
                 name: room.name
             }
         })  
-  }      
+  }
+  
+  async emit_message(user: user, room: room)
+  {
+    console.log(user.nickname);
+    const allmessage = await this.prisma.room.findUnique({
+      where: {
+          name: room.name
+      },
+          select: {
+              message: true
+          }
+  })
+    let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: "" , picture: user.pictureLink, conversation : []};
+     person.latestMessage = allmessage.message[allmessage.message.length - 1].data;
+     person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
+    for (let i = allmessage.message.length - 1; i >= 0 ;i--)
+    {
+      //person.conversation[i].message = allmessage.message[i].data;
+      if (user.login == allmessage.message[i].userLogin)
+        person.conversation[i].type = "friend";
+      else
+        person.conversation[i].type = "user";
+    }
+    return (person);
+  }
 }
