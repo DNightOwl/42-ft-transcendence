@@ -155,7 +155,7 @@ export class RoomService
     async joinroomprotected(user: any, room: any) {
       const rooms = await this.prisma.room.findUnique({
           where: {
-              name: room.name
+              name: room.data.name
           }
       });
       const matched = comparepassword(room.password, rooms.hash);
@@ -169,7 +169,7 @@ export class RoomService
       throw new ForbiddenException('already members');
       const userUpdate = await this.prisma.room.update({
           where: {
-            name: room.name,
+            name: room.data.name,
           },
           data: {
             members: {
@@ -179,7 +179,7 @@ export class RoomService
       })
       const allmessage = await this.prisma.room.findUnique({
         where: {
-            name: room.name
+            name: room.data.name
         },
             select: {
                 message: true
@@ -188,7 +188,7 @@ export class RoomService
       const message_user = await this.prisma.messages.findFirst({
         where: 
         {
-            roomName: room.name
+            roomName: room.data.name
         }
     })
       let person : chanel = {id : userUpdate.id, name: userUpdate.name, members: userUpdate.members.length, latestMessage: "", role: "members", type: userUpdate.type, conversation : []}
