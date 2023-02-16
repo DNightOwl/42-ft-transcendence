@@ -58,7 +58,12 @@ export default function Messages({
           });
         }
     });
-  useEffect(()=>
+  
+  
+  
+  
+  
+    useEffect(()=>
   {
     if(!socket.connected)
       socket.connect()
@@ -68,6 +73,12 @@ export default function Messages({
     });
     return () => {socket.off("msgToClients")};
   },[])
+
+
+
+
+
+
   useEffect(() => {
     document.title = "Pong - Messages";
     let objDiv = document.querySelectorAll(".conversation");

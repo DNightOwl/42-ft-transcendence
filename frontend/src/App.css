@@ -197,6 +197,10 @@ main{
     font-size: .6rem;
 }
 
+.exlamation{
+    position: relative;
+    top: .1rem;
+}
 @media screen and (min-width: 768px) {
     .card-user{
         width: 30.8%;
