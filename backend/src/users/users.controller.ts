@@ -134,7 +134,7 @@ export class UsersController {
           throw new ForbiddenException('already freinds');
       this.usersService.addfreind(user.login, user_freind.login)
       await this.roomservice.CreateRoom(user.login, user_freind.login + user.login, "personnel");
-      await this.roomservice.addroom(freind, user_freind.login + user.login);
+      await this.roomservice.joinroom(freind, user_freind.login + user.login);
   }
 
   @UseGuards(JwtAuthGuard)
