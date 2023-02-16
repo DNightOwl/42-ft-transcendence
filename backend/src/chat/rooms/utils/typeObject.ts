@@ -42,3 +42,14 @@ export interface typeobject{
     type: string
     join: string
   }
+
+  export interface chanelprotected {
+    id: string,
+    name: string,
+    members: number,
+    latestMessage: string
+    role: string,
+    type: string,
+    conversation: objectChannel[]
+    status: string
+  }
