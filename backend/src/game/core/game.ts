@@ -145,6 +145,7 @@ export class Game {
                 winner: this.player1.score === 5 ? this.player1.name : this.player2.name,
                 loser: this.player1.score === 5 ? this.player2.name : this.player1.name,
             });
+            this.gameGateway.server.emit('live_games', this.gameService.getLiveGames(this.gameID));
             this.gameService.gameFinished(this.gameID);
         }
     }

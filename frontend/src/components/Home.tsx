@@ -32,6 +32,7 @@ export default function Home() {
   useEffect(() => {
     socket.emit('live_games', {});
     socket.on('live_games', (data: LiveGame[]) => {
+      console.log(data);
       setData(data);
     });
   }, []);
@@ -50,6 +51,7 @@ export default function Home() {
           {data.length && data.map((game, index) => {
             return (
               <Link
+                key={index}
                 to={`/watch/${game.gameId}`}
                 className=' bg-shape rounded-xl lg:flex-1'
               >

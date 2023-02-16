@@ -115,9 +115,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     @SubscribeMessage('live_games')
     async handleLiveGames(client: Socket, data: any) {
-        console.log("Live games requested");
-        let games = await this.gameService.getLiveGames();
-        console.table(games);
+        let games = this.gameService.getLiveGames();
         client.emit('live_games', games);
     }
 }

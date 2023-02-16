@@ -37,8 +37,6 @@ export class GameService {
         }
     }
 
-    /////////
-
     private matchPlayers(gameGateway: any) {
         if (this.WaitingPlayers.length >= 2) {
             let lastPlayer = this.WaitingPlayers.at(-1);
@@ -52,6 +50,7 @@ export class GameService {
                 lastPlayer.client.emit("matched", game.gameId);
                 potentialMatch.client.join(game.gameId);
                 lastPlayer.client.join(game.gameId);
+                gameGateway.server.emit("live_games", this.getLiveGames());
             }
         }
         console.table(this.WaitingPlayers);
@@ -76,7 +75,6 @@ export class GameService {
                 }
             })
         }
-        console.table(this.activeGames);
     }
 
     async getUserFromSocket(socket: Socket) {
@@ -98,8 +96,7 @@ export class GameService {
         this.WaitingPlayers = this.WaitingPlayers.filter((player) => player.id !== playerId);
     }
 
-    async getLiveGames() {
-        console.table(this.activeGames);
+    public getLiveGames(notToInclude?: string) {
         const processedGames = this.activeGames.map((game) => {
             return {
                 gameId: game.gameId,
@@ -110,7 +107,9 @@ export class GameService {
                 gameMode: game.getGameMode,
             }
         });
-        console.table(processedGames);
+        if (notToInclude) {
+            return processedGames.filter((game) => game.gameId !== notToInclude);
+        }
         return processedGames;
     }
 }
