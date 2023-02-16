@@ -58,7 +58,12 @@ export default function Messages({
           });
         }
     });
-  useEffect(()=>
+  
+  
+  
+  
+  
+    useEffect(()=>
   {
     if(!socket.connected)
       socket.connect()
@@ -68,6 +73,12 @@ export default function Messages({
     });
     return () => {socket.off("msgToClients")};
   },[])
+
+
+
+
+
+
   useEffect(() => {
     document.title = "Pong - Messages";
     let objDiv = document.querySelectorAll(".conversation");
@@ -156,7 +167,7 @@ export default function Messages({
           </div>
           {
             (chatState?.conversation)?(
-              <div className="send absolute bottom-3 flex w-full items-center rounded-md bg-shape pr-2">
+              <div  className="send absolute bottom-3 flex w-full items-center rounded-md bg-shape pr-2">
               <input
                 type="text"
                 placeholder="Type a message"
