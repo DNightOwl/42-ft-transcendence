@@ -239,3 +239,13 @@ try
 catch(error){
 }
 }
+
+export function joinRoom(getRes:any,data:any){
+
+  console.log(data);
+  
+
+  axios.post("http://localhost:3000/rooms/joinroom",{data},{withCredentials: true}).then((res)=>{
+    getRes(res)
+  })
+}

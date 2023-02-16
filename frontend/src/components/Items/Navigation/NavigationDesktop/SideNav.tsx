@@ -13,10 +13,12 @@ interface typeprops{
   chatState:any,
   setChatState:React.Dispatch<React.SetStateAction<any>>
   setCreate?:React.Dispatch<React.SetStateAction<boolean>>
+  setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
+  setDataProtected?:any
 
 }
 
-export default function SideNav({messages,setMessages,chatState,setChatState,setCreate}:typeprops) {
+export default function SideNav({messages,setMessages,chatState,setChatState,setCreate,setPassChannel,setDataProtected}:typeprops) {
   const [data,setData] = useState<any>({});
 
   useEffect(()=>{
@@ -70,7 +72,7 @@ export default function SideNav({messages,setMessages,chatState,setChatState,set
         </div>
       </React.Fragment>
       ):(
-        <MessagesContainer chatState={chatState} setChatState={setChatState} setCreate={setCreate}/>
+        <MessagesContainer chatState={chatState} setChatState={setChatState} setCreate={setCreate} setPassChannel={setPassChannel} setDataProtected={setDataProtected}/>
       ) 
     }
 

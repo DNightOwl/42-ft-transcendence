@@ -11,13 +11,16 @@ interface typeprops{
   settings?:React.Dispatch<React.SetStateAction<boolean>>
   setCreate?:React.Dispatch<React.SetStateAction<boolean>>
   setClick: React.Dispatch<React.SetStateAction<boolean>>
-  click: boolean
+  click: boolean,
+  setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
+  setDataProtected?:any
+
 }
 
-export default function NavigationDesktop({chatState ,setChatState, message, setMessages,settings,setCreate, setClick,click}:typeprops) {
+export default function NavigationDesktop({chatState ,setChatState, message, setMessages,settings,setCreate, setClick,click,setPassChannel,setDataProtected}:typeprops) {
   return (
     <React.Fragment>
-      <SideNav messages={message} setMessages={setMessages} chatState={chatState} setChatState={setChatState} setCreate={setCreate}/>
+      <SideNav messages={message} setMessages={setMessages} chatState={chatState} setChatState={setChatState} setCreate={setCreate} setPassChannel={setPassChannel} setDataProtected={setDataProtected}/>
       <HeaderNav messages={message} chatState={chatState} settings={settings} clickUser={click} setClickUser={setClick}/>
     </React.Fragment>
   )

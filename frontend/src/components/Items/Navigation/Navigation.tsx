@@ -9,6 +9,7 @@ import NotFound from "../../NotFound";
 import CreateChannelBody from '../CreateChannelBody'
 import Members from "../Members";
 import { getUserData,getConversations } from "../../../Helpers";
+import Password from "../Password";
 
 
 interface typeprops {
@@ -25,6 +26,8 @@ interface typeprops {
   add?: boolean;
   setAdd?: React.Dispatch<React.SetStateAction<boolean>>;
   setClick: React.Dispatch<React.SetStateAction<boolean>>
+  setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
+  passChannel?: boolean
   click: boolean
 }
 
@@ -42,11 +45,14 @@ export default function Navigation({
   click,
   setClick,
   add,
-  setAdd
+  setAdd,
+  setPassChannel,
+  passChannel
 }: typeprops) {
   const [messages, setMessages] = useState(false);
   const [display,setDisplay] = useState(false);
   const [data,setData] = useState<any>({});
+  const [dataProtected,setDataProtected] = useState([]);
   const location = useLocation();
 
   let pathname = location.pathname;
@@ -89,6 +95,8 @@ export default function Navigation({
         setCreate={setCreate}
         click={click}
         setClick={setClick}
+        setPassChannel={setPassChannel}
+        setDataProtected={setDataProtected}
         
       />
       <NavigationPhone
@@ -124,7 +132,7 @@ export default function Navigation({
                 </ModalBody>
             </Modal>
             ):null
-              });
+              }
       
       {
         (add)?(
@@ -136,6 +144,16 @@ export default function Navigation({
             </Modal>
             ):null
               }
+            {
+              (passChannel)?(
+                <Modal edit="h-auto modal-members pr-0">
+                <ModalHeader edit="pr-4" setPassChannel={setPassChannel}>Password channel</ModalHeader>
+                <ModalBody>
+                  <Password dataProtected={dataProtected}/>
+                </ModalBody>
+            </Modal>
+              ):null
+            }
     </React.Fragment>
     ):null
   );
