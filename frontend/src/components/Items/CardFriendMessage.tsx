@@ -31,11 +31,6 @@ export default function CardFriendMessage(props: Props) {
         to="/Messages"
         className={`btn-message btn-friend-message flex justify-between px-2 py-4 lg:hover:bg-backgroundHover`}
         onClick={(event) => {
-          if(props.type === "protected" && props.setPassChannel)
-          {
-            props.setPassChannel(true);
-
-          }
           if(!mouse)
           {
             let btnMessage = document.querySelectorAll(".btn-friend-message");
@@ -70,13 +65,15 @@ export default function CardFriendMessage(props: Props) {
               });
             } else {
               props.dataChannel.forEach((e:any, index:any) => {
-                if (e.id === props.data.id) {
+                if (e.name === props.data.name) {
+                  
                   if(props.dataChannel[index].type === "public" && props.dataChannel[index].join === "NON")
                   {
                     let obj = {
                       name: props.dataChannel[index].name,
                       type: props.dataChannel[index].type
                     }
+
                     joinRoom((res:any)=>{
                       props.setChatState(res.data);
                       
@@ -85,7 +82,8 @@ export default function CardFriendMessage(props: Props) {
                   else if(props.dataChannel[index].type === "protected" && props.dataChannel[index].join === "NON")
                   {
                     let obj = {name: props.dataChannel[index].name, type:props.dataChannel[index].type}
-
+                    if(props.setPassChannel)
+                      props.setPassChannel(true);
                     props.setDataProtected(obj)
                   }
                   else
@@ -130,6 +128,9 @@ export default function CardFriendMessage(props: Props) {
         <div className="relative">
           {
             (props.join !== "NON")?(
+              (props.type === "private")?(
+                <div className="bg-primary w-12 p-.6 text-primaryText rounded-full text-center text-xs private">Private</div>
+              ):
               <button className="flex h-4 w-4 items-center justify-center rounded-full bg-shape p-1 hover:bg-backgroundHover lg:hover:bg-body" onClick={()=>{
                 (dropDown)?setDropDwon(false):setDropDwon(true)
               }} onMouseMove={()=>{
@@ -139,8 +140,7 @@ export default function CardFriendMessage(props: Props) {
               }} onBlur={()=>{
                 setDropDwon(false)
               }}>
-                    
-                    <PointsIcon edit="w-2.5 h-2.5 fill-secondaryText" />
+                <PointsIcon edit="w-2.5 h-2.5 fill-secondaryText" />
               </button>
             ):(props.type === "protected")?(
               <LockIcon edit="w-4 h-4 fill-secondaryText" />

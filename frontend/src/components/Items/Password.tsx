@@ -76,7 +76,6 @@ export default function Password({dataProtected,setPassChannel,setChatState}:typ
                           {
                             dataProtected.password = value;
                             joinRoom((res:any)=>{
-                              console.log(res);
                               
                             },dataProtected)
                           }

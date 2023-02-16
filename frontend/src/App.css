@@ -193,6 +193,10 @@ main{
     border-left: none;
 }
 
+.private{
+    font-size: .6rem;
+}
+
 @media screen and (min-width: 768px) {
     .card-user{
         width: 30.8%;
