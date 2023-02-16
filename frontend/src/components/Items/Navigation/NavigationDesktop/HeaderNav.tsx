@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import {SearchIcon, ControllerIcon, ArrowDownIcon,ArrowUpIcon,SettingsNavIcon,LogoutIcon} from '../../Icons';
 import UserPicture from '../../../../assets/user.jpg';
 import {useState} from 'react'
-import { getUserData, getUsers } from '../../../../Helpers';
+import { getUserData, getUsers,logout } from '../../../../Helpers';
 import CardSearch from '../../CardSearch';
 
 interface typeProps{
@@ -94,24 +94,26 @@ export default function HeaderNav({messages,chatState,settings,setClickUser,clic
                 </button>
                 {
                     (dropDown)?(
-                            <div className='absolute top-12 rounded-md bg-body shadow right-0 w-36 flex flex-col py-5 gap-2'>
-                            <button className='flex gap-2   hover:bg-backgroundHover items-center justify-center p-2' onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
-                               if(settings)
-                               {
-                                   settings(true);
-                                   document.body.style.overflow="hidden";
-                                   setDropDown(false)
-                               }
-                            }}>
-                                <SettingsNavIcon edit='w-5 h-5 fill-primaryText'/>
-                                Settings
-                            </button>
-                            <button className='flex gap-2  hover:bg-backgroundHover items-center justify-center p-2'>
-                                <LogoutIcon edit='w-5 h-5 fill-primaryText'/>
-                                Logout
-                            </button>
-                        </div>
-                        ):null
+                        <div className='absolute top-12 rounded-md bg-body shadow right-0 w-36 flex flex-col py-5 gap-2'>
+                        <button className='flex gap-2   hover:bg-backgroundHover items-center justify-center p-2' onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
+                           if(settings)
+                           {
+                               settings(true);
+                               document.body.style.overflow="hidden";
+                               setDropDown(false)
+                           }
+                        }}>
+                            <SettingsNavIcon edit='w-5 h-5 fill-primaryText'/>
+                            Settings
+                        </button>
+                        <button className='flex gap-2  hover:bg-backgroundHover items-center justify-center p-2' onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
+                            logout();
+                        }}>
+                            <LogoutIcon edit='w-5 h-5 fill-primaryText'/>
+                            Logout
+                        </button>
+                    </div>
+                    ):null
                     }
                 </div>
             </div>

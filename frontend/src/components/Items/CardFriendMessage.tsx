@@ -9,35 +9,21 @@ interface Props {
   conversation?: boolean;
   setConversation?: React.Dispatch<React.SetStateAction<boolean>>;
   channel?: boolean;
+  dataChat?:any
+  dataChannel?:any
+  empty?:boolean
 }
 
 export default function CardFriendMessage(props: Props) {
+  
   const [dropDown,setDropDwon] = useState<boolean>(false)
   const [mouse,setMouse] = useState(false);
-
-  const[dataChat,setDataChat] = useState<any>([]);
-  const[dataChannel,setDataChannel] = useState<any>([]);
-
-  useEffect(()=>{
-    getConversations((res:any)=>{
-      
-      setDataChat(res.data);
-    });
-
-    getChannelConversations((res:any)=>{
-      setDataChannel(res.data)
-    });
-
-  },[]);
+  
   return (
     <React.Fragment>
       <Link
         to="/Messages"
-        className={`btn-message btn-friend-message flex justify-between px-2 py-4 lg:hover:bg-backgroundHover ${
-          !props.data.name && props.data.id === dataChat[0]?.id
-            ? "lg:bg-backgroundHover"
-            : null
-        }`}
+        className={`btn-message btn-friend-message flex justify-between px-2 py-4 lg:hover:bg-backgroundHover`}
         onClick={(event) => {
           if(!mouse)
           {
@@ -47,7 +33,7 @@ export default function CardFriendMessage(props: Props) {
             btnMessage.forEach((e) => {
               e.classList.remove("lg:bg-backgroundHover");
             });
-            event.currentTarget.classList.add("lg:bg-backgroundHover");
+            
   
             btnMessage.forEach((e, index) => {
               e.classList.forEach((element) => {
@@ -65,16 +51,16 @@ export default function CardFriendMessage(props: Props) {
             });
   
             if (!props.channel) {
-              dataChat.forEach((e:any, index:number) => {
+              props.dataChat.forEach((e:any, index:number) => {
                 if (e.id === props.data.id) {
-                  props.setChatState(dataChat[index]);
+                  props.setChatState(props.dataChat[index]);
                   return;
                 }
               });
             } else {
-              dataChannel.forEach((e:any, index:any) => {
+              props.dataChannel.forEach((e:any, index:any) => {
                 if (e.id === props.data.id) {
-                  props.setChatState(dataChannel[index]);
+                  props.setChatState(props.dataChannel[index]);
                   return;
                 }
               });

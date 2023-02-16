@@ -37,7 +37,7 @@ export default function CardState(props: typeProps) {
           ( props.chatState != undefined && Object.keys(props.chatState).length)?(
             <div className="flex items-center gap-2">
              {
-              (!props.setMembers)?(
+              (!props.chatState?.members)?(
                 <img
                 src={props.chatState.picture}
                 alt="Friend"
@@ -89,17 +89,12 @@ export default function CardState(props: typeProps) {
           }}>
             <PlusIcon edit="fill-secondaryText w-4 h-4" />
           </button>
-          {props.chatState.role === "owner" ||
-          props.chatState.role === "admin" ? (
-            <React.Fragment>
               <button className="flex h-10 w-10 items-center justify-center rounded-full bg-shape" onClick={()=>{
                 if(props.setMembers)props.setMembers(true);
                 document.body.style.overflow="hidden";
               }}>
                 <GroupIcon edit="fill-secondaryText w-5 h-5" />
               </button>
-            </React.Fragment>
-          ) : null}
           {props.chatState.role === "owner" ? (
             <div className="relative">
               <button className="flex h-10 w-10 items-center justify-center rounded-full bg-shape" onClick={()=>{
