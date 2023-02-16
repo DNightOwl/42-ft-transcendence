@@ -5,9 +5,12 @@ import { joinRoom } from "../../Helpers";
 
 interface typeprops{
   dataProtected?:any
+  setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
+  setChatState?: React.Dispatch<React.SetStateAction<any>>;
+
 }
 
-export default function Password({dataProtected}:typeprops) {
+export default function Password({dataProtected,setPassChannel,setChatState}:typeprops) {
 
     const [error,setError] = useState<boolean>(false);
     const [errorMessage,setErrorMessage] = useState("");
