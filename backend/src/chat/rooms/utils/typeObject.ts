@@ -36,3 +36,9 @@ export interface typeobject{
     pictureLink: string
     role: string
   }
+
+  export interface Searchchanel {
+    name:string
+    type: string
+    join: string
+  }
