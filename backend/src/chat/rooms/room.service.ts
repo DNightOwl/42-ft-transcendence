@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable} from "@nestjs/common";
 import { use } from "passport";
 import { PrismaService } from "src/prisma/prisma.service";
 import { comparepassword, hashPassword} from "./utils/bcrypt";
-import { chanel, typeObject, userchanel, Searchchanel } from "./utils/typeObject";
+import { chanel, typeObject, userchanel, Searchchanel, chanelprotected } from "./utils/typeObject";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from '@nestjs/config';
 import { usersObject } from '../../users/utils/usersObject';
@@ -160,7 +160,11 @@ export class RoomService
       });
       const matched = comparepassword(room.data.password, rooms.hash);
       if (!matched)
-        throw new ForbiddenException('invalid');
+      {
+        let person : chanelprotected = {id : "", name: "", members: 0, latestMessage: "", role: "", type: "", conversation : [], status: "valide"};
+        return person;
+      }
+        //throw new ForbiddenException('invalid');
       const id_ban = rooms.blocked.find((login) => login==user.login)
       if (id_ban)
         throw new ForbiddenException('user banned');
@@ -191,7 +195,7 @@ export class RoomService
             roomName: room.data.name
         }
     })
-      let person : chanel = {id : userUpdate.id, name: userUpdate.name, members: userUpdate.members.length, latestMessage: "", role: "members", type: userUpdate.type, conversation : []}
+      let person : chanelprotected = {id : userUpdate.id, name: userUpdate.name, members: userUpdate.members.length, latestMessage: "", role: "members", type: userUpdate.type, conversation : [], status: "valide"}
       if (message_user)
       {
         person.latestMessage = allmessage.message[allmessage.message.length - 1].data;
