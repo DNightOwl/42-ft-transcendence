@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
-import { PointsIcon } from "../Items/Icons";
+import { PointsIcon, LockIcon } from "../Items/Icons";
 import { Link } from "react-router-dom";
-import { getConversations, getChannelConversations, joinPublicRoom } from "../../Helpers";
+import { getConversations, getChannelConversations, joinRoom } from "../../Helpers";
 interface Props {
   newMessage?: boolean;
   data: any;
@@ -11,20 +11,31 @@ interface Props {
   channel?: boolean;
   dataChat?:any
   dataChannel?:any
-  empty?:boolean
+  empty?:boolean,
+  type?:string
+  join?:string,
+  setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
+  setDataProtected?:any
+
+
 }
 
 export default function CardFriendMessage(props: Props) {
   
   const [dropDown,setDropDwon] = useState<boolean>(false)
   const [mouse,setMouse] = useState(false);
-  
+
   return (
     <React.Fragment>
       <Link
         to="/Messages"
         className={`btn-message btn-friend-message flex justify-between px-2 py-4 lg:hover:bg-backgroundHover`}
         onClick={(event) => {
+          if(props.type === "protected" && props.setPassChannel)
+          {
+            props.setPassChannel(true);
+
+          }
           if(!mouse)
           {
             let btnMessage = document.querySelectorAll(".btn-friend-message");
@@ -66,10 +77,16 @@ export default function CardFriendMessage(props: Props) {
                       name: props.dataChannel[index].name,
                       type: props.dataChannel[index].type
                     }
-                    joinPublicRoom((res:any)=>{
-                      console.log(res);
+                    joinRoom((res:any)=>{
+                      props.setChatState(res.data);
                       
                     },obj)
+                  }
+                  else if(props.dataChannel[index].type === "protected" && props.dataChannel[index].join === "NON")
+                  {
+                    let obj = {name: props.dataChannel[index].name, type:props.dataChannel[index].type}
+
+                    props.setDataProtected(obj)
                   }
                   else
                     props.setChatState(props.dataChannel[index]);
@@ -111,17 +128,24 @@ export default function CardFriendMessage(props: Props) {
           </div>
         </div>
         <div className="relative">
-          <button className="flex h-4 w-4 items-center justify-center rounded-full bg-shape p-1 hover:bg-backgroundHover lg:hover:bg-body" onClick={()=>{
-            (dropDown)?setDropDwon(false):setDropDwon(true)
-          }} onMouseMove={()=>{
-            setMouse(true)
-          }} onMouseLeave={()=>{
-            setMouse(false)
-          }} onBlur={()=>{
-            setDropDwon(false)
-          }}>
-            <PointsIcon edit="w-2.5 h-2.5 fill-secondaryText" />
-          </button>
+          {
+            (props.join !== "NON")?(
+              <button className="flex h-4 w-4 items-center justify-center rounded-full bg-shape p-1 hover:bg-backgroundHover lg:hover:bg-body" onClick={()=>{
+                (dropDown)?setDropDwon(false):setDropDwon(true)
+              }} onMouseMove={()=>{
+                setMouse(true)
+              }} onMouseLeave={()=>{
+                setMouse(false)
+              }} onBlur={()=>{
+                setDropDwon(false)
+              }}>
+                    
+                    <PointsIcon edit="w-2.5 h-2.5 fill-secondaryText" />
+              </button>
+            ):(props.type === "protected")?(
+              <LockIcon edit="w-4 h-4 fill-secondaryText" />
+            ):null
+          }
           {
             (dropDown)?(
               <div className="w-32 absolute top-6 right-0 flex flex-col gap-2 rounded-md bg-body py-3 shadow z-10">

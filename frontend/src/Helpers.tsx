@@ -240,7 +240,7 @@ catch(error){
 }
 }
 
-export function joinPublicRoom(getRes:any,data:any){
+export function joinRoom(getRes:any,data:any){
 
   console.log(data);
   

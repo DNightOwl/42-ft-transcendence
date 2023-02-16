@@ -9,6 +9,10 @@ interface typeprops {
   setConversation?: React.Dispatch<React.SetStateAction<boolean>>;
   channel?: boolean;
   setCreate?:React.Dispatch<React.SetStateAction<boolean>>
+  setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
+  setDataProtected?:any
+
+
 
 }
 
@@ -17,7 +21,9 @@ export default function MessagesList({
   conversation,
   setConversation,
   channel,
-  setCreate
+  setCreate,
+  setPassChannel,
+  setDataProtected
 }: typeprops) {
 
   const[dataChat,setDataChat] = useState([]);
@@ -166,6 +172,10 @@ export default function MessagesList({
                   setConversation={setConversation}
                   channel={true}
                   dataChannel={dataChannel}
+                  type={e.type}
+                  join={e.join}
+                  setPassChannel={setPassChannel}
+                  setDataProtected = {setDataProtected}
 
                 />
               );

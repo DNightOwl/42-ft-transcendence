@@ -17,6 +17,7 @@ function App() {
   const [add,setAdd] = useState(false);
   const [members,setMembers] = useState(false);
   const [click,setClick] = useState<boolean>(false);
+  const [passChannel,setPassChannel] = useState(false);
   const [username,setUsername] = useState<string>("");
   const[dataChat,setDataChat] = useState([]);
   useEffect(()=>{
@@ -28,7 +29,7 @@ function App() {
   
   return (
     <BrowserRouter>
-      <Navigation chatState={chatState} setChatState={setChatState} conversation = {conversation} setConversation={setConversation} modal={modal} setModal={setModal} create={create} setCreate={setCreate} members={members} setMembers={setMembers} click={click} setClick={setClick} add={add} setAdd={setAdd}/>
+      <Navigation chatState={chatState} setChatState={setChatState} conversation = {conversation} setConversation={setConversation} modal={modal} setModal={setModal} create={create} setCreate={setCreate} members={members} setMembers={setMembers} click={click} setClick={setClick} add={add} setAdd={setAdd} passChannel={passChannel} setPassChannel={setPassChannel}/>
         <Routes>
         <Route path='/' element={<Login/>} />
         <Route path='/Login' element={<Login/>} />
