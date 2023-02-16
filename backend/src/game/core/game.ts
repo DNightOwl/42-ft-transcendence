@@ -17,7 +17,7 @@ export class Game {
     private SPEED: number = 6;
     private FRAME_RATE: number = 60;
     private gameID: string;
-    private gameMode: string = "classic";
+    private gameMode: string;
     public interval: any;
     player1: player = {
         id: '',
@@ -51,6 +51,7 @@ export class Game {
         player2Name: string,
         player1Avatar: string,
         player2Avatar: string,
+        gameMode: string,
     ) {
         this.player1.id = player1Id;
         this.player2.id = player2Id;
@@ -58,9 +59,8 @@ export class Game {
         this.player2.name = player2Name;
         this.player1.avatar = player1Avatar;
         this.player2.avatar = player2Avatar;
-
-        console.log("Game created", this.player1.avatar, this.player2.avatar);
         this.gameID = this.player1.id + this.player2.id;
+        this.gameMode = gameMode || "classic";
     }
 
     public get gameId(): string {
@@ -80,10 +80,12 @@ export class Game {
     public gameCore() {
         this.moveBall();
         this.gameGateway.server.to(this.gameID).emit('game_state', {
-            player1Y: this.player1.paddleY,
-            player2Y: this.player2.paddleY,
-            ballX: this.ballX,
-            ballY: this.ballY,
+            player1Y: this.player1.paddleY / this.HEIGHT,
+            player2Y: this.player2.paddleY / this.HEIGHT,
+            player1Height: this.player1.height / this.HEIGHT,
+            player2Height: this.player2.height / this.HEIGHT,
+            ballX: this.ballX / this.WIDTH,
+            ballY: this.ballY / this.HEIGHT,
             status: this.status
         });
     }
@@ -117,14 +119,21 @@ export class Game {
             this.player1.score++;
             this.resetGame();
             goalScored = true;
+            if (this.gameMode === "paddle--") {
+                this.player2.height -= 10;
+                console.log("Player 2 height", this.player2.height);
+            }
         }
         if (this.ballX < 0) {
             this.player2.score++;
             this.resetGame();
             goalScored = true;
+            if (this.gameMode === "paddle--") {
+                this.player1.height -= 10;
+                console.log("Player 1 height", this.player1.height);
+            }
         }
         if (goalScored) {
-            console.log("Score >>", this.player1.score, this.player2.score);
             this.gameGateway.server.emit('goal_score', {
                 player1Score: this.player1.score,
                 player2Score: this.player2.score,
@@ -132,6 +141,10 @@ export class Game {
         }
         if (this.player1.score === 5 || this.player2.score === 5) {
             this.status = "finished";
+            this.gameGateway.server.to(this.gameID).emit('game_over', {
+                winner: this.player1.score === 5 ? this.player1.name : this.player2.name,
+                loser: this.player1.score === 5 ? this.player2.name : this.player1.name,
+            });
             this.gameService.gameFinished(this.gameID);
         }
     }

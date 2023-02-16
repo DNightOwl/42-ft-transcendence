@@ -14,7 +14,7 @@ interface ResultBoard {
   gameMode: string;
 }
 
-function Game() {
+function Watch() {
   const socket = useContext(GameSocketContext);
   const [resultBoard, setResultBoard] = useState<ResultBoard>(
     {
@@ -45,6 +45,10 @@ function Game() {
   }
 
   useEffect(() => {
+    socket.emit('watch', {
+      gameId: window.location.pathname.split('/')[2],
+    });
+
     socket.emit('game_data', {
       gameId: window.location.pathname.split('/')[2],
     });
@@ -91,14 +95,16 @@ function Game() {
                   {resultBoard.player1 > resultBoard.player2 ? `${resultBoard.player1}` : `${resultBoard.player2}`}
                 </span> won!
               </h3>
-              <button onClick={
-                () => {
-                  toggleModal(modal);
-                  navigate('/queue?mode=classic')
-                }
-              } className='px-4 py-2 bg-purple-400 rounded-lg text-[1.5rem] cursor-pointer hover:bg-purple-800 text-white transition-all ease-in-out'>
-                Play Again
-              </button>
+              {window.location.pathname === 'game' &&
+                <button onClick={
+                  () => {
+                    toggleModal(modal);
+                    navigate('/queue?mode=classic')
+                  }
+                } className='px-4 py-2 bg-purple-400 rounded-lg text-[1.5rem] cursor-pointer hover:bg-purple-800 text-white transition-all ease-in-out'>
+                  Play Again
+                </button>
+              }
             </div>
           </ModalBody>
         </Modal>
@@ -133,14 +139,7 @@ function Game() {
               className='w-[120px] h-[120px] rounded-full' />
           </div>
         </div>
-        <div className='rounded-lg overflow-hidden relative'>
-          {gameState === 'waiting' &&
-            <div className='absolute flex w-full h-full justify-center items-cenetr bg-black opacity-60 z-[100]'>
-              <button className='px-4 bg-white text-black rounded-lg text-[4rem] cursor-pointer hover:bg-gray-200'
-                onClick={handleStartGame}
-              > Start! </button>
-            </div>
-          }
+        <div className='rounded-lg overflow-hidden'>
           <Board />
         </div>
       </div>
@@ -148,4 +147,4 @@ function Game() {
   )
 }
 
-export default Game
+export default Watch

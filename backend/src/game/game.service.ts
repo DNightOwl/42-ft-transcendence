@@ -10,6 +10,7 @@ interface Player {
     avatar: string;
     id: string;
     client: any;
+    gameMode: "classic" | "paddle--";
 }
 
 @Injectable()
@@ -21,7 +22,6 @@ export class GameService {
 
     private activeGames: Game[] = [];
     private WaitingPlayers: Player[] = [];
-
 
     public addPlayerToQueue(player: Player, gameGateway: any) {
         this.WaitingPlayers.push(player);
@@ -37,20 +37,22 @@ export class GameService {
         }
     }
 
-
     /////////
 
     private matchPlayers(gameGateway: any) {
         if (this.WaitingPlayers.length >= 2) {
-            console.log("Matched players");
-            let player1 = this.WaitingPlayers.pop();
-            let player2 = this.WaitingPlayers.pop();
-            let game = new Game(gameGateway, this, player1.id, player2.id, player1.name, player2.name, player1.avatar, player2.avatar);
-            this.activeGames.push(game);
-            player1.client.emit("matched", game.gameId);
-            player2.client.emit("matched", game.gameId);
-            player1.client.join(game.gameId);
-            player2.client.join(game.gameId);
+            let lastPlayer = this.WaitingPlayers.at(-1);
+            let potentialMatch = this.WaitingPlayers.find((player) => player.gameMode === lastPlayer.gameMode);
+            if (potentialMatch && potentialMatch.id !== lastPlayer.id) {
+                this.WaitingPlayers = this.WaitingPlayers.filter((player) => player.id !== potentialMatch.id);
+                this.WaitingPlayers = this.WaitingPlayers.filter((player) => player.id !== lastPlayer.id);
+                let game = new Game(gameGateway, this, potentialMatch.id, lastPlayer.id, potentialMatch.name, lastPlayer.name, potentialMatch.avatar, lastPlayer.avatar, potentialMatch.gameMode);
+                this.activeGames.push(game);
+                potentialMatch.client.emit("matched", game.gameId);
+                lastPlayer.client.emit("matched", game.gameId);
+                potentialMatch.client.join(game.gameId);
+                lastPlayer.client.join(game.gameId);
+            }
         }
         console.table(this.WaitingPlayers);
     }
@@ -64,6 +66,15 @@ export class GameService {
         if (game) {
             this.activeGames = this.activeGames.filter((g) => g.gameId !== gameId);
             clearInterval(game.interval);
+            await this.prisma.game.create({
+                data: {
+                    winner: { connect: { id: game.player1.score > game.player2.score ? game.player1.id : game.player2.id } },
+                    loser: { connect: { id: game.player1.score < game.player2.score ? game.player1.id : game.player2.id } },
+                    WinnerScore: game.player1.score > game.player2.score ? game.player1.score : game.player2.score,
+                    LoserScore: game.player1.score < game.player2.score ? game.player1.score : game.player2.score,
+                    gameMode: game.getGameMode,
+                }
+            })
         }
         console.table(this.activeGames);
     }
@@ -83,4 +94,23 @@ export class GameService {
         return null;
     }
 
+    async removePlayerFromQueue(playerId: string) {
+        this.WaitingPlayers = this.WaitingPlayers.filter((player) => player.id !== playerId);
+    }
+
+    async getLiveGames() {
+        console.table(this.activeGames);
+        const processedGames = this.activeGames.map((game) => {
+            return {
+                gameId: game.gameId,
+                player1: game.player1.name,
+                player2: game.player2.name,
+                player1Avatar: game.player1.avatar,
+                player2Avatar: game.player2.avatar,
+                gameMode: game.getGameMode,
+            }
+        });
+        console.table(processedGames);
+        return processedGames;
+    }
 }

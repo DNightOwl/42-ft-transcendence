@@ -45,16 +45,11 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
                 name: user.login,
                 id: user.id,
                 avatar: user.pictureLink,
-                client: client
+                client: client,
+                gameMode: data.gameMode,
             },
             this
         )
-    }
-
-    @SubscribeMessage('test')
-    async handleTest(client: Socket, data: any) {
-        console.log(client.handshake.headers.cookie);
-        console.log();
     }
 
     @SubscribeMessage('start_game')
@@ -81,6 +76,32 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
         }
     }
 
+    @SubscribeMessage('leave_queue')
+    async handleLeaveQueue(client: Socket, data: any) {
+        const user = await this.gameService.getUserFromSocket(client);
+        this.gameService.removePlayerFromQueue(user.id);
+        console.log("Player left queue: ", user.nickname);
+    }
+
+    @SubscribeMessage('watch')
+    async handleWatch(client: Socket, data: any) {
+        let game = this.gameService.getGameById(data.gameId);
+        if (game) {
+            client.join(data.gameId);
+            this.server.to(data.gameId).emit('game_data', {
+                player1: game.player1.name,
+                player2: game.player2.name,
+                player1Score: game.player1.score,
+                player2Score: game.player2.score,
+                player1Avatar: game.player1.avatar,
+                player2Avatar: game.player2.avatar,
+                gameMode: game.getGameMode,
+            });
+        } else {
+            console.log("Game not found");
+        }
+    }
+
     @SubscribeMessage('move_player')
     async handleMovePaddle(client: Socket, data: any) {
         const user = await this.gameService.getUserFromSocket(client);
@@ -90,5 +111,13 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
         } else {
             console.log("Game not found");
         }
+    }
+
+    @SubscribeMessage('live_games')
+    async handleLiveGames(client: Socket, data: any) {
+        console.log("Live games requested");
+        let games = await this.gameService.getLiveGames();
+        console.table(games);
+        client.emit('live_games', games);
     }
 }
