@@ -72,7 +72,7 @@ export default function Tfa(){
                           if(!error)
                           {
                             validationQr((res:any)=>{
-                                if(res.data !== "invalid")
+                                if(res.data === "valid")
                                 {
                                     refreshToken();
                                     window.location.href = "http://localhost:3001/Home"

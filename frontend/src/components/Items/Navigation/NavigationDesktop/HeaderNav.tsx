@@ -107,7 +107,10 @@ export default function HeaderNav({messages,chatState,settings,setClickUser,clic
                             Settings
                         </button>
                         <button className='flex gap-2  hover:bg-backgroundHover items-center justify-center p-2' onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
-                            logout();
+                            logout((res:any)=>{
+                                 if(res === "done")
+                                    window.location.href = "http://localhost:3001/Home";
+                                });
                         }}>
                             <LogoutIcon edit='w-5 h-5 fill-primaryText'/>
                             Logout

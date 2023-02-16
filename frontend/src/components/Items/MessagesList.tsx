@@ -160,7 +160,12 @@ export default function MessagesList({
                   />
                 );
               })
-            : <div className="h-full flex justify-center items-center text-primaryText text-md lg:hidden">No messages.</div>
+            : (
+              <React.Fragment>
+                <div className="h-full lg:flex justify-center items-start text-primaryText text-xs hidden">No Conversations.</div>
+                <div className="h-full flex justify-center items-center text-primaryText text-md lg:hidden">No messages.</div>
+              </React.Fragment>
+              )
           : dataChannel
           ? dataChannel.map((e:any, index:any) => {
               return (
@@ -180,7 +185,7 @@ export default function MessagesList({
                 />
               );
             })
-          : null}
+          : (<div className="h-full lg:flex justify-center items-start text-primaryText text-xs hidden">No Channels.</div>)}
       </div>
     </div>
   );

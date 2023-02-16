@@ -44,27 +44,30 @@ export default function Messages({
   const [message,setMessage] = useState<any>("");
   
 
-  // axios.get("http://localhost:3000/profile", { 
-  //   withCredentials: true,
-  //     headers :{'Access-Control-Allow-Origin': 'localhost:3000'} 
-  //   }).then().catch(error=>{
-  //       if(error.response.data.statusCode === 401)
-  //       {
-  //         axios.get("http://localhost:3000/auth/refresh", {
-  //           withCredentials: true,
-  //           headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
-  //         }).then().catch((error)=>{
-  //           window.location.href="http://localhost:3001/Login";
-  //         });
-  //       }
-  //   });
+  axios.get("http://localhost:3000/profile", { 
+    withCredentials: true,
+      headers :{'Access-Control-Allow-Origin': 'localhost:3000'} 
+    }).then().catch(error=>{
+        if(error.response.data.statusCode === 401)
+        {
+          axios.get("http://localhost:3000/auth/refresh", {
+            withCredentials: true,
+            headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+          }).then().catch((error)=>{
+            window.location.href="http://localhost:3001/Login";
+          });
+        }
+    });
   useEffect(()=>
   {
+    if(!socket.connected)
+      socket.connect()
     socket.on("msgFromServer", (data) => {
+      
       setChatState(data)
     });
     return () => {socket.off("msgToClients")};
-  })
+  },[])
   useEffect(() => {
     document.title = "Pong - Messages";
     let objDiv = document.querySelectorAll(".conversation");
@@ -163,12 +166,8 @@ export default function Messages({
                 }}
               />
               <button className="flex h-8 w-8 items-center justify-center rounded-md bg-primary" onClick={()=>{
-                console.log(chatState);
                 setMessage("");
-                console.log(message);
                 sendMessage()
-                
-                console.log("send");
                 
               }}>
                 <SendIcon edit="w-4 fill-white" />
@@ -191,11 +190,11 @@ export default function Messages({
       {modal ? (
         <Modal edit="modal">
           <ModalHeader settings={setModal}>Settings</ModalHeader>
-          <ModalBody>
-            <SettingsBody settings={setModal} nickname={data?.nickname} pictureUser={data?.pictureLink}/>
-          </ModalBody>
-        </Modal>
-      ) : null}
+            <ModalBody>
+              <SettingsBody settings={setModal} nickname={data?.nickname} pictureUser={data?.pictureLink}/>
+            </ModalBody>
+          </Modal>
+        ) : null}
     </React.Fragment>
   );
 }
