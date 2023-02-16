@@ -144,7 +144,7 @@ import {
           break;
         }
       }
-    const cookies = cookie.parse(client.handshake.headers.cookie);
+    const cookies :{ [key: string]: string } = cookie.parse(client.handshake.headers.cookie || "");
     if (!cookies['accessToken'])
     {
       client.emit('error', 'unauthorized');
@@ -179,7 +179,7 @@ import {
    
    async  handleConnection(@ConnectedSocket() client: any) {
 
-    const cookies = cookie.parse(client.handshake.headers.cookie);
+    const cookies :{ [key: string]: string } = cookie.parse(client.handshake.headers.cookie || "");
     if (!cookies['accessToken'])
     {
       client.emit('error', 'unauthorized');
