@@ -30,7 +30,7 @@ export default function Role({channelData}:typeProps){
     },[])
     
     return(
-        <div className='flex flex-col gap-6 content-rol'>
+        <div className='flex flex-col gap-6 content-role'>
             {
                 (roles.length)?(
                     <div className='flex flex-col gap-5 pb-6 role'>

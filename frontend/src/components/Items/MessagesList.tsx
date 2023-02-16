@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PlusIcon, SearchIcon } from "../Items/Icons";
 import CardFriendMessage from "./CardFriendMessage";
-import { getConversations, getAllUsersDm, getChannelConversations } from "../../Helpers";
+import { getConversations, getAllUsersDm, getChannelConversations, getAllChannels } from "../../Helpers";
 
 interface typeprops {
   setChatState: React.Dispatch<React.SetStateAction<any>>;
@@ -22,10 +22,13 @@ export default function MessagesList({
 
   const[dataChat,setDataChat] = useState([]);
   const[allConversation,setAllCoversation] = useState([]);
+  const[allChannels,setAllChannels] = useState([]);
   const[dataChannel,setDataChannel] = useState<any>([]);
   const[value,setValue] = useState<any>([]);
+  const[valueChannel,setValueChannel] = useState<any>([]);
   const[display,setDisplay] = useState(false);
   const [reset,setReset] = useState<any>([]);
+  const [resetChannel,setResetChannel] = useState<any>([]);
   const [empty,setEmpty] = useState(false);
 
   useEffect(()=>{
@@ -41,6 +44,11 @@ export default function MessagesList({
 
     getChannelConversations((res:any)=>{
       setDataChannel(res.data)
+      setResetChannel(res.data)
+    
+    getAllChannels((res:any)=>{
+        setAllChannels(res.data);
+      })
     });
 
   },[]);
@@ -91,6 +99,32 @@ export default function MessagesList({
               type="text"
               placeholder="Search for channel"
               className="placeholder-secondary-text flex-1 bg-transparent py-2.5 px-2 text-xs font-light text-primaryText placeholder:text-xs placeholder:font-light focus:outline-none"
+              value={valueChannel}
+              onChange={(e)=>{
+                  let value = e.currentTarget.value;
+                  let data:any = [];
+                  
+                  setValueChannel(e.currentTarget.value)
+                  if(value.length)
+                  {
+                    setEmpty(false);
+                      data = allChannels.filter((e:any)=>{
+                        
+                          if(e.name.search(value) != -1){
+                              return e;        
+                          }
+                      })
+                      setDisplay(true)
+                      setDataChannel(data);
+                  }
+                  else
+                  {
+                      data=[];
+                      setDisplay(false);
+                      setDataChannel(resetChannel)
+                      setEmpty(true);
+                  }
+              }}
             />
           </div>
           <button className="flex h-6 w-6 items-center justify-center rounded-full bg-primary" onClick={()=>{
@@ -131,6 +165,8 @@ export default function MessagesList({
                   conversation={conversation}
                   setConversation={setConversation}
                   channel={true}
+                  dataChannel={dataChannel}
+
                 />
               );
             })

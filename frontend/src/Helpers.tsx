@@ -1,19 +1,7 @@
 import axios from 'axios';
-import { Await } from 'react-router-dom';
-import io from "socket.io-client";
 
 
 
-
-
-
-export const chatSocket = io(
-  `http://localhost:3000`,
-  {
-  }
-)
-
-//************************************************************************************************** */
 export function checkToken(){
     axios.get("http://localhost:3000/profile", {
         withCredentials: true,
@@ -41,7 +29,6 @@ export function checkTokenLogin(){
         withCredentials: true,
           headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
         }).then(()=>{
-            chatSocket
             window.location.href = "http://localhost:3001/Home"
         }).catch(error=>{
             if(error.response.data.statusCode === 401)
@@ -150,6 +137,17 @@ export function getAllUsersDm(getRes:any){
         getRes(res);
       })
 }
+
+export function getAllChannels(getRes:any){
+  axios.get("http://localhost:3000/rooms/allrooms", {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res:any)=>{
+        
+        getRes(res);
+      })
+}
+
 
 export function getChannelConversations(getRes:any){
   axios.get("http://localhost:3000/rooms/RoomMessage", {

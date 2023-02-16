@@ -10,6 +10,7 @@ interface Props {
   setConversation?: React.Dispatch<React.SetStateAction<boolean>>;
   channel?: boolean;
   dataChat?:any
+  dataChannel?:any
   empty?:boolean
 }
 
@@ -17,14 +18,6 @@ export default function CardFriendMessage(props: Props) {
   
   const [dropDown,setDropDwon] = useState<boolean>(false)
   const [mouse,setMouse] = useState(false);
-  const[dataChannel,setDataChannel] = useState<any>([]);
-
-  useEffect(()=>{
-    getChannelConversations((res:any)=>{
-      setDataChannel(res.data)
-    });
-
-  },[]);
   
   return (
     <React.Fragment>
@@ -65,9 +58,9 @@ export default function CardFriendMessage(props: Props) {
                 }
               });
             } else {
-              dataChannel.forEach((e:any, index:any) => {
+              props.dataChannel.forEach((e:any, index:any) => {
                 if (e.id === props.data.id) {
-                  props.setChatState(dataChannel[index]);
+                  props.setChatState(props.dataChannel[index]);
                   return;
                 }
               });
