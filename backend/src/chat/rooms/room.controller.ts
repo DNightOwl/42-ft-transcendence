@@ -35,14 +35,14 @@ export class RoomController
 
     
     @UseGuards(JwtAuthGuard)
-    @Post('/addroom')
-    async  addroom(@Req() req: dbUser, @Body() room)
+    @Post('/joinroom')
+    async  joinroom(@Req() req: dbUser, @Body() room)
     {
         const user = req.user
         if (room.type === "public")
-            await this.roomservice.addroom(user, room.name);
+           return await this.roomservice.joinroom(user, room.name);
         else if (room.type == "protected")
-            await this.roomservice.addroomprotected(user, room);
+            return await this.roomservice.joinroomprotected(user, room);
     }
 
     
