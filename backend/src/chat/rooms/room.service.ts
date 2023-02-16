@@ -158,9 +158,9 @@ export class RoomService
               name: room.data.name
           }
       });
-      const matched = comparepassword(room.password, rooms.hash);
+      const matched = comparepassword(room.data.password, rooms.hash);
       if (!matched)
-        throw new ForbiddenException('password incorrect');
+        throw new ForbiddenException('invalid');
       const id_ban = rooms.blocked.find((login) => login==user.login)
       if (id_ban)
         throw new ForbiddenException('user banned');
