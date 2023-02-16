@@ -9,6 +9,7 @@ import Login from "./components/Login";
 import { getConversations } from "./Helpers";
 import Queue from './components/Queue';
 import Game from './components/game';
+import Watch from "./components/watch";
 
 function App() {
   const [chatState, setChatState] = useState([]);
@@ -37,8 +38,9 @@ function App() {
         <Route path='/' element={<Login />} />
         <Route path='/Login' element={<Login />} />
         <Route path='/Home' element={<Home />} />
-        <Route path='/Game/*' element={<Game />} />
-        <Route path='/Queue' element={<Queue />} />
+        <Route path='/game/*' element={<Game />} />
+        <Route path='/watch/*' element={<Watch />} />
+        <Route path='/queue' element={<Queue />} />
         <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} />} />
         <Route path='/Profile' element={<Profile setModal={setModal} username={username} />} />
       </Routes>

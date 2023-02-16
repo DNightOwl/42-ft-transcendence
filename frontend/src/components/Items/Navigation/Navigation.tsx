@@ -67,7 +67,7 @@ export default function Navigation({
     })
   }, [location.pathname, setConversation, setChatState]);
 
-  if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Queue".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase() && pathname.split('/').at(1) !== "Game".toLocaleLowerCase())
+  if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Queue".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase() && pathname.split('/').at(1) !== "game" && pathname.split('/').at(1) !== "watch")
   {
     document.title = "Pong - Page not found"
     return <NotFound />

@@ -5,6 +5,7 @@ import { useState } from 'react'
 import { getUserData, getUsers } from '../../../../Helpers';
 import CardSearch from '../../CardSearch';
 import { useNavigate, Link } from 'react-router-dom';
+import { Modal, ModalBody, ModalHeader } from '../../Modal';
 
 interface typeProps {
     messages: boolean,
@@ -22,6 +23,7 @@ export default function HeaderNav({ messages, chatState, settings, setClickUser,
     const [value, setValue] = useState("");
     const [click, setClick] = useState<boolean>(false);
     const navigate = useNavigate();
+    const [modalShown, setModalShown] = useState<boolean>(false);
 
     const [data, setData] = useState<any>({});
 
@@ -31,6 +33,10 @@ export default function HeaderNav({ messages, chatState, settings, setClickUser,
             setFill(res.data)
         })
     }, [click]);
+
+    const toggleModal = (prevState: boolean) => {
+        setModalShown(!prevState);
+    }
 
 
     return (
@@ -80,11 +86,46 @@ export default function HeaderNav({ messages, chatState, settings, setClickUser,
                 <div className='flex items-center gap-5'>
                     <button className='bg-primary text-primaryText text-sm flex items-center justify-center gap-2.5 w-36 rounded-md p-3'
                         onClick={() => {
-                            navigate('/queue');
+                            toggleModal(modalShown);
                         }}
                     >
                         <ControllerIcon edit="w-7" />
                         <span>Play now</span>
+                        {
+                            (modalShown) ? (
+                                <Modal >
+                                    <ModalHeader
+                                        onClose={() => {
+                                            toggleModal(modalShown);
+                                        }}
+                                    >
+                                        <span className='text-primaryText text-lg font-bold'>Play now</span>
+                                    </ModalHeader>
+                                    <ModalBody
+                                    >
+                                        <div className='flex flex-row gap-8 w-[700px] h-[400px] justify-center items-center pt-[2rem]'>
+                                            <span onClick={
+                                                () => {
+                                                    toggleModal(modalShown);
+                                                    navigate('/queue?mode=classic');
+                                                }
+                                            } className='flex justify-center text-[1.8rem] border-4 w-[240px] h-[120px] border-primary items-center cursor-pointer rounded-lg gap-2.5 p-3 bg-backgroundHover hover:bg-primary transition-all ease-in-out'>
+                                                Classic Mode
+                                            </span>
+                                            <span onClick={
+                                                () => {
+                                                    toggleModal(modalShown);
+                                                    navigate('/queue?mode=paddle--');
+                                                }
+                                            } className='flex justify-center text-[1.8rem] border-4 w-[240px] h-[120px] border-primary items-center cursor-pointer rounded-lg gap-2.5 p-3 bg-backgroundHover hover:bg-primary transition-all ease-in-out'>
+                                                Paddle--
+                                            </span>
+                                        </div>
+                                    </ModalBody>
+                                </Modal>
+                            ) : null
+
+                        }
                     </button>
                     <div className='relative text-primaryText text-sm'>
                         <button className='flex items-center gap-2' onClick={() => { (!dropDown) ? setDropDown(true) : setDropDown(false) }} onBlur={() => { if (!mouse) setDropDown(false) }}>
