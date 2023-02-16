@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable} from "@nestjs/common";
 import { use } from "passport";
 import { PrismaService } from "src/prisma/prisma.service";
 import { comparepassword, hashPassword} from "./utils/bcrypt";
-import { chanel, typeObject, userchanel } from "./utils/typeObject";
+import { chanel, typeObject, userchanel, Searchchanel } from "./utils/typeObject";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from '@nestjs/config';
 import { usersObject } from '../../users/utils/usersObject';
@@ -177,6 +177,43 @@ export class RoomService
             },
           },
       })
+      const allmessage = await this.prisma.room.findUnique({
+        where: {
+            name: room.name
+        },
+            select: {
+                message: true
+            }
+      })
+      const message_user = await this.prisma.messages.findFirst({
+        where: 
+        {
+            roomName: room.name
+        }
+    })
+      let person : chanel = {id : userUpdate.id, name: userUpdate.name, members: userUpdate.members.length, latestMessage: "", role: "members", type: userUpdate.type, conversation : []}
+      if (message_user)
+      {
+        person.latestMessage = allmessage.message[allmessage.message.length - 1].data;
+        person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data, picture: "" }));
+        for (let i = allmessage.message.length - 1; i >= 0 ;i--)
+        {
+          const user_chanel = await this.prisma.user.findUnique({
+            where: {
+              login: allmessage.message[i].userLogin
+            }
+          })
+          if (user.login == allmessage.message[i].userLogin)
+              person.conversation[i].type = "user";
+          else
+          {
+            person.conversation[i].type = "member";
+            person.conversation[i].picture = user_chanel.pictureLink
+          }
+
+        }
+      }
+      return person; 
   }
 
   async addtoroomNopublic(user: any, room: any)
@@ -352,7 +389,7 @@ export class RoomService
   //     return allRooms;
   //   }
   async getAllRooms(user: any){
-    let allRooms = [];
+    let allRooms : Searchchanel[]= [];
 
     const rooms = await this.prisma.room.findMany();
     rooms.forEach( element => {
@@ -366,8 +403,9 @@ export class RoomService
           
       }
       const id = obj.members.find((login) => login==user.login)
+      let room : Searchchanel = {name: obj.name, type: obj.type, join: "NON"}
       if (!id && (obj.type == "public" || obj.type == "protected"))
-          allRooms.push(obj);
+          allRooms.push(room);
     });
     return allRooms;
   }
