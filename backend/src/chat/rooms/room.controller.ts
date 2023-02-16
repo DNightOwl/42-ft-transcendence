@@ -83,19 +83,21 @@ export class RoomController
         
      }
     
+     @UseGuards(JwtAuthGuard)
     @Get('allrooms')
-    async getallRooms()
-    {
-        return await this.roomservice.getallRooms();
-    }
-
-    @UseGuards(JwtAuthGuard)
-    @Get()
-    async   getRoomsForUser(@Req() req: dbUser)
+    async getallRooms(@Req() req: dbUser)
     {
         const user = req.user;
-        return await this.roomservice.getRoomsForUser(user);
+        return await this.roomservice.getAllRooms(user);
     }
+
+    // @UseGuards(JwtAuthGuard)
+    // @Get()
+    // async   getRoomsForUser(@Req() req: dbUser)
+    // {
+    //     const user = req.user;
+    //     return await this.roomservice.getRoomsForUser(user);
+    // }
 
     @UseGuards(JwtAuthGuard)
     @Post('/setadmins')

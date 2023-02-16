@@ -20,7 +20,9 @@ import {
 
    @WebSocketGateway({
      cors: {
-       origin: '*',
+       origin: 'http://localhost:3001',
+       credentials: true,
+       allowedHeaders : ["Cookie"]
      },
    })
    export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -155,15 +157,15 @@ import {
       return;
     }
     try {
-      const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
-      const test = this.OnlineUser.find((user) => user==user);
-      console.log(test);
+      const user = await this.roomservice.getUserFromAuthenticationToken(cookies[jwttoken]); 
+      
+      //client.user = user
+      const test = this.OnlineUser.find((client) => client.user.login === user.login);
       if (!test)
       {
-        console.log('=======>');
          await this.prisma.user.update({
          where: {
-           login: user.login
+           login: client.user.login
          },
          data: {
            status: "of"
@@ -181,21 +183,18 @@ import {
     if (!cookies['accessToken'])
     {
       client.emit('error', 'unauthorized');
-      client.disconnect();
       return;
     }
     const jwttoken : string= cookies['accessToken'];
     if(!jwttoken)
     {
       client.emit('error', 'unauthorized');
-      client.disconnect();
       return;
     }
     try {
       const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
       if (!user)
       {
-        client.disconnect();
         return;
       }
       client.user = user;

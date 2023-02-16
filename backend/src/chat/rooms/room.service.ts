@@ -5,7 +5,7 @@ import { comparepassword, hashPassword} from "./utils/bcrypt";
 import { chanel, typeObject, userchanel } from "./utils/typeObject";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from '@nestjs/config';
-import { usersObject} from '../../users/utils/usersObject';
+import { usersObject } from '../../users/utils/usersObject';
 import * as moment from 'moment';
 
 
@@ -289,27 +289,29 @@ export class RoomService
   return obj;
 } 
 
-  async getallRooms(){
-    let allRooms = [];
+  // async getallRooms(user: any){
+  //   let allRooms = [];
 
-    const rooms = await this.prisma.room.findMany();
-    rooms.forEach(element => {
-      let obj = {
-          id: element.id,
-          admins: element.admins,
-          members: element.members,
-          name: element.name,
-          type: element.type,
-          owner: element.owner
+  //   const rooms = await this.prisma.room.findMany();
+  //   rooms.forEach(element => {
+
+  //     let obj = {
+  //         id: element.id,
+  //         admins: element.admins,
+  //         members: element.members,
+  //         name: element.name,
+  //         type: element.type,
+  //         owner: element.owner
           
-        }
-        if (obj.type === "public" || obj.type === "protected")
-          allRooms.push(obj);
-      });
-      return allRooms;
-    }
-
-  async getRoomsForUser(user: any){
+  //       }
+  //       console.log()
+  //       //const u = element.members.find((login): => login==user.login);
+  //       if (obj.type === "public" || obj.type === "protected")
+  //         allRooms.push(obj);
+  //     });
+  //     return allRooms;
+  //   }
+  async getAllRooms(user: any){
     let allRooms = [];
 
     const rooms = await this.prisma.room.findMany();
@@ -324,7 +326,7 @@ export class RoomService
           
       }
       const id = obj.members.find((login) => login==user.login)
-      if (id)
+      if (!id && (obj.type == "public" || obj.type == "protected"))
           allRooms.push(obj);
     });
     return allRooms;
@@ -522,7 +524,7 @@ export class RoomService
               login = rooms[index].members[1];
           const user = await this.prisma.user.findUnique({
             where: {
-                login: login     
+                login: login 
             } 
           });
           const allmessage = await this.prisma.room.findUnique({
@@ -533,20 +535,29 @@ export class RoomService
                     message: true
                 }
         })
-        if (allmessage.message.length != 0)
-        {
-          let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: allmessage.message[allmessage.message.length - 1].data, picture: user.pictureLink, conversation : []};
-          person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
-          for (let i = allmessage.message.length - 1; i >= 0 ;i--)
+        const message_user = await this.prisma.messages.findFirst({
+          where: 
           {
-            //person.conversation[i].message = allmessage.message[i].data;
-            if (user1.login == allmessage.message[i].userLogin)
-                person.conversation[i].type = "user";
-            else
-              person.conversation[i].type = "friend"; 
+              roomName: rooms[index].name
           }
-          obj.push(person);
+        })
+        if (!message_user)
+          continue ;
+        let person : typeObject = {id : user.id, username : user.nickname, status: user.status ,latestMessage: "" , picture: user.pictureLink, conversation : []};
+        if (message_user)
+        {
+            person.latestMessage = allmessage.message[allmessage.message.length - 1].data;
+            person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
         }
+        for (let i = allmessage.message.length - 1; i >= 0 ;i--)
+        {
+          //person.conversation[i].message = allmessage.message[i].data;
+          if (user1.login == allmessage.message[i].userLogin)
+            person.conversation[i].type = "friend";
+          else
+            person.conversation[i].type = "user";
+        }
+        obj.push(person);
       }
     }
     const user_freind = await this.prisma.freinds.findMany({

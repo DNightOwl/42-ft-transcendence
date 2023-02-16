@@ -18,16 +18,12 @@ function App() {
   const [members,setMembers] = useState(false);
   const [click,setClick] = useState<boolean>(false);
   const [username,setUsername] = useState<string>("");
-
-
-  
   const[dataChat,setDataChat] = useState([]);
-
   useEffect(()=>{
     getConversations((res:any)=>{
       setChatState(res.data[0]);
     })
-
+    
   },[]);
   
   return (
