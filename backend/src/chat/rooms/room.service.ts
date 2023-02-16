@@ -557,7 +557,7 @@ export class RoomService
           else
             person.conversation[i].type = "user";
         }
-        obj.push(person);
+        obj.push(person);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       
       }
     }
     const user_freind = await this.prisma.freinds.findMany({
