@@ -43,6 +43,9 @@ export default function Messages({
   const [data,setData] = useState<any>({});
   const [message,setMessage] = useState<any>("");
 
+  console.log(chatState);
+  
+
   // axios.get("http://localhost:3000/profile", { 
   //   withCredentials: true,
   //     headers :{'Access-Control-Allow-Origin': 'localhost:3000'} 

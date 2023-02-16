@@ -124,7 +124,7 @@ export default function Navigation({
                 </ModalBody>
             </Modal>
             ):null
-              });
+              }
       
       {
         (add)?(

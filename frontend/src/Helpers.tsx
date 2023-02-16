@@ -239,3 +239,8 @@ try
 catch(error){
 }
 }
+
+export function joinPublicRoom(data:string){
+
+  axios.post("http://localhost:3000/rooms/joinroom",{data},{withCredentials: true})
+}

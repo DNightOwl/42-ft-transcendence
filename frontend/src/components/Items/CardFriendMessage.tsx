@@ -60,6 +60,8 @@ export default function CardFriendMessage(props: Props) {
             } else {
               props.dataChannel.forEach((e:any, index:any) => {
                 if (e.id === props.data.id) {
+                  console.log("data: ",props.dataChannel);
+                  
                   props.setChatState(props.dataChannel[index]);
                   return;
                 }
