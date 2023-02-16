@@ -56,8 +56,7 @@ export class AuthService {
 		})
 		res.clearCookie('token');
 		res.clearCookie('accessToken');
-		res.redirect("http://localhost:3001/login");
-		return res; // TODO :  think of right payload to send
+		return "done";
 	}
 
 	
@@ -152,3 +151,4 @@ export class AuthService {
 	}
 
 }
+
