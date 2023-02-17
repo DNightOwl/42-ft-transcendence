@@ -99,7 +99,7 @@ import {
             {
               if (this.OnlineUser[index].user.login == user1.login)
               {
-                this.server.to(this.OnlineUser[index]).emit("msgFromServer", await this.roomservice.emit_message(user_freind, room_freind));
+                client.emit("msgFromServer", await this.roomservice.emit_message(user_freind, room_freind));
               }
             }
             //this.server.to(roomName).emit("msgFromServer", Body.data);
@@ -177,7 +177,6 @@ import {
       return;
     }
     try {
-      console.log('=======')
       const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken); 
       
       //client.user = user
@@ -185,7 +184,6 @@ import {
       const test = this.OnlineUser.find((client) => client.user.login === user.login);
       if (!test)
       {
-        console.log('=========>');
          await this.prisma.user.update({
          where: {
            login: client.user.login
