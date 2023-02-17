@@ -22,7 +22,6 @@ export default function CardState(props: typeProps) {
   const [clickEye, setClickEye] = useState(false);
   const [check, setCheck] = useState(false);
   const [value,setValue] = useState("jkdjkljklfsjdlfjasdl;fjsdjf;asdfj;klasjdfl");
-  
   return (
     <div
       className={`flex flex-1 items-center ${
@@ -83,12 +82,15 @@ export default function CardState(props: typeProps) {
         }
       {props.chatState?.members ? (
         <div className="flex items-center gap-4">
-          <button className="flex h-10 w-10 items-center justify-center rounded-full bg-shape" onClick={()=>{
-                            if(props.setAdd)props.setAdd(true);
-                            document.body.style.overflow="hidden";
-          }}>
-            <PlusIcon edit="fill-secondaryText w-4 h-4" />
-          </button>
+          {
+              (props.chatState.role === "owner" || props.chatState.role === "admin" || (props.chatState.role === "member" && props.chatState.type === "public"))?(
+                <button className="flex h-10 w-10 items-center justify-center rounded-full bg-shape" onClick={()=>{
+                  if(props.setAdd)props.setAdd(true);
+                  document.body.style.overflow="hidden";}}>
+                    <PlusIcon edit="fill-secondaryText w-4 h-4" />
+                  </button>
+              ):null
+            }
               <button className="flex h-10 w-10 items-center justify-center rounded-full bg-shape" onClick={()=>{
                 if(props.setMembers)props.setMembers(true);
                 document.body.style.overflow="hidden";

@@ -18,7 +18,7 @@ export default function Members({channelData}:typeProps){
         getMemberChannel((res:any)=>{
 
             res.forEach((e:any)=>{
-                if(e.role !== "members")
+                if(e.role !== "member")
                     roles.push(e);
                 else
                     members.push(e);

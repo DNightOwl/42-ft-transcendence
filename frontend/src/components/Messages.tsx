@@ -98,14 +98,23 @@ export default function Messages({
       setData(res);
     })
   }, [conversation, chatState]);
-  const ChatData = {
+  const dmData = {
       type:"DM",
       data: message,
       name:chatState?.username
   }
+
+  const chatData = {
+    type:"RM",
+    data: message,
+    name:chatState?.name
+}
   const sendMessage = () =>
   {
-    socket.emit("msgServer", ChatData);
+    (!chatState?.members)?
+      socket.emit("msgServer", dmData):(
+        socket.emit("msgServer", chatData)
+      )
   }
   
   

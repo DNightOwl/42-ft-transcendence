@@ -2,7 +2,7 @@ import React from 'react'
 import PictureProfile from "../../assets/friend.jpg"
 import { PointsIcon } from './Icons'
 import { useState } from 'react'
-import { setAdmin } from '../../Helpers' 
+import { setAdmin,setMute,setBlock } from '../../Helpers'
 
 interface typeProps{
     role?:string
@@ -59,8 +59,7 @@ export default function CardMember({role,data,channelData}:typeProps){
                                             <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                                                 setDropDwon(false)
                                                 let obj = {login: data.username,name:channelData.name}
-                                                setAdmin((res:any)=>{
-                                                },obj)
+                                                setAdmin(obj);
                                               }}>
                                                 Admin
                                               </button>
@@ -71,11 +70,15 @@ export default function CardMember({role,data,channelData}:typeProps){
                                               </button>
                                               <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                                                 setDropDwon(false)
+                                                let obj = {login: data.username,name:channelData.name}
+                                              setBlock(obj);
                                               }}>
                                                 Block
                                               </button>
                                               <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                                                 setDropDwon(false)
+                                                let obj = {login: data.username,name:channelData.name}
+                                                setMute(obj);
                                               }}>
                                                 Mute
                                               </button>                                                                                                                                          
@@ -93,11 +96,15 @@ export default function CardMember({role,data,channelData}:typeProps){
                                                     <React.Fragment>
                                               <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                                                 setDropDwon(false)
+                                                let obj = {login: data.username,name:channelData.name}
+                                                setBlock(obj);
                                               }}>
                                                 Block
                                               </button>
                                               <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                                                 setDropDwon(false)
+                                                let obj = {login: data.username,name:channelData.name}
+                                                setMute(obj);
                                               }}>
                                                 Mute
                                               </button>                                                           

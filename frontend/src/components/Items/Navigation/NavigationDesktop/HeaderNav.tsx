@@ -109,7 +109,6 @@ export default function HeaderNav({messages,chatState,settings,setClickUser,clic
                         </button>
                         <button className='flex gap-2  hover:bg-backgroundHover items-center justify-center p-2' onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                             logout((res:any)=>{
-                                console.log(res);
                                 
                                  if(res.data === "done")
                                  {
