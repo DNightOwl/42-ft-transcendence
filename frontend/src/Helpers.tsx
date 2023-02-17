@@ -51,7 +51,7 @@ export function getUserData(getRes:any){
           headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
         }).then((res)=>{
             getRes(res.data) 
-        })
+        }).catch()
 }
 
 export function getUsers(getRes:any){
@@ -60,7 +60,7 @@ export function getUsers(getRes:any){
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
       }).then((res)=>{
         getRes(res);
-      })
+      }).catch()
 }
 
 export function addFriend(login:string){

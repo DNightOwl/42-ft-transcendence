@@ -73,12 +73,6 @@ export default function Messages({
     });
     return () => {socket.off("msgToClients")};
   },[])
-
-
-
-
-
-
   useEffect(() => {
     document.title = "Pong - Messages";
     let objDiv = document.querySelectorAll(".conversation");
@@ -138,7 +132,33 @@ export default function Messages({
             <div className={`flex flex-col gap-20  ${(chatState?.conversation?.length)?"":"h-full"}`}>
               {(chatState?.members) || (chatState?.conversation?.length)
                 ? chatState?.conversation?.map((e: any, index: number) => {
-                    if (e.type === "friend")
+                  
+                  if(chatState.members){
+                    
+                    if(e.login === data.nickname)
+                    {
+                      return(
+                        <BoxMessagesUser
+                        message={e.message}
+                        time={e.time}
+                        key={index}
+                      />
+                      )
+                    }
+                    else{
+                      return(
+                        <BoxMessagesMember
+                        message={e.message}
+                        time={e.time}
+                        picture={e.picture}
+                        key={index}
+                      />
+                      )
+                    }
+                  }
+                  else{
+                    if(e.type === "friend")
+                    {
                       return (
                         <BoxMessagesFriend
                           message={e.message}
@@ -146,23 +166,17 @@ export default function Messages({
                           key={index}
                         />
                       );
-                    else if (e.type === "member")
-                      return (
-                        <BoxMessagesMember
-                          message={e.message}
-                          time={e.time}
-                          picture={e.picture}
-                          key={index}
-                        />
-                      );
-                    else
+                    }
+                    else{
                       return (
                         <BoxMessagesUser
                           message={e.message}
                           time={e.time}
                           key={index}
                         />
-                      );
+                      )
+                    }
+                  }
                   })
                 : (<div className="h-full flex justify-center items-center">
                   <div className="flex flex-col justify-center gap-3 items-center">

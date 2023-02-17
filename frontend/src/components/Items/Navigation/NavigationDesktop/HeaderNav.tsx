@@ -11,25 +11,28 @@ interface typeProps{
     chatState:any,
     settings?:React.Dispatch<React.SetStateAction<boolean>>
     setClickUser: React.Dispatch<React.SetStateAction<boolean>>
-    clickUser: boolean
+    clickUser: boolean,
+    pictureUser?:string
+    username?:string
 }
-export default function HeaderNav({messages,chatState,settings,setClickUser,clickUser}:typeProps) {
+export default function HeaderNav({messages,chatState,settings,setClickUser,clickUser,pictureUser,username}:typeProps) {
     const [dropDown,setDropDown] = useState<boolean>(false)
     const [mouse,setMouse] = useState<boolean>(false);
     const [display,setDisplay] = useState<boolean>(false);
     const [dataUsers,setDataUser] = useState([]);
-    const [fill,setFill] = useState([]);
     const [value,setValue] = useState("");
     const [click,setClick] = useState<boolean>(false);
-
+    
     const [data,setData] = useState<any>({});
-
+    const [fill,setFill] = useState([]);
+    
     useEffect(()=>{
         getUserData((res:any)=>{setData(res)});
         getUsers((res:any)=>{
             setFill(res.data)
         })
     },[click]);
+    
     
     
   return (
@@ -86,8 +89,13 @@ export default function HeaderNav({messages,chatState,settings,setClickUser,clic
                 <div className='relative text-primaryText text-sm'>
                 <button className='flex items-center gap-2' onClick={()=>{(!dropDown)?setDropDown(true):setDropDown(false)}} onBlur={()=>{if(!mouse)setDropDown(false)}}>
                     <div className='flex items-center gap-2'>
-                        <img src={data.pictureLink} alt="User" className='w-10 h-10 rounded-full' />
-                        <span className='username'>{(data.nickname)?data.nickname.charAt(0).toUpperCase() + data.nickname.slice(1):null}</span>
+                        <img src={(pictureUser?.length ? pictureUser : data.pictureLink)} alt="User" className='w-10 h-10 rounded-full' />
+                        {
+                            (username?.length)?(
+                                <span className='username'>{(username)?username.charAt(0).toUpperCase() + username.slice(1):null}</span>
+                            ):
+                            <span className='username'>{(data.nickname)?data.nickname.charAt(0).toUpperCase() + data.nickname.slice(1):null}</span>
+                        }
                     </div>
                     <span className='bg-shape w-4 h-4 rounded-full flex justify-center items-center'>
                         {(!dropDown)?(<ArrowDownIcon edit="w-1.5 fill-secondaryText"/>):(<ArrowUpIcon edit='w-1.5 h-1.5 fill-secondaryText' />)}

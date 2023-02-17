@@ -53,6 +53,8 @@ export default function Navigation({
   const [display,setDisplay] = useState(false);
   const [data,setData] = useState<any>({});
   const [dataProtected,setDataProtected] = useState([]);
+  const [username,setUsername] = useState<string>("");
+  const [pictureUser,setPictureUser] = useState<string>("");
   const location = useLocation();
 
   let pathname = location.pathname;
@@ -97,6 +99,8 @@ export default function Navigation({
         setClick={setClick}
         setPassChannel={setPassChannel}
         setDataProtected={setDataProtected}
+        pictureUser ={pictureUser}
+        username={username}
         
       />
       <NavigationPhone
@@ -109,7 +113,7 @@ export default function Navigation({
         <Modal edit="modal">
           <ModalHeader settings={setModal}>Settings</ModalHeader>
           <ModalBody edit="justify-center">
-            <SettingsBody settings={setModal} nickname={data?.nickname} pictureUser={data?.pictureLink} />
+            <SettingsBody settings={setModal} nickname={data?.nickname} pictureUser={data?.pictureLink} setPictureProfile={setPictureUser} setUsername={setUsername} />
           </ModalBody>
         </Modal>
       ) : null} 
