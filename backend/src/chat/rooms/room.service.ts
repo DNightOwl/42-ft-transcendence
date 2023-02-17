@@ -232,11 +232,9 @@ export class RoomService
         name: room.data.name
       }
     })
-    console.log('====0');
     const id1 =  rooms.admins.find((login) =>login==user.login)
     if (!id1)
         throw new ForbiddenException('you are  Not admins');
-    console.log('======1');
     const rom = await this.prisma.room.findUnique({
       where: {
           name: room.data.name
@@ -245,11 +243,9 @@ export class RoomService
     const id_ban = rooms.blocked.find((login) => login==user_freind.login)
     if (id_ban)
       throw new ForbiddenException('user banned');
-      console.log('======2');
       const user_members = rooms.members.find((login) => login==user_freind.login)
       if (user_members)
           throw new ForbiddenException('user already members');
-          console.log('======3');
     const userUpdate = await this.prisma.room.update({
       where: {
         name: room.data.name,
@@ -269,7 +265,6 @@ export class RoomService
           nickname: room.data.login
        }
     });
-    console.log(user_freind.login);
     const rooms = await this.prisma.room.findFirst({
       where: {
         name: room.data.name
@@ -767,9 +762,9 @@ export class RoomService
         {
           const admin = rooms[index].admins.find((login) =>login==user.login)
           if (admin)
-            role = "admins";
+            role = "admin";
           else
-            role = "members";
+            role = "member";
         }
         let person : chanel = {id : rooms[index].id, name: rooms[index].name, members: rooms[index].members.length, latestMessage: "", role: role, type: rooms[index].type, conversation : []};
         person.conversation = allmessage.message.map((x) =>    ({type :"", message : "", picture: "" }));
@@ -890,7 +885,6 @@ export class RoomService
   
   async emit_message(user: user, room: room)
   {
-    console.log(user.nickname);
     const allmessage = await this.prisma.room.findUnique({
       where: {
           name: room.name
@@ -915,7 +909,6 @@ export class RoomService
 
   async emit_messagetoRoom(user: user, room: room)
   {
-    console.log(user.login);
     const allmessage = await this.prisma.room.findUnique({
       where: {
           name: room.name
