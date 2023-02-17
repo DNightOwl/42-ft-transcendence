@@ -61,6 +61,12 @@ export class Game {
         this.player2.avatar = player2Avatar;
         this.gameID = this.player1.id + this.player2.id;
         this.gameMode = gameMode || "classic";
+
+        console.log("game created>>>");
+        console.log(this.gameID);
+        console.log(this.gameMode);
+        console.log(this.player1);
+        console.log(this.player2);
     }
 
     public get gameId(): string {

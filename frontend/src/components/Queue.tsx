@@ -9,6 +9,7 @@ function Queue() {
 
   const leaveQueue = () => {
     socket.emit('leave_queue', {});
+    navigate('/');
   }
 
   useEffect(() => {
@@ -21,8 +22,8 @@ function Queue() {
     })
 
     return () => {
+      socket.emit('leave_queue', {});
       socket.off('matched')
-      leaveQueue();
     }
   }, [])
 

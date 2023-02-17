@@ -1,4 +1,4 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Inject, Injectable, forwardRef } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Socket } from 'socket.io';
 import { PrismaService } from 'src/prisma/prisma.service';
@@ -13,15 +13,34 @@ interface Player {
     gameMode: "classic" | "paddle--";
 }
 
+interface OnlinePlayer {
+    name: string;
+    avatar: string;
+    id: string;
+    client: any;
+}
+
+interface Invitation {
+    sender: string;
+    senderId: string;
+    senderAvatar: string;
+    receiver: string;
+    receiverId: string;
+}
+
 @Injectable()
 export class GameService {
     constructor(
         private readonly prisma: PrismaService,
         private readonly jwtService: JwtService,
+        @Inject(forwardRef(() => GameGateway))
+        private readonly gameGateway: GameGateway,
     ) { }
 
     private activeGames: Game[] = [];
     private WaitingPlayers: Player[] = [];
+    private OnlinePlayers: OnlinePlayer[] = [];
+    private Invitations: Invitation[] = [];
 
     public addPlayerToQueue(player: Player, gameGateway: any) {
         this.WaitingPlayers.push(player);
@@ -35,6 +54,62 @@ export class GameService {
         } else {
             console.log("Game not found");
         }
+    }
+
+    public addPlayerToOnlineList(player: OnlinePlayer) {
+        const index = this.OnlinePlayers.findIndex((p) => p.id === player.id);
+        if (index !== -1) {
+            this.OnlinePlayers[index].client = player.client;
+            return;
+        }
+        this.OnlinePlayers.push(player);
+        console.table(this.OnlinePlayers);
+    }
+
+    public removePlayerFromOnlineList(playerId: string) {
+        this.OnlinePlayers = this.OnlinePlayers.filter((player) => player.id !== playerId);
+        console.table(this.OnlinePlayers);
+    }
+
+    async sendInvitation(sender: any, receiverId: string) {
+        const reciver = await this.prisma.user.findUnique({ where: { id: receiverId } });
+        let receiverSocket = this.OnlinePlayers.find((player) => player.id === receiverId);
+        if (!receiverSocket) throw new HttpException("Player not found", HttpStatus.NOT_FOUND);
+        receiverSocket.client.emit("game_invitation", {
+            sender: sender.login,
+            senderId: sender.id,
+            senderAvatar: sender.pictureLink,
+        });
+        this.Invitations.push({
+            sender: sender.login,
+            senderId: sender.id,
+            senderAvatar: sender.pictureLink,
+            receiver: reciver.login,
+            receiverId: receiverId
+        });
+
+    }
+
+    async acceptInvitation(receiver: any, senderId: string) {
+        const senderClient = this.OnlinePlayers.find((player) => player.id === senderId);
+        const recipientClient = this.OnlinePlayers.find((player) => player.id === receiver.id);
+        if (!senderClient) throw new HttpException("Player not found", HttpStatus.NOT_FOUND);
+        let game = new Game(this.gameGateway, this, senderId, receiver.id, senderClient.name, receiver.login, receiver.pictureLink, senderClient.avatar, "classic");
+        senderClient.client.emit("game_accepted", {
+            gameId: game.gameId,
+        });
+        this.Invitations = this.Invitations.filter((invitation) => invitation.senderId !== senderId);
+        this.activeGames.push(game);
+        senderClient.client.join(game.gameId);
+        recipientClient.client.join(game.gameId);
+        return game.gameId;
+    }
+
+    async declineInvitation(receiver: any, senderId: string) {
+        const senderClient = this.OnlinePlayers.find((player) => player.id === senderId);
+        if (!senderClient) throw new HttpException("Player not found", HttpStatus.NOT_FOUND);
+        senderClient.client.emit("game_declined", {});
+        this.Invitations = this.Invitations.filter((invitation) => invitation.senderId !== senderId);
     }
 
     private matchPlayers(gameGateway: any) {

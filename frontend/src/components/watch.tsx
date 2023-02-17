@@ -80,7 +80,7 @@ function Watch() {
   }, [])
 
   return (
-    <main>
+    <div className='pl-[24rem] mt-16'>
       {modal &&
         <Modal>
           <ModalHeader
@@ -143,7 +143,7 @@ function Watch() {
           <Board />
         </div>
       </div>
-    </main>
+    </div>
   )
 }
 

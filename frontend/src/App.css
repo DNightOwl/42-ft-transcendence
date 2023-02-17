@@ -277,3 +277,17 @@ main{
     opacity: 0;
   }
 }
+
+.Toastify__toast--default {
+    background-color: #414554 !important;
+    color: #fff !important;
+    border-radius: 0.5rem !important;
+}
+
+.Toastify__toast-container {
+    width: auto !important;
+}
+
+.Toastify__progress-bar {
+    background-color: #251d55 !important;
+}

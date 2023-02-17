@@ -1,6 +1,5 @@
-
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
 import Navigation from "./components/Items/Navigation/Navigation";
 import Home from "./components/Home";
 import Messages from "./components/Messages";
@@ -10,6 +9,11 @@ import { getConversations } from "./Helpers";
 import Queue from './components/Queue';
 import Game from './components/game';
 import Watch from "./components/watch";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import GameInvitation from "./components/Items/gameInvitation";
+import GameSocketContext from "./contexts/gameSocket";
+import axios from "axios";
 
 function App() {
   const [chatState, setChatState] = useState([]);
@@ -19,10 +23,12 @@ function App() {
   const [members, setMembers] = useState(false);
   const [click, setClick] = useState<boolean>(false);
   const [username, setUsername] = useState<string>("");
-
-
-
+  const socket = React.useContext(GameSocketContext);
   const [dataChat, setDataChat] = useState([]);
+
+  const handleDecline = (Id: string) => {
+    socket.emit("decline_game", { senderId: Id });
+  }
 
   useEffect(() => {
     getConversations((res: any) => {
@@ -31,21 +37,61 @@ function App() {
 
   }, []);
 
+  const sendInvitation = () => {
+    axios.post("http://localhost:3000/game/sendInvitation", {
+      receiverId: "75b1e68b-d5e6-4596-8602-5fa9d3d78e70"
+    }, {
+      withCredentials: true
+    }).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      toast.error(err.response.data.message)
+    })
+  }
+
+  useEffect(() => {
+    socket.off("game_invitation").on("game_invitation", (data: any) => {
+      toast(<GameInvitation
+        sender={data.sender}
+        senderId={data.senderId}
+        senderAvatar={data.senderAvatar}
+      />, {
+        position: "top-right",
+        autoClose: 5000,
+        pauseOnHover: true,
+        closeOnClick: true,
+        draggable: true,
+        onClose: () => handleDecline(data.senderId),
+      },
+      );
+    })
+
+  }, []);
+
   return (
-    <BrowserRouter>
-      <Navigation chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} create={create} setCreate={setCreate} members={members} setMembers={setMembers} click={click} setClick={setClick} />
-      <Routes>
-        <Route path='/' element={<Login />} />
-        <Route path='/Login' element={<Login />} />
-        <Route path='/Home' element={<Home />} />
-        <Route path='/game/*' element={<Game />} />
-        <Route path='/watch/*' element={<Watch />} />
-        <Route path='/queue' element={<Queue />} />
-        <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} />} />
-        <Route path='/Profile' element={<Profile setModal={setModal} username={username} />} />
-      </Routes>
-    </BrowserRouter>
+    <>
+      <BrowserRouter>
+        <Navigation chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} create={create} setCreate={setCreate} members={members} setMembers={setMembers} click={click} setClick={setClick} />
+        <Routes>
+          <Route path='/' element={<Login />} />
+          <Route path='/Login' element={<Login />} />
+          <Route path='/Home' element={<Home />} />
+          <Route path='/game/*' element={<Game />} />
+          <Route path='/watch/*' element={<Watch />} />
+          <Route path='/queue' element={<Queue />} />
+          <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} />} />
+          <Route path='/Profile' element={<Profile setModal={setModal} username={username} />} />
+        </Routes>
+        <ToastContainer />
+      </BrowserRouter>
+      <button
+        onClick={sendInvitation}
+      >
+        invite achraf
+      </button>
+    </>
   );
 }
+
 
 export default App;

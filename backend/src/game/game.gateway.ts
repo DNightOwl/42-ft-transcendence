@@ -23,12 +23,18 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     server: Server;
 
     async handleConnection(client: Socket) {
-        // console.log(await this.gameService.getUserFromSocket(client));
-        console.log(`Client connected: ${client.id}`);
+        const user: any = await this.gameService.getUserFromSocket(client);
+        this.gameService.addPlayerToOnlineList({
+            name: user.login,
+            avatar: user.pictureLink,
+            id: user.id,
+            client: client,
+        });
     }
 
     handleDisconnect(client: Socket) {
-        console.log(`Client disconnected: ${client.id}`);
+        const user: any = this.gameService.getUserFromSocket(client);
+        this.gameService.removePlayerFromOnlineList(user.id);
     }
 
     @SubscribeMessage('game_update')
@@ -60,6 +66,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     @SubscribeMessage('game_data')
     handleGameData(client: Socket, data: any) {
+        console.log("game data requested");
         let game = this.gameService.getGameById(data.gameId);
         if (game) {
             this.server.to(game.gameId).emit('game_data', {

@@ -50,6 +50,7 @@ function Game() {
     });
 
     socket.on('game_data', (data: ResultBoard) => {
+      console.log("game data", data);
       setResultBoard(data);
     });
 
@@ -65,7 +66,6 @@ function Game() {
     });
 
     socket.on('game_started', (data: string) => {
-      console.log("game bdat", data);
       setGameState("started");
     });
 
@@ -76,7 +76,7 @@ function Game() {
   }, [])
 
   return (
-    <main>
+    <div className='pl-[24rem] mt-16'>
       {modal &&
         <Modal>
           <ModalHeader
@@ -103,48 +103,50 @@ function Game() {
           </ModalBody>
         </Modal>
       }
-      <div className='w-4/5 flex flex-col gap-8'>
-        <div className='flex flex-row justify-between items-center'>
-          <div className='flex flex-row text-white gap-4 items-center' >
-            <img src={resultBoard.player1Avatar} alt={resultBoard.player1}
-              className='w-[120px] h-[120px] rounded-full' />
-            <div className='flex flex-col'>
-              <h4 className='text-[1.5rem]'>
-                {resultBoard.player1}
-              </h4>
-              <h3 className='text-[4rem] -mt-4'>
-                {resultBoard.player1Score}
-              </h3>
+      <div className='w-4/5 flex flex-col justify-center items-center'>
+        <div className='flex flex-col gap-8'>
+          <div className='flex flex-row justify-between items-center'>
+            <div className='flex flex-row text-white gap-4 items-center' >
+              <img src={resultBoard.player1Avatar} alt={resultBoard.player1}
+                className='w-[120px] h-[120px] rounded-full' />
+              <div className='flex flex-col'>
+                <h4 className='text-[1.5rem]'>
+                  {resultBoard.player1}
+                </h4>
+                <h3 className='text-[4rem] -mt-4'>
+                  {resultBoard.player1Score}
+                </h3>
+              </div>
+            </div>
+            <h4 className='text-white text-[2rem]'>
+              {resultBoard.gameMode}
+            </h4>
+            <div className='flex flex-row text-white gap-4 items-center' >
+              <div className='flex flex-col items-end'>
+                <h4 className='text-[1.5rem]'>
+                  {resultBoard.player2}
+                </h4>
+                <h3 className='text-[4rem] -mt-4'>
+                  {resultBoard.player2Score}
+                </h3>
+              </div>
+              <img src={resultBoard.player2Avatar} alt={resultBoard.player2}
+                className='w-[120px] h-[120px] rounded-full' />
             </div>
           </div>
-          <h4 className='text-white text-[2rem]'>
-            {resultBoard.gameMode}
-          </h4>
-          <div className='flex flex-row text-white gap-4 items-center' >
-            <div className='flex flex-col items-end'>
-              <h4 className='text-[1.5rem]'>
-                {resultBoard.player2}
-              </h4>
-              <h3 className='text-[4rem] -mt-4'>
-                {resultBoard.player2Score}
-              </h3>
-            </div>
-            <img src={resultBoard.player2Avatar} alt={resultBoard.player2}
-              className='w-[120px] h-[120px] rounded-full' />
+          <div className='rounded-lg overflow-hidden relative '>
+            {gameState === 'waiting' &&
+              <div className='absolute flex flex-col w-full h-full justify-center items-cenetr bg-black opacity-60 z-[100]'>
+                <button className='px-4 bg-white text-black rounded-lg text-[4rem] cursor-pointer hover:bg-gray-200 w-[40%] m-auto'
+                  onClick={handleStartGame}
+                > Start! </button>
+              </div>
+            }
+            <Board />
+          </div>
           </div>
         </div>
-        <div className='rounded-lg overflow-hidden relative'>
-          {gameState === 'waiting' &&
-            <div className='absolute flex w-full h-full justify-center items-cenetr bg-black opacity-60 z-[100]'>
-              <button className='px-4 bg-white text-black rounded-lg text-[4rem] cursor-pointer hover:bg-gray-200'
-                onClick={handleStartGame}
-              > Start! </button>
-            </div>
-          }
-          <Board />
-        </div>
-      </div>
-    </main>
+    </div>
   )
 }
 

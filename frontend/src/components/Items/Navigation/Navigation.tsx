@@ -1,13 +1,14 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import NavigationDesktop from "./NavigationDesktop/NavigationDesktop";
 import NavigationPhone from "./NavigationPhone/NavigationPhone";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Modal, ModalHeader, ModalBody } from "../Modal";
 import SettingsBody from "../SettingsBody";
 import NotFound from "../../NotFound";
 import CreateChannelBody from '../CreateChannelBody'
 import Members from "../Members";
 import { getUserData,getConversations } from "../../../Helpers";
+import GameSocketContext from "../../../contexts/gameSocket";
 
 
 interface typeprops {
@@ -47,6 +48,13 @@ export default function Navigation({
   let pathname = location.pathname;
 
   const[dataChat,setDataChat] = useState([]);
+
+  const navigate = useNavigate();
+  const socket = useContext(GameSocketContext);
+
+  socket.off("game_accepted").on("game_accepted", (data: any) => {
+    navigate(`/game/${data.gameId}`);
+  })
   
   useEffect(() => {
     if(location.pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && location.pathname !== "/")
