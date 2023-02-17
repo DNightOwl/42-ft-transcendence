@@ -32,16 +32,6 @@ export interface typeobject{
     latestMessage: string
     role: string,
     type: string,
-    conversation: objectChannel[]
-  }
-
-  export interface message_channel {
-    id: string,
-    name: string,
-    members: number,
-    latestMessage: string
-    role: string,
-    type: string,
     conversation: converssession_channel[]
   }
 

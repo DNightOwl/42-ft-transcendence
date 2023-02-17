@@ -770,7 +770,7 @@ export class RoomService
             role = "member";
         }
         let person : chanel = {id : rooms[index].id, name: rooms[index].name, members: rooms[index].members.length, latestMessage: "", role: role, type: rooms[index].type, conversation : []};
-        person.conversation = allmessage.message.map((x) =>    ({type :"", message : "", picture: "" }));
+        person.conversation = allmessage.message.map((x) =>    ({login :"", message : "", picture: "" }));
         const message_user = await this.prisma.messages.findFirst({
           where: 
           {
@@ -780,7 +780,7 @@ export class RoomService
         if (message_user)
         {
           person.latestMessage = allmessage.message[allmessage.message.length - 1].data;
-          person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data, picture: "" }));
+          person.conversation = allmessage.message.map((x) =>    ({login :"", message :x.data, picture: "" }));
           for (let i = allmessage.message.length - 1; i >= 0 ;i--)
           {
             const user_chanel = await this.prisma.user.findUnique({
@@ -788,13 +788,8 @@ export class RoomService
                 login: allmessage.message[i].userLogin
               }
             })
-            if (user.login == allmessage.message[i].userLogin)
-                person.conversation[i].type = "user";
-            else
-            {
-              person.conversation[i].type = "member";
+              person.conversation[i].login = user_chanel.login;
               person.conversation[i].picture = user_chanel.pictureLink
-            }
 
           }
         }
@@ -931,7 +926,7 @@ export class RoomService
       else
         role = "members";
     }
-    let person : message_channel = {id : room.id, name: room.name, members: room.members.length, latestMessage: "", role: role, type: room.type, conversation : []};
+    let person : chanel = {id : room.id, name: room.name, members: room.members.length, latestMessage: "", role: role, type: room.type, conversation : []};
     person.conversation = allmessage.message.map((x) =>    ({login :"", message : "", picture: "" }));
     const message_user = await this.prisma.messages.findFirst({
       where: 
