@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import { PointsIcon, LockIcon } from "../Items/Icons";
 import { Link } from "react-router-dom";
-import { getConversations, getChannelConversations, joinRoom,leaveRoom } from "../../Helpers";
+import { getConversations, getChannelConversations, joinRoom,leaveRoom, deleteRoom } from "../../Helpers";
 interface Props {
   newMessage?: boolean;
   data: any;
@@ -161,18 +161,18 @@ export default function CardFriendMessage(props: Props) {
                     },props.data.name);
                     
                   }}>
-                    Leave channel
+                    Leave
                   </button>
                   {
                     (props.data.role === "owner")?(
                       <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                         setDropDwon(false)
                         setLeave(true);
-                        leaveRoom((res:any)=>{
+                        deleteRoom((res:any)=>{
                         },props.data.name);
                         
                       }}>
-                        Delete channel
+                        Delete
                       </button>
                     ):null
                   }
