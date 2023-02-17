@@ -20,9 +20,6 @@ export function checkToken(){
         });
 }
 
-export function checkTfa(){
-  
-}
 
 export function checkTokenLogin(){
 
@@ -31,7 +28,7 @@ export function checkTokenLogin(){
           headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
         }).then(()=>{
           if(!socket.connected)
-          socket.connect()
+            socket.connect()
             window.location.href = "http://localhost:3001/Home"
         }).catch(error=>{
             if(error.response.data.statusCode === 401)
@@ -41,7 +38,7 @@ export function checkTokenLogin(){
                 headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
               }).then(()=>{
                 if(!socket.connected)
-                socket.connect()
+                  socket.connect()
                 window.location.href = "http://localhost:3001/Home"
               });
             }
