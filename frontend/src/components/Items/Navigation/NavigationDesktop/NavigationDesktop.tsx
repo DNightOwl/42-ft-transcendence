@@ -14,14 +14,16 @@ interface typeprops{
   click: boolean,
   setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
   setDataProtected?:any
+  pictureUser?:string
+  username?:string
 
 }
 
-export default function NavigationDesktop({chatState ,setChatState, message, setMessages,settings,setCreate, setClick,click,setPassChannel,setDataProtected}:typeprops) {
+export default function NavigationDesktop({chatState ,setChatState, message, setMessages,settings,setCreate, setClick,click,setPassChannel,setDataProtected,pictureUser,username}:typeprops) {
   return (
     <React.Fragment>
       <SideNav messages={message} setMessages={setMessages} chatState={chatState} setChatState={setChatState} setCreate={setCreate} setPassChannel={setPassChannel} setDataProtected={setDataProtected}/>
-      <HeaderNav messages={message} chatState={chatState} settings={settings} clickUser={click} setClickUser={setClick}/>
+      <HeaderNav messages={message} chatState={chatState} settings={settings} clickUser={click} setClickUser={setClick} pictureUser={pictureUser} username={username}/>
     </React.Fragment>
   )
 }

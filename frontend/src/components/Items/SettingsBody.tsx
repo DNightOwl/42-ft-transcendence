@@ -5,12 +5,14 @@ import { getQR,confermQr, confermDisableQr,getUserData } from "../../Helpers";
 
 interface typeProps{
   settings?:React.Dispatch<React.SetStateAction<boolean>>
+  setPictureProfile?:React.Dispatch<React.SetStateAction<string>>
+  setUsername?:React.Dispatch<React.SetStateAction<string>>
   nickname?:any
   pictureUser?:any
 }
 
 
-export default function SettingsBody({settings,nickname,pictureUser}:typeProps) {
+export default function SettingsBody({settings,nickname,pictureUser,setPictureProfile,setUsername}:typeProps) {
 
   const [value, setValue] = useState<string>(nickname);
   const [switchBtn, setSwitchBtn] = useState<boolean>(false);
@@ -130,8 +132,6 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
           Cancel
         </button>
         <button className="w-32 rounded-md bg-primary p-2 text-sm text-primaryText" onClick={()=>{
-          console.log("Link: ",tempPic);
-          console.log("name: ",value);
           let error = false;
 
           if (!value.trim().length)
@@ -145,6 +145,13 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
           if(!error){
             editPicture(picture);
             editNickName(value);
+
+            if(setPictureProfile)
+            {
+              setPictureProfile(pictureuser);
+            }
+            if(setUsername)
+              setUsername(value)
 
             if(settings)
             {
