@@ -208,8 +208,8 @@ export function getMemberChannel(getRes:any,nameChannel:string){
       })
 }
 
-export function logout(){
-  axios.get("http://localhost:3000/auth/logout",{withCredentials: true})
+export function logout(getRes:any){
+  axios.get("http://localhost:3000/auth/logout",{withCredentials: true}).then((res)=>getRes(res)).catch((e)=>getRes(e))
 }
 
 export function validationQr(getRes:any,code:string){
@@ -237,11 +237,28 @@ catch(error){
 }
 
 export function joinRoom(getRes:any,data:any){
-
-  console.log(data);
   
 
   axios.post("http://localhost:3000/rooms/joinroom",{data},{withCredentials: true}).then((res)=>{
     getRes(res)
-  })
+  }).catch()
+}
+
+export function leaveRoom(getRes:any,name:string){
+  axios.post("http://localhost:3000/rooms/quiteRoom",{name},{withCredentials: true}).then((res)=>{
+    getRes(res)
+  }).catch()
+}
+
+export function deleteRoom(getRes:any,name:string){
+  axios.delete(`http://localhost:3000/rooms/Deleteroom/${name}`,{withCredentials: true}).then((res)=>{
+    getRes(res)
+  }).catch()
+}
+
+export function setAdmin(getRes:any,data:any){
+  console.log("data: ",data);
+  axios.post("http://localhost:3000/rooms/setadmins",{data},{withCredentials: true}).then((res)=>{
+    getRes(res)
+  }).catch()
 }

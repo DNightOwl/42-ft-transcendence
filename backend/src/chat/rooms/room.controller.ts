@@ -26,7 +26,6 @@ export class RoomController
     @Post('createroom')
     async CreateRoom(@Req() req: dbUser, @Body() room) {
         const user = req.user
-        console.log(room);
         if (room.data.type === "public" || room.data.type === "private")
             await this.roomservice.CreateRoom(user.login, room.data.name, room.data.type);
         else
@@ -51,7 +50,6 @@ export class RoomController
     async addtoroom(@Req() req: dbUser, @Body() room)
     {
         const user = req.user;
-        console.log(room);
         if (room.data.type == "public")
             await this.roomservice.addtoroom(user, room); 
         else
@@ -126,7 +124,7 @@ export class RoomController
     @Get('allmessages')
     async   getMessage(@Body() room)
     {
-        return await this.roomservice.getMessage(room.name);
+        return await this.roomservice.getMessage(room.name); 
     }
 
     @UseGuards(JwtAuthGuard)
@@ -171,8 +169,8 @@ export class RoomController
     }
 
     @UseGuards(JwtAuthGuard)
-    @Delete('Deleteroom')
-    async   DeleteRoom(@Req() req: dbUser, @Body() room)
+    @Delete('Deleteroom/:name')
+    async   DeleteRoom(@Req() req: dbUser, @Param()  room)
     {
         const user = req.user;
         return this.roomservice.deleteroom(user, room);

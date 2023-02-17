@@ -44,27 +44,41 @@ export default function Messages({
   const [message,setMessage] = useState<any>("");
   
 
-  // axios.get("http://localhost:3000/profile", { 
-  //   withCredentials: true,
-  //     headers :{'Access-Control-Allow-Origin': 'localhost:3000'} 
-  //   }).then().catch(error=>{
-  //       if(error.response.data.statusCode === 401)
-  //       {
-  //         axios.get("http://localhost:3000/auth/refresh", {
-  //           withCredentials: true,
-  //           headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
-  //         }).then().catch((error)=>{
-  //           window.location.href="http://localhost:3001/Login";
-  //         });
-  //       }
-  //   });
-  useEffect(()=>
+  axios.get("http://localhost:3000/profile", { 
+    withCredentials: true,
+      headers :{'Access-Control-Allow-Origin': 'localhost:3000'} 
+    }).then().catch(error=>{
+        if(error.response.data.statusCode === 401)
+        {
+          axios.get("http://localhost:3000/auth/refresh", {
+            withCredentials: true,
+            headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+          }).then().catch((error)=>{
+            window.location.href="http://localhost:3001/Login";
+          });
+        }
+    });
+  
+  
+  
+  
+  
+    useEffect(()=>
   {
+    if(!socket.connected)
+      socket.connect()
     socket.on("msgFromServer", (data) => {
+      
       setChatState(data)
     });
     return () => {socket.off("msgToClients")};
-  })
+  },[])
+
+
+
+
+
+
   useEffect(() => {
     document.title = "Pong - Messages";
     let objDiv = document.querySelectorAll(".conversation");
@@ -153,7 +167,7 @@ export default function Messages({
           </div>
           {
             (chatState?.conversation)?(
-              <div className="send absolute bottom-3 flex w-full items-center rounded-md bg-shape pr-2">
+              <form action="#" className="send absolute bottom-3 flex w-full items-center rounded-md bg-shape pr-2">
               <input
                 type="text"
                 placeholder="Type a message"
@@ -162,18 +176,17 @@ export default function Messages({
                   setMessage(e.currentTarget.value)
                 }}
               />
-              <button className="flex h-8 w-8 items-center justify-center rounded-md bg-primary" onClick={()=>{
-                console.log(chatState);
-                setMessage("");
-                console.log(message);
-                sendMessage()
-                
-                console.log("send");
-                
+              <button type="submit" className="flex h-8 w-8 items-center justify-center rounded-md bg-primary" onClick={(e)=>{
+                e.preventDefault();
+                if(message.trim().length)
+                {
+                 setMessage("");
+                 sendMessage();
+              }
               }}>
                 <SendIcon edit="w-4 fill-white" />
               </button>
-            </div>
+            </form>
             ):null
           }
         </div>
@@ -191,11 +204,11 @@ export default function Messages({
       {modal ? (
         <Modal edit="modal">
           <ModalHeader settings={setModal}>Settings</ModalHeader>
-          <ModalBody>
-            <SettingsBody settings={setModal} nickname={data?.nickname} pictureUser={data?.pictureLink}/>
-          </ModalBody>
-        </Modal>
-      ) : null}
+            <ModalBody>
+              <SettingsBody settings={setModal} nickname={data?.nickname} pictureUser={data?.pictureLink}/>
+            </ModalBody>
+          </Modal>
+        ) : null}
     </React.Fragment>
   );
 }

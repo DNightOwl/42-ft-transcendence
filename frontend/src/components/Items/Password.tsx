@@ -5,9 +5,12 @@ import { joinRoom } from "../../Helpers";
 
 interface typeprops{
   dataProtected?:any
+  setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
+  setChatState?: React.Dispatch<React.SetStateAction<any>>;
+
 }
 
-export default function Password({dataProtected}:typeprops) {
+export default function Password({dataProtected,setPassChannel,setChatState}:typeprops) {
 
     const [error,setError] = useState<boolean>(false);
     const [errorMessage,setErrorMessage] = useState("");
@@ -73,7 +76,19 @@ export default function Password({dataProtected}:typeprops) {
                           {
                             dataProtected.password = value;
                             joinRoom((res:any)=>{
-                              console.log(res);
+                              if(res.data.status === "invalide")
+                              {
+                                error = true;
+                                setErrorMessage("Password incorrect")
+                                setError(true);
+                              }
+                              else
+                              {
+                                if(setChatState)
+                                  setChatState(res.data)
+                                if(setPassChannel)
+                                  setPassChannel(false)
+                              }
                               
                             },dataProtected)
                           }

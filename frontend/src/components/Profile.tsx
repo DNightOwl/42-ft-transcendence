@@ -40,7 +40,7 @@ export default function Profile({setModal,username}:typeProps) {
       })
     })
     
-  },[dataUser,unblock]);
+  },[dataUser,unblock,setFriend]);
 
   // console.log("dataUser: ",dataUser);
   // console.log("fill: ",fill);

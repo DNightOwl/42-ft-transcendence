@@ -19,6 +19,8 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
   const [tempPic,setTempPic] = useState("");
   const [display,setDisplay] = useState<boolean>(false)
   const [base,setBase] = useState("");
+  const [errorName,setErrorName] = useState<boolean>(false);
+  const [errorNameMessagee,setErrorNameMessage] = useState("");
   const [error,setError] = useState<boolean>(false);
   const [errorMessage,setErrorMessage] = useState("");
   const [codeValue,setCodeValue] = useState("");
@@ -75,13 +77,22 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
               </label>
               <input
                 type="text"
-                className="placeholder-secondary-text rounded-md bg-body p-3 text-xs text-primaryText outline-none placeholder:text-xs placeholder:font-light"
+                className={`placeholder-secondary-text rounded-md bg-body p-3 text-xs text-primaryText outline-none placeholder:text-xs placeholder:font-light ${errorName?'error-input':''}`}
                 placeholder="Enter username"
                 value={value}
                 onChange={(e) => {
                   setValue(e.currentTarget.value);
+                  setErrorName(false)
                 }}
               />
+              {
+                  (errorName)?(
+                    <div className="text-error text-xs font-medium fill-error flex gap-1.5">
+                    <ExclamationIcon edit="w-3 h-3 relative top-0.5"/>
+                    <span>{errorNameMessagee}</span>
+                  </div>
+                  ):null
+                }
             </div>
             <div className="flex items-center justify-between">
               <span className="text-sm text-primaryText">
@@ -121,8 +132,26 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
         <button className="w-32 rounded-md bg-primary p-2 text-sm text-primaryText" onClick={()=>{
           console.log("Link: ",tempPic);
           console.log("name: ",value);
-          editPicture(picture);
-          editNickName(value);
+          let error = false;
+
+          if (!value.trim().length)
+          {
+            error = true;
+            setErrorNameMessage("Zone text empty")
+            setErrorName(true);
+          }
+          
+
+          if(!error){
+            editPicture(picture);
+            editNickName(value);
+
+            if(settings)
+            {
+                settings(false);
+                document.body.style.overflow="auto";
+            }
+        }
         }}>
           Save
         </button>

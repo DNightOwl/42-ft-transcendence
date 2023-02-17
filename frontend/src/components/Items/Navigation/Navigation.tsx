@@ -149,7 +149,7 @@ export default function Navigation({
                 <Modal edit="h-auto modal-members pr-0">
                 <ModalHeader edit="pr-4" setPassChannel={setPassChannel}>Password channel</ModalHeader>
                 <ModalBody>
-                  <Password dataProtected={dataProtected}/>
+                  <Password dataProtected={dataProtected} setPassChannel={setPassChannel} setChatState={setChatState}/>
                 </ModalBody>
             </Modal>
               ):null

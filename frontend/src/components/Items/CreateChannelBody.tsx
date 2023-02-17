@@ -58,6 +58,8 @@ export default function CreateChannelBody({setCreate}:typeProps) {
                   setProtected(true)
                   setError(false)
                   setErrorPass(false);
+                  setNameChannel("")
+
                   }}>
                     <span aria-label='Check' className={`${type ==="protected"?"bg-primary":"border-2 border-primary"} w-7 h-7 flex justify-center items-center rounded-full`}>
                         {
