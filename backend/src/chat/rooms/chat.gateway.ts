@@ -47,7 +47,7 @@ import {
       });
         for (let index = 0; index < this.OnlineUser.length; index++)
         {
-          if (this.OnlineUser[index].user.login == user_freind.login)
+          if (this.OnlineUser[index].user.login == user_freind.login || this.OnlineUser[index].user.login == user1.login)
           {
             this.OnlineUser[index].join(roomName);
           }
@@ -134,7 +134,7 @@ import {
           for (let i = 0; i < this.OnlineUser.length; i++)
           {
             const login = rom.members.find((login) => login==this.OnlineUser[i].user.login);
-            if (login && this.OnlineUser[i].user.login != user1.login)
+            if (login)
               this.OnlineUser[i].join(roomName);
           }
           const msg = await this.prisma.messages.create({
@@ -145,7 +145,7 @@ import {
             }
             })
             this.server.to(roomName).emit("msgFromServer",await this.roomservice.emit_messagetoRoom(user1, rom));
-            client.emit("msgFromServer", await this.roomservice.emit_messagetoRoom(user1, rom));
+           // client.emit("msgFromServer", await this.roomservice.emit_messagetoRoom(user1, rom));
         }
       }
     }
