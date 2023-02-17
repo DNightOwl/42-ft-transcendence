@@ -26,7 +26,6 @@ export class RoomController
     @Post('createroom')
     async CreateRoom(@Req() req: dbUser, @Body() room) {
         const user = req.user
-        console.log(room);
         if (room.data.type === "public" || room.data.type === "private")
             await this.roomservice.CreateRoom(user.login, room.data.name, room.data.type);
         else
