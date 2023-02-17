@@ -261,10 +261,13 @@ export function deleteRoom(getRes:any,name:string){
 }
 
 export function setAdmin(data:any){
-  console.log("data: ",data);
   axios.post("http://localhost:3000/rooms/setadmins",{data},{withCredentials: true}).then().catch()
 }
 
 export function setMute(data:any){
   axios.patch("http://localhost:3000/rooms/muted",{data},{withCredentials: true}).then().catch()
+}
+
+export function setBlock(data:any){
+  axios.patch("http://localhost:3000/rooms/ban",{data},{withCredentials: true}).then().catch()
 }
