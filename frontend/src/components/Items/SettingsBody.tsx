@@ -14,7 +14,8 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
 
   const [value, setValue] = useState<string>(nickname);
   const [switchBtn, setSwitchBtn] = useState<boolean>(false);
-  const [picture, setPicture] = useState<string>(pictureUser);
+  const [picture, setPicture] = useState<File>(pictureUser);
+  const [pictureuser, setPictureUser] = useState<string>(pictureUser);
   const [tempPic,setTempPic] = useState("");
   const [display,setDisplay] = useState<boolean>(false)
   const [base,setBase] = useState("");
@@ -35,7 +36,7 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
       <div>
         <div className="flex flex-col gap-10 lg:flex-row lg:gap-12">
           <div className="flex flex-col items-center gap-3">
-            <img src={picture} alt="User" className="h-24 w-24 rounded-full" />
+            <img src={pictureuser} alt="User" className="h-24 w-24 rounded-full" />
             <button
               className="flex w-28 items-center justify-center gap-1 rounded-md bg-primary p-2 text-sm text-primaryText"
               onClick={() => {
@@ -48,6 +49,7 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
               <input
                 type="file"
                 id="file"
+                accept="image/png, image/jpeg, image/jpg"
                 className="hidden"
                 onChange={(e) => {
                   if (e.target.files?.length) {
@@ -60,7 +62,8 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
                       extention === "jpg" ||
                       extention === "JPG"
                     )
-                      setPicture(URL.createObjectURL(e.target.files[0]))
+                      setPicture(e.target.files[0])
+                      setPictureUser(URL.createObjectURL(e.target.files[0]))
                       setTempPic(e.target.files[0].name)
                   }
                 }}
@@ -140,8 +143,9 @@ export default function SettingsBody({settings,nickname,pictureUser}:typeProps) 
           
 
           if(!error){
-            editPicture("user.jpg");
+            editPicture(picture);
             editNickName(value);
+
             if(settings)
             {
                 settings(false);

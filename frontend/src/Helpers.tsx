@@ -97,15 +97,11 @@ export function unblockFriend(login:string){
   axios.patch("http://localhost:3000/profile/unblocked",{login},{withCredentials: true})
 }
 
-export function editPicture(file:any){
-
-  axios({
-    method: "patch",
-    data:file,
-    headers: { "Content-Type": "multipart/form-data" },
-    url: "http://localhost:3000/profile/upload-photo",
-    withCredentials:true
-  })
+export function editPicture(file: File){
+  
+  let fd :FormData = new FormData();
+  fd.append('file',file)
+  axios.patch("http://localhost:3000/profile/upload-photo",fd,{withCredentials:true})
 }
 
 export function editNickName(nickname:string){
