@@ -132,7 +132,8 @@ export default function Messages({
             <div className={`flex flex-col gap-20  ${(chatState?.conversation?.length)?"":"h-full"}`}>
               {(chatState?.members) || (chatState?.conversation?.length)
                 ? chatState?.conversation?.map((e: any, index: number) => {
-                    if (e.type === "friend")
+                  
+                    if (e.login !== data.nickname)
                       return (
                         <BoxMessagesFriend
                           message={e.message}

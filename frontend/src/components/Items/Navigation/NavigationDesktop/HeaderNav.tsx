@@ -33,9 +33,6 @@ export default function HeaderNav({messages,chatState,settings,setClickUser,clic
         })
     },[click]);
     
-    console.log("picture: ",pictureUser);
-    console.log("username: ",username);
-    
     
     
   return (
