@@ -10,6 +10,12 @@ export interface typeobject{
     message: string
     picture: string
   }
+
+  export  interface converssession_channel{
+    login: string
+    message: string
+    picture: string
+  }
   export interface typeObject{
     id:string
     username:string
@@ -27,6 +33,16 @@ export interface typeobject{
     role: string,
     type: string,
     conversation: objectChannel[]
+  }
+
+  export interface message_channel {
+    id: string,
+    name: string,
+    members: number,
+    latestMessage: string
+    role: string,
+    type: string,
+    conversation: converssession_channel[]
   }
 
   export interface userchanel {
