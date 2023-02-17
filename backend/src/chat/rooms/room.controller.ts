@@ -51,7 +51,6 @@ export class RoomController
     async addtoroom(@Req() req: dbUser, @Body() room)
     {
         const user = req.user;
-        console.log(room);
         if (room.data.type == "public")
             await this.roomservice.addtoroom(user, room); 
         else
