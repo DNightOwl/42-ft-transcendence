@@ -402,12 +402,15 @@ export class RoomService
           members: element.members,
           name: element.name,
           type: element.type,
-          owner: element.owner
+          owner: element.owner,
+          blocked: element.blocked
+          
           
       }
       const id = obj.members.find((login) => login==user.login)
+      const user_block = obj.blocked.find((login) =>login==user.login)
       let room : Searchchanel = {name: obj.name, type: obj.type, join: "NON"}
-      if (!id && (obj.type == "public" || obj.type == "protected"))
+      if (!id && (obj.type == "public" || obj.type == "protected") && !user_block)
           allRooms.push(room);
     });
     return allRooms;
