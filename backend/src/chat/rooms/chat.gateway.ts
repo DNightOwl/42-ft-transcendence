@@ -99,7 +99,7 @@ import {
             {
               if (this.OnlineUser[index].user.login == user1.login)
               {
-                client.emit("msgFromServer", await this.roomservice.emit_message(user_freind, room_freind));
+                this.server.to(this.OnlineUser[index]).emit("msgFromServer", await this.roomservice.emit_message(user_freind, room_freind));
               }
             }
             //this.server.to(roomName).emit("msgFromServer", Body.data);
