@@ -52,45 +52,45 @@ export class UsersController {
 
   @UseGuards(JwtAuthGuard)
   @Patch('upload-photo')
-        @UseInterceptors(FileInterceptor('file', {
-          storage: diskStorage({
-              destination: './files',
-              filename: (req, file, callback) => {
-                  const name: string = file.originalname.split('.')[0];
-                  const fileExtention: string = file.originalname.split(".")[1];
-                  const newFileName: string = name.split(" ").join("_") + "_" + Date.now() + "." + fileExtention;
-                  callback(null, newFileName)
-              }
-          }),
+  @UseInterceptors(FileInterceptor('file', {
+    storage: diskStorage({
+      destination: './files',
+      filename: (req:any, file, callback) => {
+        const name: string = file.originalname.split('.')[0];
+        const fileExtention: string = file.originalname.split(".")[1];
+        const newFileName: string = req?.user?.login  + "." + fileExtention;
+        callback(null, newFileName)
+      }
+    }),
           fileFilter : (req, file, callback) => {
             if (!file.originalname.match(/\.(jpg|jpeg|png|gif)$/)){
               return(callback(null, false));
-            }
-            callback(null, true);
-          }
-        }))
+      }
+      callback(null, true);
+    }
+  }))
         async UpdatePicture(@Req() req : dbUser, @UploadedFile() file: Express.Multer.File)
         {
             console.log(file);
-            const user = req.user;
-            if (!file)
-                throw new BadRequestException("File is not image");
+    const user = req.user;
+    if (!file)
+      throw new BadRequestException("File is not image");
             else
             {
-              console.log('hna2');
-              const response = {
-                filePath: `http://localhost:3000/profile/picture/${file.filename}`
-              }
-              this.usersService.updatepicture(user.login, response);
-              return response;
-            }
-          }
+      console.log('hna2');
+      const response = {
+        filePath: `http://localhost:3000/profile/picture/${file.filename}`
+      }
+      this.usersService.updatepicture(user.login, response);
+      return response;
+    }
+  }
 
-        @Get('picture/:filename')
+  @Get('picture/:filename')
         async getPicture(@Param('filename') filename, @Res() res: Response)
         {
             res.sendFile(filename, {root: './files'});
-        }
+  }
 
   @UseGuards(JwtAuthGuard)
   @Get('getfreind')
