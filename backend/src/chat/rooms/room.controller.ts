@@ -171,8 +171,8 @@ export class RoomController
     }
 
     @UseGuards(JwtAuthGuard)
-    @Delete('Deleteroom')
-    async   DeleteRoom(@Req() req: dbUser, @Body() room)
+    @Delete('Deleteroom/:name')
+    async   DeleteRoom(@Req() req: dbUser, @Param()  room)
     {
         const user = req.user;
         return this.roomservice.deleteroom(user, room);
