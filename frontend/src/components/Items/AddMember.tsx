@@ -21,8 +21,6 @@ export default function AddMember({channelData}:typeProps){
             
         },channelData.name)
     },[])
-    console.log(dataMembers);
-    
     if(dataMembers.length)
     return(
         <div className='py-5 w-full flex flex-col gap-6'>

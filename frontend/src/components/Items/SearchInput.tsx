@@ -36,8 +36,6 @@ export default function SearchInput({edit,dataMembers,setDataMembers,reset}:type
             }
             else
             {
-              console.log(reset);
-              
                 data=reset;
                 if(setDataMembers)
                   setDataMembers(data)

@@ -55,8 +55,8 @@ export default function HeaderChat({chatState,settings,setMembers,setAdd}:typePr
                             </button>
                             <button className='flex gap-2  hover:bg-backgroundHover items-center justify-center p-2' onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                                 logout((res:any)=>{
-                                    if(res === "done")
-                                        window.location.href = "http://localhost:3001/Home";
+                                    if(res.data === "done")
+                                        window.location.href = "http://localhost:3001/login";
                                     
                                 });
                             }}>

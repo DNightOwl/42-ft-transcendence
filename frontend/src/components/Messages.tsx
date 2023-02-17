@@ -167,7 +167,7 @@ export default function Messages({
           </div>
           {
             (chatState?.conversation)?(
-              <div  className="send absolute bottom-3 flex w-full items-center rounded-md bg-shape pr-2">
+              <form action="#" className="send absolute bottom-3 flex w-full items-center rounded-md bg-shape pr-2">
               <input
                 type="text"
                 placeholder="Type a message"
@@ -176,14 +176,17 @@ export default function Messages({
                   setMessage(e.currentTarget.value)
                 }}
               />
-              <button className="flex h-8 w-8 items-center justify-center rounded-md bg-primary" onClick={()=>{
-                setMessage("");
-                sendMessage()
-                
+              <button type="submit" className="flex h-8 w-8 items-center justify-center rounded-md bg-primary" onClick={(e)=>{
+                e.preventDefault();
+                if(message.trim().length)
+                {
+                 setMessage("");
+                 sendMessage();
+              }
               }}>
                 <SendIcon edit="w-4 fill-white" />
               </button>
-            </div>
+            </form>
             ):null
           }
         </div>

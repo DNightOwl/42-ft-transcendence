@@ -4,6 +4,7 @@ import UserPicture from '../../../../assets/user.jpg';
 import {useState} from 'react'
 import { getUserData, getUsers,logout } from '../../../../Helpers';
 import CardSearch from '../../CardSearch';
+import { socket } from '../../../../context/socket';
 
 interface typeProps{
     messages:boolean,
@@ -108,8 +109,13 @@ export default function HeaderNav({messages,chatState,settings,setClickUser,clic
                         </button>
                         <button className='flex gap-2  hover:bg-backgroundHover items-center justify-center p-2' onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                             logout((res:any)=>{
-                                 if(res === "done")
-                                    window.location.href = "http://localhost:3001/Home";
+                                console.log(res);
+                                
+                                 if(res.data === "done")
+                                 {
+                                    socket.disconnect()
+                                     window.location.href = "http://localhost:3001/login";
+                                 }
                                 });
                         }}>
                             <LogoutIcon edit='w-5 h-5 fill-primaryText'/>
