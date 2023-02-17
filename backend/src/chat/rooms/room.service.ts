@@ -233,9 +233,11 @@ export class RoomService
         name: room.data.name
       }
     })
-    const id1 =  rooms.admins.find((login) =>login==user_freind.login)
+    console.log('====0');
+    const id1 =  rooms.admins.find((login) =>login==user.login)
     if (!id1)
         throw new ForbiddenException('you are  Not admins');
+    console.log('======1');
     const rom = await this.prisma.room.findUnique({
       where: {
           name: room.data.name
@@ -244,9 +246,11 @@ export class RoomService
     const id_ban = rooms.blocked.find((login) => login==user_freind.login)
     if (id_ban)
       throw new ForbiddenException('user banned');
+      console.log('======2');
       const user_members = rooms.members.find((login) => login==user_freind.login)
       if (user_members)
           throw new ForbiddenException('user already members');
+          console.log('======3');
     const userUpdate = await this.prisma.room.update({
       where: {
         name: room.data.name,
@@ -877,11 +881,12 @@ export class RoomService
       const id1 =  testOwner.admins.find((login) =>login==user.login)
       if (!id1)
           throw new ForbiddenException('you are not admin');
-          const rom = await this.prisma.room.delete({
-            where: {
-                name: room.name
-            }
-        })  
+      const rom = await this.prisma.room.delete({
+        where: {
+            name: room.name
+        }
+      })
+      return rom;
   }
   
   async emit_message(user: user, room: room)

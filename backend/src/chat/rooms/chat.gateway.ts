@@ -177,12 +177,15 @@ import {
       return;
     }
     try {
-      const user = await this.roomservice.getUserFromAuthenticationToken(cookies[jwttoken]); 
+      console.log('=======')
+      const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken); 
       
       //client.user = user
+      console.log(user.login)
       const test = this.OnlineUser.find((client) => client.user.login === user.login);
       if (!test)
       {
+        console.log('=========>');
          await this.prisma.user.update({
          where: {
            login: client.user.login
