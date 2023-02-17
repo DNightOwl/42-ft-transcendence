@@ -2,7 +2,7 @@ import { ForbiddenException, Injectable} from "@nestjs/common";
 import { use } from "passport";
 import { PrismaService } from "src/prisma/prisma.service";
 import { comparepassword, hashPassword} from "./utils/bcrypt";
-import { chanel, typeObject, userchanel, Searchchanel, chanelprotected, message_channel } from "./utils/typeObject";
+import { chanel, typeObject, userchanel, Searchchanel, chanelprotected} from "./utils/typeObject";
 import { JwtService } from "@nestjs/jwt";
 import { ConfigService } from '@nestjs/config';
 import { usersObject } from '../../users/utils/usersObject';
@@ -131,7 +131,7 @@ export class RoomService
         if (message_user)
         {
           person.latestMessage = allmessage.message[allmessage.message.length - 1].data;
-          person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data, picture: "" }));
+          person.conversation = allmessage.message.map((x) =>    ({login :"", message :x.data, picture: "" }));
           for (let i = allmessage.message.length - 1; i >= 0 ;i--)
           {
             const user_chanel = await this.prisma.user.findUnique({
@@ -139,14 +139,8 @@ export class RoomService
                 login: allmessage.message[i].userLogin
               }
             })
-            if (user.login == allmessage.message[i].userLogin)
-                person.conversation[i].type = "user";
-            else
-            {
-              person.conversation[i].type = "member";
-              person.conversation[i].picture = user_chanel.pictureLink
-            }
-
+            person.conversation[i].login = user_chanel.login;
+            person.conversation[i].picture = user_chanel.pictureLink;
           }
         }
         return person; 
@@ -905,7 +899,7 @@ export class RoomService
     return (person);
   }
 
-  async emit_messagetoRoom(user: user, room: room):Promise<message_channel>
+  async emit_messagetoRoom(user: user, room: room):Promise<chanel>
   {
     const allmessage = await this.prisma.room.findUnique({
       where: {
