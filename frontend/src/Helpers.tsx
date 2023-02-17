@@ -260,9 +260,11 @@ export function deleteRoom(getRes:any,name:string){
   }).catch()
 }
 
-export function setAdmin(getRes:any,data:any){
+export function setAdmin(data:any){
   console.log("data: ",data);
-  axios.post("http://localhost:3000/rooms/setadmins",{data},{withCredentials: true}).then((res)=>{
-    getRes(res)
-  }).catch()
+  axios.post("http://localhost:3000/rooms/setadmins",{data},{withCredentials: true}).then().catch()
+}
+
+export function setMute(data:any){
+  axios.patch("http://localhost:3000/rooms/muted",{data},{withCredentials: true}).then().catch()
 }
