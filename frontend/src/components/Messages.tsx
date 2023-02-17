@@ -95,13 +95,13 @@ export default function Messages({
   const dmData = {
       type:"DM",
       data: message,
-      name:chatState?.username
+      name:chatState?.username,
   }
 
   const chatData = {
     type:"RM",
     data: message,
-    name:chatState?.name
+    name:chatState?.name,
 }
   const sendMessage = () =>
   {
