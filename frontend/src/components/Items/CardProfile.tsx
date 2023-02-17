@@ -21,6 +21,7 @@ export default function CardProfile({settings,setModal,dataUser,block}:typeProps
   getUserData(getRes);
   },[setData])
 
+  console.log(dataUser);
   
     return(
         <div className={`flex ${(!dataUser)?"flex-1":""}items-center`}>

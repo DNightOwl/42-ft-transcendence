@@ -133,7 +133,32 @@ export default function Messages({
               {(chatState?.members) || (chatState?.conversation?.length)
                 ? chatState?.conversation?.map((e: any, index: number) => {
                   
-                    if (e.login !== data.nickname)
+                  if(chatState.members){
+                    
+                    if(e.login === data.nickname)
+                    {
+                      return(
+                        <BoxMessagesUser
+                        message={e.message}
+                        time={e.time}
+                        key={index}
+                      />
+                      )
+                    }
+                    else{
+                      return(
+                        <BoxMessagesMember
+                        message={e.message}
+                        time={e.time}
+                        picture={e.picture}
+                        key={index}
+                      />
+                      )
+                    }
+                  }
+                  else{
+                    if(e.type === "friend")
+                    {
                       return (
                         <BoxMessagesFriend
                           message={e.message}
@@ -141,23 +166,17 @@ export default function Messages({
                           key={index}
                         />
                       );
-                    else if (e.type === "member")
-                      return (
-                        <BoxMessagesMember
-                          message={e.message}
-                          time={e.time}
-                          picture={e.picture}
-                          key={index}
-                        />
-                      );
-                    else
+                    }
+                    else{
                       return (
                         <BoxMessagesUser
                           message={e.message}
                           time={e.time}
                           key={index}
                         />
-                      );
+                      )
+                    }
+                  }
                   })
                 : (<div className="h-full flex justify-center items-center">
                   <div className="flex flex-col justify-center gap-3 items-center">
