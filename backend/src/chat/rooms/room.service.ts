@@ -449,12 +449,12 @@ export class RoomService
     {
       const user_freind = await this.prisma.user.findUnique({
         where: {
-            nickname: room.login
+            nickname: room.data.login
          }
       });
       const rooms = await this.prisma.room.findUnique({
           where: {
-            name: room.name
+            name: room.data.name
           }
         })
         const id1 =  rooms.admins.find((login) =>login==user.login)
@@ -465,7 +465,7 @@ export class RoomService
           throw new ForbiddenException('you are not owner, impossiple to remove admin');
           const userUpdate = await this.prisma.room.update({
           where: {
-           name: room.name
+           name: room.data.name
           },
           data: {
             members: {
@@ -477,7 +477,7 @@ export class RoomService
         {
           const adminupdate = await this.prisma.room.update({
             where: {
-             name: room.name
+             name: room.data.name
             },
             data: {
               admins: {
@@ -488,7 +488,7 @@ export class RoomService
         }
         const addtoblock = await this.prisma.room.update({
           where: {
-            name: room.name,
+            name: room.data.name,
           },
           data: {
               blocked: {
@@ -805,12 +805,12 @@ export class RoomService
   {
     const user_freind = await this.prisma.user.findUnique({
       where: {
-          nickname: room.login
+          nickname: room.data.login
        }
     });
     const rooms = await this.prisma.room.findUnique({
       where: {
-        name: room.name
+        name: room.data.name
       }
     })
     const id1 =  rooms.admins.find((login) =>login==user.login)
@@ -833,7 +833,7 @@ export class RoomService
     {
       const adminupdate = await this.prisma.room.update({
         where: {
-         name: room.name
+         name: room.data.name
         },
         data: {
           admins: {
@@ -845,7 +845,7 @@ export class RoomService
     const time = moment().add(1, 'm').format('YYYY-MM-DD hh:mm:ss')
     const mute = await this.prisma.muted.create({
       data: {
-        roomName: room.name,
+        roomName: room.data.name,
         userLogin: user_freind.login,
         time: time
       }
