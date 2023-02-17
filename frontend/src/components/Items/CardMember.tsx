@@ -2,13 +2,16 @@ import React from 'react'
 import PictureProfile from "../../assets/friend.jpg"
 import { PointsIcon } from './Icons'
 import { useState } from 'react'
+import { setAdmin } from '../../Helpers' 
 
 interface typeProps{
     role?:string
     data?:any
+    channelData?:any
 }
 
-export default function CardMember({role,data}:typeProps){
+export default function CardMember({role,data,channelData}:typeProps){
+    
     const [dropDown,setDropDwon] = useState<boolean>(false);
     const [mouse,setMouse] = useState<boolean>(false);
     return(
@@ -48,18 +51,69 @@ export default function CardMember({role,data}:typeProps){
         </button>
         {
                             (dropDown)?(
+                                
                                 <div className="w-32 absolute top-6 right-0 flex flex-col gap-2 rounded-md bg-body py-3 shadow z-10">
-                                <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
-                                  setDropDwon(false)
-                                  
-                                }}>
-                                  Block
-                                </button>
-                                <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
-                                  setDropDwon(false)
-                                }}>
-                                  Invite to play
-                                </button>
+                                    {
+                                        (channelData.role === "owner")?(
+                                            <React.Fragment>
+                                            <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
+                                                setDropDwon(false)
+                                                let obj = {login: data.username,name:channelData.name}
+                                                setAdmin((res:any)=>{
+                                                },obj)
+                                              }}>
+                                                Admin
+                                              </button>
+                                              <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
+                                                setDropDwon(false)
+                                              }}>
+                                                Ivite to play
+                                              </button>
+                                              <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
+                                                setDropDwon(false)
+                                              }}>
+                                                Block
+                                              </button>
+                                              <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
+                                                setDropDwon(false)
+                                              }}>
+                                                Mute
+                                              </button>                                                                                                                                          
+                                            </React.Fragment>
+
+                                        ):(channelData.role === "admin")?(
+                                            <React.Fragment>
+                                            <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
+                                                setDropDwon(false)
+                                              }}>
+                                                Ivite to play
+                                              </button>
+                                              {
+                                              (data.role === "member")?(
+                                                    <React.Fragment>
+                                              <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
+                                                setDropDwon(false)
+                                              }}>
+                                                Block
+                                              </button>
+                                              <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
+                                                setDropDwon(false)
+                                              }}>
+                                                Mute
+                                              </button>                                                           
+                                                    </React.Fragment>
+                                                ):null
+                                              }                                                
+                                            </React.Fragment>
+
+                                        ):(
+                                            <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
+                                                setDropDwon(false)
+                                              }}>
+                                                Ivite to play
+                                              </button>
+                                        )
+                                    }
                               </div>
                               ):null
             }

@@ -16,7 +16,7 @@ export default function Role({channelData,roles,members}:typeProps){
                     <div className={`flex flex-col gap-5 ${!members.length?'':'pb-6 role'}`}>
                     {
                         roles.map((e:any,index:number)=>{
-                               return <CardMember data={e} role={e.role} key={index}/>
+                               return <CardMember data={e} role={e.role} key={index} channelData={channelData}/>
                         })
                     }
                 </div>
@@ -28,7 +28,7 @@ export default function Role({channelData,roles,members}:typeProps){
                     <div className='flex flex-col gap-5'>
                     {
                         members.map((e:any, index:number)=>{{
-                            return <CardMember data={e} key={index}/>
+                            return <CardMember data={e} key={index} channelData={channelData}/>
                         }})
                     }
                     </div>

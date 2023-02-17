@@ -259,3 +259,10 @@ export function deleteRoom(getRes:any,name:string){
     getRes(res)
   }).catch()
 }
+
+export function setAdmin(getRes:any,data:any){
+  console.log("data: ",data);
+  axios.post("http://localhost:3000/rooms/setadmins",{data},{withCredentials: true}).then((res)=>{
+    getRes(res)
+  }).catch()
+}
