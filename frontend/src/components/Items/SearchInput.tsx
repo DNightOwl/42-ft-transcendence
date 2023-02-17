@@ -31,8 +31,15 @@ export default function SearchInput({edit,dataMembers,setDataMembers,reset}:type
                         return e;        
                     }
                 })
-                if(setDataMembers)
-                  setDataMembers(data);
+                if(data.length)
+                {
+                  if(setDataMembers)
+                    setDataMembers(data);
+                }
+                else{
+                  if(setDataMembers)
+                    setDataMembers("none")
+                }
             }
             else
             {
@@ -41,8 +48,6 @@ export default function SearchInput({edit,dataMembers,setDataMembers,reset}:type
                   setDataMembers(data)
                 
             }
-            
-            
         }}
         />
       </div>
