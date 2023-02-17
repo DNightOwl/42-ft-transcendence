@@ -16,6 +16,7 @@ import { RoomService } from './room.service';
 import { prisma } from '@prisma/client';
 import { dbUser } from '../../users/dto/types';
 import * as moment from 'moment';
+import { ForbiddenException} from "@nestjs/common";
 
 
 @Controller('rooms')
@@ -25,11 +26,16 @@ export class RoomController
     @UseGuards(JwtAuthGuard)
     @Post('createroom')
     async CreateRoom(@Req() req: dbUser, @Body() room) {
-        const user = req.user
-        if (room.data.type === "public" || room.data.type === "private")
-            await this.roomservice.CreateRoom(user.login, room.data.name, room.data.type);
-        else
-            await this.roomservice.CreateRoomprotected(user.login, room.data.name, room.data.type, room.data.password);
+        try{
+            const user = req.user
+            if (room.data.type === "public" || room.data.type === "private")
+                await this.roomservice.CreateRoom(user.login, room.data.name, room.data.type);
+            else
+                await this.roomservice.CreateRoomprotected(user.login, room.data.name, room.data.type, room.data.password);
+        }
+        catch (error) {
+            throw new ForbiddenException('name existe');
+          }
     }
 
     
@@ -37,11 +43,15 @@ export class RoomController
     @Post('/joinroom')
     async  joinroom(@Req() req: dbUser, @Body() room)
     {
-        const user = req.user
-        if (room.data.type === "public")
-           return await this.roomservice.joinroom(user, room.data.name);
-        else if (room.data.type == "protected")
-            return await this.roomservice.joinroomprotected(user, room);
+        try
+        {
+            const user = req.user
+            if (room.data.type === "public")
+               return await this.roomservice.joinroom(user, room.data.name);
+            else if (room.data.type == "protected")
+                return await this.roomservice.joinroomprotected(user, room);
+        }
+        catch(error) {}
     }
 
     
@@ -49,11 +59,17 @@ export class RoomController
     @Post('/addtoroom')
     async addtoroom(@Req() req: dbUser, @Body() room)
     {
+        try
+        {
+
+        
         const user = req.user;
         if (room.data.type == "public")
             await this.roomservice.addtoroom(user, room); 
         else
             await this.roomservice.addtoroomNopublic(user, room);
+        }
+        catch(error){}        
     }
 
     @UseGuards(JwtAuthGuard)
@@ -89,20 +105,16 @@ export class RoomController
         return await this.roomservice.getAllRooms(user);
     }
 
-    // @UseGuards(JwtAuthGuard)
-    // @Get()
-    // async   getRoomsForUser(@Req() req: dbUser)
-    // {
-    //     const user = req.user;
-    //     return await this.roomservice.getRoomsForUser(user);
-    // }
-
     @UseGuards(JwtAuthGuard)
     @Post('/setadmins')
      async  setuseradmins(@Req() req: dbUser, @Body() room)
      {
-        const user = req.user;
-        await this.roomservice.adduseradmins(user, room);
+        try
+        {
+            const user = req.user;
+            await this.roomservice.adduseradmins(user, room);
+        }
+        catch(error){}
      }
 
     @UseGuards(JwtAuthGuard)
@@ -121,6 +133,7 @@ export class RoomController
         await this.roomservice.unblockfromroom(user, room);
     }
 
+    @UseGuards(JwtAuthGuard)
     @Get('allmessages')
     async   getMessage(@Body() room)
     {

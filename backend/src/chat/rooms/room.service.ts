@@ -42,6 +42,8 @@ export class RoomService
                     status: true
                 }
             });
+            if (!user)
+              return ;
             return user;
         }
 
@@ -68,7 +70,7 @@ export class RoomService
   
       async CreateRoomprotected(userlogin: string, name: string, type: string, password: string){
         if (!password)
-        throw new ForbiddenException('entrez password');
+          throw new ForbiddenException('entrez password');
         const rooms = await this.prisma.room.findUnique({
           where: {
               name: name
@@ -94,6 +96,8 @@ export class RoomService
                 name: name
             }
         });
+        if (!rooms)
+          return ;
         if (rooms.blocked)
         {
           const id_ban = rooms.blocked.find((login) => login==user.login)
@@ -362,29 +366,6 @@ export class RoomService
   }
   return obj;
 } 
-
-  // async getallRooms(user: any){
-  //   let allRooms = [];
-
-  //   const rooms = await this.prisma.room.findMany();
-  //   rooms.forEach(element => {
-
-  //     let obj = {
-  //         id: element.id,
-  //         admins: element.admins,
-  //         members: element.members,
-  //         name: element.name,
-  //         type: element.type,
-  //         owner: element.owner
-          
-  //       }
-  //       console.log()
-  //       //const u = element.members.find((login): => login==user.login);
-  //       if (obj.type === "public" || obj.type === "protected")
-  //         allRooms.push(obj);
-  //     });
-  //     return allRooms;
-  //   }
   async getAllRooms(user: any){
     let allRooms : Searchchanel[]= [];
 
@@ -764,7 +745,7 @@ export class RoomService
             role = "member";
         }
         let person : chanel = {id : rooms[index].id, name: rooms[index].name, members: rooms[index].members.length, latestMessage: "", role: role, type: rooms[index].type, conversation : []};
-        person.conversation = allmessage.message.map((x) =>    ({login :"", message : "", picture: "" }));
+        person.conversation = allmessage.message.map((x) =>    ({login :"", message : "", picture: "", type: "" }));
         const message_user = await this.prisma.messages.findFirst({
           where: 
           {
@@ -774,7 +755,7 @@ export class RoomService
         if (message_user)
         {
           person.latestMessage = allmessage.message[allmessage.message.length - 1].data;
-          person.conversation = allmessage.message.map((x) =>    ({login :"", message :x.data, picture: "" }));
+          person.conversation = allmessage.message.map((x) =>    ({login :"", message :x.data, picture: "", type: "" }));
           for (let i = allmessage.message.length - 1; i >= 0 ;i--)
           {
             const user_chanel = await this.prisma.user.findUnique({
@@ -921,7 +902,7 @@ export class RoomService
         role = "members";
     }
     let person : chanel = {id : room.id, name: room.name, members: room.members.length, latestMessage: "", role: role, type: room.type, conversation : []};
-    person.conversation = allmessage.message.map((x) =>    ({login :"", message : "", picture: "" }));
+    person.conversation = allmessage.message.map((x) =>    ({login :"", message : "", picture: ""}));
     const message_user = await this.prisma.messages.findFirst({
       where: 
       {
@@ -931,7 +912,7 @@ export class RoomService
     if (message_user)
     {
       person.latestMessage = allmessage.message[allmessage.message.length - 1].data;
-      person.conversation = allmessage.message.map((x) =>    ({login :"", message :x.data, picture: "" }));
+      person.conversation = allmessage.message.map((x) =>    ({login :"", message :x.data, picture: ""}));
       for (let i = allmessage.message.length - 1; i >= 0 ;i--)
       {
         const user_chanel = await this.prisma.user.findUnique({
@@ -940,7 +921,7 @@ export class RoomService
           }
         })
           person.conversation[i].login = user_chanel.nickname;
-          person.conversation[i].picture = user_chanel.pictureLink
+          person.conversation[i].picture = user_chanel.pictureLink;
       }
     }
     return person;
