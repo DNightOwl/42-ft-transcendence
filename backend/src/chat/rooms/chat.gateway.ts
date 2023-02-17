@@ -156,6 +156,7 @@ import {
 
    
    async handleDisconnect(@ConnectedSocket() client: any){
+    console.log('=======>');
     for (let index = 0; index < this.OnlineUser.length; index++)
       {
         if (this.OnlineUser[index].id == client.id)
@@ -200,6 +201,7 @@ import {
    
    async  handleConnection(@ConnectedSocket() client: any) {
 
+    console.log('=====++++++')
     const cookies :{ [key: string]: string } = cookie.parse(client.handshake.headers.cookie || "");
     if (!cookies['accessToken'])
     {
