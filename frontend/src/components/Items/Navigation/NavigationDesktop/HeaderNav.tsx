@@ -35,7 +35,7 @@ export default function HeaderNav({messages,chatState,settings,setClickUser,clic
     
     
     
-  return (
+  return ( 
     (!messages)?(
         <section className='hidden lg:flex justify-between items-start mr-4 ml-64 pt-7 gap-5'>
             <div className='flex-1 relative'>

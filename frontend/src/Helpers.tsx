@@ -40,7 +40,7 @@ export function checkTokenLogin(){
                 if(!socket.connected)
                   socket.connect()
                 window.location.href = "http://localhost:3001/Home"
-              });
+              }).catch();
             }
         });
 
@@ -65,11 +65,11 @@ export function getUsers(getRes:any){
 }
 
 export function addFriend(login:string){
-  axios.post("http://localhost:3000/profile/addfreind",{login},{withCredentials: true})
+  axios.post("http://localhost:3000/profile/addfreind",{login},{withCredentials: true}).then().catch()
 }
 
 export function unFriend(login:string){
-  axios.delete(`http://localhost:3000/profile/unfreind/${login}`,{withCredentials: true})
+  axios.delete(`http://localhost:3000/profile/unfreind/${login}`,{withCredentials: true}).then().catch()
 }
 
 export function getFriends(getRes:any){
@@ -78,7 +78,7 @@ export function getFriends(getRes:any){
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
       }).then((res)=>{
           getRes(res.data) 
-      })
+      }).catch()
 }
 
 export function getFriendsUsers(getRes:any,login:string){
@@ -87,32 +87,32 @@ export function getFriendsUsers(getRes:any,login:string){
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
       }).then((res)=>{
           getRes(res.data) 
-      })
+      }).catch()
 }
 
 export function blockFriend(login:string){
-  axios.patch("http://localhost:3000/profile/blocked",{login},{withCredentials: true})
+  axios.patch("http://localhost:3000/profile/blocked",{login},{withCredentials: true}).then().catch()
 }
 
 export function unblockFriend(login:string){
-  axios.patch("http://localhost:3000/profile/unblocked",{login},{withCredentials: true})
+  axios.patch("http://localhost:3000/profile/unblocked",{login},{withCredentials: true}).then().catch()
 }
 
 export function editPicture(file: File){
   
   let fd :FormData = new FormData();
   fd.append('file',file)
-  axios.patch("http://localhost:3000/profile/upload-photo",fd,{withCredentials:true})
+  axios.patch("http://localhost:3000/profile/upload-photo",fd,{withCredentials:true}).then().catch()
 }
 
 export function editNickName(nickname:string){
-  axios.patch("http://localhost:3000/profile/seting",{nickname},{withCredentials: true})
+  axios.patch("http://localhost:3000/profile/seting",{nickname},{withCredentials: true}).then().catch()
 }
 
 export function getAchievements(getRes:any,id:string){
   axios.post("http://localhost:3000/achievements",{id},{withCredentials: true}).then((res:any)=>{
     getRes(res)
-  })
+  }).catch()
 }
 
 export function getConversations(getRes:any){
@@ -121,7 +121,7 @@ export function getConversations(getRes:any){
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
       }).then((res)=>{
         getRes(res);
-      })
+      }).catch()
 }
 
 
@@ -132,7 +132,7 @@ export function getAllUsersDm(getRes:any){
       }).then((res:any)=>{
         
         getRes(res);
-      })
+      }).catch()
 }
 
 export function getAllChannels(getRes:any){
@@ -142,7 +142,7 @@ export function getAllChannels(getRes:any){
       }).then((res:any)=>{
         
         getRes(res);
-      })
+      }).catch()
 }
 
 
@@ -152,13 +152,13 @@ export function getChannelConversations(getRes:any){
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
       }).then((res)=>{
         getRes(res);
-      })
+      }).catch()
 }
 
 export function getQR(getRes:any){
   axios.post("http://localhost:3000/auth/generateqr",{},{withCredentials: true}).then((res:any)=>{
     getRes(res)
-  })
+  }).catch()
 }
 
 export function confermQr(getRes:any,code:string){
@@ -181,7 +181,7 @@ export function confermDisableQr(getRes:any,code:string){
 
 export function CreateChannel(data:any){
 
-  axios.post("http://localhost:3000/rooms/createroom",{data},{withCredentials: true})
+  axios.post("http://localhost:3000/rooms/createroom",{data},{withCredentials: true}).then().catch()
 }
 
 export function getFriendChannel(getRes:any,nameChannel:string){
@@ -191,12 +191,12 @@ export function getFriendChannel(getRes:any,nameChannel:string){
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
       }).then((res)=>{
           getRes(res.data) 
-      })
+      }).catch()
 }
 
 export function addFriendToChannel(data:any){
 
-  axios.post("http://localhost:3000/rooms/addtoroom",{data},{withCredentials: true})
+  axios.post("http://localhost:3000/rooms/addtoroom",{data},{withCredentials: true}).then().catch()
 }
 
 export function getMemberChannel(getRes:any,nameChannel:string){
@@ -205,8 +205,8 @@ export function getMemberChannel(getRes:any,nameChannel:string){
       withCredentials: true,
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
       }).then((res)=>{
-          getRes(res.data) 
-      })
+          getRes(res.data)
+      }).catch()
 }
 
 export function logout(getRes:any){

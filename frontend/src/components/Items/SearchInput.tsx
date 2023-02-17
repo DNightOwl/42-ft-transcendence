@@ -26,20 +26,16 @@ export default function SearchInput({edit,dataMembers,setDataMembers,reset}:type
             setValue(e.currentTarget.value)
             if(value.length)
             {
+              
                 data = dataMembers.filter((e:any)=>{
-                    if(e.username.search(value) != -1){
+                  console.log(e);
+                    if(e.username.toLowerCase().search(value.toLowerCase()) != -1){
                         return e;        
                     }
                 })
-                if(data.length)
-                {
-                  if(setDataMembers)
-                    setDataMembers(data);
-                }
-                else{
-                  if(setDataMembers)
-                    setDataMembers("none")
-                }
+                
+                if(setDataMembers)
+                  setDataMembers(data);
             }
             else
             {
@@ -48,6 +44,8 @@ export default function SearchInput({edit,dataMembers,setDataMembers,reset}:type
                   setDataMembers(data)
                 
             }
+            
+            
         }}
         />
       </div>
