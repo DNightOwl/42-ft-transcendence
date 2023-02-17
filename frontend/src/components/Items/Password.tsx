@@ -76,7 +76,19 @@ export default function Password({dataProtected,setPassChannel,setChatState}:typ
                           {
                             dataProtected.password = value;
                             joinRoom((res:any)=>{
-                              console.log(res);
+                              if(res.data.status === "invalide")
+                              {
+                                error = true;
+                                setErrorMessage("Password incorrect")
+                                setError(true);
+                              }
+                              else
+                              {
+                                if(setChatState)
+                                  setChatState(res.data)
+                                if(setPassChannel)
+                                  setPassChannel(false)
+                              }
                               
                             },dataProtected)
                           }
