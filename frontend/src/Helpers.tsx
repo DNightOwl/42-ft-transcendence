@@ -27,8 +27,6 @@ export function checkTokenLogin(){
         withCredentials: true,
           headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
         }).then(()=>{
-          if(!socket.connected)
-            socket.connect()
             window.location.href = "http://localhost:3001/Home"
         }).catch(error=>{
             if(error.response.data.statusCode === 401)
@@ -37,8 +35,6 @@ export function checkTokenLogin(){
                 withCredentials: true,
                 headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
               }).then(()=>{
-                if(!socket.connected)
-                  socket.connect()
                 window.location.href = "http://localhost:3001/Home"
               }).catch();
             }

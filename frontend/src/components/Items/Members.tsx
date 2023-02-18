@@ -11,14 +11,12 @@ interface typeProps{
 export default function Members({channelData}:typeProps){
     const [roles,setRoles] = useState<any>([]);
     const [members,setMembers] = useState<any>([]);
-    const [reset,setReset] =  useState([]);
-    const [search,setSearch] =  useState([]);
     useEffect(()=>{
 
         let roles:any = [];
         let members:any= [];
         getMemberChannel((res:any)=>{
-            
+
             res.forEach((e:any)=>{
                 if(e.role !== "member")
                     roles.push(e);
