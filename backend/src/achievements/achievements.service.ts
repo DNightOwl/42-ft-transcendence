@@ -48,23 +48,23 @@ export class AchievementsService {
 		const loseCount : number= 10;
 		let achievementIds : Nullable<string[]|null> = []
 		//check achievement with point
-		const craftedGoalPoints = await this.craftAchievementGoal(AchievementType.POINT, gameStat.score);
-		const achievementId = await this.fetchAchievementByGoal(craftedGoalPoints);
+		const craftedGoalPoints : string = await this.craftAchievementGoal(AchievementType.POINT, gameStat.score);
+		const achievementId : { id : string} = await this.fetchAchievementByGoal(craftedGoalPoints);
 		if( achievementId?.id)
 				achievementIds.push(achievementId.id);
 		//if check achievement with win
 		//else check achievement with lose
 		if(gameStat.stat === "win") {
 			//get count of wins in match history
-			const craftedGoalWins = await this.craftAchievementGoal(AchievementType.WIN, winCount);
-			const achievementId = await this.fetchAchievementByGoal(craftedGoalWins);
+			const craftedGoalWins : string = await this.craftAchievementGoal(AchievementType.WIN, winCount);
+			const achievementId : {id : string} = await this.fetchAchievementByGoal(craftedGoalWins);
 			if( achievementId?.id)
 				achievementIds.push(achievementId.id);
 		}
 		else if (gameStat.stat === "lose") {
 			//get count of loses in match history
-			const craftedGoalLoses = await this.craftAchievementGoal(AchievementType.LOSE, winCount);
-			const achievementId = await this.fetchAchievementByGoal(craftedGoalLoses);
+			const craftedGoalLoses : string = await this.craftAchievementGoal(AchievementType.LOSE, winCount);
+			const achievementId : { id : string} = await this.fetchAchievementByGoal(craftedGoalLoses);
 			if( achievementId?.id)
 				achievementIds.push(achievementId.id);
 		}
