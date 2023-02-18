@@ -13,7 +13,7 @@ import {Response} from 'express'
 import { HttpExceptionFilter } from '../chat/rooms/room.exception'
 
 
-@UseFilters(new HttpExceptionFilter())
+
 @Controller('profile')
 export class UsersController {
   constructor(private readonly usersService: UsersService, private prisma: PrismaService, private roomservice: RoomService) {}
@@ -25,6 +25,7 @@ export class UsersController {
       return this.usersService.getAllUsers(user);
     
     }
+
   @UseGuards(JwtAuthGuard)
   @Get()
   async GetProfile(@Req() req : dbUser){
@@ -100,6 +101,7 @@ export class UsersController {
     return await this.usersService.getfreind(user.login);
   }
 
+  @UseFilters(new HttpExceptionFilter())
   @UseGuards(JwtAuthGuard)
   @Post('addfreind')
   async addfriend(@Req() req : dbUser, @Body() freind)
