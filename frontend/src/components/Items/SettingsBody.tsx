@@ -1,7 +1,7 @@
 import React, { useState,useEffect } from "react";
 import { EditAvatarIcon, ExclamationIcon } from "./Icons";
-import { editPicture,editNickName } from "../../Helpers";
-import { getQR,confermQr, confermDisableQr,getUserData } from "../../Helpers";
+import { editPicture,editNickName, checkTfa, DisableQr } from "../../Helpers";
+import { getQR,confermQr,getUserData } from "../../Helpers";
 
 interface typeProps{
   settings?:React.Dispatch<React.SetStateAction<boolean>>
@@ -146,6 +146,15 @@ export default function SettingsBody({settings,nickname,pictureUser,setPicturePr
             editPicture(picture);
             editNickName(value);
 
+
+
+            if(switchBtn)
+              checkTfa();
+            else{
+              DisableQr();
+            }
+
+
             if(setPictureProfile)
             {
               setPictureProfile(pictureuser);
@@ -240,7 +249,7 @@ export default function SettingsBody({settings,nickname,pictureUser,setPicturePr
               {
                 if(!switchBtn){
                   confermQr((res:any)=>{
-                    if(res.data === "enabled"){
+                    if(res.data === "valid"){
                       setSwitchBtn(true)
                       setDisplay(false)
                     }
@@ -253,9 +262,9 @@ export default function SettingsBody({settings,nickname,pictureUser,setPicturePr
                 }
                 else{
 
-                  confermDisableQr((res:any)=>{
+                  confermQr((res:any)=>{
                     
-                    if(res.data === "disabled"){
+                    if(res.data === "valid"){
                       setSwitchBtn(false)
                       setDisplay(false)
                     }

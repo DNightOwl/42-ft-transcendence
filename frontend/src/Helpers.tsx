@@ -160,21 +160,25 @@ export function getQR(getRes:any){
 }
 
 export function confermQr(getRes:any,code:string){
-
-  axios.post("http://localhost:3000/auth/enabletfa",{code:code},{withCredentials: true}).then((res:any)=>{
+axios.post("http://localhost:3000/auth/codeverification",{code:code},{withCredentials: true}).then((res:any)=>{
   getRes(res)
   }).catch((error)=>{
     getRes(error);
   })
 }
 
-export function confermDisableQr(getRes:any,code:string){
+export function checkTfa(){
 
-  axios.post("http://localhost:3000/auth/disabletfa",{code:code},{withCredentials: true}).then((res:any)=>{
-  getRes(res)
-  }).catch((error)=>{
-    getRes(error);
-  })
+  axios.post("http://localhost:3000/auth/enabletfa",{},{withCredentials: true}).then((res)=>{
+    console.log(res);
+    
+  }).catch()
+}
+
+export function DisableQr(){
+
+  axios.post("http://localhost:3000/auth/disabletfa",{},{withCredentials: true}).then((res:any)=>{
+  }).catch()
 }
 
 export function CreateChannel(data:any){
