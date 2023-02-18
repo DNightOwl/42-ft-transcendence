@@ -32,9 +32,7 @@ export default function HeaderNav({messages,chatState,settings,setClickUser,clic
             setFill(res.data)
         })
     },[click]);
-    
-    
-    
+
   return ( 
     (!messages)?(
         <section className='hidden lg:flex justify-between items-start mr-4 ml-64 pt-7 gap-5'>
@@ -49,7 +47,7 @@ export default function HeaderNav({messages,chatState,settings,setClickUser,clic
                         if(value.length)
                         {
                             data = fill.filter((e:any)=>{
-                                if(e.username.search(value) != -1){
+                                if(e.username.toLowerCase().search(value.toLowerCase()) != -1){
                                     return e;        
                                 }
                             })
@@ -73,7 +71,7 @@ export default function HeaderNav({messages,chatState,settings,setClickUser,clic
                             {
                                 dataUsers.map((e:any,index)=>{
                                     return(
-                                        <CardSearch friend={e.freind} username={e.username} picture={e.pictureLink} key={index} setDisplay={setDisplay} setValue={setValue} status={e.status} click={clickUser} setClick={setClickUser}/>
+                                        <CardSearch data={e} click={clickUser} setClick={setClickUser} key={index} setDisplay={setDisplay}/>
                                     )
                                 })
                             }

@@ -8,6 +8,7 @@ import Profile from "./components/Profile";
 import Login from "./components/Login";
 import Tfa from "./components/Tfa";
 import { getConversations } from "./Helpers";
+import ProfileUser from "./components/ProfileUser"
 
 function App() {
   const [chatState,setChatState] = useState([]);
@@ -35,7 +36,8 @@ function App() {
         <Route path='/Login' element={<Login/>} />
           <Route path='/Home' element={<Home/>} />
           <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} add={add} setAdd={setAdd}/>}/>
-          <Route path='/Profile' element={<Profile setModal={setModal} username={username} />}/>
+          <Route path='/Profile' element={<Profile setModal={setModal}/>}/>
+          <Route path='/ProfileUser' element={<ProfileUser />}/>
           <Route path='/Tfa' element={<Tfa />}/>
         </Routes>
     </BrowserRouter>

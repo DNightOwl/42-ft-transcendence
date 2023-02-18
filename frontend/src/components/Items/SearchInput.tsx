@@ -28,7 +28,6 @@ export default function SearchInput({edit,dataMembers,setDataMembers,reset}:type
             {
               
                 data = dataMembers.filter((e:any)=>{
-                  console.log(e);
                     if(e.username.toLowerCase().search(value.toLowerCase()) != -1){
                         return e;        
                     }

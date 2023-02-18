@@ -134,6 +134,9 @@ export default function Messages({
                 ? chatState?.conversation?.map((e: any, index: number) => {
                   
                   if(chatState.members){
+                    console.log(e.login);
+                    console.log(data.nickname);
+                    
                     
                     if(e.login === data.nickname)
                     {
