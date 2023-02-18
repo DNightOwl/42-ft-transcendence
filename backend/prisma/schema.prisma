@@ -25,6 +25,7 @@ model user {
     freinds Freinds[]
     two_fa_secret String?
     two_fa_enabled Boolean @default(false)
+    two_fa_valid Boolean @default(false)
     status String @default("of")
     
   
