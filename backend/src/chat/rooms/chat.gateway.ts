@@ -37,7 +37,6 @@ import {
     const user1 = client.user;
     this.id += 1;
     let roomName = `<${client.user.login}_${this.id}>`
-    console.log(this.id);
       if (Body.type.toString() == 'DM')
       {
         const user_freind = await this.prisma.user.findUnique({
@@ -145,18 +144,11 @@ import {
             }
             })
             this.server.to(roomName).emit("msgFromServer",await this.roomservice.emit_messagetoRoom(user1, rom));
-           // client.emit("msgFromServer", await this.roomservice.emit_messagetoRoom(user1, rom));
         }
       }
     }
    
-    // afterInit(server: Server) {
-    //  console.log('Init');
-    // } 
-
-   
    async handleDisconnect(@ConnectedSocket() client: any){
-    console.log('=======>');
     for (let index = 0; index < this.OnlineUser.length; index++)
       {
         if (this.OnlineUser[index].id == client.id)
@@ -179,9 +171,6 @@ import {
     }
     try {
       const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken); 
-      
-      //client.user = user
-      console.log(user.login)
       const test = this.OnlineUser.find((client) => client.user.login === user.login);
       if (!test)
       {
@@ -200,8 +189,6 @@ import {
   }
    
    async  handleConnection(@ConnectedSocket() client: any) {
-
-    console.log('=====++++++')
     const cookies :{ [key: string]: string } = cookie.parse(client.handshake.headers.cookie || "");
     if (!cookies['accessToken'])
     {
