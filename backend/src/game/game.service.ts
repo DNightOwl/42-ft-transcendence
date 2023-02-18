@@ -94,7 +94,7 @@ export class GameService {
         const senderClient = this.OnlinePlayers.find((player) => player.id === senderId);
         const recipientClient = this.OnlinePlayers.find((player) => player.id === receiver.id);
         if (!senderClient) throw new HttpException("Player not found", HttpStatus.NOT_FOUND);
-        let game = new Game(this.gameGateway, this, senderId, receiver.id, senderClient.name, receiver.login, receiver.pictureLink, senderClient.avatar, "classic");
+        let game = new Game(this.gameGateway, this, senderId, receiver.id, receiver.login, senderClient.name, receiver.pictureLink, senderClient.avatar, "classic");
         senderClient.client.emit("game_accepted", {
             gameId: game.gameId,
         });
