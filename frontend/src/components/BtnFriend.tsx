@@ -4,12 +4,13 @@ import { ArrowDownIcon, FriendIcon, ArrowUpIcon } from "./Items/Icons"
 import { useState } from "react";
 import { unFriend } from "../Helpers";
 interface typeProps{
-    setFriend: React.Dispatch<React.SetStateAction<boolean>>;
+    setFriend?: React.Dispatch<React.SetStateAction<any>>;
+  setUnfriend?: React.Dispatch<React.SetStateAction<any>>;
     dataUser:any
   
   }
 
-export function BtnFriend ({setFriend,dataUser}:typeProps){
+export function BtnFriend ({setFriend,dataUser,setUnfriend}:typeProps){
     const [dropDown,setDropDwon] = useState<boolean>(false);
     const [arrow,setArrow] = useState<boolean>(false);
     const [mouse,setMouse] = useState<boolean>(false);
@@ -50,7 +51,10 @@ export function BtnFriend ({setFriend,dataUser}:typeProps){
         setDropDwon(false);
         setArrow(false);
         unFriend(dataUser.username);
-        setFriend(false);
+        if(setFriend)
+          setFriend(false);
+        if(setUnfriend)
+          setUnfriend(true)
         
         
       }}>

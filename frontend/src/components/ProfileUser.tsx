@@ -9,13 +9,13 @@ import { BtnMessage } from "./BtnMessage";
 import { BtnFriend } from "./BtnFriend";
 
 
-export default function Profile() {
+export default function ProfileUser() {
 
   checkToken();
   const [dropDown,setDropDwon] = useState<boolean>(false);
   const [arrow,setArrow] = useState<boolean>(false);
   const [mouse,setMouse] = useState<boolean>(false);
-  const [friend,setFriend] = useState<boolean>(true);
+  const [friend,setFriend] = useState<boolean>(false);
   const [click,setClick] = useState<boolean>(false);
   const [display,setDisplay] = useState<boolean>(true);
   const [name,setName] = useState("")
@@ -28,6 +28,7 @@ export default function Profile() {
   const [data,setData]    = useState<any>({});
 
   useEffect(()=>{
+    document.title = "Pong - Profile";
         getUsers((res:any)=>{
       
       res.data.forEach((e:any)=>{
@@ -47,9 +48,11 @@ export default function Profile() {
  dataUser = data;
  else
  dataUser = fill.data
-
+ 
+ console.log(friend);
  console.log(dataUser);
  
+
   return (
       <main className="flex flex-col gap-12 h-full pb-0">
       <section className="flex  flex-col items-center gap-10  justify-center lg:flex-row lg:justify-between">
@@ -58,18 +61,10 @@ export default function Profile() {
         <div className="flex btn-profile items-center gap-3">
             {
                 (dataUser.freind === "friend")?(
-                    (friend)?(
                         <BtnFriend dataUser={dataUser} setFriend = {setFriend}/>
                     ):(
                         <BtnAddFriend  dataUser={dataUser} setFriend = {setFriend} username={dataUser.username}/>
                     )
-                ):(
-                    (click)?(
-                        <BtnFriend dataUser={dataUser} setFriend = {setClick}/>
-                        ):(
-                        <BtnAddFriend  dataUser={dataUser} setFriend = {setClick} username={dataUser.username}/>
-                    )
-                )
             }
             <BtnMessage />
         </div>
