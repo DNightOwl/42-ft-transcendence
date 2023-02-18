@@ -2,34 +2,36 @@ import * as qrcode from 'qrcode'
 import { Injectable } from '@nestjs/common';
 import { authenticator } from 'otplib';
 import { PrismaService } from 'src/prisma/prisma.service';
-import { user } from '@prisma/client';
+import { Prisma, user } from '@prisma/client';
 
 @Injectable()
 export class TFAService {
 	constructor(private readonly prisma : PrismaService){}
 
 	async generateQR(user : user) {
-		const secret = authenticator.generateSecret();
-		const otpauth = authenticator.keyuri(user.login, 'ft_transcendence', secret);		
-		const qrpath = await qrcode.toDataURL(otpauth);//TODO : try catch
+		const secret : string = authenticator.generateSecret();
+		const otpauth :string = authenticator.keyuri(user.login, 'ft_transcendence', secret);		
+		const qrpath :string = await qrcode.toDataURL(otpauth);//TODO : try catch
 
 		///// TODO : should be protected ?
-		await  this.prisma.user.update({
+		const updatedUser : user = await  this.prisma.user.update({
 			where : { 
 				login : user.login ,
 			},
 			data: {
 				two_fa_secret : secret,
+				two_fa_valid : false,
 			}
 		});
+		if(updatedUser)
+			return qrpath;
 
-		////
-		return qrpath;
+		return "none"
 	}
 	
 	async verifyTfaCode(code : string, user : user) : Promise<Boolean>{
 		
-		const secret = user.two_fa_secret;
+		const secret :string = user.two_fa_secret;
 		if(secret && code)
 			return authenticator.check(code, secret);
 		return false
@@ -43,26 +45,56 @@ export class TFAService {
 
 	async tfaActivation(enabled : Boolean,  user : user) {
 		if(enabled === true){
-			await  this.prisma.user.update({
+			const updateduser : Prisma.BatchPayload  = await  this.prisma.user.updateMany({
 				where : { 
-					login : user.login ,
+					AND: [
+						{
+							login : user.login,
+						},
+						{
+							two_fa_valid : true
+						}
+					]
 				},
 				data: {
 					two_fa_enabled : true,
 				}
 			});
+			if(updateduser.count)
+				return "enabled";
 		}
 		else {
-			await  this.prisma.user.update({
+			const updateduser : user = await  this.prisma.user.update({
 				where : { 
 					login : user.login ,
 				},
 				data: {
 					two_fa_enabled : false,
 					two_fa_secret : null,
+					two_fa_valid : false ,
 				}
 			});
+			if(updateduser)
+				return "disabled";
 		}
+		return "none";
+	}
+
+	async two_fa_valid(user : user)
+	{
+		const updatedUser : user = await  this.prisma.user.update({
+			where : { 
+				login : user.login ,
+			},
+			data: {
+				two_fa_valid : true ,
+			}
+		});
+
+		if(updatedUser)
+			return "valid";
+
+		return "none"
 	}
 }
 
