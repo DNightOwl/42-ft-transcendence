@@ -11,76 +11,78 @@ datasource db {
 }
 
 model user {
-    id String @id @unique @default(uuid())
-    login String @unique
-    email String @unique
-    createdAt DateTime @default(now())
-    updateAt DateTime @updatedAt()
-    rToken  String?
-    pictureLink String?
-    nickname     String  @unique
-    firstName    String?
-    lastName     String?
-    blocked String[]
-    freinds Freinds[]
-    two_fa_secret String?
-    two_fa_enabled Boolean @default(false)
-    two_fa_valid Boolean @default(false)
-    status String @default("of")
-    
-  
-    achievements UserAchievement[] 
-    @@map("users")
+  id             String            @id @unique @default(uuid())
+  login          String            @unique
+  email          String            @unique
+  createdAt      DateTime          @default(now())
+  updateAt       DateTime          @updatedAt()
+  rToken         String?
+  pictureLink    String?
+  nickname       String            @unique
+  firstName      String?
+  lastName       String?
+  blocked        String[]
+  freinds        Freinds[]
+  two_fa_secret  String?
+  two_fa_enabled Boolean           @default(false)
+  two_fa_valid   Boolean @default(false)
+  status         String            @default("of")
+  wonGames       Game[]            @relation("wonGames")
+  lostGames      Game[]            @relation("lostGames")
+  achievements   UserAchievement[]
+
+  @@map("users")
 }
 
 model Freinds {
-  id String @id @default(uuid())
-  user user @relation(fields: [userLogin], references: [login])
-  userLogin String
+  id          String @id @default(uuid())
+  user        user   @relation(fields: [userLogin], references: [login])
+  userLogin   String
   friendLogin String
+
   @@map("friends")
 }
 
 model room {
-  id String @id @default(uuid())
-  name String @unique
-  owner String
+  id      String     @id @default(uuid())
+  name    String     @unique
+  owner   String
   members String[]
   blocked String[]
-  type String @default("private")
-  admins String[]
-  muted Muted[]
+  type    String     @default("private")
+  admins  String[]
+  muted   Muted[]
   message Messages[]
-  hash String?
+  hash    String?
 
   @@map("rooms")
 }
 
 model Muted {
-  id String @id @default(uuid())
-  roomName  String 
-  userLogin  String
-  room room @relation(fields: [roomName], references: [name], onDelete: Cascade)
-  time String
+  id        String @id @default(uuid())
+  roomName  String
+  userLogin String
+  room      room   @relation(fields: [roomName], references: [name], onDelete: Cascade)
+  time      String
 
   @@map("muted")
 }
 
 model Messages {
-  id String @id @default(uuid())
-  roomName String
-  userLogin  String
-  room room @relation(fields: [roomName], references: [name], onDelete: Cascade)
-  data String
-  
+  id        String @id @default(uuid())
+  roomName  String
+  userLogin String
+  room      room   @relation(fields: [roomName], references: [name], onDelete: Cascade)
+  data      String
+
   @@map("messages")
 }
+
 model Achievement {
-  id              String            @id @unique @default(uuid())
-  name            String            @unique
-  goals           String            @unique
+  id    String            @id @unique @default(uuid())
+  name  String            @unique
+  goals String            @unique
   users UserAchievement[]
-  
 
   @@map("achievements")
 }
@@ -88,8 +90,20 @@ model Achievement {
 model UserAchievement {
   user          user        @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId        String
-  Achievement   Achievement @relation(fields: [AchievementId], references: [id],  onDelete: Cascade)
+  Achievement   Achievement @relation(fields: [AchievementId], references: [id], onDelete: Cascade)
   AchievementId String
 
   @@id([userId, AchievementId])
+}
+
+model Game {
+  id          String   @id @default(uuid())
+  winnerId    String
+  winner      user     @relation("wonGames", fields: [winnerId], references: [id])
+  loserId     String
+  loser       user     @relation("lostGames", fields: [loserId], references: [id])
+  WinnerScore Int
+  LoserScore  Int
+  CreatedAt   DateTime @default(now())
+  gameMode    String
 }

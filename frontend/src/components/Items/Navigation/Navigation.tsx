@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import NavigationDesktop from "./NavigationDesktop/NavigationDesktop";
 import NavigationPhone from "./NavigationPhone/NavigationPhone";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { Modal, ModalHeader, ModalBody } from "../Modal";
 import SettingsBody from "../SettingsBody";
 import AddMember from "../AddMember";
@@ -9,7 +9,11 @@ import NotFound from "../../NotFound";
 import CreateChannelBody from '../CreateChannelBody'
 import Members from "../Members";
 import { getUserData,getConversations } from "../../../Helpers";
+
+import GameSocketContext from "../../../contexts/gameSocket";
+import { toast } from "react-toastify";
 import Password from "../Password";
+
 
 
 interface typeprops {
@@ -60,6 +64,16 @@ export default function Navigation({
   let pathname = location.pathname;
 
   const[dataChat,setDataChat] = useState([]);
+
+  const navigate = useNavigate();
+  const socket = useContext(GameSocketContext);
+
+  socket.off("game_accepted").on("game_accepted", (data: any) => {
+    navigate(`/game/${data.gameId}`);
+  })
+  socket.off("game_declined").on("game_declined", (data: any) => {
+    toast.info("Your game invitation has been declined");
+  })
   
   useEffect(() => {
     if(location.pathname !== "/Tfa" && location.pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && location.pathname !== "/")
@@ -80,7 +94,8 @@ export default function Navigation({
     })
   }, [location.pathname, setConversation, setChatState]);
 
-  if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Tfa".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/ProfileUser".toLocaleLowerCase() )
+
+  if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Queue".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase() && pathname.split('/').at(1) !== "game" && pathname.split('/').at(1) !== "watch" &&  pathname.toLocaleLowerCase() !== "/Tfa".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/ProfileUser".toLocaleLowerCase())
   {
     document.title = "Pong - Page not found"
     return <NotFound />
