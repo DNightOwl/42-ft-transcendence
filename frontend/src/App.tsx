@@ -13,7 +13,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GameInvitation from "./components/Items/gameInvitation";
 import GameSocketContext from "./contexts/gameSocket";
-import axios from "axios";
+
 
 function App() {
   const [chatState, setChatState] = useState([]);
@@ -28,25 +28,6 @@ function App() {
 
   const handleDecline = (Id: string) => {
     socket.emit("decline_game", { senderId: Id });
-  }
-
-  useEffect(() => {
-    getConversations((res: any) => {
-      setChatState(res.data[0]);
-    })
-
-  }, []);
-
-  const sendInvitation = () => {
-    axios.post("http://localhost:3000/game/sendInvitation", {
-      receiverId: "75b1e68b-d5e6-4596-8602-5fa9d3d78e70"
-    }, {
-      withCredentials: true
-    }).then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      toast.error(err.response.data.message)
-    })
   }
 
   useEffect(() => {
@@ -65,7 +46,12 @@ function App() {
       },
       );
     })
+  }, []);
 
+  useEffect(() => {
+    getConversations((res: any) => {
+      setChatState(res.data[0]);
+    })
   }, []);
 
   return (
@@ -84,11 +70,6 @@ function App() {
         </Routes>
         <ToastContainer />
       </BrowserRouter>
-      <button
-        onClick={sendInvitation}
-      >
-        invite achraf
-      </button>
     </>
   );
 }

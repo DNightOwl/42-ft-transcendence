@@ -45,34 +45,21 @@ function Board() {
 
   const drawPadlles = (p5: any) => {
     p5.fill(255);
-    if (GameState.status === 'pause') {
-      p5.rect(
-        0,
-        TABLE_H / 2 - GameState.player1Height / 2,
-        PADLLE_WIDTH * (TABLE_W / 1000),
-        GameState.player1Height * TABLE_H
-      );
-      p5.rect(
-        TABLE_W - PADLLE_WIDTH * (TABLE_W / 1000),
-        TABLE_H / 2 - GameState.player2Height / 2,
-        PADLLE_WIDTH * (TABLE_W / 1000),
-        GameState.player2Height * TABLE_H
-      );
-    }
-    else {
-      p5.rect(
-        0,
-        GameState.player1Y * TABLE_H,
-        PADLLE_WIDTH * (TABLE_W / 1000),
-        GameState.player1Height * TABLE_H
-      );
-      p5.rect(
-        TABLE_W - PADLLE_WIDTH * (TABLE_W / 1000),
-        GameState.player2Y * TABLE_H,
-        PADLLE_WIDTH * (TABLE_W / 1000),
-        GameState.player2Height * TABLE_H
-      );
-    }
+    p5.rect(
+      0,
+      GameState.player1Y * TABLE_H,
+      PADLLE_WIDTH * (TABLE_W / 1000),
+      GameState.player1Height * TABLE_H
+    );
+    console.log(`padddle 2 x: ${TABLE_W - (PADLLE_WIDTH * (TABLE_W / 1000))}`)
+    console.log(`padddle 2 w: ${PADLLE_WIDTH * (TABLE_W / 1000)}`)
+    console.log(`table w: ${TABLE_W}`)
+    p5.rect(
+      TABLE_W - (PADLLE_WIDTH * (TABLE_W / 1000)),
+      GameState.player2Y * TABLE_H,
+      PADLLE_WIDTH * (TABLE_W / 1000),
+      GameState.player2Height * TABLE_H
+    );
   };
 
   const drawMidLine = (p5: any) => {
@@ -107,6 +94,7 @@ function Board() {
     drawPadlles(p5);
     drawMidLine(p5);
     drawBall(p5);
+    // console.log(GameState.player2Y, TABLE_W - PADLLE_WIDTH * (TABLE_W / 1000), TABLE_W);
     if (window.location.pathname.split('/')[1] === 'game') {
       socket.emit('move_player', {
         gameId: window.location.pathname.split('/')[2],
@@ -124,7 +112,7 @@ function Board() {
     TABLE_W = window.innerWidth / 2.6;
     TABLE_H = TABLE_W / RATIO_FACTOR;
     p5.resizeCanvas(TABLE_W, TABLE_H);
-    console.log('resized');
+    // console.log('resized');
   };
 
   return (

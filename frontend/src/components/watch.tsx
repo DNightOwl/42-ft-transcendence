@@ -16,6 +16,7 @@ interface ResultBoard {
 
 function Watch() {
   const socket = useContext(GameSocketContext);
+  const [winner, setWinner] = useState("");
   const [resultBoard, setResultBoard] = useState<ResultBoard>(
     {
       player1: '',
@@ -28,7 +29,6 @@ function Watch() {
     }
   );
   const [modal, setModal] = useState(false);
-  const [gameState, setGameState] = useState('waiting');
   const navigate = useNavigate();
 
   const toggleModal = (prev: boolean) => {
@@ -36,12 +36,6 @@ function Watch() {
       navigate('/');
     }
     setModal(!prev);
-  }
-
-  const handleStartGame = () => {
-    socket.emit('start_game', {
-      gameId: window.location.pathname.split('/')[2],
-    });
   }
 
   useEffect(() => {
@@ -58,7 +52,6 @@ function Watch() {
     });
 
     socket.on('goal_score', (data: any) => {
-      console.log("upadte", data);
       setResultBoard((prev) => {
         return {
           ...prev,
@@ -68,19 +61,14 @@ function Watch() {
       });
     });
 
-    socket.on('game_started', (data: string) => {
-      console.log("game bdat", data);
-      setGameState("started");
-    });
-
     socket.on('game_over', (data: any) => {
-      console.log("game over", data);
+      setWinner(data.winner);
       setModal(true);
     });
   }, [])
 
   return (
-    <div className='pl-[24rem] mt-16'>
+    <div className='pl-[26rem] mt-16'>
       {modal &&
         <Modal>
           <ModalHeader
@@ -92,7 +80,7 @@ function Watch() {
             <div className='flex flex-col justify-center items-center gap-4 w-[700px] h-[300px]'>
               <h3 className='text-[4rem] text-white'>
                 <span className='text-purple-600 capitalize' >
-                  {resultBoard.player1 > resultBoard.player2 ? `${resultBoard.player1}` : `${resultBoard.player2}`}
+                  {winner}
                 </span> won!
               </h3>
               {window.location.pathname === 'game' &&

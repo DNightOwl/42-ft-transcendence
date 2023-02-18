@@ -4,6 +4,9 @@ import SwitchersProfile from "./Items/SwitchersProfile";
 import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend } from "../Helpers";
 import { useLocation } from "react-router-dom";
 import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon,UnblockIcon } from "./Items/Icons";
+import axios from "axios";
+import { toast } from "react-toastify";
+
 
 interface typeProps{
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
@@ -11,6 +14,18 @@ interface typeProps{
 }
 
 export default function Profile({setModal,username}:typeProps) {
+
+  const sendInvitation = (Id: string) => {
+    axios.post("http://localhost:3000/game/sendInvitation", {
+      receiverId: Id,
+    }, {
+      withCredentials: true
+    }).then((res) => {
+      console.log(res);
+    }).catch((err) => {
+      toast.error(err.response.data.message)
+    })
+  }
 
   checkToken();
   const [dropDown,setDropDwon] = useState<boolean>(false);
@@ -130,9 +145,9 @@ export default function Profile({setModal,username}:typeProps) {
                     Block
                   </button>
                   <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onClick={()=>{
+                    sendInvitation(fill.id);
                     setDropDwon(false);
                     setArrow(false);
-                    
                   }}>
                     Invite to play
                   </button>
@@ -214,7 +229,7 @@ export default function Profile({setModal,username}:typeProps) {
                   <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onClick={()=>{
                     setDropDwon(false);
                     setArrow(false);
-                    
+                    sendInvitation(fill.id);
                   }}>
                     Invite to play
                   </button>

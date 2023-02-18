@@ -24,17 +24,21 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     async handleConnection(client: Socket) {
         const user: any = await this.gameService.getUserFromSocket(client);
-        this.gameService.addPlayerToOnlineList({
-            name: user.login,
-            avatar: user.pictureLink,
-            id: user.id,
-            client: client,
-        });
+        if (user) {
+            this.gameService.addPlayerToOnlineList({
+                name: user.login,
+                avatar: user.pictureLink,
+                id: user.id,
+                client: client,
+            });
+        }
     }
 
     handleDisconnect(client: Socket) {
         const user: any = this.gameService.getUserFromSocket(client);
-        this.gameService.removePlayerFromOnlineList(user.id);
+        if (user) {
+            this.gameService.removePlayerFromOnlineList(user.id);
+        }
     }
 
     @SubscribeMessage('game_update')

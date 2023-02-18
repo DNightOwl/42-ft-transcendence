@@ -103,7 +103,7 @@ function Game() {
           </ModalBody>
         </Modal>
       }
-      <div className='w-4/5 flex flex-col justify-center items-center'>
+      <div className='flex flex-col justify-center items-center'>
         <div className='flex flex-col gap-8'>
           <div className='flex flex-row justify-between items-center'>
             <div className='flex flex-row text-white gap-4 items-center' >
