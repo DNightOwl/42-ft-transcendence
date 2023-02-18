@@ -50,7 +50,6 @@ export class UsersService {
 	}
 
 	async findProfile(login : string) {
-        console.log(login);
         const id1 = await this.prisma.user.findUnique ({
             where: {
                 login: login
@@ -145,7 +144,6 @@ export class UsersService {
     }
 
     async unfreind(login: string, freind){
-        console.log(login);
         await this.prisma.freinds.deleteMany({
             where: {
                 AND: [

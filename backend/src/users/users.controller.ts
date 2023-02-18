@@ -1,19 +1,16 @@
 import { Controller, Get, Req, Post, UseGuards, Delete, ForbiddenException, Param, Patch, Body,   UseInterceptors,
   UploadedFile, 
   Res,
-  BadRequestException} from '@nestjs/common';
-import { types } from 'joi';
+  BadRequestException, UseFilters} from '@nestjs/common';
 import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 import { UsersService } from './users.service';
-import { RequestWithUser, dbUser } from './dto/types';
+import { dbUser } from './dto/types';
 import { PrismaService } from "src/prisma/prisma.service";
 import { FileInterceptor } from '@nestjs/platform-express';
-import { extname } from 'path';
-import { MulterModule } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { RoomService } from '../chat/rooms/room.service';
-import { callbackify } from 'util';
 import {Response} from 'express'
+import { HttpExceptionFilter } from '../chat/rooms/room.exception'
 
 
 
@@ -28,11 +25,11 @@ export class UsersController {
       return this.usersService.getAllUsers(user);
     
     }
+
   @UseGuards(JwtAuthGuard)
   @Get()
   async GetProfile(@Req() req : dbUser){
     const user = req.user;
-    console.log()
     return await this.usersService.findProfile(user.login);
   }
 
@@ -71,13 +68,11 @@ export class UsersController {
   }))
         async UpdatePicture(@Req() req : dbUser, @UploadedFile() file: Express.Multer.File)
         {
-            console.log(file);
     const user = req.user;
     if (!file)
       throw new BadRequestException("File is not image");
             else
             {
-      console.log('hna2');
       const response = {
         filePath: `http://localhost:3000/profile/picture/${file.filename}`
       }
@@ -106,6 +101,7 @@ export class UsersController {
     return await this.usersService.getfreind(user.login);
   }
 
+  @UseFilters(new HttpExceptionFilter())
   @UseGuards(JwtAuthGuard)
   @Post('addfreind')
   async addfriend(@Req() req : dbUser, @Body() freind)
