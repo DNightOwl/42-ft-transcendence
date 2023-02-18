@@ -1,54 +1,72 @@
-import React, { useEffect,useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import fire from '../assets/fire.png';
 import { checkToken } from '../Helpers';
-/////////////////////////////////laafilal
-import {SocketContext} from '../context/socket';
-///////////////////////////////////////////////
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
+import GameSocketContext from '../contexts/gameSocket';
+
+
+interface LiveGame {
+  gameId: string;
+  player1: string;
+  player2: string;
+  player1Avatar: string;
+  player2Avatar: string;
+  gameMode: string;
+}
+
 
 export default function Home() {
   checkToken();
-  const socket  = React.useContext(SocketContext);
+  
   
   const scroll = useRef<HTMLDivElement>(null);
-  useEffect(()=>{
+  const [data, setData] = useState<LiveGame[]>([]);
+
+  const socket = React.useContext(GameSocketContext);
+  useEffect(() => {
     document.title = "Pong - Home";
-      if(scroll.current)
-    {
+    if (scroll.current) {
       let hasVerticalScrollbar = scroll.current.scrollHeight > scroll.current.clientHeight;
-      if(hasVerticalScrollbar)
+      if (hasVerticalScrollbar)
         scroll.current.classList.add("lg:pr-6")
     }
-    /////////////////////////////////laafilal
-    // if(!socket.connected)
-    //   socket.connect();
-    // socket.on("connect", () => {
-    //   console.log("connected");
-    // });
-    
-    // socket.on("disconnect", () => {
-    //   socket.disconnect()
-    //   console.log("disconnected");
-    // });
-    // socket.on("error", (msg) => {
-    //   console.log("error ",msg);
-    // });
-    // socket.on("test", (msg) => {
-    //   console.log("test: ",msg);
-    // });
-    ///////////////////////////////////////////
-  },[]);
+
+  }, []);
+
+  useEffect(() => {
+    socket.emit('live_games', {});
+    socket.on('live_games', (data: LiveGame[]) => {
+      console.log(data);
+      setData(data);
+    });
+  }, []);
+
+
   
   return (
     <main>
       <div className='flex flex-col gap-5 w-full h-full'>
-        <h1 className='text-primaryText text-2xl flex items-center gap-1.5'><span>Live Games</span><img src={fire} alt="fire"  className='w-4'/></h1>
+        <h1 className='text-primaryText text-2xl flex items-center gap-1.5'><span>Live Games</span><img src={fire} alt="fire" className='w-4' /></h1>
         <section className='flex flex-col gap-6 lg:flex-row lg:items-start'>
-          <button className='w-full h-96 bg-shape rounded-xl lg:flex-1 primary-live'></button>
+          {/* <button className='w-full h-96 bg-shape rounded-xl lg:flex-1 primary-live'></button>
           <div className='flex gap-4 lg:flex-col live-list overflow-auto lg:overflow-x-hidden pb-6 lg:pb-0' ref={scroll}>
             <button className='w-72 h-48 bg-shape rounded-xl border-4 border-primary flex-shrink-0'></button>
             <button className='w-72 h-48 bg-shape rounded-xl flex-shrink-0'></button>
             <button className='w-72 h-48 bg-shape rounded-xl flex-shrink-0'></button>
-          </div>
+          </div> */}
+          {data.length && data.map((game, index) => {
+            return (
+              <Link
+                key={index}
+                to={`/watch/${game.gameId}`}
+                className=' bg-shape rounded-xl lg:flex-1'
+              >
+                {game.player1}{' '} vs {' '}{game.player2}
+              </Link>
+            )
+          })
+          }
         </section>
       </div>
     </main>

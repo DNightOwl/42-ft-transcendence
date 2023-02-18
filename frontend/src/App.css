@@ -247,3 +247,67 @@ main{
         flex-direction: row !important;
     }
   }
+
+  .lds-ripple {
+  display: inline-block;
+  position: relative;
+  width: 200px;
+  height: 200px;
+}
+
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid #7970b3;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+.lds-ripple div:nth-child(2) {
+  animation-delay: -1s;
+}
+
+@keyframes lds-ripple {
+  0% {
+    top: 90px;
+    left: 90px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  4.9% {
+    top: 90px;
+    left: 90px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  5% {
+    top: 90px;
+    left: 90px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 180px;
+    height: 180px;
+    opacity: 0;
+  }
+}
+
+.Toastify__toast--default {
+    background-color: #414554 !important;
+    color: #fff !important;
+    border-radius: 0.5rem !important;
+}
+
+.Toastify__toast-container {
+    width: auto !important;
+}
+
+.Toastify__progress-bar {
+    background-color: #251d55 !important;
+}
