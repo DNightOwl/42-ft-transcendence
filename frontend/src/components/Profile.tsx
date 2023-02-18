@@ -7,10 +7,9 @@ import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon,Unblock
 
 interface typeProps{
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
-  username?:string
 }
 
-export default function Profile({setModal,username}:typeProps) {
+export default function Profile({setModal}:typeProps) {
 
   checkToken();
   const [dropDown,setDropDwon] = useState<boolean>(false);
@@ -24,59 +23,79 @@ export default function Profile({setModal,username}:typeProps) {
   const [numberFriends,setNumberFriends]=useState(0);
 
   const location = useLocation();
-  const dataUser = location.state;
+  //const dataUser = location.state;
 
-  useEffect(() => {
+  const [dataUser,setDataUser] = useState<any>({})
+  useEffect(()=>{
     document.title = "Pong - Profile";
-    
-    getUsers((res:any)=>{
-      
-      res.data.forEach((e:any)=>{
-
-        if(e.username === dataUser?.data.username)
-        {
-          setFill(e);
-        }
-      })
+    getUserData((res:any)=>{
+      setDataUser(res)
     })
+  },[])
+  // useEffect(() => {
+  //   document.title = "Pong - Profile";
     
-  },[dataUser,unblock,setFriend]);
+  //   getUsers((res:any)=>{
+      
+  //     res.data.forEach((e:any)=>{
+
+  //       if(e.username === dataUser?.data.username)
+  //       {
+  //         setFill(e);
+  //       }
+  //     })
+  //   })
+    
+  // },[dataUser,unblock,setFriend]);
 
   // console.log("dataUser: ",dataUser);
   // console.log("fill: ",fill);
   
   
   
-  if(dataUser.data.friend !== 'none' && (fill.blocked === "blocked" && !unblock))
-  {
-    return(
-      <main className="flex flex-col gap-12 h-full pb-0 items-center">
-        <section className="flex  flex-col items-center gap-10  justify-center">
-        <CardProfile settings={true} setModal={setModal}  dataUser={(dataUser.data.friend!=="none" && dataUser)?.data} block={true}/>
-        <div className="flex btn-profile items-center gap-3">
-              <button className="w-36 p-2 rounded-md bg-unblock gap-2 flex items-center justify-center" onClick={()=>{
-                setUnblock(true)
-                unblockFriend(fill.username)
-              }}>
-                <UnblockIcon edit="w-4 fill-primaryText"/>
-                <span className="text-primaryText text-sm">Unblock</span>
-              </button>
-        </div>
-      </section>
-      </main>
-    )
-  }
-
-
-  
-  else
+  // if(dataUser.data.friend !== 'none' && (fill.blocked === "blocked" && !unblock))
+  // {
+  //   return(
+  //     <main className="flex flex-col gap-12 h-full pb-0 items-center">
+  //       <section className="flex  flex-col items-center gap-10  justify-center">
+  //       <CardProfile settings={true} setModal={setModal}  dataUser={(dataUser.data.friend!=="none" && dataUser)?.data} block={true}/>
+  //       <div className="flex btn-profile items-center gap-3">
+  //             <button className="w-36 p-2 rounded-md bg-unblock gap-2 flex items-center justify-center" onClick={()=>{
+  //               setUnblock(true)
+  //               unblockFriend(fill.username)
+  //             }}>
+  //               <UnblockIcon edit="w-4 fill-primaryText"/>
+  //               <span className="text-primaryText text-sm">Unblock</span>
+  //             </button>
+  //       </div>
+  //     </section>
+  //     </main>
+  //   )
+  // }
   return (
-    (dataUser.data.friend === 'none' || unblock || fill.blocked !== "blocked")?(
       <main className="flex flex-col gap-12 h-full pb-0">
       <section className="flex  flex-col items-center gap-10  justify-center lg:flex-row lg:justify-between">
-        <CardProfile settings={true} setModal={setModal}  dataUser={(dataUser.data.friend!=="none" && dataUser)?.data}/>
+        <CardProfile settings={true} setModal={setModal}  dataUser={dataUser.data}/>
+        <div className="flex gap-10">
+          <span className="flex flex-col items-center">
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{dataUser.NumberofFreinds}</span>
+            <span className="text-secondaryText text-sm">Friends</span>
+          </span>
+          <span className="separtor bg-shape"></span>
+          <span className="flex flex-col items-center">
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">8</span>
+            <span className="text-secondaryText text-sm ">Wins</span>
+          </span>
+          <span className="separtor bg-shape"></span>
+          <span className="flex flex-col items-center">
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">0</span>
+            <span className="text-secondaryText text-sm ">Losses</span>
+          </span>
+        </div>
+        </section>
+        <SwitchersProfile />
 
-        {
+        {/* {
           (dataUser.data.friend !== "none" && dataUser)?(
             (fill?.freind === "Not friend")?(
               <div className="flex btn-profile items-center gap-3">
@@ -245,21 +264,21 @@ export default function Profile({setModal,username}:typeProps) {
             </div>
             )
           ):null
-        }
-         <div className="flex gap-10">
+        } */}
+         {/* <div className="flex gap-10">
           <span className="flex flex-col items-center">
             <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{
-        (dataUser.data.friend === "none")?(
-          getUserData((res:any)=>{
-            setNumberFriends(res.NumberofFreinds);
+        // (dataUser.data.friend === "none")?(
+        //   getUserData((res:any)=>{
+        //     setNumberFriends(res.NumberofFreinds);
             
-          }),
-          numberFriends
+        //   }),
+        //   numberFriends
           
-        ):(dataUser?.data.username === fill.username)?(
-          fill.NumberofFreinds
+        // ):(dataUser?.data.username === fill.username)?(
+        //   fill.NumberofFreinds
             
-          ):null
+        //   ):null
             }</span>
             <span className="text-secondaryText text-sm">Friends</span>
           </span>
@@ -273,17 +292,16 @@ export default function Profile({setModal,username}:typeProps) {
             <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">0</span>
             <span className="text-secondaryText text-sm ">Losses</span>
           </span>
-        </div>
-      </section>
-      {
+        </div> */}
+      
+      {/* {
         (dataUser.data.friend === "none")?(
           <SwitchersProfile />
         ):(dataUser?.data.username === fill.username)?(
             <SwitchersProfile username={dataUser?.data.username}/>
             
           ):null
-      }
+      } */}
     </main>
-    ):null
   );
 }

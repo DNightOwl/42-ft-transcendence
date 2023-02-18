@@ -82,7 +82,7 @@ export default function CardFriendMessage(props: Props) {
                         
                       },obj)
                     }
-                    else if(props.dataChannel[index].type === "protected" && props.dataChannel[index].join === "NON")
+                    else if(props.dataChannel[index] === "protected" && props.dataChannel[index].join === "NON")
                     {
                       let obj = {name: props.dataChannel[index].name, type:props.dataChannel[index].type}
                       if(props.setPassChannel)
