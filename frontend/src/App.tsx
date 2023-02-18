@@ -5,7 +5,9 @@ import Home from "./components/Home";
 import Messages from "./components/Messages";
 import Profile from "./components/Profile";
 import Login from "./components/Login";
+import Tfa from "./components/Tfa";
 import { getConversations } from "./Helpers";
+
 import Queue from './components/Queue';
 import Game from './components/game';
 import Watch from "./components/watch";
@@ -13,6 +15,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import GameInvitation from "./components/Items/gameInvitation";
 import GameSocketContext from "./contexts/gameSocket";
+import ProfileUser from "./components/ProfileUser"
+
 
 
 function App() {
@@ -25,7 +29,11 @@ function App() {
   const [username, setUsername] = useState<string>("");
   const socket = React.useContext(GameSocketContext);
   const [dataChat, setDataChat] = useState([]);
+ 
+  const [add,setAdd] = useState(false);
 
+  const [passChannel,setPassChannel] = useState(false);
+  
   const handleDecline = (Id: string) => {
     socket.emit("decline_game", { senderId: Id });
   }
@@ -55,9 +63,9 @@ function App() {
   }, []);
 
   return (
-    <>
+   
       <BrowserRouter>
-        <Navigation chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} create={create} setCreate={setCreate} members={members} setMembers={setMembers} click={click} setClick={setClick} />
+      <Navigation chatState={chatState} setChatState={setChatState} conversation = {conversation} setConversation={setConversation} modal={modal} setModal={setModal} create={create} setCreate={setCreate} members={members} setMembers={setMembers} click={click} setClick={setClick} add={add} setAdd={setAdd} passChannel={passChannel} setPassChannel={setPassChannel}/>
         <Routes>
           <Route path='/' element={<Login />} />
           <Route path='/Login' element={<Login />} />
@@ -65,12 +73,15 @@ function App() {
           <Route path='/game/*' element={<Game />} />
           <Route path='/watch/*' element={<Watch />} />
           <Route path='/queue' element={<Queue />} />
-          <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} />} />
-          <Route path='/Profile' element={<Profile setModal={setModal} username={username} />} />
+          <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} add={add} setAdd={setAdd}/>}/>
+          <Route path='/Profile' element={<Profile setModal={setModal}  />} />
+          <Route path='/ProfileUser' element={<ProfileUser />}/>
+          <Route path='/Tfa' element={<Tfa />}/>
+
+
         </Routes>
         <ToastContainer />
       </BrowserRouter>
-    </>
   );
 }
 

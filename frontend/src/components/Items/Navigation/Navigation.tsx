@@ -4,12 +4,16 @@ import NavigationPhone from "./NavigationPhone/NavigationPhone";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Modal, ModalHeader, ModalBody } from "../Modal";
 import SettingsBody from "../SettingsBody";
+import AddMember from "../AddMember";
 import NotFound from "../../NotFound";
 import CreateChannelBody from '../CreateChannelBody'
 import Members from "../Members";
 import { getUserData,getConversations } from "../../../Helpers";
+
 import GameSocketContext from "../../../contexts/gameSocket";
 import { toast } from "react-toastify";
+import Password from "../Password";
+
 
 
 interface typeprops {
@@ -23,7 +27,11 @@ interface typeprops {
   setCreate?: React.Dispatch<React.SetStateAction<boolean>>;
   members?: boolean;
   setMembers?: React.Dispatch<React.SetStateAction<boolean>>;
+  add?: boolean;
+  setAdd?: React.Dispatch<React.SetStateAction<boolean>>;
   setClick: React.Dispatch<React.SetStateAction<boolean>>
+  setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
+  passChannel?: boolean
   click: boolean
 }
 
@@ -39,11 +47,18 @@ export default function Navigation({
   members,
   setMembers,
   click,
-  setClick
+  setClick,
+  add,
+  setAdd,
+  setPassChannel,
+  passChannel
 }: typeprops) {
   const [messages, setMessages] = useState(false);
   const [display,setDisplay] = useState(false);
   const [data,setData] = useState<any>({});
+  const [dataProtected,setDataProtected] = useState([]);
+  const [username,setUsername] = useState<string>("");
+  const [pictureUser,setPictureUser] = useState<string>("");
   const location = useLocation();
 
   let pathname = location.pathname;
@@ -61,7 +76,7 @@ export default function Navigation({
   })
   
   useEffect(() => {
-    if(location.pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && location.pathname !== "/")
+    if(location.pathname !== "/Tfa" && location.pathname.toLocaleLowerCase() !== "/Login".toLocaleLowerCase() && location.pathname !== "/")
       setDisplay(true);
     if (location.pathname.toLocaleLowerCase() === "/Messages".toLocaleLowerCase()) {
       setMessages(true);
@@ -79,7 +94,8 @@ export default function Navigation({
     })
   }, [location.pathname, setConversation, setChatState]);
 
-  if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Queue".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase() && pathname.split('/').at(1) !== "game" && pathname.split('/').at(1) !== "watch")
+
+  if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Queue".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase() && pathname.split('/').at(1) !== "game" && pathname.split('/').at(1) !== "watch" &&  pathname.toLocaleLowerCase() !== "/Tfa".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/ProfileUser".toLocaleLowerCase())
   {
     document.title = "Pong - Page not found"
     return <NotFound />
@@ -96,6 +112,11 @@ export default function Navigation({
         setCreate={setCreate}
         click={click}
         setClick={setClick}
+        setPassChannel={setPassChannel}
+        setDataProtected={setDataProtected}
+        pictureUser ={pictureUser}
+        username={username}
+        
       />
       <NavigationPhone
         conversation={conversation}
@@ -107,7 +128,7 @@ export default function Navigation({
         <Modal edit="modal">
           <ModalHeader settings={setModal}>Settings</ModalHeader>
           <ModalBody edit="justify-center">
-            <SettingsBody settings={setModal} nickname={data?.nickname} pictureUser={data?.pictureLink} />
+            <SettingsBody settings={setModal} nickname={data?.nickname} pictureUser={data?.pictureLink} setPictureProfile={setPictureUser} setUsername={setUsername} />
           </ModalBody>
         </Modal>
       ) : null} 
@@ -116,7 +137,7 @@ export default function Navigation({
           <Modal edit="modal channel">
           <ModalHeader create={setCreate}>Create Channel</ModalHeader>
           <ModalBody>
-            <CreateChannelBody/>
+            <CreateChannelBody setCreate={setCreate}/>
           </ModalBody>
         </Modal>
         ):null
@@ -126,11 +147,32 @@ export default function Navigation({
           <Modal edit="h-auto modal-members pr-0">
               <ModalHeader edit="pr-4" setMembers={setMembers}>Members</ModalHeader>
                 <ModalBody>
-                  <Members/>
+                  <Members channelData = {chatState}/>
                 </ModalBody>
             </Modal>
             ):null
               }
+      
+      {
+        (add)?(
+          <Modal edit="h-auto modal-members pr-0">
+              <ModalHeader edit="pr-4" setAdd={setAdd}>Add member</ModalHeader>
+                <ModalBody>
+                  <AddMember channelData = {chatState}/>
+                </ModalBody>
+            </Modal>
+            ):null
+              }
+            {
+              (passChannel)?(
+                <Modal edit="h-auto modal-members pr-0">
+                <ModalHeader edit="pr-4" setPassChannel={setPassChannel}>Password channel</ModalHeader>
+                <ModalBody>
+                  <Password dataProtected={dataProtected} setPassChannel={setPassChannel} setChatState={setChatState}/>
+                </ModalBody>
+            </Modal>
+              ):null
+            }
     </React.Fragment>
     ):null
   );

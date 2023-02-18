@@ -5,7 +5,7 @@ import {getUserData } from "../../Helpers";
 
 
 interface typeProps{
-  settings:boolean
+  settings?:boolean
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
   dataUser?: any
   block?:boolean
@@ -20,8 +20,6 @@ export default function CardProfile({settings,setModal,dataUser,block}:typeProps
   }
   getUserData(getRes);
   },[setData])
-
-  
     return(
         <div className={`flex ${(!dataUser)?"flex-1":""}items-center`}>
         <div className='flex items-center gap-2'>
@@ -38,7 +36,7 @@ export default function CardProfile({settings,setModal,dataUser,block}:typeProps
               (dataUser)?(dataUser.username.charAt(0).toUpperCase() + dataUser.username.slice(1)):(data.nickname)?data.nickname.charAt(0).toUpperCase() + data.nickname.slice(1):null
               }</span>
               {
-                (!dataUser)?(
+                (settings)?(
                   <button className="w-8 h-8 bg-shape flex justify-center items-center rounded-full" onClick={()=>{
                     if(setModal)
                       setModal(true);

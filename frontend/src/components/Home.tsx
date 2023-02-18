@@ -5,6 +5,7 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import GameSocketContext from '../contexts/gameSocket';
 
+
 interface LiveGame {
   gameId: string;
   player1: string;
@@ -14,8 +15,11 @@ interface LiveGame {
   gameMode: string;
 }
 
+
 export default function Home() {
   checkToken();
+  
+  
   const scroll = useRef<HTMLDivElement>(null);
   const [data, setData] = useState<LiveGame[]>([]);
 
@@ -27,6 +31,7 @@ export default function Home() {
       if (hasVerticalScrollbar)
         scroll.current.classList.add("lg:pr-6")
     }
+
   }, []);
 
   useEffect(() => {
@@ -37,6 +42,8 @@ export default function Home() {
     });
   }, []);
 
+
+  
   return (
     <main>
       <div className='flex flex-col gap-5 w-full h-full'>

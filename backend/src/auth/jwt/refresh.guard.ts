@@ -14,12 +14,6 @@ export class RefreshGuard implements CanActivate {
     if (!refreshToken)
       return false;
 
-    //in case the jwt was hashed
-    // decode jwt
-    // get login from decoded jwt
-    // get user by login
-    // check if hashingLibrary.verify(refreshToken, user.hashedRT) == true
-    // or
 		const user = await this.prisma.user.findFirst({ where: { rToken: refreshToken } });
     
     if (!user)

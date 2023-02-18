@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { PlusIcon, SearchIcon } from "../Items/Icons";
 import CardFriendMessage from "./CardFriendMessage";
-import { dataChannel } from "../../Data";
-import { getConversations, getAllUsersDm } from "../../Helpers";
+import { getConversations, getAllUsersDm, getChannelConversations, getAllChannels } from "../../Helpers";
 
 interface typeprops {
   setChatState: React.Dispatch<React.SetStateAction<any>>;
@@ -10,6 +9,10 @@ interface typeprops {
   setConversation?: React.Dispatch<React.SetStateAction<boolean>>;
   channel?: boolean;
   setCreate?:React.Dispatch<React.SetStateAction<boolean>>
+  setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
+  setDataProtected?:any
+
+
 
 }
 
@@ -18,24 +21,43 @@ export default function MessagesList({
   conversation,
   setConversation,
   channel,
-  setCreate
+  setCreate,
+  setPassChannel,
+  setDataProtected
 }: typeprops) {
 
   const[dataChat,setDataChat] = useState([]);
-  const[dm,setDm] = useState([]);;
+  const[allConversation,setAllCoversation] = useState([]);
+  const[allChannels,setAllChannels] = useState([]);
+  const[dataChannel,setDataChannel] = useState<any>([]);
+  const[value,setValue] = useState<any>([]);
+  const[valueChannel,setValueChannel] = useState<any>([]);
+  const[display,setDisplay] = useState(false);
+  const [reset,setReset] = useState<any>([]);
+  const [resetChannel,setResetChannel] = useState<any>([]);
+  const [empty,setEmpty] = useState(false);
 
   useEffect(()=>{
     getConversations((res:any)=>{
+      
       setDataChat(res.data);
+      setReset(res.data)
     })
 
     getAllUsersDm((res:any)=>{
-      setDm(res.data);
+      setAllCoversation(res.data);
     })
 
-  },[]);
-  
+    getChannelConversations((res:any)=>{
+      setDataChannel(res.data)
+      setResetChannel(res.data)
+    
+    getAllChannels((res:any)=>{
+        setAllChannels(res.data);
+      })
+    });
 
+  },[]);
 
   return (
     <div className="flex h-full flex-col  gap-6 pb-20 lg:pb-0">
@@ -46,6 +68,33 @@ export default function MessagesList({
             type="text"
             placeholder="Search for friend"
             className="placeholder-secondary-text flex-1 bg-transparent py-2.5 px-2 text-xs font-light text-primaryText placeholder:text-xs placeholder:font-light focus:outline-none"
+            value={value}
+            onChange={(e)=>{
+              if(!channel){
+                let value = e.currentTarget.value;
+                let data:any = [];
+                setValue(e.currentTarget.value)
+                if(value.length)
+                {
+                  setEmpty(false);
+                    data = allConversation.filter((e:any)=>{
+                        if(e.username.search(value) != -1){
+                            return e;        
+                        }
+                    })
+                    setDisplay(true)
+                    setDataChat(data);
+                }
+                else
+                {
+                    data=[];
+                    setDisplay(false);
+                    setDataChat(reset)
+                    setEmpty(true);
+                    
+                }
+              }
+            }}
           />
         </div>
       ) : (
@@ -56,6 +105,32 @@ export default function MessagesList({
               type="text"
               placeholder="Search for channel"
               className="placeholder-secondary-text flex-1 bg-transparent py-2.5 px-2 text-xs font-light text-primaryText placeholder:text-xs placeholder:font-light focus:outline-none"
+              value={valueChannel}
+              onChange={(e)=>{
+                  let value = e.currentTarget.value;
+                  let data:any = [];
+                  
+                  setValueChannel(e.currentTarget.value)
+                  if(value.length)
+                  {
+                    setEmpty(false);
+                      data = allChannels.filter((e:any)=>{
+                        
+                          if(e.name.search(value) != -1){
+                              return e;        
+                          }
+                      })
+                      setDisplay(true)
+                      setDataChannel(data);
+                  }
+                  else
+                  {
+                      data=[];
+                      setDisplay(false);
+                      setDataChannel(resetChannel)
+                      setEmpty(true);
+                  }
+              }}
             />
           </div>
           <button className="flex h-6 w-6 items-center justify-center rounded-full bg-primary" onClick={()=>{
@@ -80,12 +155,19 @@ export default function MessagesList({
                     setChatState={setChatState}
                     conversation={conversation}
                     setConversation={setConversation}
+                    dataChat={dataChat}
+                    empty={empty}
                   />
                 );
               })
-            : <div className="h-full flex justify-center items-center text-primaryText text-md lg:hidden">No messages.</div>
+            : (
+              <React.Fragment>
+                <div className="h-full lg:flex justify-center items-start text-primaryText text-xs hidden">No Conversations.</div>
+                <div className="h-full flex justify-center items-center text-primaryText text-md lg:hidden">No messages.</div>
+              </React.Fragment>
+              )
           : dataChannel
-          ? dataChannel.map((e, index) => {
+          ? dataChannel.map((e:any, index:any) => {
               return (
                 <CardFriendMessage
                   data={dataChannel[index]}
@@ -94,10 +176,16 @@ export default function MessagesList({
                   conversation={conversation}
                   setConversation={setConversation}
                   channel={true}
+                  dataChannel={dataChannel}
+                  type={e.type}
+                  join={e.join}
+                  setPassChannel={setPassChannel}
+                  setDataProtected = {setDataProtected}
+
                 />
               );
             })
-          : null}
+          : (<div className="h-full lg:flex justify-center items-start text-primaryText text-xs hidden">No Channels.</div>)}
       </div>
     </div>
   );

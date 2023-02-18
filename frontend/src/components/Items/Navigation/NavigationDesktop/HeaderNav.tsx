@@ -1,31 +1,40 @@
 import React, { useEffect } from 'react';
 import { SearchIcon, ControllerIcon, ArrowDownIcon, ArrowUpIcon, SettingsNavIcon, LogoutIcon } from '../../Icons';
 import UserPicture from '../../../../assets/user.jpg';
+
 import { useState } from 'react'
-import { getUserData, getUsers } from '../../../../Helpers';
+import { getUserData, getUsers,logout } from '../../../../Helpers';
 import CardSearch from '../../CardSearch';
 import { useNavigate, Link } from 'react-router-dom';
 import { Modal, ModalBody, ModalHeader } from '../../Modal';
+import { socket } from '../../../../context/socket';
+
 
 interface typeProps {
     messages: boolean,
     chatState: any,
     settings?: React.Dispatch<React.SetStateAction<boolean>>
     setClickUser: React.Dispatch<React.SetStateAction<boolean>>
-    clickUser: boolean
+    clickUser: boolean,
+    pictureUser?:string
+    username?:string
 }
-export default function HeaderNav({ messages, chatState, settings, setClickUser, clickUser }: typeProps) {
-    const [dropDown, setDropDown] = useState<boolean>(false)
-    const [mouse, setMouse] = useState<boolean>(false);
-    const [display, setDisplay] = useState<boolean>(false);
-    const [dataUsers, setDataUser] = useState([]);
-    const [fill, setFill] = useState([]);
-    const [value, setValue] = useState("");
-    const [click, setClick] = useState<boolean>(false);
+export default function HeaderNav({messages,chatState,settings,setClickUser,clickUser,pictureUser,username}:typeProps) {
+
+
+
     const navigate = useNavigate();
     const [modalShown, setModalShown] = useState<boolean>(false);
 
-    const [data, setData] = useState<any>({});
+    const [dropDown,setDropDown] = useState<boolean>(false)
+    const [mouse,setMouse] = useState<boolean>(false);
+    const [display,setDisplay] = useState<boolean>(false);
+    const [dataUsers,setDataUser] = useState([]);
+    const [value,setValue] = useState("");
+    const [click,setClick] = useState<boolean>(false);
+    
+    const [data,setData] = useState<any>({});
+    const [fill,setFill] = useState([]);
 
     useEffect(() => {
         getUserData((res: any) => { setData(res) });
@@ -44,16 +53,16 @@ export default function HeaderNav({ messages, chatState, settings, setClickUser,
             <section className='hidden lg:flex justify-between items-start mr-4 ml-64 pt-7 gap-5'>
                 <div className='flex-1 relative'>
                     <div className='flex items-center bg-shape pr-4 rounded-md'>
-                        <input type="text" placeholder='Search for user' value={value} className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-3 pl-4 pr-1.5 focus:outline-none text-primaryText' onClick={() => {
+                        <input type="text" placeholder='Search for user' value={value} className='flex-1 bg-transparent placeholder-secondary-text placeholder:font-light placeholder:text-sm font-light text-sm p-3 pl-4 pr-1.5 focus:outline-none text-primaryText' onClick={()=>{
                             (click) ? (setClick(false)) : setClick(true);
                         }} onChange={(e) => {
                             let value = e.currentTarget.value;
                             let data: any = [];
                             setValue(e.currentTarget.value)
                             if (value.length) {
-                                data = fill.filter((e: any) => {
-                                    if (e.username.search(value) != -1) {
-                                        return e;
+                                data = fill.filter((e:any)=>{
+                                    if(e.username.toLowerCase().search(value.toLowerCase()) != -1){
+                                        return e;  
                                     }
                                 })
                                 setDisplay(true)
@@ -75,9 +84,10 @@ export default function HeaderNav({ messages, chatState, settings, setClickUser,
                                 {
                                     dataUsers.map((e: any, index) => {
                                         return (
-                                            <CardSearch friend={e.freind} username={e.username} picture={e.pictureLink} key={index} setDisplay={setDisplay} setValue={setValue} status={e.status} click={clickUser} setClick={setClickUser} />
+                                            <CardSearch data={e} click={clickUser} setClick={setClickUser} key={index} setDisplay={setDisplay}/>
                                         )
                                     })
+
                                 }
                             </div>
                         ) : null
@@ -157,7 +167,9 @@ export default function HeaderNav({ messages, chatState, settings, setClickUser,
                                 </div>
                             ) : null
                         }
+
                     </div>
+
                 </div>
             </section>
         ) : null

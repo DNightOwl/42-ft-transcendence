@@ -9,10 +9,14 @@ interface typeprops{
     setConversation?:React.Dispatch<React.SetStateAction<boolean>>
     setCreate?:React.Dispatch<React.SetStateAction<boolean>>
     edit?:string
+  setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
+  setDataProtected?:any
+
+
 
   }
 
-export default function MessagesContainer({chatState,setChatState,conversation,setConversation,setCreate,edit}:typeprops) {
+export default function MessagesContainer({chatState,setChatState,conversation,setConversation,setCreate,edit,setPassChannel,setDataProtected}:typeprops) {
   return (
     <Tabs edit={edit}>
         <TabsList>
@@ -24,7 +28,7 @@ export default function MessagesContainer({chatState,setChatState,conversation,s
               <MessagesList setChatState={setChatState} conversation={conversation} setConversation={setConversation}/>
             </TabContent>
             <TabContent>
-              <MessagesList setChatState={setChatState} conversation={conversation} setConversation={setConversation} channel={true} setCreate={setCreate}/>
+              <MessagesList setChatState={setChatState} conversation={conversation} setConversation={setConversation} channel={true} setCreate={setCreate} setPassChannel={setPassChannel} setDataProtected={setDataProtected}/>
             </TabContent>
         </TabsPanels>
     </Tabs>

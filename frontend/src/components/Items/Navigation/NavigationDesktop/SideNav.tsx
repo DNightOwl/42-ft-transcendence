@@ -13,10 +13,12 @@ interface typeprops{
   chatState:any,
   setChatState:React.Dispatch<React.SetStateAction<any>>
   setCreate?:React.Dispatch<React.SetStateAction<boolean>>
+  setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
+  setDataProtected?:any
 
 }
 
-export default function SideNav({messages,setMessages,chatState,setChatState,setCreate}:typeprops) {
+export default function SideNav({messages,setMessages,chatState,setChatState,setCreate,setPassChannel,setDataProtected}:typeprops) {
   const [data,setData] = useState<any>({});
 
   useEffect(()=>{
@@ -25,7 +27,8 @@ export default function SideNav({messages,setMessages,chatState,setChatState,set
     })
   },[])
   
-  let fill = {username: data?.nickname,picture:data.pictureLink,status:data.status, friend:"none"};
+  let fill = {username: data?.nickname,picture:data.pictureLink,status:data.status, friend:"none" , NumberofFreinds:data.NumberofFreinds};
+  
   return (
     <section className=' hidden lg:flex flex-col py-7 left-0 2xl:left-auto fixed gap-12  bg-sideBackground w-60 h-full'>
     <Link to="/Home" className='flex items-center justify-center'>
@@ -69,7 +72,7 @@ export default function SideNav({messages,setMessages,chatState,setChatState,set
         </div>
       </React.Fragment>
       ):(
-        <MessagesContainer chatState={chatState} setChatState={setChatState} setCreate={setCreate}/>
+        <MessagesContainer chatState={chatState} setChatState={setChatState} setCreate={setCreate} setPassChannel={setPassChannel} setDataProtected={setDataProtected}/>
       ) 
     }
 

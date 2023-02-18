@@ -6,21 +6,19 @@ import  { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
 import { user } from '@prisma/client';
 
-//TODO : check if the functions needs try catch or protection
-
 @Injectable()
 export class AuthService {
 	constructor(private readonly prisma: PrismaService,private readonly jwt: JwtService, private readonly configService: ConfigService ) {}
 
-	async handleUser(user : AuthDto,res: Response){// TODO : name to be changed to signin
+	async handleUser(user : AuthDto,res: Response){
 
-		let userData  = await this.createUserIfNotExist(user);
+		let userData : user  = await this.createUserIfNotExist(user);
 
 		//sign jwt 
-		const refreshToken = await this.generateTokens(userData , "refresh");
+		const refreshToken : string = await this.generateTokens(userData , "refresh");
 
 		if(!refreshToken) {
-			throw new ForbiddenException('');//TODO : is it the right status ?
+			throw new ForbiddenException();
 		}
 
 		//check if 2fa is  enable === false
@@ -33,13 +31,12 @@ export class AuthService {
 		await this.refreshCookie(refreshToken, 'token', res);
 
 		//check if 2fa is  enable === true
-		if (userData.two_fa_enabled === true)
+		if (userData.two_fa_enabled === true && userData.rToken === null)
 		{
-			//return for the user to verify the code 2fa
-			return res.redirect("http://localhost:3001/Tfa") ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
+			return res.redirect("http://localhost:3001/Tfa") ;
 		}
 
-		return res.redirect("http://localhost:3001/home") ;//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
+		return res.redirect("http://localhost:3001/home") ;
 	}
 
 	async logout(res: Response, login : string) {
@@ -51,35 +48,26 @@ export class AuthService {
 				}
 			},
 			data: {
-				rToken : null
+				rToken : null,
+				status : "of"
+				
 			}
 		})
 		res.clearCookie('token');
 		res.clearCookie('accessToken');
-		return res.send({msg : "done"}) // TODO :  think of right payload to send
+		return "done";
 	}
 
 	
 	async refreshtoken(user:user,res: Response) {
 	
-		const accessToken =  await this.generateTokens(user , "access")
-		// const accessToken =  await this.jwt.signAsync(
-		// {
-		// 	email : user.email,
-		// 	login: user.login
-		// },
-		// {
-		// 	secret: this.configService.get('ACCESS_TOKEN_SECRET'),
-		// 	expiresIn: this.configService.get('ACCESS_TOKEN_EXPIRATION') 
-		// }
-		// );
-		
+		const accessToken : string =  await this.generateTokens(user , "access")
+
 		if(!accessToken) {
-			throw new ForbiddenException('');
+			throw new ForbiddenException();
 		}
 		
 		await this.refreshCookie(accessToken, 'accessToken', res);
-		// return 'new_access_token';//TODO : think of right payload to send // example : res.status(404).send('Sorry, cant find that');
 	}
 		
 	////////////////helper functions 
@@ -87,7 +75,7 @@ export class AuthService {
 	async refreshCookie(token : string, tokenName : string, res: Response) {
 		//extract expireIn from jwt token
 		const decoded_token = this.jwt.decode(token) as { [key : string]: any };
-		const expr_duration = (decoded_token.exp - decoded_token.iat) * 1000;
+		const expr_duration : number = (decoded_token.exp - decoded_token.iat) * 1000;
 		
 		//cookie setting tokens
 		res.cookie(tokenName, token, { maxAge: expr_duration, httpOnly: true});
@@ -95,8 +83,8 @@ export class AuthService {
 
 	//check if user exist if not create it
 	async createUserIfNotExist(intraUser : AuthDto) : Promise<user> {
-		const login = intraUser.login;
-		const user = await this.prisma.user.upsert({
+		const login : string = intraUser.login;
+		const user : user = await this.prisma.user.upsert({
 			where: {
 				login : intraUser.login,
 			},
@@ -124,8 +112,8 @@ export class AuthService {
 	}
 
 	async generateTokens(user : user, type : string ) {
-		let secret = "";
-		let expiresIn = "";
+		let secret : string = "";
+		let expiresIn : string = "";
 		if(type === "refresh")
 		{
 			secret = this.configService.get('REFRESH_TOKEN_SECRET');
@@ -137,7 +125,7 @@ export class AuthService {
 			expiresIn = this.configService.get('ACCESS_TOKEN_EXPIRATION')
 		}
 
-		const refreshToken =  await this.jwt.signAsync(
+		const refreshToken : string =  await this.jwt.signAsync(
 			{
 				email : user.email,
 				login: user.login
@@ -151,4 +139,4 @@ export class AuthService {
 	}
 
 }
-	
+

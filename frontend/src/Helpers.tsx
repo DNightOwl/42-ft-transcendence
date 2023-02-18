@@ -1,4 +1,7 @@
 import axios from 'axios';
+import { socket } from './context/socket';
+
+
 
 export function checkToken(){
     axios.get("http://localhost:3000/profile", {
@@ -17,12 +20,14 @@ export function checkToken(){
         });
 }
 
+
 export function checkTokenLogin(){
 
     axios.get("http://localhost:3000/profile", {
         withCredentials: true,
           headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
         }).then(()=>{
+            socket.connect()
             window.location.href = "http://localhost:3001/Home"
         }).catch(error=>{
             if(error.response.data.statusCode === 401)
@@ -31,8 +36,9 @@ export function checkTokenLogin(){
                 withCredentials: true,
                 headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
               }).then(()=>{
+                  socket.connect()
                 window.location.href = "http://localhost:3001/Home"
-              });
+              }).catch();
             }
         });
 
@@ -44,7 +50,7 @@ export function getUserData(getRes:any){
           headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
         }).then((res)=>{
             getRes(res.data) 
-        })
+        }).catch()
 }
 
 export function getUsers(getRes:any){
@@ -53,15 +59,15 @@ export function getUsers(getRes:any){
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
       }).then((res)=>{
         getRes(res);
-      })
+      }).catch()
 }
 
 export function addFriend(login:string){
-  axios.post("http://localhost:3000/profile/addfreind",{login},{withCredentials: true})
+  axios.post("http://localhost:3000/profile/addfreind",{login},{withCredentials: true}).then().catch()
 }
 
 export function unFriend(login:string){
-  axios.delete(`http://localhost:3000/profile/unfreind/${login}`,{withCredentials: true})
+  axios.delete(`http://localhost:3000/profile/unfreind/${login}`,{withCredentials: true}).then().catch()
 }
 
 export function getFriends(getRes:any){
@@ -70,7 +76,7 @@ export function getFriends(getRes:any){
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
       }).then((res)=>{
           getRes(res.data) 
-      })
+      }).catch()
 }
 
 export function getFriendsUsers(getRes:any,login:string){
@@ -79,36 +85,32 @@ export function getFriendsUsers(getRes:any,login:string){
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
       }).then((res)=>{
           getRes(res.data) 
-      })
+      }).catch()
 }
 
 export function blockFriend(login:string){
-  axios.patch("http://localhost:3000/profile/blocked",{login},{withCredentials: true})
+  axios.patch("http://localhost:3000/profile/blocked",{login},{withCredentials: true}).then().catch()
 }
 
 export function unblockFriend(login:string){
-  axios.patch("http://localhost:3000/profile/unblocked",{login},{withCredentials: true})
+  axios.patch("http://localhost:3000/profile/unblocked",{login},{withCredentials: true}).then().catch()
 }
 
-export function editPicture(file:any){
-
-  axios({
-    method: "patch",
-    data:file,
-    headers: { "Content-Type": "multipart/form-data" },
-    url: "http://localhost:3000/profile/upload-photo",
-    withCredentials:true
-  })
+export function editPicture(file: File){
+  
+  let fd :FormData = new FormData();
+  fd.append('file',file)
+  axios.patch("http://localhost:3000/profile/upload-photo",fd,{withCredentials:true}).then().catch()
 }
 
 export function editNickName(nickname:string){
-  axios.patch("http://localhost:3000/profile/seting",{nickname},{withCredentials: true})
+  axios.patch("http://localhost:3000/profile/seting",{nickname},{withCredentials: true}).then().catch()
 }
 
 export function getAchievements(getRes:any,id:string){
   axios.post("http://localhost:3000/achievements",{id},{withCredentials: true}).then((res:any)=>{
     getRes(res)
-  })
+  }).catch()
 }
 
 export function getConversations(getRes:any){
@@ -117,14 +119,150 @@ export function getConversations(getRes:any){
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
       }).then((res)=>{
         getRes(res);
-      })
+      }).catch()
 }
+
 
 export function getAllUsersDm(getRes:any){
   axios.get("http://localhost:3000/rooms/DMWithAllUsers", {
       withCredentials: true,
         headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res:any)=>{
+        
+        getRes(res);
+      }).catch()
+}
+
+export function getAllChannels(getRes:any){
+  axios.get("http://localhost:3000/rooms/allrooms", {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res:any)=>{
+        
+        getRes(res);
+      }).catch()
+}
+
+
+export function getChannelConversations(getRes:any){
+  axios.get("http://localhost:3000/rooms/RoomMessage", {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
       }).then((res)=>{
         getRes(res);
-      })
+      }).catch()
+}
+
+export function getQR(getRes:any){
+  axios.post("http://localhost:3000/auth/generateqr",{},{withCredentials: true}).then((res:any)=>{
+    getRes(res)
+  }).catch()
+}
+
+export function confermQr(getRes:any,code:string){
+
+  axios.post("http://localhost:3000/auth/enabletfa",{code:code},{withCredentials: true}).then((res:any)=>{
+  getRes(res)
+  }).catch((error)=>{
+    getRes(error);
+  })
+}
+
+export function confermDisableQr(getRes:any,code:string){
+
+  axios.post("http://localhost:3000/auth/disabletfa",{code:code},{withCredentials: true}).then((res:any)=>{
+  getRes(res)
+  }).catch((error)=>{
+    getRes(error);
+  })
+}
+
+export function CreateChannel(data:any){
+
+  axios.post("http://localhost:3000/rooms/createroom",{data},{withCredentials: true}).then().catch()
+}
+
+export function getFriendChannel(getRes:any,nameChannel:string){
+
+  axios.get(`http://localhost:3000/rooms/FreindNotjoin/${nameChannel}`, {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+          getRes(res.data) 
+      }).catch()
+}
+
+export function addFriendToChannel(data:any){
+
+  axios.post("http://localhost:3000/rooms/addtoroom",{data},{withCredentials: true}).then().catch()
+}
+
+export function getMemberChannel(getRes:any,nameChannel:string){
+
+  axios.get(`http://localhost:3000/rooms/usersinroom/${nameChannel}`, {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+          getRes(res.data)
+      }).catch()
+}
+
+export function logout(getRes:any){
+  axios.get("http://localhost:3000/auth/logout",{withCredentials: true}).then((res)=>getRes(res)).catch((e)=>getRes(e))
+}
+
+export function validationQr(getRes:any,code:string){
+
+  axios.post("http://localhost:3000/auth/tfaverification",{code:code},{withCredentials: true}).then((res:any)=>{
+  getRes(res)
+  }).catch((error)=>{
+    getRes(error);
+  });
+}
+
+
+export async function refreshToken(){
+try
+{
+  await axios.get("http://localhost:3000/auth/refresh", {
+    withCredentials: true,
+    headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+  }).then().catch(()=>{
+    window.location.href="http://localhost:3001/Login";
+  });
+}
+catch(error){
+}
+}
+
+export function joinRoom(getRes:any,data:any){
+  
+
+  axios.post("http://localhost:3000/rooms/joinroom",{data},{withCredentials: true}).then((res)=>{
+    getRes(res)
+  }).catch()
+}
+
+export function leaveRoom(getRes:any,name:string){
+  axios.post("http://localhost:3000/rooms/quiteRoom",{name},{withCredentials: true}).then((res)=>{
+    getRes(res)
+  }).catch()
+}
+
+export function deleteRoom(getRes:any,name:string){
+  axios.delete(`http://localhost:3000/rooms/Deleteroom/${name}`,{withCredentials: true}).then((res)=>{
+    getRes(res)
+  }).catch()
+}
+
+export function setAdmin(data:any){
+  axios.post("http://localhost:3000/rooms/setadmins",{data},{withCredentials: true}).then().catch()
+}
+
+export function setMute(data:any){
+  axios.patch("http://localhost:3000/rooms/muted",{data},{withCredentials: true}).then().catch()
+}
+
+export function setBlock(data:any){
+  axios.patch("http://localhost:3000/rooms/ban",{data},{withCredentials: true}).then().catch()
 }

@@ -17,10 +17,13 @@ import {
    import { userInfo } from 'os';
    import * as moment from 'moment';
    import * as cookie from 'cookie';
+   import { chanel, typeObject, userchanel, Searchchanel, chanelprotected } from "./utils/typeObject";
 
    @WebSocketGateway({
      cors: {
-       origin: '*',
+       origin: 'http://localhost:3001',
+       credentials: true,
+       allowedHeaders : ["Cookie"]
      },
    })
    export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -34,7 +37,6 @@ import {
     const user1 = client.user;
     this.id += 1;
     let roomName = `<${client.user.login}_${this.id}>`
-    console.log(this.id);
       if (Body.type.toString() == 'DM')
       {
         const user_freind = await this.prisma.user.findUnique({
@@ -44,7 +46,7 @@ import {
       });
         for (let index = 0; index < this.OnlineUser.length; index++)
         {
-          if (this.OnlineUser[index].user.login == user_freind.login)
+          if (this.OnlineUser[index].user.login == user_freind.login || this.OnlineUser[index].user.login == user1.login)
           {
             this.OnlineUser[index].join(roomName);
           }
@@ -63,7 +65,17 @@ import {
                 userLogin: user_freind.login
             }
           })
-          this.server.to(roomName).emit("msgFromServer",Body.data);
+          // this.server.to(roomName).emit("msgFromServer", this.roomservice.emit_message(user1, room));
+          // this.server.to(client).emit("msgFromServer", this.roomservice.emit_message(user_freind, room));
+          //this.server.to(roomName).emit("msgFromServer", Body.data);
+          this.server.to(roomName).emit("msgFromServer", await this.roomservice.emit_message(user1, room));
+          for (let index = 0; index < this.OnlineUser.length; index++)
+          {
+            if (this.OnlineUser[index].user.login == user1.login)
+            {
+              client.emit("msgFromServer", await this.roomservice.emit_message(user_freind, room));
+            }
+          }
         }
         else
         {
@@ -81,7 +93,15 @@ import {
                   userLogin: user_freind.login
                 }
             })
-            this.server.to(roomName).emit("msgFromServer",Body.data);
+            this.server.to(roomName).emit("msgFromServer", await this.roomservice.emit_message(user1, room_freind));
+            for (let index = 0; index < this.OnlineUser.length; index++)
+            {
+              if (this.OnlineUser[index].user.login == user1.login)
+              {
+                client.emit("msgFromServer", await this.roomservice.emit_message(user_freind, room_freind));
+              }
+            }
+            //this.server.to(roomName).emit("msgFromServer", Body.data);
           }
           else
             return ;
@@ -113,10 +133,9 @@ import {
           for (let i = 0; i < this.OnlineUser.length; i++)
           {
             const login = rom.members.find((login) => login==this.OnlineUser[i].user.login);
-            if (login && this.OnlineUser[i].user.login != user1.login)
+            if (login)
               this.OnlineUser[i].join(roomName);
           }
-          this.server.to(roomName).emit("msgFromServer",Body.data);
           const msg = await this.prisma.messages.create({
             data: {
               roomName: Body.name,
@@ -124,25 +143,21 @@ import {
               userLogin: user1.login
             }
             })
+            this.server.to(roomName).emit("msgFromServer",await this.roomservice.emit_messagetoRoom(user1, rom));
         }
       }
     }
    
-    // afterInit(server: Server) {
-    //  console.log('Init');
-    // } 
-
-   
    async handleDisconnect(@ConnectedSocket() client: any){
     for (let index = 0; index < this.OnlineUser.length; index++)
-    {
-      if (this.OnlineUser[index].id == client.id)
       {
-        this.OnlineUser.splice(index, 1);
-        break;
+        if (this.OnlineUser[index].id == client.id)
+        {
+          this.OnlineUser.splice(index, 1);
+          break;
+        }
       }
-    }
-    const cookies = cookie.parse(client.handshake.headers.cookie);
+    const cookies :{ [key: string]: string } = cookie.parse(client.handshake.headers.cookie || "");
     if (!cookies['accessToken'])
     {
       client.emit('error', 'unauthorized');
@@ -155,13 +170,13 @@ import {
       return;
     }
     try {
-      const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
-      const test = this.OnlineUser.find((user) => user==user);
+      const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken); 
+      const test = this.OnlineUser.find((client) => client.user.login === user.login);
       if (!test)
       {
          await this.prisma.user.update({
          where: {
-           login: user.login
+           login: client.user.login
          },
          data: {
            status: "of"
@@ -174,32 +189,27 @@ import {
   }
    
    async  handleConnection(@ConnectedSocket() client: any) {
-
-    const cookies = cookie.parse(client.handshake.headers.cookie);
+    const cookies :{ [key: string]: string } = cookie.parse(client.handshake.headers.cookie || "");
     if (!cookies['accessToken'])
     {
       client.emit('error', 'unauthorized');
-      client.disconnect();
       return;
     }
     const jwttoken : string= cookies['accessToken'];
     if(!jwttoken)
     {
       client.emit('error', 'unauthorized');
-      client.disconnect();
       return;
     }
     try {
       const user = await this.roomservice.getUserFromAuthenticationToken(jwttoken);
       if (!user)
       {
-        client.disconnect();
         return;
       }
       client.user = user;
       if (user.status == "of")
       {
-        console.log(user.status);
         const user1 = await this.prisma.user.update({
           where: {
             login: user.login

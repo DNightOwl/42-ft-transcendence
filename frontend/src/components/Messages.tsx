@@ -9,6 +9,7 @@ import { Modal, ModalHeader, ModalBody } from "./Items/Modal";
 import SettingsBody from "./Items/SettingsBody";
 import axios from 'axios';
 import { checkToken,getUserData } from "../Helpers";
+import { socket } from "../context/socket";
 
 interface typeProps {
   chatState?: any;
@@ -19,6 +20,8 @@ interface typeProps {
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
   setCreate?: React.Dispatch<React.SetStateAction<boolean>>;
   setMembers?: React.Dispatch<React.SetStateAction<boolean>>;
+  add?: boolean;
+  setAdd?: React.Dispatch<React.SetStateAction<boolean>>;
   
 }
 
@@ -31,11 +34,15 @@ export default function Messages({
   modal,
   setModal,
   setCreate,
-  setMembers
+  setMembers,
+  add,
+  setAdd
 }: typeProps) {
   checkToken();
   const scroll = useRef<HTMLDivElement>(null);
   const [data,setData] = useState<any>({});
+  const [message,setMessage] = useState<any>("");
+  
 
   axios.get("http://localhost:3000/profile", { 
     withCredentials: true,
@@ -51,7 +58,21 @@ export default function Messages({
           });
         }
     });
-
+  
+  
+  
+  
+  
+    useEffect(()=>
+  {
+    if(!socket.connected)
+      socket.connect()
+    socket.on("msgFromServer", (data) => {
+      
+      setChatState(data)
+    });
+    return () => {socket.off("msgToClients")};
+  },[])
   useEffect(() => {
     document.title = "Pong - Messages";
     let objDiv = document.querySelectorAll(".conversation");
@@ -61,6 +82,7 @@ export default function Messages({
     });
 
     if (scroll.current) {
+
       let hasVerticalScrollbar =
         scroll.current.scrollHeight > scroll.current.clientHeight;
       if (hasVerticalScrollbar) scroll.current.classList.add("pr-4");
@@ -70,12 +92,30 @@ export default function Messages({
       setData(res);
     })
   }, [conversation, chatState]);
+  const dmData = {
+      type:"DM",
+      data: message,
+      name:chatState?.username,
+  }
+
+  const chatData = {
+    type:"RM",
+    data: message,
+    name:chatState?.name,
+}
+  const sendMessage = () =>
+  {
+    (!chatState?.members)?
+      socket.emit("msgServer", dmData):(
+        socket.emit("msgServer", chatData)
+      )
+  }
   
   
   return (
     <React.Fragment>
       <main
-        className={`h-full overflow-hidden pb-0 lg:ml-64 lg:mr-4 lg:pt-0 ${
+        className={`h-full overflow-hidden pb-0 lg:ml-64 lg:mr-4 lg:pt-0${
           conversation ? "pt-0" : ""
         }`}
       >
@@ -84,15 +124,44 @@ export default function Messages({
             conversation ? "" : "hidden"
           } relative mb-16 h-full flex-col overflow-hidden pb-16 lg:mb-8 lg:flex lg:pb-8`}
         >
-          <HeaderChat chatState={chatState} settings={setModal} setMembers={setMembers} />
+          <HeaderChat chatState={chatState} settings={setModal} setMembers={setMembers} setAdd={setAdd}/>
           <div
             className={`conversation h-full overflow-auto ${chatState?.conversation?"mb-16 pb-16 lg:mb-8 lg:pb-8":""}`}
             ref={scroll}
           >
-            <div className={`flex flex-col gap-20  ${(chatState?.conversation)?"":"h-full"}`}>
-              {chatState?.conversation?.length
-                ? chatState.conversation.map((e: any, index: number) => {
-                    if (e.type === "friend")
+            <div className={`flex flex-col gap-20  ${(chatState?.conversation?.length)?"":"h-full"}`}>
+              {(chatState?.members) || (chatState?.conversation?.length)
+                ? chatState?.conversation?.map((e: any, index: number) => {
+                  
+                  if(chatState.members){
+                    console.log(e.login);
+                    console.log(data.nickname);
+                    
+                    
+                    if(e.login === data.nickname)
+                    {
+                      return(
+                        <BoxMessagesUser
+                        message={e.message}
+                        time={e.time}
+                        key={index}
+                      />
+                      )
+                    }
+                    else{
+                      return(
+                        <BoxMessagesMember
+                        message={e.message}
+                        time={e.time}
+                        picture={e.picture}
+                        key={index}
+                      />
+                      )
+                    }
+                  }
+                  else{
+                    if(e.type === "friend")
+                    {
                       return (
                         <BoxMessagesFriend
                           message={e.message}
@@ -100,23 +169,17 @@ export default function Messages({
                           key={index}
                         />
                       );
-                    else if (e.type === "member")
-                      return (
-                        <BoxMessagesMember
-                          message={e.message}
-                          time={e.time}
-                          picture={e.picture}
-                          key={index}
-                        />
-                      );
-                    else
+                    }
+                    else{
                       return (
                         <BoxMessagesUser
                           message={e.message}
                           time={e.time}
                           key={index}
                         />
-                      );
+                      )
+                    }
+                  }
                   })
                 : (<div className="h-full flex justify-center items-center">
                   <div className="flex flex-col justify-center gap-3 items-center">
@@ -130,16 +193,26 @@ export default function Messages({
           </div>
           {
             (chatState?.conversation)?(
-              <div className="send absolute bottom-3 flex w-full items-center rounded-md bg-shape pr-2">
+              <form action="#" className="send absolute bottom-3 flex w-full items-center rounded-md bg-shape pr-2">
               <input
                 type="text"
                 placeholder="Type a message"
                 className="placeholder-secondary-text flex-1 bg-transparent p-4 pl-3 pr-2 text-sm font-light text-primaryText placeholder:text-sm placeholder:font-light focus:outline-none"
+                value={message} onChange={(e)=>{
+                  setMessage(e.currentTarget.value)
+                }}
               />
-              <button className="flex h-8 w-8 items-center justify-center rounded-md bg-primary">
+              <button type="submit" className="flex h-8 w-8 items-center justify-center rounded-md bg-primary" onClick={(e)=>{
+                e.preventDefault();
+                if(message.trim().length)
+                {
+                 setMessage("");
+                 sendMessage();
+              }
+              }}>
                 <SendIcon edit="w-4 fill-white" />
               </button>
-            </div>
+            </form>
             ):null
           }
         </div>
@@ -157,11 +230,11 @@ export default function Messages({
       {modal ? (
         <Modal edit="modal">
           <ModalHeader settings={setModal}>Settings</ModalHeader>
-          <ModalBody>
-            <SettingsBody settings={setModal} nickname={data?.nickname} pictureUser={data?.pictureLink}/>
-          </ModalBody>
-        </Modal>
-      ) : null}
+            <ModalBody>
+              <SettingsBody settings={setModal} nickname={data?.nickname} pictureUser={data?.pictureLink}/>
+            </ModalBody>
+          </Modal>
+        ) : null}
     </React.Fragment>
   );
 }
