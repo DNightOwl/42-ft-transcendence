@@ -13,10 +13,11 @@ interface GameState {
 }
 
 function Board() {
+  const RATIO_TO_TABLE = 2.4;
   const RATIO_FACTOR = 1.666;
   const PADLLE_WIDTH = 20;
   const PADLLE_HEIGHT = 100;
-  var TABLE_W = window.innerWidth / 2.5;
+  var TABLE_W = window.innerWidth / RATIO_TO_TABLE;
   var TABLE_H = TABLE_W / RATIO_FACTOR;
 
   const [resized, setResized] = useState(false);
@@ -109,10 +110,9 @@ function Board() {
 
   const windowResized = (p5: any) => {
     setResized((prev) => !prev);
-    TABLE_W = window.innerWidth / 2.6;
+    TABLE_W = window.innerWidth / RATIO_TO_TABLE;
     TABLE_H = TABLE_W / RATIO_FACTOR;
     p5.resizeCanvas(TABLE_W, TABLE_H);
-    // console.log('resized');
   };
 
   return (
