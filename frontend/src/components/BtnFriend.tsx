@@ -22,21 +22,21 @@ export function BtnFriend ({setFriend,dataUser}:typeProps){
     const [fill,setFill]    = useState<any>({});
 
     
-    useEffect(() => {
-    document.title = "Pong - Profile";
+  //   useEffect(() => {
+  //   document.title = "Pong - Profile";
     
-    getUsers((res:any)=>{
+  //   getUsers((res:any)=>{
       
-      res.data.forEach((e:any)=>{
+  //     res.data.forEach((e:any)=>{
 
-        if(e.username === dataUser?.data.username)
-        {
-          setFill(e);
-        }
-      })
-    })
+  //       if(e.username === dataUser?.data.username)
+  //       {
+  //         setFill(e);
+  //       }
+  //     })
+  //   })
     
-  },[dataUser]);
+  // },[dataUser]);
 
   
     const sendInvitation = (Id: string) => {
