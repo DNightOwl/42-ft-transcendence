@@ -16,6 +16,7 @@ interface ResultBoard {
 
 function Game() {
   const socket = useContext(GameSocketContext);
+  const gameId = window.location.pathname.split('/')[2];
   const [resultBoard, setResultBoard] = useState<ResultBoard>(
     {
       player1: '',
@@ -73,6 +74,14 @@ function Game() {
       console.log("game over", data);
       setModal(true);
     });
+
+    return () => {
+      socket.off('game_started');
+      socket.emit('player_left', {
+        gameId,
+      });
+      console.log("unmount", gameId);
+    }
   }, [])
 
   return (
@@ -144,8 +153,8 @@ function Game() {
             }
             <Board />
           </div>
-          </div>
         </div>
+      </div>
     </div>
   )
 }

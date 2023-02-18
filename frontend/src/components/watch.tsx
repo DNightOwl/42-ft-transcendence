@@ -127,9 +127,7 @@ function Watch() {
               className='w-[120px] h-[120px] rounded-full' />
           </div>
         </div>
-        <div className='rounded-lg overflow-hidden'>
-          <Board />
-        </div>
+        <Board />
       </div>
     </div>
   )

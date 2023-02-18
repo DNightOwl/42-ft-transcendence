@@ -129,4 +129,14 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
         let games = this.gameService.getLiveGames();
         client.emit('live_games', games);
     }
+
+    @SubscribeMessage('player_left')
+    async handlePlayerLeft(client: Socket, data: any) {
+        console.table(data);
+        const user = await this.gameService.getUserFromSocket(client);
+        console.log("Player left:", user.login, " gameId:", data.gameId);
+        if (user) {
+            this.gameService.playerLeft(user.id, data.gameId);
+        }
+    }
 }

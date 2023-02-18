@@ -187,4 +187,12 @@ export class GameService {
         }
         return processedGames;
     }
+
+    public playerLeft(playerId: string, gameId: string) {
+        const game = this.getGameById(gameId);
+        console.log("player left on game", gameId, "player id", playerId);
+        if (game) {
+            game.playerLeft(playerId);
+        }
+    }
 }

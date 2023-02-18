@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import GameSocketContext from "../../contexts/gameSocket";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 interface props {
     sender: string;
@@ -18,10 +19,9 @@ function GameInvitation({ sender, senderId, senderAvatar }: props) {
                 withCredentials: true,
             }
         ).then((res) => {
-            console.log(res);
             navigate(`/game/${res.data}`);
         }).catch((err) => {
-            alert(err.message);
+            toast.error(err.message);
         });
     }
 
@@ -31,9 +31,9 @@ function GameInvitation({ sender, senderId, senderAvatar }: props) {
                 withCredentials: true,
             }
         ).then((res) => {
-            navigate(`/game/${res.data.gameId}`);
+
         }).catch((err) => {
-            alert(err.message);
+            toast.error(err.message);
         });
     }
 

@@ -9,6 +9,7 @@ import CreateChannelBody from '../CreateChannelBody'
 import Members from "../Members";
 import { getUserData,getConversations } from "../../../Helpers";
 import GameSocketContext from "../../../contexts/gameSocket";
+import { toast } from "react-toastify";
 
 
 interface typeprops {
@@ -54,6 +55,9 @@ export default function Navigation({
 
   socket.off("game_accepted").on("game_accepted", (data: any) => {
     navigate(`/game/${data.gameId}`);
+  })
+  socket.off("game_declined").on("game_declined", (data: any) => {
+    toast.info("Your game invitation has been declined");
   })
   
   useEffect(() => {

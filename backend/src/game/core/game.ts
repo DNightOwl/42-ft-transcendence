@@ -149,7 +149,6 @@ export class Game {
             this.status = "finished";
             this.gameGateway.server.to(this.gameID).emit('game_over', {
                 winner: this.player1.score === 5 ? this.player1.name : this.player2.name,
-                loser: this.player1.score === 5 ? this.player2.name : this.player1.name,
             });
             this.gameGateway.server.emit('live_games', this.gameService.getLiveGames(this.gameID));
             this.gameService.gameFinished(this.gameID);
@@ -189,6 +188,22 @@ export class Game {
         this.player1.paddleY = this.HEIGHT / 2 - this.player1.height / 2;
         this.player2.paddleY = this.HEIGHT / 2 - this.player2.height / 2;
         this.status = "pause";
+    }
+
+    public playerLeft = (playerId: string) => {
+        if (playerId === this.player1.id) {
+            this.player2.score = 5;
+            console.log("player 1 left");
+        }
+        if (playerId === this.player2.id) {
+            this.player1.score = 5;
+            console.log("player 2 left");
+        }
+        this.gameGateway.server.to(this.gameID).emit('game_over', {
+            winner: this.player1.score === 5 ? this.player1.name : this.player2.name,
+        });
+        this.gameGateway.server.emit('live_games', this.gameService.getLiveGames(this.gameID));
+        this.gameService.gameFinished(this.gameID);
     }
 
     public gameLoop() {
