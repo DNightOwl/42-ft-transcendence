@@ -10,9 +10,11 @@ import { toast } from "react-toastify";
 
 interface typeProps{
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
+  pictureUser:string
+  username:string
 }
 
-export default function Profile({setModal}:typeProps) {
+export default function Profile({setModal,pictureUser,username}:typeProps) {
 
   const sendInvitation = (Id: string) => {
     axios.post("http://localhost:3000/game/sendInvitation", {
@@ -45,6 +47,7 @@ export default function Profile({setModal}:typeProps) {
   useEffect(()=>{
     document.title = "Pong - Profile";
     getUserData((res:any)=>{
+      console.log(res);
       setDataUser(res)
       getAchievements(((resp:any)=>{
         setAcheivement(resp)
@@ -102,7 +105,7 @@ export default function Profile({setModal}:typeProps) {
   return (
       <main className="flex flex-col gap-12 h-full pb-0">
       <section className="flex  flex-col items-center gap-10  justify-center lg:flex-row lg:justify-between">
-        <CardProfile settings={true} setModal={setModal}  dataUser={dataUser.data}/>
+        <CardProfile settings={true} setModal={setModal}  dataUser={dataUser.data} username={username} pictureUser={pictureUser}/>
         <div className="flex gap-10">
           <span className="flex flex-col items-center">
             <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{dataUser.NumberofFreinds}</span>

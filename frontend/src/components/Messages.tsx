@@ -239,14 +239,7 @@ export default function Messages({
           />
         ) : null}
       </main>
-      {modal ? (
-        <Modal edit="modal">
-          <ModalHeader settings={setModal}>Settings</ModalHeader>
-            <ModalBody>
-              <SettingsBody settings={setModal} nickname={data?.nickname} pictureUser={data?.pictureLink}/>
-            </ModalBody>
-          </Modal>
-        ) : null}
+
     </React.Fragment>
   );
 }

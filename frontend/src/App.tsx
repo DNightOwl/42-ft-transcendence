@@ -78,8 +78,8 @@ function App() {
           <Route path='/game/*' element={<Game />} />
           <Route path='/watch/*' element={<Watch />} />
           <Route path='/queue' element={<Queue />} />
-          <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} add={add} setAdd={setAdd} passChannel={passChannel} setPassChannel={setPassChannel} username={nickname} setUsername={setNickname} pictureUser={pictureUser} setPictureUser={setPictureUser}/>}/>
-          <Route path='/Profile' element={<Profile setModal={setModal}  />} />
+          <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} add={add} setAdd={setAdd} passChannel={passChannel} setPassChannel={setPassChannel} username={nickname} setUsername={setNickname} pictureUser={pictureUser} setPictureUser={setPictureUser}/>} />
+          <Route path='/Profile' element={<Profile setModal={setModal}  username={nickname} pictureUser={pictureUser}/>} />
           <Route path='/ProfileUser' element={<ProfileUser />}/>
           <Route path='/Tfa' element={<Tfa />}/>
           <Route path='/FriendProfile' element={<FriendProfile />}/>

@@ -33,13 +33,12 @@ export default function SettingsBody({settings,nickname,pictureUser,setPicturePr
       setValue(res.nickname)
     })
   },[])
-
   return !display ? (
     <div className="flex flex-col justify-between py-6">
       <div>
         <div className="flex flex-col gap-10 lg:flex-row lg:gap-12">
           <div className="flex flex-col items-center gap-3">
-            <img src={pictureuser} alt="User" className="h-24 w-24 rounded-full" />
+              <img src={pictureuser} alt="User" className="h-24 w-24 rounded-full" />
             <button
               className="flex w-28 items-center justify-center gap-1 rounded-md bg-primary p-2 text-sm text-primaryText"
               onClick={() => {
@@ -65,9 +64,11 @@ export default function SettingsBody({settings,nickname,pictureUser,setPicturePr
                       extention === "jpg" ||
                       extention === "JPG"
                     )
+                    {
                       setPicture(e.target.files[0])
                       setPictureUser(URL.createObjectURL(e.target.files[0]))
                       setTempPic(e.target.files[0].name)
+                    }
                   }
                 }}
               />
@@ -141,9 +142,6 @@ export default function SettingsBody({settings,nickname,pictureUser,setPicturePr
             setErrorNameMessage("Zone text empty")
             setErrorName(true);
           }
-
-          console.log(error);
-          
           
 
           if(!error){
