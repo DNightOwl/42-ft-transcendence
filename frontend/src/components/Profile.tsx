@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
 import { checkToken, getUserData, getMatchHistoryProfile,getAchievements } from "../Helpers";
-import axios from "axios";
-import { toast } from "react-toastify";
 
 
 interface typeProps{
@@ -14,17 +12,6 @@ interface typeProps{
 
 export default function Profile({setModal,pictureUser,username}:typeProps) {
 
-  const sendInvitation = (Id: string) => {
-    axios.post("http://localhost:3000/game/sendInvitation", {
-      receiverId: Id,
-    }, {
-      withCredentials: true
-    }).then((res) => {
-    }).catch((err) => {
-      toast.error(err.response.data.message)
-    })
-  }
-
   checkToken();
 
   const [matchHistory,setMatchHistory] = useState<any>({});
@@ -34,7 +21,6 @@ export default function Profile({setModal,pictureUser,username}:typeProps) {
   useEffect(()=>{
     document.title = "Pong - Profile";
     getUserData((res:any)=>{
-      console.log(res);
       setDataUser(res)
       getAchievements(((resp:any)=>{
         setAcheivement(resp)

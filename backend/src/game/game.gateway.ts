@@ -17,7 +17,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     constructor(
         private readonly gameService: GameService,
     ) {
-        console.log("GameGateway created");
     }
     @WebSocketServer()
     server: Server;
@@ -49,7 +48,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     @SubscribeMessage('join_game')
     async handleJoinGame(client: Socket, data: any) {
         const user: any = await this.gameService.getUserFromSocket(client);
-        console.log(user);
         this.gameService.addPlayerToQueue(
             {
                 name: user.login,
@@ -70,7 +68,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     @SubscribeMessage('game_data')
     handleGameData(client: Socket, data: any) {
-        console.log("game data requested");
         let game = this.gameService.getGameById(data.gameId);
         if (game) {
             this.server.to(game.gameId).emit('game_data', {
@@ -83,7 +80,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
                 gameMode: game.getGameMode,
             });
         } else {
-            console.log("Game not found");
+            
         }
     }
 
@@ -91,7 +88,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
     async handleLeaveQueue(client: Socket, data: any) {
         const user = await this.gameService.getUserFromSocket(client);
         this.gameService.removePlayerFromQueue(user.id);
-        console.log("Player left queue: ", user.nickname);
     }
 
     @SubscribeMessage('watch')
@@ -108,8 +104,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
                 player2Avatar: game.player2.avatar,
                 gameMode: game.getGameMode,
             });
-        } else {
-            console.log("Game not found");
+        } else {;
         }
     }
 
@@ -120,7 +115,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
         if (game) {
             game.movePlayer(data.y, user.id);
         } else {
-            console.log("Game not found");
         }
     }
 
@@ -132,9 +126,7 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     @SubscribeMessage('player_left')
     async handlePlayerLeft(client: Socket, data: any) {
-        console.table(data);
         const user = await this.gameService.getUserFromSocket(client);
-        console.log("Player left:", user.login, " gameId:", data.gameId);
         if (user) {
             this.gameService.playerLeft(user.id, data.gameId);
         }

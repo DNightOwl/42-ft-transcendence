@@ -58,12 +58,10 @@ function Game({setMembers}:typeprops) {
     });
 
     socket.on('game_data', (data: ResultBoard) => {
-      console.log("game data", data);
       setResultBoard(data);
     });
 
     socket.on('goal_score', (data: any) => {
-      console.log("upadte", data);
       setResultBoard((prev) => {
         return {
           ...prev,
@@ -87,7 +85,6 @@ function Game({setMembers}:typeprops) {
       socket.emit('player_left', {
         gameId,
       });
-      console.log("unmount", gameId);
     }
   }, [])
 

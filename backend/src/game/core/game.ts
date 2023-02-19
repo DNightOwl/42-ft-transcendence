@@ -62,11 +62,7 @@ export class Game {
         this.gameID = this.player1.id + this.player2.id;
         this.gameMode = gameMode || "classic";
 
-        console.log("game created>>>");
-        console.log(this.gameID);
-        console.log(this.gameMode);
-        console.log(this.player1);
-        console.log(this.player2);
+
     }
 
     public get gameId(): string {
@@ -80,7 +76,6 @@ export class Game {
     public startGame() {
         this.status = "playing";
         this.gameLoop();
-        console.log("Starting game");
     }
 
     public gameCore() {
@@ -127,7 +122,6 @@ export class Game {
             goalScored = true;
             if (this.gameMode === "paddle--") {
                 this.player2.height -= 10;
-                console.log("Player 2 height", this.player2.height);
             }
         }
         if (this.ballX < 0) {
@@ -136,7 +130,6 @@ export class Game {
             goalScored = true;
             if (this.gameMode === "paddle--") {
                 this.player1.height -= 10;
-                console.log("Player 1 height", this.player1.height);
             }
         }
         if (goalScored) {
@@ -194,11 +187,9 @@ export class Game {
     public playerLeft = (playerId: string) => {
         if (playerId === this.player1.id) {
             this.player2.score = 5;
-            console.log("player 1 left");
         }
         if (playerId === this.player2.id) {
             this.player1.score = 5;
-            console.log("player 2 left");
         }
         this.gameGateway.server.to(this.gameID).emit('game_over', {
             winner: this.player1.score === 5 ? this.player1.name : this.player2.name,
@@ -216,7 +207,6 @@ export class Game {
                 timer++;
                 timer_simulator = 0;
                 if (timer === 2) {
-                    console.log("Round started");
                     timer = 0;
                     this.status = "playing";
                 }

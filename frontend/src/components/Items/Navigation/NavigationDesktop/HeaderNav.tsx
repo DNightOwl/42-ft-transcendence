@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { SearchIcon, ControllerIcon, ArrowDownIcon, ArrowUpIcon, SettingsNavIcon, LogoutIcon } from '../../Icons';
-import UserPicture from '../../../../assets/user.jpg';
 
 import { useState } from 'react'
 import { getUserData, getUsers,logout } from '../../../../Helpers';

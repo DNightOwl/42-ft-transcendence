@@ -54,7 +54,6 @@ export class GameService {
         if (game) {
             game.startGame();
         } else {
-            console.log("Game not found");
         }
     }
 
@@ -65,12 +64,10 @@ export class GameService {
             return;
         }
         this.OnlinePlayers.push(player);
-        console.table(this.OnlinePlayers);
     }
 
     public removePlayerFromOnlineList(playerId: string) {
         this.OnlinePlayers = this.OnlinePlayers.filter((player) => player.id !== playerId);
-        console.table(this.OnlinePlayers);
     }
 
     async sendInvitation(sender: any, receiverId: string) {
@@ -130,7 +127,6 @@ export class GameService {
                 gameGateway.server.emit("live_games", this.getLiveGames());
             }
         }
-        console.table(this.WaitingPlayers);
     }
 
     public getGameById(gameId: string): Game {
@@ -150,10 +146,8 @@ export class GameService {
                 score: game.player1.score
             })
 
-            console.log("scooreee-------", game.player1.score);
             await this.achievementsService.updateUserAchievements(game.player1.id , achievementIds);
             
-            console.log("scooreee-------", game.player2.score);
             const achievementIds1 = await this.achievementsService.checkAchievement({
                 userid: game.player2.id,
                 stat: game.player1.score < game.player2.score ? "win" : "lose",
@@ -211,7 +205,6 @@ export class GameService {
 
     public playerLeft(playerId: string, gameId: string) {
         const game = this.getGameById(gameId);
-        console.log("player left on game", gameId, "player id", playerId);
         if (game) {
             game.playerLeft(playerId);
         }

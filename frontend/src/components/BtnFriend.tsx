@@ -86,7 +86,6 @@ export function BtnFriend ({setFriend,dataUser}:typeProps){
       <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onClick={()=>{
         setDropDwon(false);
         setArrow(false);
-        console.log("_______",dataUser.id);
         sendInvitation(dataUser.id);
 
         

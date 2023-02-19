@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
-import { checkToken,getUsers,getMachHistoryUser, getMatchHistoryProfile ,getAchievements} from "../Helpers";
+import { checkToken,getUsers,getMachHistoryUser,getAchievements} from "../Helpers";
 import { useLocation } from "react-router-dom";
 import { BtnAddFriend } from "./BtnAddFriend";
 import { BtnFriend } from "./BtnFriend";
@@ -12,7 +12,6 @@ export default function ProfileUser() {
   checkToken();
   const [friend,setFriend] = useState<boolean>(false);
   const [matchHistory,setMatchHistory] = useState<any>({});
-
   const location = useLocation();
   const fill = location.state;
   const [data,setData]    = useState<any>({});

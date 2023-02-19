@@ -52,9 +52,6 @@ function Board() {
       PADLLE_WIDTH * (TABLE_W / 1000),
       GameState.player1Height * TABLE_H
     );
-    console.log(`padddle 2 x: ${TABLE_W - (PADLLE_WIDTH * (TABLE_W / 1000))}`)
-    console.log(`padddle 2 w: ${PADLLE_WIDTH * (TABLE_W / 1000)}`)
-    console.log(`table w: ${TABLE_W}`)
     p5.rect(
       TABLE_W - (PADLLE_WIDTH * (TABLE_W / 1000)),
       GameState.player2Y * TABLE_H,
@@ -95,7 +92,6 @@ function Board() {
     drawPadlles(p5);
     drawMidLine(p5);
     drawBall(p5);
-    // console.log(GameState.player2Y, TABLE_W - PADLLE_WIDTH * (TABLE_W / 1000), TABLE_W);
     if (window.location.pathname.split('/')[1] === 'game') {
       socket.emit('move_player', {
         gameId: window.location.pathname.split('/')[2],

@@ -63,10 +63,8 @@ export class AchievementsService {
 		})
 		const winCount : number= wonGames.wonGames.length + (gameStat.stat === "win" ? 1: 0);
 		const loseCount : number= lostGames.lostGames.length + (gameStat.stat === "lose" ? 1: 0);
-		console.log("win ", winCount);
-		console.log("lose ", loseCount);
 		let achievementIds : Nullable<string[]|null> = []
-		//check achievement with point
+
 		const craftedGoalPoints : string = await this.craftAchievementGoal(AchievementType.POINT, gameStat.score);
 		const achievementId : { id : string} = await this.fetchAchievementByGoal(craftedGoalPoints);
 		if(achievementId?.id)

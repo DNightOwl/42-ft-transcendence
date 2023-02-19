@@ -15,7 +15,6 @@ interface typeProps{
 
 export default function CardUser({username,picture,user,data,displayFriends,click,setClick}:typeProps) {
   const[dropDown,setDropDown] = useState<boolean>(false)
-  const [mouse,setMouse] = useState(true);
   const [move,setMove] = useState(false);
   const[display,setDisplay] = useState(true);
 

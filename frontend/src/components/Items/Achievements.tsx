@@ -39,7 +39,6 @@ export default function Achievements({id,achievements}:typeProps) {
 
     if(idUser){
       getAchievements((res:any)=>{
-        // console.log(res);
       },idUser)
     }
   })

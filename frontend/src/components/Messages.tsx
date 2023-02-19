@@ -6,7 +6,7 @@ import { SendIcon, NomessagesIcon } from "./Items/Icons";
 import MessagesContainer from "./Items/MessagesContainer";
 import HeaderChat from "./Items/Navigation/NavigationDesktop/HeaderChat";
 import axios from 'axios';
-import { checkToken,getUserData, getUsers } from "../Helpers";
+import { checkToken,getUserData} from "../Helpers";
 import { socket } from "../context/socket";
 
 interface typeProps {
