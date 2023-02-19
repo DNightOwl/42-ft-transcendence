@@ -1,8 +1,9 @@
-import React from 'react';
+import React,{useEffect, useState} from 'react';
 import logo from '../../../../assets/logo.svg';
 import { Link } from "react-router-dom";
 import CardState from "../../CardState"
 import {ArrowLeftIcon} from "../../Icons"
+import { getUsers } from '../../../../Helpers';
 
 interface typeProps{
   conversation:boolean;
@@ -14,6 +15,18 @@ interface typeProps{
 }
 
 export default function HeaderPhone({conversation,setConversation,chatState,setMembers,setAdd}:typeProps) {
+  const [profile,setProfile] = useState<any>({});
+  useEffect(()=>{
+    getUsers((res:any)=>{
+      res.data.forEach((e:any)=>{
+        if(e.username === chatState?.username)
+        {
+          setProfile(e);
+        }
+      })
+    })
+  },[chatState])
+  
   if(!conversation)
   {
     return (
@@ -24,12 +37,22 @@ export default function HeaderPhone({conversation,setConversation,chatState,setM
       </section>
     )
   }
+  console.log(profile);
+  
   return(
-    <section className='mx-3 flex items-center py-4 justify-center gap-4 lg:hidden'>
+    <section className='mx-3 flex items-center py-4 justify-start gap-4 lg:hidden'>
       <button className='w-6 h-6 rounded-full flex justify-center items-center bg-shape' onClick={()=>{setConversation(false)}}>
         <ArrowLeftIcon edit='w-2.5 h-2.5 fill-secondaryText' />
       </button>
-      <CardState chatState={chatState} setMembers={setMembers} setAdd={setAdd}/>
+      {
+            Object.keys(profile).length?(
+                <Link to="/ProfileUser" state={{data:profile}}>
+                <CardState chatState={chatState} setMembers={setMembers} setAdd={setAdd}/>
+                </Link>
+            ):(
+                <CardState chatState={chatState} setMembers={setMembers} setAdd={setAdd}/>
+            )
+        }
     </section>
   )
 }

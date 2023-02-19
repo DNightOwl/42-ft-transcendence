@@ -88,12 +88,16 @@ export default function ProfileUser() {
           </span>
           <span className="separtor bg-shape"></span>
           <span className="flex flex-col items-center">
-            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{matchHistory[0]?.NumberofWins}</span>
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{
+              (!matchHistory[0]?.NumberofWins)?(0):matchHistory[0]?.NumberofWins
+            }</span>
             <span className="text-secondaryText text-sm ">Wins</span>
           </span>
           <span className="separtor bg-shape"></span>
           <span className="flex flex-col items-center">
-            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{matchHistory[0]?.NumberofLoses}</span>
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{
+              (!matchHistory[0]?.NumberofLoses)?(0):matchHistory[0]?.NumberofLoses
+            }</span>
             <span className="text-secondaryText text-sm ">Losses</span>
           </span>
         </div>

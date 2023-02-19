@@ -2,7 +2,7 @@ import React,{useState,useEffect} from 'react';
 import {ControllerIcon, ArrowDownIcon,ArrowUpIcon,SettingsNavIcon,LogoutIcon} from '../../Icons';
 import UserPicture from '../../../../assets/user.jpg';
 import CardState from '../../CardState'
-import { getUserData,logout } from '../../../../Helpers';
+import { getUserData,logout,getUsers } from '../../../../Helpers';
 import { Modal, ModalBody, ModalHeader } from '../../Modal';
 import { useNavigate, Link } from 'react-router-dom';
 
@@ -20,19 +20,41 @@ export default function HeaderChat({chatState,settings,setMembers,setAdd}:typePr
     const [data,setData] = useState<any>({});
     const [modalShown, setModalShown] = useState<boolean>(false);
 
+    const [profile,setProfile] = useState<any>({});
+
     const navigate = useNavigate();
+    
     useEffect(()=>{
         getUserData((res:any)=>{setData(res)});
-    },[]);
+
+        getUsers((res:any)=>{
+          res.data.forEach((e:any)=>{
+            if(e.username === chatState?.username)
+            {
+              setProfile(e);
+            }
+          })
+        })
+    },[chatState]);
+    
 
     const toggleModal = (prevState: boolean) => {
         setModalShown(!prevState);
     }
+
     
 
     return (
     <section className='hidden lg:flex justify-between items-start pt-7 gap-5 pb-7'>
-        <CardState chatState={chatState} setMembers={setMembers} setAdd={setAdd}/>
+        {
+            Object.keys(profile).length?(
+                <Link to="/ProfileUser" state={{data:profile}}>
+                <CardState chatState={chatState} setMembers={setMembers} setAdd={setAdd}/>
+                </Link>
+            ):(
+                <CardState chatState={chatState} setMembers={setMembers} setAdd={setAdd}/>
+            )
+        }
         <div className='flex items-center gap-5'>
                     <button className='bg-primary text-primaryText text-sm flex items-center justify-center gap-2.5 w-36 rounded-md p-3'
                         onClick={() => {

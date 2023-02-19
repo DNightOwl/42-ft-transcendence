@@ -8,7 +8,7 @@ import HeaderChat from "./Items/Navigation/NavigationDesktop/HeaderChat";
 import { Modal, ModalHeader, ModalBody } from "./Items/Modal";
 import SettingsBody from "./Items/SettingsBody";
 import axios from 'axios';
-import { checkToken,getUserData } from "../Helpers";
+import { checkToken,getUserData, getUsers } from "../Helpers";
 import { socket } from "../context/socket";
 
 interface typeProps {
@@ -95,6 +95,8 @@ export default function Messages({
       setData(res);
     })
   }, [conversation, chatState]);
+
+
   const dmData = {
       type:"DM",
       data: message,

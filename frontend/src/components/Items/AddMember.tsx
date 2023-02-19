@@ -15,13 +15,14 @@ export default function AddMember({channelData}:typeProps){
     const [reset,setReset] =  useState([]);
     const [search,setSearch] =  useState([]);
     useEffect(()=>{
-        getFriendChannel((res:any)=>{
+        getFriendChannel((res:any)=>{            
             setDataMembers(res);
             setReset(res)
             setSearch(res)
             
         },channelData.name)
     },[])
+    
     if(dataMembers.length)
     return(
         <div className='py-5 w-full flex flex-col gap-6'>
