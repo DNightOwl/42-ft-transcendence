@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-import { KeyIcon,ExclamationIcon,EyeOnPasswordIcon,EyeOffPasswordIcon } from './Icons';
+import { ExclamationIcon,EyeOnPasswordIcon,EyeOffPasswordIcon } from './Icons';
 import { joinRoom } from "../../Helpers";
 
 interface typeprops{

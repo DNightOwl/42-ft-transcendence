@@ -1,5 +1,4 @@
 import React, { useEffect,useState } from "react"
-import PictureProfile from "../../assets/friend.jpg"
 import { SettingsIcon } from "./Icons"
 import {getUserData } from "../../Helpers";
 
@@ -9,9 +8,11 @@ interface typeProps{
   setModal?: React.Dispatch<React.SetStateAction<boolean>>;
   dataUser?: any
   block?:boolean
+  pictureUser?:string
+  username?:string
 }
 
-export default function CardProfile({settings,setModal,dataUser,block}:typeProps){
+export default function CardProfile({settings,setModal,dataUser,block,username,pictureUser}:typeProps){
   const [data,setData] = useState<any>({});
 
   useEffect(()=>{
@@ -24,16 +25,27 @@ export default function CardProfile({settings,setModal,dataUser,block}:typeProps
         <div className={`flex ${(!dataUser)?"flex-1":""}items-center`}>
         <div className='flex items-center gap-2'>
           {
-            (dataUser && !dataUser.picture)?(
-              <img src={dataUser.pictureLink} alt="Profile" className='w-20 h-20 rounded-full' />
+            (pictureUser?.length)?(
+              <img src={pictureUser} alt="Profile" className='w-20 h-20 rounded-full' />
             ):(
-              <img src={(dataUser)?dataUser.picture:data.pictureLink} alt="Profile" className='w-20 h-20 rounded-full' />
+              (dataUser && !dataUser.picture)?(
+                <img src={dataUser.pictureLink} alt="Profile" className='w-20 h-20 rounded-full' />
+              ):(
+                <img src={(dataUser)?dataUser.picture:data.pictureLink} alt="Profile" className='w-20 h-20 rounded-full' />
+              )
             )
           }
           <div className='flex flex-col gap-1'>
             <div className='flex items-center gap-2'>
-              <span className={`text-primaryText text-md max-w-xs overflow-hidden text-ellipsis whitespace-nowrap`} id="username">{
-              (dataUser)?(dataUser.username.charAt(0).toUpperCase() + dataUser.username.slice(1)):(data.nickname)?data.nickname.charAt(0).toUpperCase() + data.nickname.slice(1):null
+              <span className={`text-primaryText text-md max-w-xs overflow-hidden text-ellipsis whitespace-nowrap`} id="username">
+                
+              {
+              (username?.length)?(
+                (dataUser)?(username.charAt(0).toUpperCase() + dataUser.username.slice(1)):(username)?username.charAt(0).toUpperCase() + username.slice(1):null
+              ):(
+                (dataUser)?(dataUser.username.charAt(0).toUpperCase() + dataUser.username.slice(1)):(data.nickname)?data.nickname.charAt(0).toUpperCase() + data.nickname.slice(1):null
+              )
+              
               }</span>
               {
                 (settings)?(

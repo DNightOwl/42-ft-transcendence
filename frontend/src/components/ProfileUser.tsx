@@ -1,27 +1,16 @@
 import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
-import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend, getUserData,getMachHistoryUser, getMatchHistoryProfile ,getAchievements} from "../Helpers";
+import { checkToken,getUsers,getMachHistoryUser, getMatchHistoryProfile ,getAchievements} from "../Helpers";
 import { useLocation } from "react-router-dom";
-import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon,UnblockIcon } from "./Items/Icons";
 import { BtnAddFriend } from "./BtnAddFriend";
-import { BtnMessage } from "./BtnMessage";
 import { BtnFriend } from "./BtnFriend";
 
 
 export default function ProfileUser() {
 
   checkToken();
-  const [dropDown,setDropDwon] = useState<boolean>(false);
-  const [arrow,setArrow] = useState<boolean>(false);
-  const [mouse,setMouse] = useState<boolean>(false);
   const [friend,setFriend] = useState<boolean>(false);
-  const [click,setClick] = useState<boolean>(false);
-  const [display,setDisplay] = useState<boolean>(true);
-  const [name,setName] = useState("")
-  const [unblock,setUnblock] = useState(false);
-  const [numberFriends,setNumberFriends]=useState(0);
-  const [enter,setEnter] = useState(true)
   const [matchHistory,setMatchHistory] = useState<any>({});
 
   const location = useLocation();

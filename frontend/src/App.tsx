@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from "react-router-dom";
+import { BrowserRouter, Routes, Route} from "react-router-dom";
 import Navigation from "./components/Items/Navigation/Navigation";
 import Home from "./components/Home";
 import Messages from "./components/Messages";
@@ -29,9 +29,7 @@ function App() {
   const [create, setCreate] = useState(false);
   const [members, setMembers] = useState(false);
   const [click, setClick] = useState<boolean>(false);
-  const [username, setUsername] = useState<string>("");
   const socket = React.useContext(GameSocketContext);
-  const [dataChat, setDataChat] = useState([]);
   const [nickname,setNickname] = useState<string>("");
   const [pictureUser,setPictureUser] = useState<string>("");
  
@@ -75,11 +73,11 @@ function App() {
           <Route path='/' element={<Login />} />
           <Route path='/Login' element={<Login />} />
           <Route path='/Home' element={<Home />} />
-          <Route path='/game/*' element={<Game />} />
+          <Route path='/game/*' element={<Game setMembers={setMembers}/>} />
           <Route path='/watch/*' element={<Watch />} />
           <Route path='/queue' element={<Queue />} />
-          <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} add={add} setAdd={setAdd} passChannel={passChannel} setPassChannel={setPassChannel} username={nickname} setUsername={setNickname} pictureUser={pictureUser} setPictureUser={setPictureUser}/>}/>
-          <Route path='/Profile' element={<Profile setModal={setModal}  />} />
+          <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} add={add} setAdd={setAdd} passChannel={passChannel} setPassChannel={setPassChannel} username={nickname} setUsername={setNickname} pictureUser={pictureUser} setPictureUser={setPictureUser}/>} />
+          <Route path='/Profile' element={<Profile setModal={setModal}  username={nickname} pictureUser={pictureUser}/>} />
           <Route path='/ProfileUser' element={<ProfileUser />}/>
           <Route path='/Tfa' element={<Tfa />}/>
           <Route path='/FriendProfile' element={<FriendProfile />}/>

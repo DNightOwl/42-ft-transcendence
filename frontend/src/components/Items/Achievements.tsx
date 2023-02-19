@@ -42,17 +42,6 @@ export default function Achievements({id,achievements}:typeProps) {
         // console.log(res);
       },idUser)
     }
-    
-    // else
-    // {
-    //     getFriends((res:any)=>{
-    //         setFriends(res);
-    //     })   
-    // }
-    
-    // getAchievements((res:any)=>{
-    //   console.log(res);
-    // },id);
   })
 
   let trophy = <Trophy edit='w-8 h-8 absolute fill-primary'/>

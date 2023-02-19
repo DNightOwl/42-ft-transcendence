@@ -4,6 +4,10 @@ import Board from './Board';
 import { Modal, ModalBody, ModalHeader } from './Items/Modal';
 import { useNavigate } from 'react-router-dom';
 
+interface typeprops{
+  setMembers?: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 interface ResultBoard {
   player1: string;
   player2: string;
@@ -14,7 +18,9 @@ interface ResultBoard {
   gameMode: string;
 }
 
-function Game() {
+function Game({setMembers}:typeprops) {
+  if(setMembers)
+    setMembers(false);
   const socket = useContext(GameSocketContext);
   const gameId = window.location.pathname.split('/')[2];
   const [winner, setWinner] = useState("");

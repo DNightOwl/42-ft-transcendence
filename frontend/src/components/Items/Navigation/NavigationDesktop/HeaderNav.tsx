@@ -7,7 +7,6 @@ import { getUserData, getUsers,logout } from '../../../../Helpers';
 import CardSearch from '../../CardSearch';
 import { useNavigate, Link } from 'react-router-dom';
 import { Modal, ModalBody, ModalHeader } from '../../Modal';
-import { socket } from '../../../../context/socket';
 
 
 interface typeProps {

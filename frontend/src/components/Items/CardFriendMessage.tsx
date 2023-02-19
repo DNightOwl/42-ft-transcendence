@@ -4,7 +4,7 @@ import axios from "axios";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 
-import { getConversations, getChannelConversations, joinRoom,leaveRoom, deleteRoom, blockFriend } from "../../Helpers";
+import { joinRoom,leaveRoom, deleteRoom, blockFriend } from "../../Helpers";
 
 interface Props {
   newMessage?: boolean;
