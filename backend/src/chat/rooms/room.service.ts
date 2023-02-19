@@ -1,5 +1,4 @@
 import { ForbiddenException, Injectable} from "@nestjs/common";
-import { use } from "passport";
 import { PrismaService } from "src/prisma/prisma.service";
 import { comparepassword, hashPassword} from "./utils/bcrypt";
 import { chanel, typeObject, userchanel, Searchchanel, chanelprotected} from "./utils/typeObject";
@@ -162,7 +161,6 @@ export class RoomService
         let person : chanelprotected = {id : "", name: "", members: 0, latestMessage: "", role: "", type: "", conversation : [], status: "invalide"};
         return person;
       }
-        //throw new ForbiddenException('invalid');
       const id_ban = rooms.blocked.find((login) => login==user.login)
       if (id_ban)
         throw new ForbiddenException('user banned');
@@ -653,7 +651,6 @@ export class RoomService
         }
         for (let i = allmessage.message.length - 1; i >= 0 ;i--)
         {
-          //person.conversation[i].message = allmessage.message[i].data;
           if (user1.login == allmessage.message[i].userLogin)
             person.conversation[i].type = "friend";
           else
@@ -699,7 +696,6 @@ export class RoomService
       })
       for (let index = 0; index < rooms.length; index++)
       {
-        // let person : typeObject = {÷};
         const id1 =  rooms[index].members.find((login) =>login==user1.login)
         if (id1)
         {
@@ -739,7 +735,6 @@ export class RoomService
         }
         for (let i = allmessage.message.length - 1; i >= 0 ;i--)
         {
-          //person.conversation[i].message = allmessage.message[i].data;
           if (user1.login == allmessage.message[i].userLogin)
             person.conversation[i].type = "friend";
           else
@@ -835,16 +830,6 @@ export class RoomService
     const id2 = rooms.admins.find((login) =>login==user_freind.login)
     if (id2 && rooms.owner != user.login)
       throw new ForbiddenException('you are not owner, impossiple to mute admin');
-    //   const userUpdate = await this.prisma.room.update({
-    //   where: {
-    //    name: room.name
-    //   },
-    //   data: {
-    //     members: {
-    //       set: rooms.members.filter((login) => login != room.login)
-    //       }
-    //     }
-    // })
     if (id2)
     {
       const adminupdate = await this.prisma.room.update({
@@ -914,7 +899,6 @@ export class RoomService
      person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data }));
     for (let i = allmessage.message.length - 1; i >= 0 ;i--)
     {
-      //person.conversation[i].message = allmessage.message[i].data;
       if (user.login == allmessage.message[i].userLogin)
         person.conversation[i].type = "user";
       else
@@ -969,60 +953,5 @@ export class RoomService
     }
     return person;
   }
-
-  // async emit_messagetoRoomToclient(user: user, room: room)
-  // {
-  //   const allmessage = await this.prisma.room.findUnique({
-  //     where: {
-  //         name: room.name
-  //     },
-  //         select: {
-  //             message: true
-  //         }
-  //   })
-  //   let role;
-  //   if (room.owner == user.login)
-  //     role = "owner";
-  //   else 
-  //   {
-  //     const admin = room.admins.find((login) =>login==user.login)
-  //     if (admin)
-  //       role = "admins";
-  //     else
-  //       role = "members";
-  //   }
-  //   let person : chanel = {id : room.id, name: room.name, members: room.members.length, latestMessage: "", role: role, type: room.type, conversation : []};
-  //   person.conversation = allmessage.message.map((x) =>    ({type :"", message : "", picture: "" }));
-  //   const message_user = await this.prisma.messages.findFirst({
-  //     where: 
-  //     {
-  //         roomName: room.name
-  //     }
-  // })
-  //   if (message_user)
-  //   {
-  //     person.latestMessage = allmessage.message[allmessage.message.length - 1].data;
-  //     person.conversation = allmessage.message.map((x) =>    ({type :"", message :x.data, picture: "" }));
-  //     for (let i = allmessage.message.length - 1; i >= 0 ;i--)
-  //     {
-  //       const user_chanel = await this.prisma.user.findUnique({
-  //         where: {
-  //           login: allmessage.message[i].userLogin
-  //         }
-  //       })
-  //       if (user.login == allmessage.message[i].userLogin)
-  //       {
-  //         person.conversation[i].type = "member";
-  //         person.conversation[i].picture = user_chanel.pictureLink
-  //       }
-  //       else
-  //       {
-  //         person.conversation[i].type = "user";
-  //       }
-
-  //     }
-  //   }
-  //   return person;
-  // }  
 
 }

@@ -1,23 +1,17 @@
 import {
     SubscribeMessage,
     WebSocketGateway,
-    OnGatewayInit,
     WebSocketServer,
     OnGatewayConnection,
     OnGatewayDisconnect,
     MessageBody,
     ConnectedSocket,
    } from '@nestjs/websockets';
-   import { Logger,  UseGuards, Req } from '@nestjs/common';
    import { Socket, Server } from 'socket.io';
    import { PrismaService } from "src/prisma/prisma.service";
    import { RoomService } from "./room.service";
-   import { Client } from 'socket.io/dist/client';
-   import { Console } from 'console';
-   import { userInfo } from 'os';
    import * as moment from 'moment';
    import * as cookie from 'cookie';
-   import { chanel, typeObject, userchanel, Searchchanel, chanelprotected } from "./utils/typeObject";
 
    @WebSocketGateway({
      cors: {
@@ -65,9 +59,6 @@ import {
                 userLogin: user_freind.login
             }
           })
-          // this.server.to(roomName).emit("msgFromServer", this.roomservice.emit_message(user1, room));
-          // this.server.to(client).emit("msgFromServer", this.roomservice.emit_message(user_freind, room));
-          //this.server.to(roomName).emit("msgFromServer", Body.data);
           this.server.to(roomName).emit("msgFromServer", await this.roomservice.emit_message(user1, room));
           for (let index = 0; index < this.OnlineUser.length; index++)
           {
@@ -101,7 +92,6 @@ import {
                 client.emit("msgFromServer", await this.roomservice.emit_message(user_freind, room_freind));
               }
             }
-            //this.server.to(roomName).emit("msgFromServer", Body.data);
           }
           else
             return ;
