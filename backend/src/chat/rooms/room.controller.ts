@@ -131,6 +131,15 @@ export class RoomController
 
     @UseFilters(new HttpExceptionFilter())
     @UseGuards(JwtAuthGuard)
+    @Patch('/kick')
+     async  kickmember(@Req() req: dbUser, @Body() room)
+    {
+        const user = req.user
+        await this.roomservice.quickmember(user, room);
+    }
+
+    @UseFilters(new HttpExceptionFilter())
+    @UseGuards(JwtAuthGuard)
     @Patch('/unblockfromroom')
      async  unblock(@Req() req: dbUser, @Body() room)
     {

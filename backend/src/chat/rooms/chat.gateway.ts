@@ -36,7 +36,7 @@ import {
    async handleMessage(@MessageBody() Body, @ConnectedSocket() client: any) {
     const user1 = client.user;
     this.id += 1;
-    let roomName = `<${client.user.login}_${this.id}>`
+    let roomName = `<${client.user.loginacs }_${this.id}>`
       if (Body.type.toString() == 'DM')
       {
         const user_freind = await this.prisma.user.findUnique({
