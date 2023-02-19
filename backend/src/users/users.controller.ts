@@ -11,12 +11,13 @@ import { diskStorage } from 'multer';
 import { RoomService } from '../chat/rooms/room.service';
 import {Response} from 'express'
 import { HttpExceptionFilter } from '../chat/rooms/room.exception'
+import { ConfigService } from '@nestjs/config';
 
 
 
 @Controller('profile')
 export class UsersController {
-  constructor(private readonly usersService: UsersService, private prisma: PrismaService, private roomservice: RoomService) {}
+  constructor(private readonly usersService: UsersService, private prisma: PrismaService, private roomservice: RoomService,private configService: ConfigService) {}
   @UseFilters(new HttpExceptionFilter())
   @UseGuards(JwtAuthGuard)
   @Get('/AllUsers')
@@ -75,7 +76,7 @@ export class UsersController {
             else
             {
       const response = {
-        filePath: `http://localhost:3000/profile/picture/${file.filename}`
+        filePath: `http://${this.configService.get('DOMAIN')}:3000/profile/picture/${file.filename}`
       }
       this.usersService.updatepicture(user.login, response);
       return response;

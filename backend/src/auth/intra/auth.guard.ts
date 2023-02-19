@@ -40,11 +40,11 @@ export class IntraAuthGuard extends AuthGuard('intra') {
       }
       else
       {
-        response.redirect("http://localhost:3001/login");
+        response.redirect("http://"+this.configService.get('DOMAIN')+":3001/login");
         return false;
       }
     } catch (error) {
-      response.redirect("http://localhost:3001/login");
+      response.redirect("http://"+this.configService.get('DOMAIN')+":3001/login");
       return false;
     }
   }

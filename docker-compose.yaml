@@ -7,7 +7,9 @@ services:
       context: .
       dockerfile: ./frontend/Dockerfile
     ports:
-      - 3001:3001
+      - ${DOMAIN}:3001:3001
+    env_file:
+      - .env
     networks:
       - nestjs-network
     depends_on:
@@ -25,8 +27,8 @@ services:
       context: .
       dockerfile: ./backend/Dockerfile
     ports:
-      - 3000:3000
-      - 5555:5555
+      - ${DOMAIN}:3000:3000
+      - ${DOMAIN}:5555:5555
     env_file:
       - .env
     networks:

@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { validationQr, refreshToken } from '../Helpers';
 import { KeyIcon,ExclamationIcon } from './Items/Icons';
 export default function Tfa(){
+    const domain : string | undefined = process.env.REACT_APP_DOMAIN;
 
     const [code,setCode] = useState("");
     const [error,setError] = useState<boolean>(false);
@@ -75,7 +76,7 @@ export default function Tfa(){
                                 if(res.data === "valid")
                                 {
                                     refreshToken();
-                                    window.location.href = "http://localhost:3001/Home"
+                                    window.location.href = "http://"+domain+":3001/Home"
                                 }
                                 else{
                                     error = true;

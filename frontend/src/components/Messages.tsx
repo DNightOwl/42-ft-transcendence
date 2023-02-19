@@ -48,22 +48,24 @@ export default function Messages({
   setPictureUser
 }: typeProps) {
   checkToken();
+  const domain : string | undefined = process.env.REACT_APP_DOMAIN;
+
   const scroll = useRef<HTMLDivElement>(null);
   const [data,setData] = useState<any>({});
   const [message,setMessage] = useState<any>("");
   
 
-  axios.get("http://localhost:3000/profile", { 
+  axios.get("http://"+domain+":3000/profile", { 
     withCredentials: true,
-      headers :{'Access-Control-Allow-Origin': 'localhost:3000'} 
+      headers :{'Access-Control-Allow-Origin': domain+':3000'} 
     }).then().catch(error=>{
         if(error.response.data.statusCode === 401)
         {
-          axios.get("http://localhost:3000/auth/refresh", {
+          axios.get("http://"+domain+":3000/auth/refresh", {
             withCredentials: true,
-            headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+            headers :{'Access-Control-Allow-Origin': domain+':3000'}
           }).then().catch((error)=>{
-            window.location.href="http://localhost:3001/Login";
+            window.location.href="http://"+domain+":3001/Login";
           });
         }
     });

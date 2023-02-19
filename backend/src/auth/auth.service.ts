@@ -33,10 +33,10 @@ export class AuthService {
 		//check if 2fa is  enable === true
 		if (userData.two_fa_enabled === true && userData.rToken === null)
 		{
-			return res.redirect("http://localhost:3001/Tfa") ;
+			return res.redirect("http://"+this.configService.get('DOMAIN')+":3001/Tfa") ;
 		}
 
-		return res.redirect("http://localhost:3001/home") ;
+		return res.redirect("http://"+this.configService.get('DOMAIN')+":3001/home") ;
 	}
 
 	async logout(res: Response, login : string) {
