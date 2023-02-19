@@ -22,6 +22,8 @@ interface typeProps {
   setMembers?: React.Dispatch<React.SetStateAction<boolean>>;
   add?: boolean;
   setAdd?: React.Dispatch<React.SetStateAction<boolean>>;
+  setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
+  passChannel?: boolean
   
 }
 
@@ -36,7 +38,8 @@ export default function Messages({
   setCreate,
   setMembers,
   add,
-  setAdd
+  setAdd,
+  setPassChannel
 }: typeProps) {
   checkToken();
   const scroll = useRef<HTMLDivElement>(null);
@@ -134,8 +137,6 @@ export default function Messages({
                 ? chatState?.conversation?.map((e: any, index: number) => {
                   
                   if(chatState.members){
-                    console.log(e.login);
-                    console.log(data.nickname);
                     
                     
                     if(e.login === data.nickname)
@@ -224,6 +225,7 @@ export default function Messages({
             setConversation={setConversation}
             setCreate={setCreate}
             edit = "lg:hidden"
+            setPassChannel={setPassChannel}
           />
         ) : null}
       </main>

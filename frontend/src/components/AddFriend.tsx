@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
-import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend, getUserData,getMachHistoryUser, getMatchHistoryProfile } from "../Helpers";
+import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend, getUserData,getMachHistoryUser } from "../Helpers";
 import { useLocation } from "react-router-dom";
 import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon,UnblockIcon } from "./Items/Icons";
 import { BtnAddFriend } from "./BtnAddFriend";
@@ -9,7 +9,7 @@ import { BtnMessage } from "./BtnMessage";
 import { BtnFriend } from "./BtnFriend";
 
 
-export default function ProfileUser() {
+export default function AddFriedn() {
 
   checkToken();
   const [dropDown,setDropDwon] = useState<boolean>(false);
@@ -51,34 +51,22 @@ export default function ProfileUser() {
     getMachHistoryUser((res:any)=>{
       setMatchHistory(res)
     },user.username)
-
   },[])
 
   let dataUser:any = {};
-
+  
  if(fill.data.username === data.username)
  dataUser = data;
  else
  dataUser = fill.data
-
-
-
-
-
-
-  return (
+  
+ return (
       <main className="flex flex-col gap-12 h-full pb-0">
       <section className="flex  flex-col items-center gap-10  justify-center lg:flex-row lg:justify-between">
         <CardProfile settings={false}  dataUser={dataUser}/>
 
         <div className="flex btn-profile items-center gap-3">
-            {
-                (dataUser.freind === "friend")?(
-                        <BtnFriend dataUser={dataUser} setFriend = {setFriend}/>
-                    ):(
-                        <BtnAddFriend  dataUser={dataUser} setFriend = {setFriend} username={dataUser.username}/>
-                    )
-            }
+            <BtnAddFriend  dataUser={dataUser}  username={dataUser.username}/>
         </div>
 
         <div className="flex gap-10">
@@ -98,7 +86,7 @@ export default function ProfileUser() {
           </span>
         </div>
         </section>
-        <SwitchersProfile username={dataUser?.username} matchHistory={matchHistory}/>
+        <SwitchersProfile username={dataUser?.username}  matchHistory={matchHistory}/>
     </main>
   );
 }

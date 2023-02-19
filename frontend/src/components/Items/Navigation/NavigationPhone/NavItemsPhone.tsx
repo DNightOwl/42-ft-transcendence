@@ -12,7 +12,7 @@ export default function NavigationPhone() {
           setData(res);
         })
       },[])
-      let fill = {username: data?.nickname,picture:data.pictureLink,status:data.status, friend:"none" , NumberofFreinds:data.NumberofFreinds};
+      
   return (
     <React.Fragment>
     <section className='fixed bottom-0 w-full px-3 pb-3 lg:hidden bg-body phone-nav'>
@@ -31,20 +31,14 @@ export default function NavigationPhone() {
                     </NavLink>
                 </li>
                 <li>
-                    <NavLink to="/Profile" state={{data:fill}} className='phone-nav-item'>
+                    <NavLink to="/Profile" className='phone-nav-item'>
                         <UserIcon/>
                         <span>Profile</span>
                     </NavLink>
                 </li>
                 <li>
-                    <a href="/Home" className='phone-nav-item'>
-                        <SearchIcon/>
-                        <span>Search</span>
-                    </a>
-                </li>
-                <li>
                     <a href="/Home" className='flex flex-col justify-center items-center gap-1.5'>
-                        <img className='w-11 h-11 rounded-3xl' src={userPicture} alt="User profile" />
+                        <img className='w-11 h-11 rounded-3xl' src={data.pictureLink} alt="User profile" />
                     </a>
                 </li>
             </ul>

@@ -160,10 +160,16 @@ export default function HeaderNav({messages,chatState,settings,setClickUser,clic
                                         <SettingsNavIcon edit='w-5 h-5 fill-primaryText' />
                                         Settings
                                     </button>
-                                    <button className='flex gap-2  hover:bg-backgroundHover items-center justify-center p-2'>
-                                        <LogoutIcon edit='w-5 h-5 fill-primaryText' />
-                                        Logout
-                                    </button>
+                                    <button className='flex gap-2  hover:bg-backgroundHover items-center justify-center p-2' onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
+                                logout((res:any)=>{
+                                    if(res.data === "done")
+                                        window.location.href = "http://localhost:3001/login";
+                                    
+                                });
+                            }}>
+                                <LogoutIcon edit='w-5 h-5 fill-primaryText'/>
+                                Logout
+                            </button>
                                 </div>
                             ) : null
                         }

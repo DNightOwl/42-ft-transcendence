@@ -160,21 +160,24 @@ export function getQR(getRes:any){
 }
 
 export function confermQr(getRes:any,code:string){
-
-  axios.post("http://localhost:3000/auth/enabletfa",{code:code},{withCredentials: true}).then((res:any)=>{
+axios.post("http://localhost:3000/auth/codeverification",{code:code},{withCredentials: true}).then((res:any)=>{
   getRes(res)
   }).catch((error)=>{
     getRes(error);
   })
 }
 
-export function confermDisableQr(getRes:any,code:string){
+export function checkTfa(){
 
-  axios.post("http://localhost:3000/auth/disabletfa",{code:code},{withCredentials: true}).then((res:any)=>{
-  getRes(res)
-  }).catch((error)=>{
-    getRes(error);
-  })
+  axios.post("http://localhost:3000/auth/enabletfa",{},{withCredentials: true}).then((res)=>{
+    
+  }).catch()
+}
+
+export function DisableQr(){
+
+  axios.post("http://localhost:3000/auth/disabletfa",{},{withCredentials: true}).then((res:any)=>{
+  }).catch()
 }
 
 export function CreateChannel(data:any){
@@ -266,3 +269,25 @@ export function setMute(data:any){
 export function setBlock(data:any){
   axios.patch("http://localhost:3000/rooms/ban",{data},{withCredentials: true}).then().catch()
 }
+
+
+export function getMatchHistoryProfile(getRes:any){
+  axios.get("http://localhost:3000/profile/matchhistorique/", {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+          getRes(res.data) 
+      }).catch()
+}
+
+export function getMachHistoryUser(getRes:any,login:string){
+
+  axios.get(`http://localhost:3000/profile/matchhistorique/${login}`, {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+          getRes(res.data) 
+      }).catch()
+}
+
+
