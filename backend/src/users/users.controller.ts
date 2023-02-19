@@ -124,7 +124,6 @@ export class UsersController {
           nickname: user.login
       }
   });
-    console.log(user.login);
     return await this.usersService.historiqueMatch(user_freind.id);
   }
 
@@ -177,15 +176,25 @@ export class UsersController {
   @Patch('/blocked')
   async blockedUser(@Req() req : dbUser, @Body() freind)
   {
+      const user_freind = await this.prisma.user.findUnique({
+        where: {
+          nickname: freind.login
+        }
+      })
       const user = req.user;
-      await this.usersService.unfreind(user.login, freind);
-      return await this.usersService.banuser(user.login, freind.login);
+      await this.usersService.unfreind(user.login, user_freind);
+      return await this.usersService.banuser(user.login, user_freind.login);
   }
   @UseGuards(JwtAuthGuard)
   @Patch('/unblocked')
   async unblockedUser(@Req() req : dbUser, @Body() freind)
   {
     const user = req.user;
+    const user_freind = await this.prisma.user.findUnique({
+      where: {
+        nickname: freind.login
+      }
+    })
     return await this.usersService.unblocked(user.login, freind.login);
   }
 

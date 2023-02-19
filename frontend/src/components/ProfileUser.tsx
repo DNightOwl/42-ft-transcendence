@@ -5,6 +5,9 @@ import { checkToken,getUsers,getMachHistoryUser,getAchievements} from "../Helper
 import { useLocation } from "react-router-dom";
 import { BtnAddFriend } from "./BtnAddFriend";
 import { BtnFriend } from "./BtnFriend";
+import { UnblockIcon } from "./Items/Icons";
+import { unblockFriend} from "../Helpers";
+import { Link } from "react-router-dom";
 
 
 export default function ProfileUser() {
@@ -51,7 +54,24 @@ export default function ProfileUser() {
  dataUser = data;
  else
  dataUser = fill.data
+ 
 
+if(dataUser.blocked === "blocked")
+  return (
+    <main className="flex flex-col gap-12 h-full pb-0 items-center">
+    <section className="flex  flex-col items-center gap-10  justify-center">
+    <CardProfile settings={false}  dataUser={dataUser}/>
+    <div className="flex btn-profile items-center gap-3">
+          <Link to="/AddFriend" state={{data:dataUser}} className="w-36 p-2 rounded-md bg-unblock gap-2 flex items-center justify-center" onClick={()=>{
+            unblockFriend(dataUser.username)
+          }}>
+            <UnblockIcon edit="w-4 fill-primaryText"/>
+            <span className="text-primaryText text-sm">Unblock</span>
+          </Link>
+    </div>
+  </section>
+  </main>
+  )
 
   return (
       <main className="flex flex-col gap-12 h-full pb-0">

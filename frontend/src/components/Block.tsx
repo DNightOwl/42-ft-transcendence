@@ -41,7 +41,7 @@ export default function FriendProfile() {
         <CardProfile settings={false}  dataUser={dataUser}/>
         <div className="flex btn-profile items-center gap-3">
               <Link to="/AddFriend" state={{data:dataUser}} className="w-36 p-2 rounded-md bg-unblock gap-2 flex items-center justify-center" onClick={()=>{
-                unblockFriend(fill.username)
+                unblockFriend(dataUser.username)
               }}>
                 <UnblockIcon edit="w-4 fill-primaryText"/>
                 <span className="text-primaryText text-sm">Unblock</span>
