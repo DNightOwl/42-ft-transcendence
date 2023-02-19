@@ -476,6 +476,49 @@ export class RoomService
           })
         }
 
+        async   quickmember(user: any, room: any)
+        {
+          const user_freind = await this.prisma.user.findUnique({
+            where: {
+                nickname: room.data.login
+             }
+          });
+          const rooms = await this.prisma.room.findUnique({
+              where: {
+                name: room.data.name
+              }
+            })
+            const id1 =  rooms.admins.find((login) =>login==user.login)
+            if (!id1)
+                throw new ForbiddenException('you are  Not admins');
+            const id2 = rooms.admins.find((login) =>login==user_freind.login)
+            if (id2 && rooms.owner != user.login)
+              throw new ForbiddenException('you are not owner, impossiple to remove admin');
+              const userUpdate = await this.prisma.room.update({
+              where: {
+               name: room.data.name
+              },
+              data: {
+                members: {
+                  set: rooms.members.filter((login) => login != user_freind.login)
+                  }
+                }
+            })
+            if (id2)
+            {
+              const adminupdate = await this.prisma.room.update({
+                where: {
+                 name: room.data.name
+                },
+                data: {
+                  admins: {
+                    set: rooms.admins.filter((login) => login != user_freind.login)
+                    }
+                  }
+              })
+            }
+    }
+
   async unblockfromroom(user: any, room: any)
   {
     const user_freind = await this.prisma.user.findUnique({
