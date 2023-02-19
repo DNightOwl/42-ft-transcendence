@@ -57,7 +57,6 @@ export default function FriendProfile() {
         <div className="flex btn-profile items-center gap-3">
             
             <BtnFriend dataUser={dataUser} />
-            <BtnMessage />
         </div>
 
         <div className="flex gap-10">

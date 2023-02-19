@@ -37,7 +37,6 @@ export default function Home() {
   useEffect(() => {
     socket.emit('live_games', {});
     socket.on('live_games', (data: LiveGame[]) => {
-      console.log(data);
       setData(data);
     });
   }, []);

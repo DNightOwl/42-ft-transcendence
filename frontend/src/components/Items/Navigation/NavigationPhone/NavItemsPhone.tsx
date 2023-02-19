@@ -12,8 +12,6 @@ export default function NavigationPhone() {
           setData(res);
         })
       },[])
-
-      console.log(data);
       
   return (
     <React.Fragment>

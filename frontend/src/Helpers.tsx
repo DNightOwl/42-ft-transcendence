@@ -170,7 +170,6 @@ axios.post("http://localhost:3000/auth/codeverification",{code:code},{withCreden
 export function checkTfa(){
 
   axios.post("http://localhost:3000/auth/enabletfa",{},{withCredentials: true}).then((res)=>{
-    console.log(res);
     
   }).catch()
 }

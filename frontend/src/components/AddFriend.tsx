@@ -56,7 +56,6 @@ export default function AddFriedn() {
 
         <div className="flex btn-profile items-center gap-3">
             <BtnAddFriend  dataUser={dataUser}  username={dataUser.username}/>
-            <BtnMessage />
         </div>
 
         <div className="flex gap-10">
