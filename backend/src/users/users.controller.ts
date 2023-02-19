@@ -110,9 +110,8 @@ export class UsersController {
   }
 
   @Get('matchhistorique/:login')
-  async getMatchhistoriqueUser(@Req() req : dbUser)
+  async getMatchhistoriqueUser(@Param() user)
   {
-    const user = req.user;
     return await this.usersService.historiqueMatch(user.id);
   }
 
