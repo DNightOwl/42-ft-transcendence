@@ -2,15 +2,15 @@
 
 import { ArrowDownIcon, FriendIcon, ArrowUpIcon } from "./Items/Icons"
 import { useState } from "react";
-import { unFriend } from "../Helpers";
+import { unFriend,blockFriend } from "../Helpers";
+import { Link } from "react-router-dom";
 interface typeProps{
     setFriend?: React.Dispatch<React.SetStateAction<any>>;
-  setUnfriend?: React.Dispatch<React.SetStateAction<any>>;
     dataUser:any
   
   }
 
-export function BtnFriend ({setFriend,dataUser,setUnfriend}:typeProps){
+export function BtnFriend ({setFriend,dataUser}:typeProps){
     const [dropDown,setDropDwon] = useState<boolean>(false);
     const [arrow,setArrow] = useState<boolean>(false);
     const [mouse,setMouse] = useState<boolean>(false);
@@ -47,32 +47,27 @@ export function BtnFriend ({setFriend,dataUser,setUnfriend}:typeProps){
       {
     (dropDown)?(
       <div className="w-full absolute top-11 right-0 flex flex-col gap-2 rounded-md bg-body py-3 shadow z-10"  onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}}>
-      <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onClick={()=>{
+      <Link to="/AddFriend" state={{data:dataUser}} className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onClick={()=>{
         setDropDwon(false);
         setArrow(false);
         unFriend(dataUser.username);
         if(setFriend)
           setFriend(false);
-        if(setUnfriend)
-          setUnfriend(true)
         
         
       }}>
         Unfriend
-      </button>
-      <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onClick={()=>{
-        //setDropDwon(false);
-        //setArrow(false);
-        // blockFriend(fill.username)
-        // setDisplay(false);
-        // setUnblock(false)
-        // fill.blocked = "blocked"
+      </Link>
+      <Link to="/Block" state={{data:dataUser}} className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onClick={()=>{
+        blockFriend(dataUser.username)
+
       }}>
         Block
-      </button>
+      </Link>
       <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onClick={()=>{
-        // setDropDwon(false);
-        // setArrow(false);
+        
+        setDropDwon(false);
+        setArrow(false);
         
       }}>
         Invite to play

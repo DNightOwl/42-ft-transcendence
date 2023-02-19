@@ -97,7 +97,7 @@ export default function CardState(props: typeProps) {
               }}>
                 <GroupIcon edit="fill-secondaryText w-5 h-5" />
               </button>
-          {props.chatState.role === "owner" ? (
+          {/* {props.chatState.role === "owner" ? (
             <div className="relative">
               <button className="flex h-10 w-10 items-center justify-center rounded-full bg-shape" onClick={()=>{
                 (clickEye)?setClickEye(false):setClickEye(true);
@@ -174,7 +174,7 @@ export default function CardState(props: typeProps) {
                 ):null
               }
             </div>
-          ) : null}
+          ) : null} */}
         </div>
       ) : null}
           </React.Fragment>
