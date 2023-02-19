@@ -64,7 +64,6 @@ export default function ProfileUser() {
                         <BtnAddFriend  dataUser={dataUser} setFriend = {setFriend} username={dataUser.username}/>
                     )
             }
-            <BtnMessage />
         </div>
 
         <div className="flex gap-10">
