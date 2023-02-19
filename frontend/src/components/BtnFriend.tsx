@@ -2,8 +2,17 @@
 
 import { ArrowDownIcon, FriendIcon, ArrowUpIcon } from "./Items/Icons"
 import { useState } from "react";
+
+
 import { unFriend,blockFriend } from "../Helpers";
+import { checkToken,addFriend,getUsers,unblockFriend, getUserData } from "../Helpers";
+import axios from "axios";
+import { toast } from "react-toastify";
+import React, { useEffect} from "react";
 import { Link } from "react-router-dom";
+
+
+
 interface typeProps{
     setFriend?: React.Dispatch<React.SetStateAction<any>>;
     dataUser:any
@@ -14,6 +23,37 @@ export function BtnFriend ({setFriend,dataUser}:typeProps){
     const [dropDown,setDropDwon] = useState<boolean>(false);
     const [arrow,setArrow] = useState<boolean>(false);
     const [mouse,setMouse] = useState<boolean>(false);
+    const [fill,setFill]    = useState<any>({});
+
+    
+  //   useEffect(() => {
+  //   document.title = "Pong - Profile";
+    
+  //   getUsers((res:any)=>{
+      
+  //     res.data.forEach((e:any)=>{
+
+  //       if(e.username === dataUser?.data.username)
+  //       {
+  //         setFill(e);
+  //       }
+  //     })
+  //   })
+    
+  // },[dataUser]);
+
+  
+    const sendInvitation = (Id: string) => {
+      axios.post("http://localhost:3000/game/sendInvitation", {
+        receiverId: Id,
+      }, {
+        withCredentials: true
+      }).then((res) => {
+        console.log(res);
+      }).catch((err) => {
+        toast.error(err.response.data.message)
+      })
+    }
     return(
         <div className="relative">
         <button className="w-36 p-2 rounded-md bg-shape gap-6 flex items-center justify-center" onClick={()=>{
@@ -65,9 +105,11 @@ export function BtnFriend ({setFriend,dataUser}:typeProps){
         Block
       </Link>
       <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onClick={()=>{
-        
         setDropDwon(false);
         setArrow(false);
+        console.log("_______",dataUser.id);
+        sendInvitation(dataUser.id);
+
         
       }}>
         Invite to play

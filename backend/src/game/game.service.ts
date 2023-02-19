@@ -4,6 +4,7 @@ import { Socket } from 'socket.io';
 import { PrismaService } from 'src/prisma/prisma.service';
 import { GameGateway } from './game.gateway';
 import { Game } from './core/game';
+import { AchievementsService } from 'src/achievements/achievements.service';
 
 interface Player {
     name: string;
@@ -35,6 +36,7 @@ export class GameService {
         private readonly jwtService: JwtService,
         @Inject(forwardRef(() => GameGateway))
         private readonly gameGateway: GameGateway,
+        private readonly achievementsService: AchievementsService,
     ) { }
 
     private activeGames: Game[] = [];
@@ -94,7 +96,7 @@ export class GameService {
         const senderClient = this.OnlinePlayers.find((player) => player.id === senderId);
         const recipientClient = this.OnlinePlayers.find((player) => player.id === receiver.id);
         if (!senderClient) throw new HttpException("Player not found", HttpStatus.NOT_FOUND);
-        let game = new Game(this.gameGateway, this, senderId, receiver.id, receiver.login, senderClient.name, receiver.pictureLink, senderClient.avatar, "classic");
+        let game = new Game(this.gameGateway, this, receiver.id, senderId, receiver.login, senderClient.name, receiver.pictureLink, senderClient.avatar, "classic");
         senderClient.client.emit("game_accepted", {
             gameId: game.gameId,
         });
@@ -140,6 +142,25 @@ export class GameService {
         if (game) {
             this.activeGames = this.activeGames.filter((g) => g.gameId !== gameId);
             clearInterval(game.interval);
+            /////// achivements
+            const achievementIds = await this.achievementsService.checkAchievement
+            ({
+                userid: game.player1.id,
+                stat: game.player1.score > game.player2.score ? "win" : "lose",
+                score: game.player1.score
+            })
+
+            console.log("scooreee-------", game.player1.score);
+            await this.achievementsService.updateUserAchievements(game.player1.id , achievementIds);
+            
+            console.log("scooreee-------", game.player2.score);
+            const achievementIds1 = await this.achievementsService.checkAchievement({
+                userid: game.player2.id,
+                stat: game.player1.score < game.player2.score ? "win" : "lose",
+                score: game.player2.score
+            })
+            await this.achievementsService.updateUserAchievements(game.player2.id , achievementIds1);
+            ////////
             await this.prisma.game.create({
                 data: {
                     winner: { connect: { id: game.player1.score > game.player2.score ? game.player1.id : game.player2.id } },

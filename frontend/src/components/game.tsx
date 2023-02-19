@@ -17,6 +17,7 @@ interface ResultBoard {
 function Game() {
   const socket = useContext(GameSocketContext);
   const gameId = window.location.pathname.split('/')[2];
+  const [winner, setWinner] = useState("");
   const [resultBoard, setResultBoard] = useState<ResultBoard>(
     {
       player1: '',
@@ -71,7 +72,7 @@ function Game() {
     });
 
     socket.on('game_over', (data: any) => {
-      console.log("game over", data);
+      setWinner(data.winner);
       setModal(true);
     });
 
@@ -97,7 +98,7 @@ function Game() {
             <div className='flex flex-col justify-center items-center gap-4 w-[700px] h-[300px]'>
               <h3 className='text-[4rem] text-white'>
                 <span className='text-purple-600 capitalize' >
-                  {resultBoard.player1 > resultBoard.player2 ? `${resultBoard.player1}` : `${resultBoard.player2}`}
+                  {winner}
                 </span> won!
               </h3>
               <button onClick={
