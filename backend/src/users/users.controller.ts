@@ -98,6 +98,11 @@ export class UsersController {
   @Get('getfreindUser/:login')
   async   getFreindsUser(@Param() user)
   {
+    const user_freind = await this.prisma.user.findUnique({
+      where: {
+          nickname: user.login
+      }
+  });
     return await this.usersService.getfreind(user.login);
   }
 
@@ -112,7 +117,13 @@ export class UsersController {
   @Get('matchhistorique/:login')
   async getMatchhistoriqueUser(@Param() user)
   {
-    return await this.usersService.historiqueMatch(user.id);
+    const user_freind = await this.prisma.user.findUnique({
+      where: {
+          nickname: user.login
+      }
+  });
+    console.log(user.login);
+    return await this.usersService.historiqueMatch(user_freind.id);
   }
 
   @UseFilters(new HttpExceptionFilter())
