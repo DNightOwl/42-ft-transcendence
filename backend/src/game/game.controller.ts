@@ -41,4 +41,5 @@ export class GameController {
         const receiver = req.user;
         return await this.gameService.declineInvitation(receiver, body.senderId);
     }
+
 }

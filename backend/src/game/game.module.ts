@@ -5,10 +5,11 @@ import { JwtService, JwtModule } from '@nestjs/jwt';
 
 import { PrismaService } from '../prisma/prisma.service';
 import { GameController } from './game.controller';
+import { AchievementsModule } from 'src/achievements/achievements.module';
 
 
 @Module({
-    imports: [JwtModule],
+    imports: [JwtModule, AchievementsModule],
     controllers: [GameController],
     providers: [GameGateway, GameService, PrismaService],
 })

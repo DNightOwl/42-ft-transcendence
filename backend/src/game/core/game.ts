@@ -153,6 +153,7 @@ export class Game {
             this.gameGateway.server.emit('live_games', this.gameService.getLiveGames(this.gameID));
             this.gameService.gameFinished(this.gameID);
         }
+        
     }
 
     public movePlayer = (deltaY: number, playerId: string) => {
