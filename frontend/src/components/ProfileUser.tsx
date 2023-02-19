@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
-import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend, getUserData,getMachHistoryUser, getMatchHistoryProfile } from "../Helpers";
+import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend, getUserData,getMachHistoryUser, getMatchHistoryProfile ,getAchievements} from "../Helpers";
 import { useLocation } from "react-router-dom";
 import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon,UnblockIcon } from "./Items/Icons";
 import { BtnAddFriend } from "./BtnAddFriend";
@@ -27,17 +27,20 @@ export default function ProfileUser() {
   const location = useLocation();
   const fill = location.state;
   const [data,setData]    = useState<any>({});
+  const [achievement,setAcheivement] = useState<any>({});
 
   useEffect(()=>{
     document.title = "Pong - Profile";
         getUsers((res:any)=>{
       
       res.data.forEach((e:any)=>{
-        
-
         if(e.username === fill.data.username)
         {
           setData(e);
+          getAchievements(((resp:any)=>{
+            setAcheivement(resp)
+            
+          }),e.id)
         }
       })
     })
@@ -60,10 +63,6 @@ export default function ProfileUser() {
  dataUser = data;
  else
  dataUser = fill.data
-
-
-
-
 
 
   return (
@@ -102,7 +101,7 @@ export default function ProfileUser() {
           </span>
         </div>
         </section>
-        <SwitchersProfile username={dataUser?.username} matchHistory={matchHistory}/>
+        <SwitchersProfile username={dataUser?.username} matchHistory={matchHistory} achievements={achievement}/>
     </main>
   );
 }

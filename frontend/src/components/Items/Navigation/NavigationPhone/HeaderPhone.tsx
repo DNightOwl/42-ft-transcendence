@@ -37,7 +37,6 @@ export default function HeaderPhone({conversation,setConversation,chatState,setM
       </section>
     )
   }
-  console.log(profile);
   
   return(
     <section className='mx-3 flex items-center py-4 justify-start gap-4 lg:hidden'>
@@ -45,7 +44,7 @@ export default function HeaderPhone({conversation,setConversation,chatState,setM
         <ArrowLeftIcon edit='w-2.5 h-2.5 fill-secondaryText' />
       </button>
       {
-            Object.keys(profile).length?(
+            !chatState.role?(
                 <Link to="/ProfileUser" state={{data:profile}}>
                 <CardState chatState={chatState} setMembers={setMembers} setAdd={setAdd}/>
                 </Link>

@@ -23,7 +23,11 @@ interface typeProps {
   add?: boolean;
   setAdd?: React.Dispatch<React.SetStateAction<boolean>>;
   setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
-  passChannel?: boolean
+  passChannel?: boolean,
+  username:string,
+  setUsername:React.Dispatch<React.SetStateAction<string>>;
+  pictureUser:string
+  setPictureUser:any
   
 }
 
@@ -39,7 +43,11 @@ export default function Messages({
   setMembers,
   add,
   setAdd,
-  setPassChannel
+  setPassChannel,
+  username,
+  setUsername,
+  pictureUser,
+  setPictureUser
 }: typeProps) {
   checkToken();
   const scroll = useRef<HTMLDivElement>(null);
@@ -129,7 +137,7 @@ export default function Messages({
             conversation ? "" : "hidden"
           } relative mb-16 h-full flex-col overflow-hidden pb-16 lg:mb-8 lg:flex lg:pb-8`}
         >
-          <HeaderChat chatState={chatState} settings={setModal} setMembers={setMembers} setAdd={setAdd}/>
+          <HeaderChat chatState={chatState} settings={setModal} setMembers={setMembers} setAdd={setAdd} username={username} setUsername={setUsername} pictureUser={pictureUser} setPictureUser={setPictureUser}/>
           <div
             className={`conversation h-full overflow-auto ${chatState?.conversation?"mb-16 pb-16 lg:mb-8 lg:pb-8":""}`}
             ref={scroll}

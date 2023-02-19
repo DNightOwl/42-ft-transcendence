@@ -46,18 +46,18 @@ export default function Profile({setModal}:typeProps) {
     document.title = "Pong - Profile";
     getUserData((res:any)=>{
       setDataUser(res)
+      getAchievements(((resp:any)=>{
+        setAcheivement(resp)
+        
+      }),res.id)
     })
 
     getMatchHistoryProfile((res:any)=>{
       setMatchHistory(res)
-      
-    getAchievements(((res:any)=>{
-      console.log(res);
-      
-    }),"mouassit")
     })
 
   },[])
+  
   
   // useEffect(() => {
   //   document.title = "Pong - Profile";
@@ -124,7 +124,7 @@ export default function Profile({setModal}:typeProps) {
           </span>
         </div>
         </section>
-        <SwitchersProfile matchHistory={matchHistory}/>
+        <SwitchersProfile matchHistory={matchHistory} achievements={achievement}/>
 
         {/* {
           (dataUser.data.friend !== "none" && dataUser)?(

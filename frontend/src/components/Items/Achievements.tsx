@@ -5,10 +5,16 @@ import { Trophy, PointGameIcon, LoseIcon, FirstWinIcon} from './Icons';
 
 interface typeProps{
   id?:any
+  achievements?: any;
 }
 
-export default function Achievements({id}:typeProps) {
+
+
+
+export default function Achievements({id,achievements}:typeProps) {
+  
   const [idUser,setIdUser] = useState("");
+  
   useEffect(()=>{
 
     if(id === undefined)
@@ -56,12 +62,40 @@ export default function Achievements({id}:typeProps) {
   return (
     <div className='flex pt-10 content-profile lg:pb-10 flex-col gap-10 md:gap-16'>
         <div className='flex items-center flex-col gap-10 justify-around w-full md:flex-row md:gap-5'>
-            <CardAchievments icon={trophy} number={0} message={"Achievements completed"}/>
-            <CardAchievments icon={pointgame} number={0} message={"Achievements completed"}/>
+        {
+            ( achievements && Object.keys(achievements).length && achievements.data.Achievement.includes("3 win streak"))?(
+              <CardAchievments icon={trophy} number={3} message={"Achievement your three win streak"}/>
+            ):(
+              <CardAchievments icon={trophy} number={0} message={"Achievement your three win streak"}/>
+            )
+          }
+          {
+            (achievements && Object.keys(achievements).length && achievements.data.Achievement.includes("5 points in a game"))?(
+              <CardAchievments icon={pointgame} number={5} message={"Achievement five points in a game"}/>
+            ):(
+              <CardAchievments icon={pointgame} number={0} message={"Achievement five points in a game"}/>
+            )
+          }
+            
         </div>
         <div className='flex items-center flex-col gap-10 justify-around w-full md:flex-row md:gap-5'>
-            <CardAchievments icon={lose} number={0} message={"Achievements completed"}/>
-            <CardAchievments icon={firstWin} number={0} message={"Achievements completed"}/>
+        {
+            (achievements && Object.keys(achievements).length && achievements.data.Achievement.includes("2 lose streak"))?(
+              <CardAchievments icon={lose} number={2} message={"Achievement your two lose streak"}/>
+            ):(
+              <CardAchievments icon={lose} number={0} message={"Achievement your two lose streak"}/>
+            )
+          }
+          {
+            (achievements && Object.keys(achievements).length && achievements.data.Achievement.includes("First win"))?(
+              
+              <CardAchievments icon={firstWin} number={1} message={"Achievement your first win"}/>
+            ):(
+              <CardAchievments icon={firstWin} number={0} message={"Achievement your first win"}/>
+
+            )
+          }
+
         </div>
     </div>
   )

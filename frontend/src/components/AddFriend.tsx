@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
-import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend, getUserData,getMachHistoryUser } from "../Helpers";
+import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend, getUserData,getMachHistoryUser,getAchievements } from "../Helpers";
 import { useLocation } from "react-router-dom";
 import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon,UnblockIcon } from "./Items/Icons";
 import { BtnAddFriend } from "./BtnAddFriend";
@@ -10,6 +10,7 @@ import { BtnFriend } from "./BtnFriend";
 
 
 export default function AddFriedn() {
+
 
   checkToken();
   const [dropDown,setDropDwon] = useState<boolean>(false);
@@ -23,6 +24,7 @@ export default function AddFriedn() {
   const [numberFriends,setNumberFriends]=useState(0);
   const [enter,setEnter] = useState(true)
   const [matchHistory,setMatchHistory] = useState<any>({});
+  const [achievement,setAcheivement] = useState<any>({});
 
   const location = useLocation();
   const fill = location.state;
@@ -38,6 +40,10 @@ export default function AddFriedn() {
         if(e.username === fill.data.username)
         {
           setData(e);
+          getAchievements(((resp:any)=>{
+            setAcheivement(resp)
+            
+          }),e.id)
         }
       })
     })
@@ -90,7 +96,7 @@ export default function AddFriedn() {
           </span>
         </div>
         </section>
-        <SwitchersProfile username={dataUser?.username}  matchHistory={matchHistory}/>
+        <SwitchersProfile username={dataUser?.username}  matchHistory={matchHistory} achievements={achievement}/>
     </main>
   );
 }
