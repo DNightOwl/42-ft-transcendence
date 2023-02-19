@@ -55,12 +55,11 @@ export default function HeaderChat({
         setModalShown(!prevState);
     }
 
-    
-
     return (
     <section className='hidden lg:flex justify-between items-start pt-7 gap-5 pb-7'>
         {
-            Object.keys(profile).length?(
+            !chatState?.members?(
+                
                 <Link to="/ProfileUser" state={{data:profile}}>
                 <CardState chatState={chatState} setMembers={setMembers} setAdd={setAdd}/>
                 </Link>

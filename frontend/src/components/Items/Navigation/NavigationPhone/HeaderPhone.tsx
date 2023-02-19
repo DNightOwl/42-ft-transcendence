@@ -44,7 +44,7 @@ export default function HeaderPhone({conversation,setConversation,chatState,setM
         <ArrowLeftIcon edit='w-2.5 h-2.5 fill-secondaryText' />
       </button>
       {
-            !chatState.role?(
+            !chatState?.role?(
                 <Link to="/ProfileUser" state={{data:profile}}>
                 <CardState chatState={chatState} setMembers={setMembers} setAdd={setAdd}/>
                 </Link>
