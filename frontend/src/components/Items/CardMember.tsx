@@ -13,12 +13,13 @@ interface typeProps{
 }
 
 export default function CardMember({role,data,channelData}:typeProps){
-    
+    const domain : string | undefined = process.env.REACT_APP_DOMAIN;
+
     const [dropDown,setDropDwon] = useState<boolean>(false);
     const [mouse,setMouse] = useState<boolean>(false);
 
     const sendInvitation = (Id: string) => {
-      axios.post("http://localhost:3000/game/sendInvitation", {
+      axios.post("http://"+domain+":3000/game/sendInvitation", {
         receiverId: Id,
       }, {
         withCredentials: true

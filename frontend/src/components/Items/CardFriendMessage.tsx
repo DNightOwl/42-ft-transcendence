@@ -25,13 +25,15 @@ interface Props {
 }
 
 export default function CardFriendMessage(props: Props) {
+  const domain : string | undefined = process.env.REACT_APP_DOMAIN;
+
   
   const [dropDown,setDropDwon] = useState<boolean>(false)
   const [mouse,setMouse] = useState(false);
   const [leave,setLeave] = useState(false);
 
   const sendInvitation = (Id: string) => {
-    axios.post("http://localhost:3000/game/sendInvitation", {
+    axios.post("http://"+domain+":3000/game/sendInvitation", {
       receiverId: Id,
     }, {
       withCredentials: true

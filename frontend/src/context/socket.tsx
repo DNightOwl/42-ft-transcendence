@@ -2,7 +2,9 @@
 import React from 'react'
 import io from 'socket.io-client'
 
-export const socket  = io("http://localhost:3000", {
+const domain : string | undefined = process.env.REACT_APP_DOMAIN;
+
+export const socket  = io("http://"+domain+":3000", {
   //autoConnect : false,
   withCredentials: true,
 });

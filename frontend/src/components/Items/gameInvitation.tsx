@@ -10,10 +10,12 @@ interface props {
 }
 
 function GameInvitation({ sender, senderId, senderAvatar }: props) {
+    const domain : string | undefined = process.env.REACT_APP_DOMAIN;
+
     const navigate = useNavigate();
 
     const handleAccept = () => {
-        axios.post("http://localhost:3000/game/acceptInvitation", { senderId: senderId },
+        axios.post("http://"+domain+":3000/game/acceptInvitation", { senderId: senderId },
             {
                 withCredentials: true,
             }
@@ -25,7 +27,7 @@ function GameInvitation({ sender, senderId, senderAvatar }: props) {
     }
 
     const handleDecline = () => {
-        axios.post("http://localhost:3000/game/declineInvitation", { senderId: senderId },
+        axios.post("http://"+domain+":3000/game/declineInvitation", { senderId: senderId },
             {
                 withCredentials: true,
             }
