@@ -14,7 +14,7 @@ interface typeProps{
 
 export default function SettingsBody({settings,nickname,pictureUser,setPictureProfile,setUsername}:typeProps) {
 
-  const [value, setValue] = useState<string>(nickname);
+  const [value, setValue] = useState<string>("");
   const [switchBtn, setSwitchBtn] = useState<boolean>(false);
   const [picture, setPicture] = useState<File>(pictureUser);
   const [pictureuser, setPictureUser] = useState<string>(pictureUser);
@@ -30,6 +30,7 @@ export default function SettingsBody({settings,nickname,pictureUser,setPicturePr
   useEffect(()=>{
     getUserData((res:any)=>{
       setSwitchBtn(res.tofactor);
+      setValue(res.nickname)
     })
   },[])
 
@@ -143,6 +144,7 @@ export default function SettingsBody({settings,nickname,pictureUser,setPicturePr
           
 
           if(!error){
+            
             editPicture(picture);
             editNickName(value);
 

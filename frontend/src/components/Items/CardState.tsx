@@ -22,6 +22,8 @@ export default function CardState(props: typeProps) {
   const [clickEye, setClickEye] = useState(false);
   const [check, setCheck] = useState(false);
   const [value,setValue] = useState("jkdjkljklfsjdlfjasdl;fjsdjf;asdfj;klasjdfl");
+
+  
   return (
     <div
       className={`flex flex-1 items-center ${

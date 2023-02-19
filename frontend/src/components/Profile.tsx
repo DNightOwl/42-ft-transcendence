@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
-import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend, getUserData, getMatchHistoryProfile } from "../Helpers";
+import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend, getUserData, getMatchHistoryProfile,getAchievements } from "../Helpers";
 import { useLocation } from "react-router-dom";
 import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon,UnblockIcon } from "./Items/Icons";
 import axios from "axios";
@@ -36,6 +36,7 @@ export default function Profile({setModal}:typeProps) {
   const [unblock,setUnblock] = useState(false);
   const [numberFriends,setNumberFriends]=useState(0);
   const [matchHistory,setMatchHistory] = useState<any>({});
+  const [achievement,setAcheivement] = useState<any>({});
 
   const location = useLocation();
   //const dataUser = location.state;
@@ -45,14 +46,18 @@ export default function Profile({setModal}:typeProps) {
     document.title = "Pong - Profile";
     getUserData((res:any)=>{
       setDataUser(res)
+      getAchievements(((resp:any)=>{
+        setAcheivement(resp)
+        
+      }),res.id)
     })
 
     getMatchHistoryProfile((res:any)=>{
       setMatchHistory(res)
-      
     })
 
   },[])
+  
   
   // useEffect(() => {
   //   document.title = "Pong - Profile";
@@ -105,17 +110,21 @@ export default function Profile({setModal}:typeProps) {
           </span>
           <span className="separtor bg-shape"></span>
           <span className="flex flex-col items-center">
-            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{matchHistory[0]?.NumberofWins}</span>
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{
+            (!matchHistory[0]?.NumberofWins)?(0):matchHistory[0]?.NumberofWins
+            }</span>
             <span className="text-secondaryText text-sm ">Wins</span>
           </span>
           <span className="separtor bg-shape"></span>
           <span className="flex flex-col items-center">
-            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{matchHistory[0]?.NumberofLoses}</span>
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{
+             (!matchHistory[0]?.NumberofLoses)?(0):matchHistory[0]?.NumberofLoses
+            }</span>
             <span className="text-secondaryText text-sm ">Losses</span>
           </span>
         </div>
         </section>
-        <SwitchersProfile matchHistory={matchHistory}/>
+        <SwitchersProfile matchHistory={matchHistory} achievements={achievement}/>
 
         {/* {
           (dataUser.data.friend !== "none" && dataUser)?(

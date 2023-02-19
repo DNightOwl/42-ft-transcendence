@@ -8,10 +8,11 @@ import MatchHistory from "./MatchHistory";
 interface typeProps{
     username?:string
     matchHistory?: any;
+    achievements?: any;
 }
 
 
-export default function SwitchersProfile({username,matchHistory}:typeProps) {
+export default function SwitchersProfile({username,matchHistory,achievements}:typeProps) {
     useEffect(()=>{
         let btnSwitcher = document.getElementById("first");
         btnSwitcher?.click();
@@ -26,7 +27,7 @@ export default function SwitchersProfile({username,matchHistory}:typeProps) {
     </TabsList>
     <TabsPanels edit="overflow-visible">
         <TabContent edit="overflow-visible">
-            <Achievements id={username}/>
+            <Achievements id={username} achievements={achievements}/>
         </TabContent>
         <TabContent edit="overflow-visible">
             <Friends username={username}/>

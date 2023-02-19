@@ -270,6 +270,10 @@ export function setBlock(data:any){
   axios.patch("http://localhost:3000/rooms/ban",{data},{withCredentials: true}).then().catch()
 }
 
+export function setKick(data:any){
+  axios.patch("http://localhost:3000/rooms/kick",{data},{withCredentials: true}).then().catch()
+}
+
 
 export function getMatchHistoryProfile(getRes:any){
   axios.get("http://localhost:3000/profile/matchhistorique/", {

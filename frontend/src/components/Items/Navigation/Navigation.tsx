@@ -32,7 +32,11 @@ interface typeprops {
   setClick: React.Dispatch<React.SetStateAction<boolean>>
   setPassChannel?: React.Dispatch<React.SetStateAction<boolean>>
   passChannel?: boolean
-  click: boolean
+  click: boolean,
+  username:string,
+  setUsername:React.Dispatch<React.SetStateAction<string>>;
+  pictureUser:string
+  setPictureUser:any
 }
 
 export default function Navigation({
@@ -51,14 +55,16 @@ export default function Navigation({
   add,
   setAdd,
   setPassChannel,
-  passChannel
+  passChannel,
+  username,
+  setUsername,
+  pictureUser,
+  setPictureUser
 }: typeprops) {
   const [messages, setMessages] = useState(false);
   const [display,setDisplay] = useState(false);
   const [data,setData] = useState<any>({});
   const [dataProtected,setDataProtected] = useState([]);
-  const [username,setUsername] = useState<string>("");
-  const [pictureUser,setPictureUser] = useState<string>("");
   const location = useLocation();
 
   let pathname = location.pathname;
