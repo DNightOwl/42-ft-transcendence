@@ -1,7 +1,11 @@
 import React,{useState,useEffect} from "react";
 import { PointsIcon, LockIcon } from "../Items/Icons";
+import axios from "axios";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
+
 import { getConversations, getChannelConversations, joinRoom,leaveRoom, deleteRoom, blockFriend } from "../../Helpers";
+
 interface Props {
   newMessage?: boolean;
   data: any;
@@ -25,6 +29,17 @@ export default function CardFriendMessage(props: Props) {
   const [dropDown,setDropDwon] = useState<boolean>(false)
   const [mouse,setMouse] = useState(false);
   const [leave,setLeave] = useState(false);
+
+  const sendInvitation = (Id: string) => {
+    axios.post("http://localhost:3000/game/sendInvitation", {
+      receiverId: Id,
+    }, {
+      withCredentials: true
+    }).then((res) => {
+    }).catch((err) => {
+      toast.error(err.response.data.message)
+    })
+  }
   
   return (
     <React.Fragment>
@@ -191,6 +206,7 @@ export default function CardFriendMessage(props: Props) {
                   </button>
                   <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                     setDropDwon(false)
+                    sendInvitation(props.data.id);
                   }}>
                     Invite to play
                   </button>

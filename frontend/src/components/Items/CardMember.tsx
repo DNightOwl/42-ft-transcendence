@@ -2,6 +2,8 @@ import React from 'react'
 import PictureProfile from "../../assets/friend.jpg"
 import { PointsIcon } from './Icons'
 import { useState } from 'react'
+import axios from "axios";
+import { toast } from "react-toastify";
 import { setAdmin,setMute,setBlock, setKick } from '../../Helpers'
 
 interface typeProps{
@@ -14,6 +16,18 @@ export default function CardMember({role,data,channelData}:typeProps){
     
     const [dropDown,setDropDwon] = useState<boolean>(false);
     const [mouse,setMouse] = useState<boolean>(false);
+
+    const sendInvitation = (Id: string) => {
+      axios.post("http://localhost:3000/game/sendInvitation", {
+        receiverId: Id,
+      }, {
+        withCredentials: true
+      }).then((res) => {
+      }).catch((err) => {
+        toast.error(err.response.data.message)
+      })
+    }
+
     return(
     <div className={`flex flex-1 items-center justify-between pr-4 gap-0.5`}>
         <div className='flex items-center gap-2'>
@@ -65,8 +79,9 @@ export default function CardMember({role,data,channelData}:typeProps){
                                               </button>
                                               <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                                                 setDropDwon(false)
+                                                sendInvitation(data.id);
                                               }}>
-                                                Ivite to play
+                                                Invite to play
                                               </button>
                                               <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                                                 setDropDwon(false)
@@ -95,8 +110,9 @@ export default function CardMember({role,data,channelData}:typeProps){
                                             <React.Fragment>
                                             <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                                                 setDropDwon(false)
+                                                sendInvitation(data.id);
                                               }}>
-                                                Ivite to play
+                                                Invite to play
                                               </button>
                                               {
                                               (data.role === "member")?(
@@ -130,8 +146,9 @@ export default function CardMember({role,data,channelData}:typeProps){
                                         ):(
                                             <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                                                 setDropDwon(false)
+                                                sendInvitation(data.id);
                                               }}>
-                                                Ivite to play
+                                                Invite to play
                                               </button>
                                         )
                                     }
