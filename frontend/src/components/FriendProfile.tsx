@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
-import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend, getUserData } from "../Helpers";
+import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend, getUserData ,getMachHistoryUser} from "../Helpers";
 import { useLocation } from "react-router-dom";
 import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon,UnblockIcon } from "./Items/Icons";
 import { BtnAddFriend } from "./BtnAddFriend";
@@ -26,6 +26,7 @@ export default function FriendProfile() {
   const location = useLocation();
   const fill = location.state;
   const [data,setData]    = useState<any>({});
+  const [matchHistory,setMatchHistory] = useState<any>({});
 
   useEffect(()=>{
     document.title = "Pong - Profile";
@@ -40,6 +41,16 @@ export default function FriendProfile() {
         }
       })
     })
+
+    let user:any = {};
+    if(fill.data.username === data.username)
+    user = data;
+    else
+    user = fill.data
+
+    getMachHistoryUser((res:any)=>{
+      setMatchHistory(res)
+    },user.username)
   },[])
 
   let dataUser:any = {};
@@ -66,17 +77,17 @@ export default function FriendProfile() {
           </span>
           <span className="separtor bg-shape"></span>
           <span className="flex flex-col items-center">
-            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">8</span>
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{matchHistory[0]?.NumberofWins}</span>
             <span className="text-secondaryText text-sm ">Wins</span>
           </span>
           <span className="separtor bg-shape"></span>
           <span className="flex flex-col items-center">
-            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">0</span>
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{matchHistory[0]?.NumberofLoses}</span>
             <span className="text-secondaryText text-sm ">Losses</span>
           </span>
         </div>
         </section>
-        <SwitchersProfile username={dataUser?.username}/>
+        <SwitchersProfile username={dataUser?.username} matchHistory={matchHistory}/>
     </main>
   );
 }

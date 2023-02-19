@@ -269,3 +269,25 @@ export function setMute(data:any){
 export function setBlock(data:any){
   axios.patch("http://localhost:3000/rooms/ban",{data},{withCredentials: true}).then().catch()
 }
+
+
+export function getMatchHistoryProfile(getRes:any){
+  axios.get("http://localhost:3000/profile/matchhistorique/", {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+          getRes(res.data) 
+      }).catch()
+}
+
+export function getMachHistoryUser(getRes:any,login:string){
+
+  axios.get(`http://localhost:3000/profile/matchhistorique/${login}`, {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+          getRes(res.data) 
+      }).catch()
+}
+
+

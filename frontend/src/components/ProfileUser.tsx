@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import CardProfile from "./Items/CardProfile";
 import SwitchersProfile from "./Items/SwitchersProfile";
-import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend, getUserData } from "../Helpers";
+import { checkToken,addFriend,getUsers,unFriend,blockFriend, unblockFriend, getUserData,getMachHistoryUser, getMatchHistoryProfile } from "../Helpers";
 import { useLocation } from "react-router-dom";
 import { AddFriendIcon,MessagesIcon,FriendIcon,ArrowDownIcon,ArrowUpIcon,UnblockIcon } from "./Items/Icons";
 import { BtnAddFriend } from "./BtnAddFriend";
@@ -22,6 +22,7 @@ export default function ProfileUser() {
   const [unblock,setUnblock] = useState(false);
   const [numberFriends,setNumberFriends]=useState(0);
   const [enter,setEnter] = useState(true)
+  const [matchHistory,setMatchHistory] = useState<any>({});
 
   const location = useLocation();
   const fill = location.state;
@@ -40,6 +41,17 @@ export default function ProfileUser() {
         }
       })
     })
+
+    let user:any = {};
+    if(fill.data.username === data.username)
+    user = data;
+    else
+    user = fill.data
+
+    getMachHistoryUser((res:any)=>{
+      setMatchHistory(res)
+    },user.username)
+
   },[])
 
   let dataUser:any = {};
@@ -49,7 +61,10 @@ export default function ProfileUser() {
  else
  dataUser = fill.data
 
- 
+
+
+
+
 
   return (
       <main className="flex flex-col gap-12 h-full pb-0">
@@ -73,17 +88,17 @@ export default function ProfileUser() {
           </span>
           <span className="separtor bg-shape"></span>
           <span className="flex flex-col items-center">
-            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">8</span>
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{matchHistory[0]?.NumberofWins}</span>
             <span className="text-secondaryText text-sm ">Wins</span>
           </span>
           <span className="separtor bg-shape"></span>
           <span className="flex flex-col items-center">
-            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">0</span>
+            <span className="text-primaryText text-4xl font-extrabold profile-number overflow-hidden text-ellipsis">{matchHistory[0]?.NumberofLoses}</span>
             <span className="text-secondaryText text-sm ">Losses</span>
           </span>
         </div>
         </section>
-        <SwitchersProfile username={dataUser?.username}/>
+        <SwitchersProfile username={dataUser?.username} matchHistory={matchHistory}/>
     </main>
   );
 }
