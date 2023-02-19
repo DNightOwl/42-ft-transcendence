@@ -17,7 +17,7 @@ import { HttpExceptionFilter } from '../chat/rooms/room.exception'
 @Controller('profile')
 export class UsersController {
   constructor(private readonly usersService: UsersService, private prisma: PrismaService, private roomservice: RoomService) {}
-
+  @UseFilters(new HttpExceptionFilter())
   @UseGuards(JwtAuthGuard)
   @Get('/AllUsers')
   getAllUsers(@Req() req : dbUser) {
@@ -26,6 +26,7 @@ export class UsersController {
     
     }
 
+  
   @UseGuards(JwtAuthGuard)
   @Get()
   async GetProfile(@Req() req : dbUser){
