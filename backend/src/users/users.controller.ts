@@ -101,6 +101,21 @@ export class UsersController {
     return await this.usersService.getfreind(user.login);
   }
 
+  @UseGuards(JwtAuthGuard)
+  @Get('matchhistorique')
+  async getMatchhistorique(@Req() req : dbUser)
+  {
+    const user = req.user;
+    return await this.usersService.historiqueMatch(user.id);
+  }
+
+  @Get('matchhistorique/:login')
+  async getMatchhistoriqueUser(@Req() req : dbUser)
+  {
+    const user = req.user;
+    return await this.usersService.historiqueMatch(user.id);
+  }
+
   @UseFilters(new HttpExceptionFilter())
   @UseGuards(JwtAuthGuard)
   @Post('addfreind')
