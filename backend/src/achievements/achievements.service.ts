@@ -89,7 +89,7 @@ export class AchievementsService {
 		})
 	}
 
-	private async updateUserAchievements(userId : string, achievementIds:string[]) {
+	async updateUserAchievements(userId : string, achievementIds:string[]) {
 		await this.prisma.user.update({
 			where: {
 			  id: userId
