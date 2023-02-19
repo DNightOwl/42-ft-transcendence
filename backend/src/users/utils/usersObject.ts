@@ -18,3 +18,14 @@ export interface profileObject {
     NumberofFreinds: number
     tofactor: boolean
 }
+
+export interface Objectgame {
+    id: string
+    username:string
+    pictureLink: string
+    state: string
+    date: string
+    score: string
+    NumberofWins: number
+    NumberofLoses: number
+  }
