@@ -9,7 +9,7 @@ import { BtnMessage } from "./BtnMessage";
 import { BtnFriend } from "./BtnFriend";
 
 
-export default function ProfileUser() {
+export default function AddFriedn() {
 
   checkToken();
   const [dropDown,setDropDwon] = useState<boolean>(false);
@@ -43,27 +43,19 @@ export default function ProfileUser() {
   },[])
 
   let dataUser:any = {};
-
+  
  if(fill.data.username === data.username)
  dataUser = data;
  else
  dataUser = fill.data
-
- 
-
-  return (
+  
+ return (
       <main className="flex flex-col gap-12 h-full pb-0">
       <section className="flex  flex-col items-center gap-10  justify-center lg:flex-row lg:justify-between">
         <CardProfile settings={false}  dataUser={dataUser}/>
 
         <div className="flex btn-profile items-center gap-3">
-            {
-                (dataUser.freind === "friend")?(
-                        <BtnFriend dataUser={dataUser} setFriend = {setFriend}/>
-                    ):(
-                        <BtnAddFriend  dataUser={dataUser} setFriend = {setFriend} username={dataUser.username}/>
-                    )
-            }
+            <BtnAddFriend  dataUser={dataUser}  username={dataUser.username}/>
             <BtnMessage />
         </div>
 

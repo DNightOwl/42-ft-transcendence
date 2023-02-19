@@ -20,7 +20,6 @@ export default function Profile({setModal}:typeProps) {
     }, {
       withCredentials: true
     }).then((res) => {
-      console.log(res);
     }).catch((err) => {
       toast.error(err.response.data.message)
     })

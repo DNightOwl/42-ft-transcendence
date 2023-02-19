@@ -30,11 +30,9 @@ export default function Members({channelData}:typeProps){
         },channelData.name)
     },[]);
     
-
     if(members.length || roles.length)
     return(
         <div className='py-5 w-full flex flex-col gap-6'>
-            <SearchInput />
             <Role channelData={channelData} roles={roles} members={members}/>
         </div>
     )

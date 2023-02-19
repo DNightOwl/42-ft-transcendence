@@ -95,7 +95,7 @@ export default function Navigation({
   }, [location.pathname, setConversation, setChatState]);
 
 
-  if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Queue".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase() && pathname.split('/').at(1) !== "game" && pathname.split('/').at(1) !== "watch" &&  pathname.toLocaleLowerCase() !== "/Tfa".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/ProfileUser".toLocaleLowerCase())
+  if(pathname !== "/" && pathname.toLocaleLowerCase() !== "/login".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Home".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Queue".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Messages".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Profile".toLocaleLowerCase() && pathname.split('/').at(1) !== "game" && pathname.split('/').at(1) !== "watch" &&  pathname.toLocaleLowerCase() !== "/Tfa".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/ProfileUser".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/AddFriend".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/FriendProfile".toLocaleLowerCase() && pathname.toLocaleLowerCase() !== "/Block".toLocaleLowerCase())
   {
     document.title = "Pong - Page not found"
     return <NotFound />
@@ -123,6 +123,7 @@ export default function Navigation({
         setConversation={setConversation}
         chatState={chatState}
         setMembers={setMembers}
+        setAdd = {setAdd}
       />
       {modal ? (
         <Modal edit="modal">

@@ -16,6 +16,9 @@ import 'react-toastify/dist/ReactToastify.css';
 import GameInvitation from "./components/Items/gameInvitation";
 import GameSocketContext from "./contexts/gameSocket";
 import ProfileUser from "./components/ProfileUser"
+import FriendProfile from "./components/FriendProfile";
+import AddFriend from "./components/AddFriend";
+import Block from "././components/Block"
 
 
 
@@ -73,10 +76,13 @@ function App() {
           <Route path='/game/*' element={<Game />} />
           <Route path='/watch/*' element={<Watch />} />
           <Route path='/queue' element={<Queue />} />
-          <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} add={add} setAdd={setAdd}/>}/>
+          <Route path='/Messages' element={<Messages chatState={chatState} setChatState={setChatState} conversation={conversation} setConversation={setConversation} modal={modal} setModal={setModal} setCreate={setCreate} setMembers={setMembers} add={add} setAdd={setAdd} passChannel={passChannel} setPassChannel={setPassChannel}/>}/>
           <Route path='/Profile' element={<Profile setModal={setModal}  />} />
           <Route path='/ProfileUser' element={<ProfileUser />}/>
           <Route path='/Tfa' element={<Tfa />}/>
+          <Route path='/FriendProfile' element={<FriendProfile />}/>
+          <Route path='/AddFriend' element={<AddFriend />}/>
+          <Route path='/Block' element={<Block />}/>
 
 
         </Routes>

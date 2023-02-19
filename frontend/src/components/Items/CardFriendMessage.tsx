@@ -1,7 +1,7 @@
 import React,{useState,useEffect} from "react";
 import { PointsIcon, LockIcon } from "../Items/Icons";
 import { Link } from "react-router-dom";
-import { getConversations, getChannelConversations, joinRoom,leaveRoom, deleteRoom } from "../../Helpers";
+import { getConversations, getChannelConversations, joinRoom,leaveRoom, deleteRoom, blockFriend } from "../../Helpers";
 interface Props {
   newMessage?: boolean;
   data: any;
@@ -30,9 +30,8 @@ export default function CardFriendMessage(props: Props) {
     <React.Fragment>
       {
         (!leave)?(
-          <Link
-          to="/Messages"
-          className={`btn-message btn-friend-message flex justify-between px-2 py-4 lg:hover:bg-backgroundHover`}
+          <div
+          className={`btn-message btn-friend-message flex justify-between px-2 py-4 lg:hover:bg-backgroundHover cursor-pointer`}
           onClick={(event) => {
             if(!mouse)
             {
@@ -69,7 +68,6 @@ export default function CardFriendMessage(props: Props) {
               } else {
                 props.dataChannel.forEach((e:any, index:any) => {
                   if (e.name === props.data.name) {
-                    
                     if(props.dataChannel[index].type === "public" && props.dataChannel[index].join === "NON")
                     {
                       let obj = {
@@ -82,12 +80,14 @@ export default function CardFriendMessage(props: Props) {
                         
                       },obj)
                     }
-                    else if(props.dataChannel[index] === "protected" && props.dataChannel[index].join === "NON")
+                    else if(props.dataChannel[index].type === "protected" && props.dataChannel[index].join === "NON")
                     {
+                      
                       let obj = {name: props.dataChannel[index].name, type:props.dataChannel[index].type}
                       if(props.setPassChannel)
                         props.setPassChannel(true);
-                      props.setDataProtected(obj)
+                      if(props.setDataProtected)
+                        props.setDataProtected(obj)
                     }
                     else
                       props.setChatState(props.dataChannel[index]);
@@ -181,6 +181,11 @@ export default function CardFriendMessage(props: Props) {
                   <div className="w-32 absolute top-6 right-0 flex flex-col gap-2 rounded-md bg-body py-3 shadow z-10">
                   <button className="flex items-center  gap-2 py-2 px-4  text-primaryText text-xs hover:bg-backgroundHover  font-light" onMouseMove={()=>{setMouse(true)}} onMouseLeave={()=>{setMouse(false)}} onClick={()=>{
                     setDropDwon(false)
+
+                    blockFriend(props.data.username);
+                    setLeave(true);
+
+
                   }}>
                     Block
                   </button>
@@ -194,7 +199,7 @@ export default function CardFriendMessage(props: Props) {
               ):null
             }
           </div>
-        </Link>
+        </div>
         ):null
       }
     </React.Fragment>
