@@ -44,13 +44,29 @@ export function checkTokenLogin(){
 
 }
 
-export function getUserData(getRes:any){
-    axios.get("http://localhost:3000/profile", {
-        withCredentials: true,
-          headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
-        }).then((res)=>{
-            getRes(res.data) 
-        }).catch()
+
+export async function getUserData(getRes:any){
+  for (let index = 0; index < 3; index++) {
+
+   const val = await axios.get("http://localhost:3000/profile", {
+      withCredentials: true,
+        headers :{'Access-Control-Allow-Origin': 'localhost:3000'}
+      }).then((res)=>{
+        if(Object.keys(res.data).length)
+        { getRes(res.data) 
+          return true;
+        }
+        return false;
+      }).catch(error => {
+        if(error.response.data.statusCode === 401)
+        {
+          return false;
+        }
+      })
+
+      if(val)
+        break
+  }
 }
 
 export function getUsers(getRes:any){

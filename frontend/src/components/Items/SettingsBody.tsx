@@ -141,6 +141,9 @@ export default function SettingsBody({settings,nickname,pictureUser,setPicturePr
             setErrorNameMessage("Zone text empty")
             setErrorName(true);
           }
+
+          console.log(error);
+          
           
 
           if(!error){
@@ -155,8 +158,7 @@ export default function SettingsBody({settings,nickname,pictureUser,setPicturePr
             else{
               DisableQr();
             }
-
-
+            
             if(setPictureProfile)
             {
               setPictureProfile(pictureuser);
