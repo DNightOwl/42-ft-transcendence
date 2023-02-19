@@ -1,5 +1,4 @@
 import React from 'react';
-import { Trophy } from './Icons';
 import { CircularProgress} from '@chakra-ui/react';
 
 interface typeProps{

@@ -1,5 +1,4 @@
 import React, { useEffect,useState } from "react"
-import PictureProfile from "../../assets/friend.jpg"
 import { SettingsIcon } from "./Icons"
 import {getUserData } from "../../Helpers";
 

@@ -1,5 +1,4 @@
 import React,{useState,useEffect} from 'react'
-import SearchInput from './SearchInput'
 import Role from './Role'
 import { getMemberChannel } from '../../Helpers'
 import { ExclamationIcon } from './Icons'

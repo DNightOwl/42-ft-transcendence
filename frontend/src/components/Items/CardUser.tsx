@@ -1,6 +1,5 @@
 import React,{useEffect, useState} from 'react';
-import { PointsIcon } from './Icons';
-import {blockFriend,getUserData,getUsers} from '../../Helpers'
+import {getUserData,getUsers} from '../../Helpers'
 import { Link } from 'react-router-dom';
 
 interface typeProps{

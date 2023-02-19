@@ -89,21 +89,6 @@ export default function Tfa(){
             </button>
             </div>
             </form>
-            {/* <form action="http://localhost:3001/Home">
-            <input type="text" value={code} onChange={(e)=>{
-                setCode(e.currentTarget.value);
-            }} className ="placeholder-secondary-text rounded-md bg-shape p-3 text-xs text-primaryText outline-none placeholder:text-xs placeholder:font-light" />
-            <button type='submit' onClick={(e)=>{
-                e.preventDefault();
-                validationQr((res:any)=>{
-                    if(res.data !== "invalid")
-                    {
-                        refreshToken();
-                        window.location.href = "http://localhost:3001/Home"
-                    }
-                },code)
-            }}>Conferm</button>
-        </form> */}
         </div>
     )
 }

@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import PictureProfile from "../../assets/friend.jpg"
 import { PlusIcon, CheckIcon } from './Icons'
 import {addFriendToChannel} from "../../Helpers"
 

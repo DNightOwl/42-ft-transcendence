@@ -1,7 +1,6 @@
 
 import React, { useEffect,useState } from 'react';
 import logo from '../../../../assets/logo.svg';
-import CardFriendOnline from '../../CardFriendOnline';
 import { NavLink,Link} from "react-router-dom";
 import { HomeIcon,MessagesIcon,UserIcon} from '../../Icons';
 import MessagesContainer from '../../MessagesContainer';

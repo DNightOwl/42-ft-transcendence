@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from 'react'
-import CardMember from './CardMember'
+import React from 'react'
 
 import CardFriend from './CardFriend';
 

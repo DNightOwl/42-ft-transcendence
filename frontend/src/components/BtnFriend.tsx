@@ -5,10 +5,9 @@ import { useState } from "react";
 
 
 import { unFriend,blockFriend } from "../Helpers";
-import { checkToken,addFriend,getUsers,unblockFriend, getUserData } from "../Helpers";
 import axios from "axios";
 import { toast } from "react-toastify";
-import React, { useEffect} from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 
 
@@ -23,25 +22,6 @@ export function BtnFriend ({setFriend,dataUser}:typeProps){
     const [dropDown,setDropDwon] = useState<boolean>(false);
     const [arrow,setArrow] = useState<boolean>(false);
     const [mouse,setMouse] = useState<boolean>(false);
-    const [fill,setFill]    = useState<any>({});
-
-    
-  //   useEffect(() => {
-  //   document.title = "Pong - Profile";
-    
-  //   getUsers((res:any)=>{
-      
-  //     res.data.forEach((e:any)=>{
-
-  //       if(e.username === dataUser?.data.username)
-  //       {
-  //         setFill(e);
-  //       }
-  //     })
-  //   })
-    
-  // },[dataUser]);
-
   
     const sendInvitation = (Id: string) => {
       axios.post("http://localhost:3000/game/sendInvitation", {

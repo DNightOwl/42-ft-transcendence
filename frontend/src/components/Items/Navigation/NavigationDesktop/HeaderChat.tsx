@@ -1,6 +1,5 @@
 import React,{useState,useEffect} from 'react';
 import {ControllerIcon, ArrowDownIcon,ArrowUpIcon,SettingsNavIcon,LogoutIcon} from '../../Icons';
-import UserPicture from '../../../../assets/user.jpg';
 import CardState from '../../CardState'
 import { getUserData,logout,getUsers } from '../../../../Helpers';
 import { Modal, ModalBody, ModalHeader } from '../../Modal';
@@ -24,9 +23,8 @@ export default function HeaderChat({
     setMembers,
     setAdd,
     username,
-    setUsername,
     pictureUser,
-    setPictureUser}:typeProps) {
+    }:typeProps) {
     const [dropDown,setDropDown] = useState<boolean>(false)
     const [mouse,setMouse] = useState<boolean>(false)
     const [data,setData] = useState<any>({});

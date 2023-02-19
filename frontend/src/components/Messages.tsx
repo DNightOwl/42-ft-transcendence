@@ -5,8 +5,6 @@ import BoxMessagesMember from "./Items/BoxMessagesMember";
 import { SendIcon, NomessagesIcon } from "./Items/Icons";
 import MessagesContainer from "./Items/MessagesContainer";
 import HeaderChat from "./Items/Navigation/NavigationDesktop/HeaderChat";
-import { Modal, ModalHeader, ModalBody } from "./Items/Modal";
-import SettingsBody from "./Items/SettingsBody";
 import axios from 'axios';
 import { checkToken,getUserData, getUsers } from "../Helpers";
 import { socket } from "../context/socket";

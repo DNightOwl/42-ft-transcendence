@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { HomeIcon,MessagesIcon,UserIcon,SearchIcon } from '../../Icons';
-import userPicture from '../../../../assets/user.jpg';
 import { NavLink} from "react-router-dom";
-import { ControllerIcon } from '../../Icons';
 import { getUserData } from '../../../../Helpers';
 
 export default function NavigationPhone() {
@@ -44,9 +42,6 @@ export default function NavigationPhone() {
             </ul>
         </nav>
     </section>
-    {/* <button className='fixed bg-primary bottom-24 right-3 flex justify-center items-center  w-14 h-14 rounded-full lg:hidden phone-nav'>
-        <ControllerIcon edit='w-8' />
-    </button> */}
     </React.Fragment>
   )
 }
